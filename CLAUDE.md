@@ -89,8 +89,8 @@ cotidiana y ejemplo de este proyecto. En español.
 - **Estado:** fase de definición. **Todavía no hay código ni comandos de build/test.**
   **Ni la construcción ni la definición (pasos 1-8) empiezan hasta tener el ok del profesor**
   (decisión de Mar, 27-oct-2026). Cuando exista el stack, añade aquí cómo se arranca, cómo se pasan los
-  tests (y uno solo) y la arquitectura real. Aún no hay git ni repositorio en GitHub
-  (el nombre del repo lo decide Mar; `git init` cuando ella lo decida).
+  tests (y uno solo) y la arquitectura real. Repositorio privado en GitHub: `mcaparrosgu/horma-jobs`
+  (rama `main`; primer push el 1-nov-2026, autorizado por Mar).
 - **Propuesta vigente:** `docs/propuesta-horma.md` (decisiones de Mar, arquitectura
   prevista, líneas rojas, fases y pendientes). Léela antes de cualquier paso del método.
 - **PRD (v1, 30-oct-2026):** requisitos con la estructura de clase (MA·S03) y la revisión del profesor incorporada. Copia vigente: `docs/prd-horma-v1.html`. El borrador anterior (29-oct, con los 19 comentarios del profesor) está archivado en `docs/archivo/`. **Pendiente:** sustituir el apartado 23 del documento «Horma jobs» del Cuaderno (fuente: `Workbook/web/workbook.html`) por la v1 y corregir los otros 22 apartados; hasta entonces el WB está desfasado. Registro de cambios y estado: `docs/revision_profesor_30oct.md` y `docs/relevo-proxima-sesion.md` (léelos al empezar). Los umbrales numéricos siguen «por fijar». No uses páginas aparte del artefacto abiertas en pestaña nueva: dan error.
