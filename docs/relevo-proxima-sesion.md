@@ -7,7 +7,7 @@ Léelo entero antes de tocar nada. Después, `docs/tareas-pendientes.md` (secci�
 - **LangGraph** solo en CV y cartas y en envío (Mar), pendiente del profesor. Ver `docs/analisis-tecnico.md` (apartado 9) y la pregunta 14 de `docs/preguntas-profesor.md`.
 - **Documento «Horma v3»** en el Cuaderno (Proyectos), con 3 diagramas en `Workbook\web\proyectos\horma-v3\`. Sustituye a `redactora` y `envio`, ahora en `horma\archivo\`.
 - **Repositorios:** `mcaparrosgu/horma-jobs` (privado, `main`) y `mcaparrosgu/workbook` (commit `b2097c8`).
-- **Aviso sobre Rz3…:** el 1-nov se publicó la página del profesor (`horma-apuntes`, con los apartados de «Horma v3») sobre el artefacto Rz3…, sin leerlo antes. Sustituyó a la versión 19 (borrador del 29-oct con aviso, marcas del PRD y los 19 hilos). Su copia está en `docs/archivo/horma-jobs-borrador-29oct.html` y la versión 19, en el historial del artefacto. **Antes de la Tarea A, Mar decide qué hacer con Rz3…** (ver `docs/tareas-pendientes.md`).
+- **Rz3… (resuelto el 1-nov):** al publicar la página del profesor se pisó por error la versión 19 de Rz3… (borrador del 29-oct con aviso, marcas del PRD y los 19 hilos). Se restauró el mismo día, idéntica a `docs/archivo/horma-jobs-borrador-29oct.html`. La página del profesor (`horma-apuntes`, con los apartados de «Horma v3») vive ahora en su propio artefacto: https://claude.ai/artifact/QYapVgfjiX7QgN7X1obrNd (privado: Mar debe compartirlo con él desde *Share*). No se ha comprobado si los 19 hilos siguen anclados.
 
 ## Dónde está cada cosa
 
@@ -19,7 +19,7 @@ Léelo entero antes de tocar nada. Después, `docs/tareas-pendientes.md` (secci�
 | Registro de decisiones | `docs/revision_profesor_30oct.md` |
 | Cuaderno personal | https://claude.ai/artifact/4BuaSjpRvJYBtEVvW3RevH |
 | Fuente del WB | `C:\AI Engineering\Workbook\web\workbook.html` (reglas en `Workbook\CLAUDE.md`) |
-| Página del profesor | `Workbook\web\horma-apuntes.html`, generada por `web\proyectos\construir-horma-aparte.py` |
+| Página del profesor | `Workbook\web\horma-apuntes.html`, generada por `web\proyectos\construir-horma-aparte.py` · artefacto https://claude.ai/artifact/QYapVgfjiX7QgN7X1obrNd |
 | Diagramas | `Workbook\web\proyectos\horma\*.json` → `*.html` y `horma-v3\` (skill `archify`) |
 | Repositorio del proyecto | https://github.com/mcaparrosgu/horma-jobs (privado) |
 
