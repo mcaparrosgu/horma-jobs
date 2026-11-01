@@ -40,9 +40,10 @@
 
 ## D. Arquitectura y stack
 
-12. **Stack:** FastAPI + PostgreSQL/pgvector + HTML, CSS y JS con Jinja2 y HTMX, instalable como PWA. Sin React. ¿Le parece bien?
+12. **Stack:** FastAPI + PostgreSQL/pgvector + HTML, CSS y JS planos, instalable como PWA (sin HTMX ni Caddy, Mar, 1-nov). Sin React. ¿Le parece bien?
 13. **n8n en la ingesta:** n8n trae las ofertas y llama a la API de Horma; toda la lógica de producto está en Python. ¿Lo acepta como parte del proyecto, o quiere la ingesta también en Python?
 14. **¿Framework de agentes o SDK directo?** ¿Espera LangGraph (u otro framework) o basta con el SDK del LLM y function calling?
+14 bis. **«Subagente ATS» (pendiente de cerrar):** el PRD v1 lo nombra así, pero en la arquitectura actual medir las palabras clave lo hace una herramienta de código (`medir_ats`) y el redactor adapta el texto. ¿Cómo define usted «agente»? ¿Le vale esta opción o quiere un subagente con LLM? Según su respuesta se corrige el PRD o la arquitectura.
     - Propuesta (1-nov): SDK directo en el resto, y LangGraph solo en dos flujos: CV y cartas (bucle redactor-juez con tope de 2 y pausa para que la usuaria apruebe) y envío (pausa para aprobar). Orquestación en código, sin LangChain. Si prefiere Python plano, los agentes y los flujos no cambian.
     - Diagramas: Cuaderno, Proyectos, «Horma v3».
     - Por qué: cada framework añade mantenimiento y una capa más que depurar.

@@ -280,7 +280,7 @@ body.du-abierto .du-fab{display:none}
   <div class="picker" id="picker" role="group" aria-label="Elegir fase"></div>
   <div class="cap" id="cap"></div>
   <figure class="fig" style="margin:0">
-    <div style="overflow-x:auto"><svg id="mapSvg" class="map" viewBox="0 0 950 560" width="950" role="img" aria-label="Mapa de Horma: usuarias y empresas entran por Caddy a la web y la API; la API habla con PostgreSQL; el script de ingesta trae ofertas; el worker usa la puerta al LLM; el navegador aislado envía a los ATS."></svg></div>
+    <div style="overflow-x:auto"><svg id="mapSvg" class="map" viewBox="0 0 950 560" width="950" role="img" aria-label="Mapa de Horma: usuarias y empresas entran por la web y la API; la API habla con PostgreSQL; el script de ingesta trae ofertas; el worker usa la puerta al LLM; el navegador aislado envía a los ATS."></svg></div>
     <p class="hint">Desliza el dibujo hacia los lados para verlo entero.</p>
   </figure>
   <div class="key" aria-label="Leyenda de colores">
@@ -288,7 +288,7 @@ body.du-abierto .du-fab{display:none}
     <span><i class="sw-auto"></i>Ingesta (script propio)</span><span><i class="sw-ai"></i>IA</span><span><i class="sw-sec"></i>Seguridad y calidad</span>
     <span><i class="sw-ext dash"></i>Terceros (borde discontinuo)</span><span><i class="sw-now"></i>Aquí</span><span><i class="sw-off"></i>Todavía no</span>
   </div>
-  <p style="font-size:.9rem;color:var(--mut)">Cómo se lee: las flechas van de quien pide a quien responde. La franja rosa vertical es <b>Caddy</b>: la única puerta pública. La línea discontinua entre «Evals · CI» y el worker es vigilancia, no tráfico.</p>
+  <p style="font-size:.9rem;color:var(--mut)">Cómo se lee: las flechas van de quien pide a quien responde. La franja rosa vertical es la <b>entrada pública</b>: HTTPS, límites y cabeceras. No hay Caddy; quién los asume se decide en el paso 6. La línea discontinua entre «Evals · CI» y el worker es vigilancia, no tráfico.</p>
 </section>
 
 <section id="analogia">
@@ -349,7 +349,7 @@ body.du-abierto .du-fab{display:none}
         <tr><td>Redis para la cola</td><td>✅ descartado por Mar</td><td>Una pieza menos: la cola es una tabla de PostgreSQL 🟡.</td></tr>
         <tr><td>Playwright como servidor MCP</td><td>✅ descartado por Mar</td><td>Más control ejecutando código propio.</td></tr>
         <tr><td>Tres agentes en el envío</td><td>✅ descartado por Mar</td><td>Un supervisor único es más simple.</td></tr>
-        <tr><td>Microservicios, React</td><td>🟡 propuesta de no hacerlos</td><td>No hay equipos ni escalado independiente; con HTMX hay un solo código.</td></tr>
+        <tr><td>Microservicios, React</td><td>🟡 propuesta de no hacerlos</td><td>No hay equipos ni escalado independiente; con HTML, CSS y JavaScript servidos por FastAPI hay un solo código.</td></tr>
         <tr><td>Servicio de trazas aparte (Langfuse)</td><td>🟡 posponer</td><td>La tabla propia de llamadas basta de momento.</td></tr>
         <tr><td>Apify</td><td>✅ no es la base</td><td>La base son APIs, feeds, ATS públicos y el portal de empresas.</td></tr>
         <tr><td>Minijuegos en la entrevista</td><td>✅ fuera del MVP</td><td>Mejora futura si da tiempo.</td></tr>
@@ -400,7 +400,7 @@ body.du-abierto .du-fab{display:none}
   <p class="lead">Cada ❓ con lo que bloquea y la opción que recomiendo. Son recomendaciones mías; decides tú.</p>
   <div class="tw"><table id="openTbl"></table></div>
   <div class="sub-h"><h3>Y las 🟡 que dan por hecho muchas cosas</h3></div>
-  <p>Estas no son ❓, pero tampoco están decididas. Se confirman en el paso 6 y con el profesor (pregunta 18 bis de <code>preguntas-profesor.md</code>): monolito modular con API y worker, cola en PostgreSQL, Caddy, observabilidad en tabla propia, LangGraph (solo en CV y cartas y en envío, pendiente del profesor), HTMX con Jinja2, capas routers → servicios → repositorios, y CI en GitHub Actions.</p>
+  <p>Estas no son ❓, pero tampoco están decididas. Se confirman en el paso 6 y con el profesor (pregunta 18 bis de <code>preguntas-profesor.md</code>): monolito modular con API y worker, cola en PostgreSQL, observabilidad en tabla propia, LangGraph (solo en CV y cartas y en envío, pendiente del profesor), capas routers → servicios → repositorios, y CI en GitHub Actions.</p>
 </section>
 
 <section id="glosario">
@@ -486,9 +486,9 @@ webhook:{n:'Webhook',d:'Un aviso automático: otro servicio llama a tu API cuand
 stripe:{n:'Stripe',d:'Un servicio de pagos y suscripciones.',a:'la caja registradora de la tienda.',e:'Modo de prueba durante el bootcamp.',t:'No figura en la tabla de temas de la propuesta ✱'},
 redteam:{n:'Red teaming',d:'Atacar tu propio sistema a propósito para encontrar fallos antes que otros.',a:'un simulacro de incendio.',e:'Ofertas que intentan manipular a la IA, activar un envío o sacar datos (paso 16).',t:'Evals, guardrails, red teaming (Manual de obra, pasos 13-16)'},
 adr:{n:'C4 y ADR',d:'C4: dibujar el sistema por niveles. ADR: una página que anota cada decisión y por qué.',a:'el plano de la casa más el libro de decisiones de obra.',e:'En el paso 6: un diagrama C4 de contenedores y una ADR por decisión.',t:'Arquitectura de software: UML, C4 y ADR'},
-caddy:{n:'Caddy (proxy inverso)',d:'La puerta de entrada: recibe el tráfico de internet y lo reparte, poniendo HTTPS solo.',a:'el portero de la puerta principal.',e:'Es la única entrada pública; la API y la base de datos no tienen puerto abierto. 🟡',t:'Docker, seguridad de APIs'},
+entrada:{n:'Entrada pública (HTTPS y límites)',d:'Lo que protege la puerta de Horma: cifrado HTTPS, límites de tamaño y ritmo, y cabeceras de seguridad.',a:'el portero de la puerta principal.',e:'Sin Caddy (decisión de Mar, 1-nov), lo asume el alojamiento o la API; se decide en el paso 6. ❓',t:'Docker, seguridad de APIs'},
 mcp:{n:'Servidor MCP',d:'Un enchufe estándar para que Claude use herramientas de un programa.',a:'un enchufe universal.',e:'«Servidor MCP Horma» ⏸ sin decidir: solo lectura y ninguna herramienta que envíe.',t:'Servidores, MCP y subagentes (documento «Horma jobs» del Cuaderno)'},
-htmx:{n:'HTMX y PWA',d:'HTMX: cambiar solo un trozo de la página sin recargarla. PWA: una web que se instala en el móvil como app.',a:'cambiar solo la página abierta de un libro.',e:'La lista de ofertas se actualiza sin recargar y Horma se instala en el móvil.',t:'HTML, CSS, JavaScript'},
+pwa:{n:'PWA',d:'Una web que se instala en el móvil como app.',a:'una tienda con web que además te deja un acceso directo en la pantalla del móvil.',e:'Horma se instala en el móvil sin pasar por las tiendas de apps.',t:'HTML, CSS, JavaScript'},
 monolito:{n:'Monolito modular',d:'Un solo programa bien ordenado por dentro, con módulos, en vez de muchos programas sueltos.',a:'una casa con habitaciones, no un barrio de casitas.',e:'La API y el worker son el mismo código con dos comandos de arranque. 🟡',t:'Arquitectura de software: UML, C4 y ADR ✱'}
 };
 var seen={};
@@ -629,16 +629,16 @@ var PH=[
  noopt:'No pasar a cobros reales durante el bootcamp.',
  terms:['stripe']},
 {n:11,nom:'Calidad, publicar y vigilar',casa:'el tejado y la inspección final',
- ch:[['ok','Evals, guardrails y red teaming (pasos 13-16); demo para el profesor con datos inventados'],['prop','CI en GitHub Actions, Caddy'],['open','Alojamiento']],
- que:'pytest y CI; evals con casos de referencia y un LLM-as-judge; guardrails de entrada y salida; <b>red teaming</b> con ofertas que intentan manipular a la IA; despliegue con <b>Caddy</b> delante; vigilancia; demo, case study y memoria.',
+ ch:[['ok','Evals, guardrails y red teaming (pasos 13-16); demo para el profesor con datos inventados'],['prop','CI en GitHub Actions'],['open','Alojamiento y quién asume HTTPS, límites y cabeceras']],
+ que:'pytest y CI; evals con casos de referencia y un LLM-as-judge; guardrails de entrada y salida; <b>red teaming</b> con ofertas que intentan manipular a la IA; despliegue con <b>HTTPS, límites y cabeceras</b> ya asignados; vigilancia; demo, case study y memoria.',
  para:'Poder decir «funciona» con números y no con impresiones.',
  ahora:'<b>Necesita:</b> todos los módulos, porque el red teaming prueba el conjunto. Los evals empiezan antes (fase 5) y aquí se completan.',
  reves:'Publicar sin red teaming: una oferta maliciosa podría manipular a la IA con usuarias reales.',
- lugar:'CI en el repositorio; Caddy como única puerta pública. Se documentan las decisiones del paso 6 como C4 y ADR.',
+ lugar:'CI en el repositorio; la API como única puerta pública. Se documentan las decisiones del paso 6 como C4 y ADR.',
  prueba:'Evals con números de antes y después; red teaming sin fugas; el recorrido completo de alta a seguimiento; y Jobs personal sigue igual.',
  opt:'Dejar las métricas en la tabla propia.',
  noopt:'No montar todavía un servicio de trazas aparte (por ejemplo Langfuse).',
- terms:['redteam','adr','caddy']}
+ terms:['redteam','adr','entrada']}
 ];
 var SUELTAS=[
 {n:'Entrenador de entrevistas',em:'Preparación personalizada a cada oferta',ch:[['ok','Módulo decidido el 29-oct: por escrito; con voz de Horma solo si hay holgura'],['open','Alcance exacto y si se añade la voz']],
@@ -656,7 +656,7 @@ var NODES=[
 {id:'usuarias',t:'Usuarias',s:'móvil y PC',c:0,r:2,k:'people',i:1},
 {id:'empresas',t:'Empresas',s:'solo publican',c:0,r:1,k:'people',i:9},
 {id:'portal',t:'Portal empresas',s:'publican ofertas',c:1,r:1,k:'code',i:9},
-{id:'web',t:'Web',s:'HTMX · PWA',c:1,r:2,k:'code',i:1},
+{id:'web',t:'Web',s:'HTML · JS · PWA',c:1,r:2,k:'code',i:1},
 {id:'api',t:'API',s:'FastAPI · OAuth + JWT',c:2,r:2,k:'code',i:1},
 {id:'bd',t:'PostgreSQL',s:'pgvector · RLS · cola',c:3,r:2,k:'data',i:1},
 {id:'ficheros',t:'Ficheros',s:'CV y PDF · volumen',c:4,r:2,k:'data',i:3},
@@ -672,7 +672,7 @@ var NODES=[
 {id:'nav',t:'Navegador aislado',s:'Playwright',c:2,r:5,k:'sec',i:7},
 {id:'ats',t:'ATS de empresa',s:'formulario',c:1,r:5,k:'ext',i:7},
 {id:'calidad',t:'Evals · CI',s:'calidad',c:3,r:5,k:'sec',i:5},
-{id:'caddy',t:'Caddy',s:'',c:-1,r:-1,k:'sec',i:11,special:true}
+{id:'entrada',t:'Entrada pública',s:'',c:-1,r:-1,k:'sec',i:11,special:true}
 ];
 var INTRO={};NODES.forEach(function(n){INTRO[n.id]=n.i});
 var EDGES=[
@@ -707,10 +707,10 @@ function drawMap(){
     if(e.l)g.appendChild(T(e.l,{x:e.lx,y:e.ly,'text-anchor':e.an||'middle',class:'elabel'}));
     svg.appendChild(g);
   });
-  // Caddy
+  // Entrada pública: responsabilidades sin dueño todavía (paso 6)
   var cg=S('g',{class:'band nd','data-intro':11});
   cg.appendChild(S('rect',{x:170,y:100,width:18,height:170,rx:6}));
-  cg.appendChild(T('Caddy · única entrada',{x:0,y:0,transform:'translate(183,185) rotate(-90)','text-anchor':'middle'}));
+  cg.appendChild(T('HTTPS y límites ❓',{x:0,y:0,transform:'translate(183,185) rotate(-90)','text-anchor':'middle'}));
   var hb=S('g',{class:'here',transform:'translate(150,86)'},[S('rect',{width:44,height:17,rx:8}),T('aquí',{x:22,y:12,'text-anchor':'middle'})]);
   cg.appendChild(hb);
   svg.appendChild(cg);
@@ -745,7 +745,7 @@ function drawHouse(){
   rg.appendChild(S('polygon',{points:'52,112 380,16 708,112',class:'roof'}));
   rg.appendChild(T('F11 · Tejado e inspección',{x:380,y:62,'text-anchor':'middle',class:'a'}));
   rg.appendChild(T('Calidad y publicar',{x:380,y:80,'text-anchor':'middle',class:'b'}));
-  rg.appendChild(T('evals · red teaming · Caddy',{x:380,y:96,'text-anchor':'middle',class:'c'}));
+  rg.appendChild(T('evals · red teaming · despliegue',{x:380,y:96,'text-anchor':'middle',class:'c'}));
   rg.appendChild(S('g',{class:'here',transform:'translate(486,48)'},[S('rect',{width:44,height:17,rx:8}),T('aquí',{x:22,y:12,'text-anchor':'middle'})]));
   svg.appendChild(rg);
   svg.appendChild(S('rect',{x:60,y:486,width:640,height:16,rx:4,class:'slab'}));
@@ -771,7 +771,7 @@ var CASA=[
 ['Usuaria','la inquilina de un cuarto con llave'],['JWT','la pulsera o llave que dice quién eres'],['RLS','cada llave abre solo su cuarto'],
 ['API','la portería: pides y te traen'],['Base de datos','el almacén del sótano'],['Script de ingesta','el camión de reparto diario'],
 ['Worker y cola','el ayudante de la trastienda y su lista de pedidos'],['LLM','un ayudante muy leído'],['Agente','un aprendiz con herramientas'],
-['Navegador aislado','un mensajero con guantes que no entra en la casa'],['Evals','el inspector de obra'],['Caddy','la puerta principal']
+['Navegador aislado','un mensajero con guantes que no entra en la casa'],['Evals','el inspector de obra'],['HTTPS y límites','la puerta principal']
 ];
 
 /* ============ FICHAS DE FASE ============ */
@@ -802,15 +802,15 @@ function drawFichas(){
 
 /* ============ COMPONENTES ============ */
 var COMPS=[
-{n:'Web (HTMX + PWA)',k:'code',ch:[['ok','PWA primero; tiendas de apps sin fecha'],['prop','HTMX + Jinja2 servidos por FastAPI, sin React']],
+{n:'Web (PWA)',k:'code',ch:[['ok','PWA primero; tiendas de apps sin fecha'],['ok','Sin HTMX (1-nov)'],['prop','HTML, CSS y JavaScript planos servidos por FastAPI, sin React']],
  que:'Las pantallas que ve la usuaria, en móvil y ordenador, escritas en HTML, CSS y JavaScript y servidas por FastAPI.',para:'Que Horma se use sin instalar nada raro, y que se pueda instalar en el móvil como app.',
- entra:'Clics y formularios de la usuaria (y de la empresa, en el portal).',sale:'Páginas HTML y trozos que se actualizan sin recargar.',habla:'Solo con la API (a través de Caddy). Nunca con la base de datos.',
- falla:'La web y la API van en el mismo programa: si la API cae, la web también. Por eso lo lento va al worker. Jinja2 escapa siempre el texto y hay una política CSP estricta, para que el texto de la IA nunca se ejecute como código.',
- tema:'HTML, CSS, JavaScript',terms:['htmx']},
-{n:'Caddy',k:'sec',ch:[['prop','Proxy inverso; se decide con el alojamiento']],
- que:'La puerta principal: recibe el tráfico de internet y lo reparte.',para:'Poner HTTPS automático, límites de tamaño y ritmo, y cabeceras de seguridad. Es la única entrada pública.',
- entra:'Tráfico de internet.',sale:'Peticiones ya comprobadas hacia la API.',habla:'Con la API. No se publican puertos de la API ni de la base de datos.',
- falla:'Sin Caddy nadie de fuera entra. En tu ordenador de pruebas no hace falta; llega con la fase 11.',tema:'Docker, seguridad de APIs'},
+ entra:'Clics y formularios de la usuaria (y de la empresa, en el portal).',sale:'Páginas HTML y peticiones a la API, cuyos datos pinta JavaScript.',habla:'Solo con la API. Nunca con la base de datos.',
+ falla:'La web y la API van en el mismo programa: si la API cae, la web también. Por eso lo lento va al worker. El texto se pinta siempre escapado y hay una política CSP estricta, para que el texto de la IA nunca se ejecute como código.',
+ tema:'HTML, CSS, JavaScript',terms:['pwa']},
+{n:'Entrada pública',k:'sec',ch:[['ok','Sin Caddy (1-nov)'],['open','Quién la asume: alojamiento o API (paso 6)']],
+ que:'La puerta de Horma hacia internet. No es una pieza propia, sino tareas que hay que asignar.',para:'HTTPS, límites de tamaño y ritmo, cabeceras de seguridad y protección CSRF.',
+ entra:'Tráfico de internet.',sale:'Peticiones ya comprobadas hacia la API.',habla:'Con la API. La base de datos no publica ningún puerto.',
+ falla:'Si nadie asume estas tareas, Horma queda expuesta: hay que repartirlas antes de publicar. En tu ordenador de pruebas no hace falta; llega con la fase 11.',tema:'Docker, seguridad de APIs'},
 {n:'API (FastAPI)',k:'code',ch:[['ok','Backend 100 % Python con FastAPI'],['prop','Capas routers → servicios → repositorios']],
  que:'El programa que responde en milisegundos: autentica, valida y lee o escribe en la base de datos. Los routers no saben de negocio y solo los repositorios hablan SQL.',para:'Ser la única ventanilla de Horma.',
  entra:'Peticiones de la web, la clave del script de ingesta y webhooks firmados.',sale:'Respuestas rápidas y tareas anotadas en la cola.',habla:'Con la base de datos (por repositorios), con la cola y con la web.',
@@ -1059,7 +1059,7 @@ function drawCM(){
 var OPEN=[
 ['Ok del profesor','Bloquea la definición (pasos 1-8) y toda la construcción.','Pedirlo primero, junto con la rúbrica y la fecha de entrega (guion en <code>preguntas-profesor.md</code>).'],
 ['Rúbrica y qué cubre la Fase 4','Ordena las ramas: entrevista, voz del entrenador y minijuegos. Los troncos no se recortan.','Preguntárselo al profesor.'],
-['Alojamiento, proxy (Caddy) y coste del servidor','Fase 11 y el coste mensual. No afecta a las fases 1-10, que van en local con Docker.','Decidirlo en el paso 6 con el coste investigado, y no antes.'],
+['Alojamiento, quién asume HTTPS y límites, y coste del servidor','Fase 11 y el coste mensual. No afecta a las fases 1-10, que van en local con Docker.','Decidirlo en el paso 6 con el coste investigado, y no antes.'],
 ['Proveedor de LLM y de embeddings','Fase 2 y el coste por llamada.','La puerta al LLM aísla el proveedor: construir primero la puerta y elegir detrás. 🟡 Empezar con lo que ya usa Jobs y medir es suposición mía.'],
 ['Transcripción en la UE y si se quita Vapi','Fase 6.','Solo transcripción (más simple). Comparar 2 o 3 proveedores con tres condiciones: UE, sin análisis de emociones y borrado del audio.'],
 ['ORM','Fase 1; no cambia el orden, porque los repositorios aíslan el SQL.','Decidirlo en el paso 6.'],

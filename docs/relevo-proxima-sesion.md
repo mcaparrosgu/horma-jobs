@@ -50,7 +50,7 @@ Horma tiene estos cuatro y ninguno más:
 
 ## Tareas A y B: hechas (1-nov)
 
-El PRD v1 está en el apartado 23 (comprobado por código, igual que `docs/prd-horma-v1.html`). Los otros 22 apartados y los diagramas ya no llevan n8n, salvo como «sin n8n» o «en clase, con n8n». Los flujos con agentes viven solo en «Horma v3».
+El PRD v1 está en el apartado 23 (comprobado por código, igual que `docs/prd-horma-v1.html`). Los otros 22 apartados y los diagramas ya no llevan n8n, salvo como «sin n8n» o «en clase, con n8n». Los flujos con agentes viven en detalle en «Horma v3», y desde el 1-nov los demás diagramas también usan redactor y juez, relleno, supervisor y ejecutor.
 
 **Falta:** que Mar abra las páginas. El navegador de pruebas se cuelga con el Cuaderno, así que no se ha visto renderizado.
 
@@ -60,6 +60,7 @@ El PRD v1 está en el apartado 23 (comprobado por código, igual que `docs/prd-h
 2. ¿«Aprobar y enviar» entra en la Fase 1 o en la 2 o 3? (el alcance de Fase 1 menciona envío y US-004 dice «Fase 2 o 3»).
 3. ¿Ok formal para empezar la construcción?
 4. El tope de 5 CV base: ¿por qué? Propuesta: limitar CV generados al mes, no CV base. Choca con «sin topes».
+5. **«Subagente ATS» (pendiente de cerrar, Mar, 1-nov):** el PRD v1 lo sigue nombrando así y la arquitectura usa `medir_ats` (código) más el redactor. No se toca el PRD hasta tener su respuesta. Pregunta 14 bis de `preguntas-profesor.md`.
 
 ## Avisos a no olvidar
 

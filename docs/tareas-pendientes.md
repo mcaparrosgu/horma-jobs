@@ -1,6 +1,6 @@
 # Tareas pendientes de Horma jobs
 
-Actualizado el 2026-11-01 (artefactos ordenados; PRD v1 en el Cuaderno; ver `docs/relevo-proxima-sesion.md`). Antes: ideas de Michael Page, PRD como apartado 23. Orden = prioridad. Cada tarea lleva su siguiente acción y qué la bloquea.
+Actualizado el 2026-11-01 (diagramas al día, sin Caddy ni HTMX; «subagente ATS» pendiente del profesor; artefactos ordenados; PRD v1 en el Cuaderno; ver `docs/relevo-proxima-sesion.md`). Antes: ideas de Michael Page, PRD como apartado 23. Orden = prioridad. Cada tarea lleva su siguiente acción y qué la bloquea.
 
 ## Reglas permanentes (decididas por Mar)
 - **Construcción y definición: no empiezan hasta tener el ok del profesor** (27 oct: también los pasos 1-8). Mientras tanto, solo investigación y documentación de apoyo.
@@ -13,16 +13,15 @@ Actualizado el 2026-11-01 (artefactos ordenados; PRD v1 en el Cuaderno; ver `doc
 ### 0. Siguiente sesión (31-oct)
 **Prioridad: alta.** Detalle paso a paso en **`docs/relevo-proxima-sesion.md`**.
 - **Mirar las páginas (Mar):** abrir el Cuaderno, la página del profesor y «Horma por dentro». El Cuaderno no se ha visto renderizado. Probar también el índice nuevo de Proyectos y sus 3 enlaces externos.
-- **¿«Horma por dentro» es el artefacto «Horma explicada a un niño de 10 años»? (Mar):** no hay ninguno con ese título. Si es ese, esa tarea queda hecha: se actualizó el 1-nov (Caddy y HTMX siguen como propuesta).
+- **¿«Horma por dentro» es el artefacto «Horma explicada a un niño de 10 años»? (Mar):** no hay ninguno con ese título. Si es ese, esa tarea queda hecha: se actualizó el 1-nov (ya sin Caddy ni HTMX).
 - **Borrar `Rz3…` (archivo 29-oct):** cuando el profesor haya visto https://claude.ai/artifact/QYapVgfjiX7QgN7X1obrNd. Antes, pasarle ese enlace. Irreversible; los hilos están en `docs/archivo/comentarios-profesor-30oct.md`. Al borrarlo, quitarlo de `ARTEFACTOS_HORMA` en `workbook.html` y republicar el Cuaderno personal, o quedará un botón roto.
 - **Decidir si el Cuaderno personal deja de ser «cualquiera con el enlace» (Mar):** se cambia desde *Share*.
 - **Limpiar los artefactos que no son de Horma:** Cuadernos antiguos, «Mapa de una API» repetidos y pruebas. Tarea aparte, con la lista delante.
-- **Rehacer con `archify` los diagramas** `tecnico`, `calidad` y `arquitectura` solo si los revisores cambian el diseño. Los de agentes ya están en «Horma v3» y `arquitectura`, `ingesta` y `tecnico` ya no llevan n8n.
 - **Pasar `auditor-lineas-rojas` y `revisor-seguridad`** sobre el diseño multiagente (`analisis-tecnico.md`, apartado 9) antes de dar nada por cerrado.
 - **Esperando al profesor (LangGraph):** Mar lo quiere en CV y cartas y en envío (1-nov). Pregunta 14 de `preguntas-profesor.md` y diagramas en el Cuaderno, Proyectos, «Horma v3». Si dice que no: Python plano, sin cambiar agentes ni flujos.
 - **Compartir la página del profesor (Mar):** https://claude.ai/artifact/QYapVgfjiX7QgN7X1obrNd es privada; hay que compartirla con él desde *Share*. Qué artefacto es cada cosa: tabla en `docs/relevo-proxima-sesion.md`.
-- **Preguntar al profesor:** cómo define «agente» y si el «subagente ATS» puede ser una herramienta de código (medir palabras clave) más el redactor que adapta. Las notas de Gemini no muestran que pidiera un gerente.
-- **Por confirmar (Mar):** estructura simplificada (sin Caddy ni HTMX; reasignar TLS, límites, cabeceras y CSRF, ver nota en `analisis-tecnico.md`, apartado 8); ingesta como proceso aparte; agente de relleno LLM frente a adaptadores por ATS (lo decide el eval de ablación).
+- **Decisión pendiente de cerrar con el profesor: «subagente ATS» (Mar, 1-nov).** El PRD v1 dice «subagente ATS» y la arquitectura usa `medir_ats`, que es código, más el redactor que adapta. Pregunta 14 bis de `preguntas-profesor.md`: cómo define «agente» y si le vale esta opción. El PRD no se cambia hasta tener su respuesta. Las notas de Gemini no muestran que pidiera un gerente.
+- **Por confirmar (Mar):** ingesta como proceso aparte; agente de relleno LLM frente a adaptadores por ATS (lo decide el eval de ablación).
 - Pedir al profesor: qué cubre la Fase 4, si «aprobar y enviar» entra en la Fase 1 o en la 2 o 3, y el ok formal para empezar.
 - Actualizar las skills `paso-NN` o dejarlas como consulta (ya anotado en `CLAUDE.md`).
 
@@ -101,6 +100,7 @@ Detalle de las del 27 oct en `docs/propuesta-horma.md`, apartado 4.
 - Que se invoquen siempre solo está garantizado con un **hook**. Hasta entonces, la Copiloto los usa al cerrar cada módulo y antes de cada commit.
 
 ## Hecho
+- **2026-11-01:** decidido por Mar: sin Caddy ni HTMX. Diagramas `candidatura`, `arquitectura`, `tecnico`, `entrevista`, `ingesta`, `recomendacion` y `estados` al día con la arquitectura A-ajustada; textos del Cuaderno, página del profesor y «Horma por dentro» alineados. **Falta (paso 6):** asignar HTTPS, límites, cabeceras y CSRF.
 - **2026-11-01:** chat de dudas en «Horma por dentro» (versión 3): responde con el apartado que se lee y guarda en su colección `dudas`; `/workbook` las pasa a `Wiki\workbook\Dudas\Horma por dentro`. Mar lo probó con una pregunta real y funciona. **Falta:** comprobar el paso a Obsidian la próxima vez que se ejecute `/workbook`.
 - **2026-11-01:** índice de los 4 artefactos de Horma, con descripción y botones, al inicio de Proyectos, «Horma jobs» y «Horma v3» (Cuaderno personal, versión 259). No llega a la página del profesor ni a la edición compartida.
 - **2026-11-01:** sesión de diseño sobre multiagente. Decidida por Mar la opción A-ajustada (redactor↔juez con código primero; envío con ejecutor en script; ATS como herramienta de código; gerente en código). Anotada en `docs/analisis-tecnico.md` (apartado 9 y tablas) y en la bitácora. **No hecho:** diagramas, artefacto «niño de 10 años», `propuesta-horma.md` y `CLAUDE.md` (aún nombran LangGraph, HTMX y Caddy), revisores. **Commit:** no se hizo; no hay repositorio git y el `git init` lo decide Mar.

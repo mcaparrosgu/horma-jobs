@@ -105,3 +105,11 @@ Cuaderno de decisiones de Horma jobs en orden cronológico. Solo se añade al fi
 - POR QUÉ ESTA — Un solo sitio que editar y ningún cambio en lo que ven el profesor y los compañeros. La edición compartida sale idéntica (`cmp`).
 - QUÉ SE ROMPIÓ — Nada en la página. `comprobar-estructura.js` falla con la copia local de `workbook.html` porque no acepta finales de línea de Windows; con el archivo normalizado da correcto. Queda anotado en `correcciones-pendientes.md` del Workbook. El aviso del archivo `Rz3…` enlaza a un PRD ya borrado: no se arregla porque ese archivo se borrará.
 - QUÉ QUEDA PENDIENTE DE ENTENDER — El aspecto real del índice y los 3 enlaces externos: falta que Mar los pruebe. Si el Cuaderno sigue visible para cualquiera con el enlace, ahora también con este índice.
+
+## 2026-11-01 (noche, 3) · Diagramas al día y sin Caddy ni HTMX
+
+- QUÉ SE DECIDIÓ — Mar eligió quitar Caddy y HTMX. HTTPS, límites, cabeceras y CSRF se asignan en el paso 6, al alojamiento o a la API. Se actualizaron 7 diagramas, los textos del Cuaderno, la página del profesor y «Horma por dentro».
+- ALTERNATIVAS DESCARTADAS — Mantener las dos piezas: nada que reasignar, pero dos piezas más que mantener y deshacer el borrador del 1-nov. Dejar una etiqueta de «por asignar» sin explicar: el mapa de «Horma por dentro» conserva la franja de entrada para que se vea que esas tareas siguen sin dueño.
+- POR QUÉ ESTA — Menos piezas, y un solo relato: el profesor podía ver dos versiones contrarias del envío.
+- QUÉ SE ROMPIÓ — Nada. Había un error en mis documentos: el relevo decía que los flujos con agentes vivían solo en «Horma v3», y `arquitectura` y `candidatura` los dibujaban a la antigua. Corregido.
+- QUÉ QUEDA PENDIENTE DE ENTENDER — Quién asume HTTPS, límites, cabeceras y CSRF (paso 6). El PRD aún dice «subagente ATS»: Mar lo deja como decisión pendiente de cerrar con el profesor (pregunta 14 bis) y el PRD no se toca hasta su respuesta.

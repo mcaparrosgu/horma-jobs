@@ -1,9 +1,9 @@
 # Horma jobs · análisis técnico de la arquitectura
 
-> Complementa los diagramas de `Workbook/web/proyectos/horma/` (`tecnico`, `recomendacion`, `redactora`, `envio`, `calidad`). Es la **arquitectura prevista**, no código: la fase de definición sigue esperando el ok del profesor.
+> Complementa los diagramas de `Workbook/web/proyectos/horma/` (`tecnico`, `recomendacion`, `calidad`…) y `horma-v3/` (`equipos`, `cv-cartas`, `envio`). Es la **arquitectura prevista**, no código: la fase de definición sigue esperando el ok del profesor.
 > **Cada decisión lleva su estado.** *Decidido* = lo decidió Mar (con fecha y fuente). *Propuesta* = la plantea la Copiloto y se confirma en el paso 6. Revisado el 29-oct-2026 con `auditor-lineas-rojas` (ningún rojo; ámbar corregidos aquí) y `revisor-seguridad` (apartado 8).
-> **30-oct-2026:** n8n sale de la arquitectura; la ingesta es un script propio controlado desde un dashboard en el frontend. Los diagramas del Cuaderno (`tecnico`, `arquitectura`, `ingesta`…) siguen dibujando n8n hasta que se rehagan con `archify`.
-> **1-nov-2026:** sesión de diseño sobre multiagente. **Decidido por Mar: opción «A-ajustada»** (apartado 9). Estructura simplificada *propuesta* (borrador, sin confirmar del todo): sin Caddy y sin HTMX; multiagente con orquestación en código; ingesta como proceso aparte. **LangGraph (1-nov, Mar): sí, solo en los dos flujos con bucle o pausa para la usuaria (CV y cartas, y envío); pendiente de que el profesor lo confirme.** Si dice que no, los agentes y los flujos no cambian: se ejecutan con Python plano. Los diagramas de CV y cartas y de envío ya están rehechos en el Cuaderno (Proyectos, «Horma v3»); los demás diagramas y el artefacto «Horma explicada a un niño de 10 años» siguen con la arquitectura anterior hasta rehacerlos (ver `tareas-pendientes.md`).
+> **30-oct-2026:** n8n sale de la arquitectura; la ingesta es un script propio controlado desde un dashboard en el frontend. Los diagramas ya no dibujan n8n (1-nov).
+> **1-nov-2026:** sesión de diseño sobre multiagente. **Decidido por Mar: opción «A-ajustada»** (apartado 9). **Sin Caddy y sin HTMX: confirmado por Mar (1-nov).** Multiagente con orquestación en código; ingesta como proceso aparte (propuesta). **LangGraph (1-nov, Mar): sí, solo en los dos flujos con bucle o pausa para la usuaria (CV y cartas, y envío); pendiente de que el profesor lo confirme.** Si dice que no, los agentes y los flujos no cambian: se ejecutan con Python plano. Todos los diagramas del Cuaderno y «Horma por dentro» están al día con esta arquitectura (1-nov); los flujos de CV y cartas y de envío, en detalle, en «Horma v3».
 
 ## 1. Visión general
 
@@ -22,8 +22,8 @@ Horma no es «una API». Son **cuatro tipos de proceso** con responsabilidades y
 
 | Componente | Tecnología | Por qué | Tema del bootcamp | Estado |
 |---|---|---|---|---|
-| Web | HTML, CSS y JavaScript planos, PWA, servida por FastAPI. Sin HTMX | Un solo código base; sin React ni librerías extra | HTML, CSS, JavaScript | Propuesta 1-nov (Mar es flexible en el frontend; PWA primero decidido 27-oct) |
-| Proxy inverso | ~~Caddy~~ Quitado en el borrador del 1-nov: TLS, límites de tamaño y ritmo y cabeceras de seguridad pasan al alojamiento o a la propia API (ver nota al final del apartado 8) | Una pieza menos | Docker, seguridad de APIs | Propuesta; se confirma en el paso 6 |
+| Web | HTML, CSS y JavaScript planos, PWA, servida por FastAPI. Sin HTMX | Un solo código base; sin React ni librerías extra | HTML, CSS, JavaScript | Sin HTMX: decidido por Mar (1-nov). HTML, CSS y JS planos: propuesta (es flexible en el frontend). PWA primero: decidido (27-oct) |
+| Proxy inverso | ~~Caddy~~ Quitado en el borrador del 1-nov: TLS, límites de tamaño y ritmo y cabeceras de seguridad pasan al alojamiento o a la propia API (ver nota al final del apartado 8) | Una pieza menos | Docker, seguridad de APIs | Sin Caddy: decidido por Mar (1-nov). Quién asume cada función: paso 6 |
 | API | FastAPI por capas: routers → servicios → repositorios | Los routers validan con Pydantic y no saben de negocio; solo los repositorios hablan SQL | FastAPI por capas (TaskFlow) | Decidido (FastAPI); capas: propuesta |
 | Identidad | Google OAuth 2.0 + JWT | Alta sin contraseñas propias | Seguridad de APIs (OAuth, JWT) | Decidido: entrada por Google o por email; el mecanismo, propuesta |
 | Base de datos | PostgreSQL + pgvector | Datos relacionales y vectores en un solo sitio | SQL; embeddings y bases vectoriales | Decidido (propuesta 1 y 5 elegidas por Mar) |
@@ -59,7 +59,7 @@ La oferta es **texto no fiable**: se trata como dato, nunca como instrucción (a
 **Quién lo ve:** puntuaciones, perfil humano y evidencias son privados de la usuaria (RLS). El rol de empresa no tiene acceso a ninguna de esas tablas: solo lee las candidaturas que la candidata envía. Cada tabla lleva su prueba de seguridad.
 
 ### 3.3 CV y carta (Cuaderno, «Horma v3», diagrama `cv-cartas`)
-**Punto de partida (30-oct):** de su CV completo, Horma genera una sola vez hasta 5 CV base (uno por sector) y hasta 2 cartas base; un subagente ATS ajusta el base a las palabras clave de la oferta. Cada oferta parte del base que le toca, lo que ahorra tokens. Regla: Horma cambia qué se muestra y cómo se cuenta (lo poco relevante se condensa en una línea; puede mostrarse solo el año), nunca fechas, cargos, empresas ni titulaciones.
+**Punto de partida (30-oct):** de su CV completo, Horma genera una sola vez hasta 5 CV base (uno por sector) y hasta 2 cartas base; una herramienta de código (`medir_ats`) mide las palabras clave y el redactor ajusta el base a la oferta. Cada oferta parte del base que le toca, lo que ahorra tokens. Regla: Horma cambia qué se muestra y cómo se cuenta (lo poco relevante se condensa en una línea; puede mostrarse solo el año), nunca fechas, cargos, empresas ni titulaciones.
 
 Generar → evaluar → corregir, con un máximo de 2 intentos:
 - **Elegir evidencias** del perfil que encajan con la oferta. Las evidencias del perfil humano solo entran si la usuaria las **activó** (apagadas por defecto) y no las **ocultó**, y siempre redactadas como logros, nunca etiquetas.
@@ -88,7 +88,7 @@ Stripe, el servicio de transcripción (por elegir) y el correo reenviado llaman 
 ## 4. Datos y privacidad
 
 - **Multiusuaria con RLS** (*row-level security*): cada fila pertenece a una usuaria y la propia base de datos impide leer filas ajenas (ver apartado 8, punto 1, para que funcione de verdad).
-- **Fronteras de confianza:** lo de fuera entra solo por Caddy y la API; el script de ingesta con clave de API, personas con JWT, terceros con firma. Nada llega directo a la base de datos.
+- **Fronteras de confianza:** lo de fuera entra solo por la API; el script de ingesta con clave de API, personas con JWT, terceros con firma. Nada llega directo a la base de datos.
 - **Mínimo privilegio:** el navegador aislado y el script de ingesta no tienen credenciales de la base de datos (el script solo habla con la API).
 - **Datos personales:** nunca en logs, tests ni mensajes de commit. Las métricas guardan cifras (modelo, tokens, coste), no el texto de la usuaria. Los casos de prueba son datos inventados. Al construir: que los errores de validación (422) no devuelvan el valor que escribió la usuaria.
 - **Audio de la entrevista:** se borra tras transcribirlo (decidido, 29-oct). El proveedor de transcripción debe estar en la UE, **sin análisis de emociones ni de sentimiento**, y borrar también el audio en su lado. Se elige en el paso 6.
@@ -111,7 +111,7 @@ Stripe, el servicio de transcripción (por elegir) y el correo reenviado llaman 
 | Tres agentes independientes en el envío | Descartada por Mar (27-oct, bitácora); el supervisor único lo decidió Mar el 29-oct | Un supervisor único es más simple |
 | Microservicios | Propuesta de no hacerlos | No hay equipos ni escalado independiente que lo justifiquen |
 | React | Propuesta de no usarlo | HTML, CSS y JS planos servidos por FastAPI: un solo código base (Mar es flexible en el frontend) |
-| HTMX y Caddy | Quitados en el borrador del 1-nov (propuesta) | Menos piezas; sus funciones se reasignan (nota al final del apartado 8) |
+| HTMX y Caddy | Quitados por Mar (1-nov) | Menos piezas; sus funciones se reasignan (nota al final del apartado 8) |
 | LangGraph en todo el sistema | Descartado (1-nov) | Sobra en ingesta, recomendación y herramientas de código. Se mantiene solo en CV y cartas y en envío (pendiente del profesor) |
 | Gerente LLM | Descartado por Mar (1-nov) | Los pasos son fijos y los decide un `if`; costaría 2-3 veces más tokens y es difícil de evaluar |
 | Agente ATS con LLM | Descartado (1-nov) | Contar palabras clave es código; adaptar el CV es trabajo del redactor |
@@ -122,7 +122,7 @@ Stripe, el servicio de transcripción (por elegir) y el correo reenviado llaman 
 
 - Alojamiento, quién asume lo que hacía Caddy (TLS, límites, cabeceras) y librería de cola.
 - Si el agente de relleno de formularios se queda como agente LLM o se sustituye por adaptadores por ATS (lo decide el eval de ablación, apartado 9).
-- Cómo presentar al profesor el «subagente ATS» (herramienta de código en lugar de agente) y cómo define él «agente».
+- «Subagente ATS», decisión pendiente de cerrar con el profesor (Mar, 1-nov): herramienta de código en lugar de agente, y cómo define él «agente» (pregunta 14 bis de `preguntas-profesor.md`). El PRD no cambia hasta su respuesta.
 - Proveedor de LLM, de embeddings y de transcripción en la UE.
 - ORM.
 - Diseño detallado del supervisor del modo autónomo (apartado 3.4).
@@ -143,14 +143,14 @@ Revisión de `revisor-seguridad` (29-oct). Cada punto pasa a ser una ADR en el p
 **Con las primeras líneas de la API:**
 6. Clave del script de ingesta limitada a `POST /ofertas`, guardada solo como hash y rotable, con límite de tamaño y ritmo.
 7. Cola: intentos máximos, retroceso exponencial, estado `dead` y tope de coste por tarea; la carga de la tarea guarda solo ids, no texto.
-8. JWT y OAuth: verificar firma, `exp`, `aud` e `iss`; PKCE y `state`; enlazar por `sub`, no por correo; token corto con refresco rotatorio; cookie `HttpOnly`, `Secure`, `SameSite`; protección CSRF (HTMX envía formularios); la usuaria sale siempre del token, nunca de la URL.
+8. JWT y OAuth: verificar firma, `exp`, `aud` e `iss`; PKCE y `state`; enlazar por `sub`, no por correo; token corto con refresco rotatorio; cookie `HttpOnly`, `Secure`, `SameSite`; protección CSRF (hay formularios y cookies); la usuaria sale siempre del token, nunca de la URL.
 9. Webhooks: firma sobre el cuerpo en bruto con tolerancia de tiempo, tabla de eventos ya procesados y respuesta 2xx rápida. El correo reenviado necesita remitente verificado y tamaño máximo.
 10. Secretos en variables de entorno o gestor del alojamiento, nunca en el repo ni en la imagen; cada proceso recibe solo las suyas; claves distintas por entorno con límite de gasto; escaneo de secretos en CI.
 11. Logs y métricas sin datos personales: filtro central, solo ids y códigos de error; las trazas de los agentes (salidas y veredictos) van a tablas con RLS y se borran con la cuenta, nunca a logs.
 
-**Con su módulo:** ficheros con nombre aleatorio y descarga solo por la API (nunca como estáticos); borrado del audio sin dejar huérfanos y borrado de transcripciones, embeddings y caché al cerrar la cuenta; Caddy con límites de tamaño y ritmo, cabeceras de seguridad y sin publicar puertos de la API ni de la base de datos; autoescapado de Jinja2 siempre activo y CSP estricta (la salida del LLM es texto derivado de ofertas no fiables); `user_id` en la caché de puntuaciones; contenedores sin root y versiones fijadas.
+**Con su módulo:** ficheros con nombre aleatorio y descarga solo por la API (nunca como estáticos); borrado del audio sin dejar huérfanos y borrado de transcripciones, embeddings y caché al cerrar la cuenta; límites de tamaño y ritmo, cabeceras de seguridad y sin publicar el puerto de la base de datos; texto siempre escapado al pintarlo y CSP estricta (la salida del LLM es texto derivado de ofertas no fiables); `user_id` en la caché de puntuaciones; contenedores sin root y versiones fijadas.
 
-**Nota del 1-nov (sin Caddy ni HTMX):** quitar Caddy deja sin dueño los límites de tamaño y ritmo, las cabeceras de seguridad, el TLS y la CSP; quitar HTMX no elimina la protección CSRF, porque los formularios y las cookies siguen existiendo. Hay que reasignar cada uno (alojamiento o API) en el paso 6.
+**Nota del 1-nov (sin Caddy ni HTMX, confirmado por Mar):** quitar Caddy deja sin dueño los límites de tamaño y ritmo, las cabeceras de seguridad, el TLS y la CSP; quitar HTMX no elimina la protección CSRF, porque los formularios y las cookies siguen existiendo. Hay que reasignar cada uno (alojamiento o API) en el paso 6.
 
 **Siguiente paso:** documentar cada decisión de los apartados 7 y 8 como ADR (*Architecture Decision Record*, una página por decisión) en el paso 6 y dibujar este mapa como diagrama C4 de contenedores. Ambos son temario («Arquitectura de software: UML, C4 y ADR»).
 
