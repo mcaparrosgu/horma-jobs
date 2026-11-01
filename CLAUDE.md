@@ -95,6 +95,7 @@ cotidiana y ejemplo de este proyecto. En español.
   prevista, líneas rojas, fases y pendientes). Léela antes de cualquier paso del método.
 - **PRD (v1, 30-oct-2026):** requisitos con la estructura de clase (MA·S03) y la revisión del profesor incorporada. Copia vigente: `docs/prd-horma-v1.html`. El borrador anterior (29-oct, con los 19 comentarios del profesor) está archivado en `docs/archivo/`. **Pendiente:** sustituir el apartado 23 del documento «Horma jobs» del Cuaderno (fuente: `Workbook/web/workbook.html`) por la v1 y corregir los otros 22 apartados; hasta entonces el WB está desfasado. Registro de cambios y estado: `docs/revision_profesor_30oct.md` y `docs/relevo-proxima-sesion.md` (léelos al empezar). Los umbrales numéricos siguen «por fijar». No uses páginas aparte del artefacto abiertas en pestaña nueva: dan error.
 - **Arquitectura técnica:** `docs/analisis-tecnico.md` (procesos, contenedores, flujos y alternativas descartadas; lo marcado como propuesta se confirma en el paso 6) y sus diagramas en el Cuaderno.
+- **Multiagente y LangGraph (1-nov):** dos flujos con agentes (CV y cartas, y envío), orquestados por código; LangGraph solo en esos dos, **pendiente del profesor** (si dice que no, Python plano sin cambiar agentes ni flujos). Detalle en `docs/analisis-tecnico.md`, apartado 9; diagramas en el Cuaderno, Proyectos, «Horma v3».
 - **Tareas y decisiones pendientes:** `docs/tareas-pendientes.md`. Léelo al empezar
   sesión (o usa `/hola`).
 - **Agentes de este repositorio** (`.claude/agents/`): `copiloto` es la agente

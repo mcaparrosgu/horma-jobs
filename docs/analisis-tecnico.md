@@ -3,7 +3,7 @@
 > Complementa los diagramas de `Workbook/web/proyectos/horma/` (`tecnico`, `recomendacion`, `redactora`, `envio`, `calidad`). Es la **arquitectura prevista**, no código: la fase de definición sigue esperando el ok del profesor.
 > **Cada decisión lleva su estado.** *Decidido* = lo decidió Mar (con fecha y fuente). *Propuesta* = la plantea la Copiloto y se confirma en el paso 6. Revisado el 29-oct-2026 con `auditor-lineas-rojas` (ningún rojo; ámbar corregidos aquí) y `revisor-seguridad` (apartado 8).
 > **30-oct-2026:** n8n sale de la arquitectura; la ingesta es un script propio controlado desde un dashboard en el frontend. Los diagramas del Cuaderno (`tecnico`, `arquitectura`, `ingesta`…) siguen dibujando n8n hasta que se rehagan con `archify`.
-> **1-nov-2026:** sesión de diseño sobre multiagente. **Decidido por Mar: opción «A-ajustada»** (apartado 9). Estructura simplificada *propuesta* (borrador, sin confirmar del todo): sin Caddy y sin HTMX; multiagente con orquestación en código; ingesta como proceso aparte. **LangGraph (1-nov, Mar): sí, solo en los dos flujos con bucle o pausa para la usuaria (CV y cartas, y envío); pendiente de que el profesor lo confirme.** Si dice que no, los agentes y los flujos no cambian: se ejecutan con Python plano. Los diagramas y el artefacto «Horma explicada a un niño de 10 años» siguen con la arquitectura anterior hasta rehacerlos (ver `tareas-pendientes.md`).
+> **1-nov-2026:** sesión de diseño sobre multiagente. **Decidido por Mar: opción «A-ajustada»** (apartado 9). Estructura simplificada *propuesta* (borrador, sin confirmar del todo): sin Caddy y sin HTMX; multiagente con orquestación en código; ingesta como proceso aparte. **LangGraph (1-nov, Mar): sí, solo en los dos flujos con bucle o pausa para la usuaria (CV y cartas, y envío); pendiente de que el profesor lo confirme.** Si dice que no, los agentes y los flujos no cambian: se ejecutan con Python plano. Los diagramas de CV y cartas y de envío ya están rehechos en el Cuaderno (Proyectos, «Horma v3»); los demás diagramas y el artefacto «Horma explicada a un niño de 10 años» siguen con la arquitectura anterior hasta rehacerlos (ver `tareas-pendientes.md`).
 
 ## 1. Visión general
 
@@ -58,7 +58,7 @@ La oferta es **texto no fiable**: se trata como dato, nunca como instrucción (a
 
 **Quién lo ve:** puntuaciones, perfil humano y evidencias son privados de la usuaria (RLS). El rol de empresa no tiene acceso a ninguna de esas tablas: solo lee las candidaturas que la candidata envía. Cada tabla lleva su prueba de seguridad.
 
-### 3.3 CV y carta (diagrama `redactora`)
+### 3.3 CV y carta (Cuaderno, «Horma v3», diagrama `cv-cartas`)
 **Punto de partida (30-oct):** de su CV completo, Horma genera una sola vez hasta 5 CV base (uno por sector) y hasta 2 cartas base; un subagente ATS ajusta el base a las palabras clave de la oferta. Cada oferta parte del base que le toca, lo que ahorra tokens. Regla: Horma cambia qué se muestra y cómo se cuenta (lo poco relevante se condensa en una línea; puede mostrarse solo el año), nunca fechas, cargos, empresas ni titulaciones.
 
 Generar → evaluar → corregir, con un máximo de 2 intentos:
@@ -68,7 +68,7 @@ Generar → evaluar → corregir, con un máximo de 2 intentos:
 - **Lectura ATS:** herramienta de **código**, no agente: se vuelve a leer el PDF generado y se cuentan las palabras clave, y el resultado vuelve al redactor. Una palabra clave sin origen en el perfil **no se inserta**: se muestra a la usuaria como «la oferta pide X; no está en tu perfil». Se promete que el ATS *lee bien* el CV, no que lo *aprueba*.
 - **Asistente de edición:** el texto que la usuaria edita con el asistente pasa los mismos controles; se muestra el cambio antes de aceptarlo y un dato nuevo que ella dicte se guarda como dato declarado suyo.
 
-### 3.4 Envío (diagrama `envio`)
+### 3.4 Envío (Cuaderno, «Horma v3», diagrama `envio`)
 - Por defecto, la usuaria aprueba y el worker encola el envío.
 - En **modo autónomo**, un supervisor revisa cada envío antes de salir. Las condiciones del auditor (propuesta, ap. 4) se traducen así:
   1. Falta un dato: no se envía; queda «pendiente de ti».
