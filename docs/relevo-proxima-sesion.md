@@ -23,6 +23,8 @@ Horma tiene estos cuatro y ninguno más:
 
 **Regla:** antes de publicar sobre uno, léelo. Se regenera siempre desde su fuente.
 
+**Índice en el Cuaderno (1-nov):** esta lista también está en Proyectos y al inicio de «Horma jobs» y «Horma v3» (`ARTEFACTOS_HORMA` en `workbook.html`). Si cambia o se borra un artefacto, se actualiza allí y se republica la edición personal.
+
 ## Dónde está lo demás
 
 | Qué | Dónde |

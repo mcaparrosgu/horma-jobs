@@ -14,7 +14,7 @@ Actualizado el 2026-11-01 (artefactos ordenados; PRD v1 en el Cuaderno; ver `doc
 **Prioridad: alta.** Detalle paso a paso en **`docs/relevo-proxima-sesion.md`**.
 - **Mirar las páginas (Mar):** abrir el Cuaderno, la página del profesor y «Horma por dentro». El Cuaderno no se ha visto renderizado.
 - **¿«Horma por dentro» es el artefacto «Horma explicada a un niño de 10 años»? (Mar):** no hay ninguno con ese título. Si es ese, esa tarea queda hecha: se actualizó el 1-nov (Caddy y HTMX siguen como propuesta).
-- **Borrar `Rz3…` (archivo 29-oct):** cuando el profesor haya visto https://claude.ai/artifact/QYapVgfjiX7QgN7X1obrNd. Antes, pasarle ese enlace. Irreversible; los hilos están en `docs/archivo/comentarios-profesor-30oct.md`.
+- **Borrar `Rz3…` (archivo 29-oct):** cuando el profesor haya visto https://claude.ai/artifact/QYapVgfjiX7QgN7X1obrNd. Antes, pasarle ese enlace. Irreversible; los hilos están en `docs/archivo/comentarios-profesor-30oct.md`. Al borrarlo, quitarlo de `ARTEFACTOS_HORMA` en `workbook.html` y republicar el Cuaderno personal, o quedará un botón roto.
 - **Decidir si el Cuaderno personal deja de ser «cualquiera con el enlace» (Mar):** se cambia desde *Share*.
 - **Limpiar los artefactos que no son de Horma:** Cuadernos antiguos, «Mapa de una API» repetidos y pruebas. Tarea aparte, con la lista delante.
 - **Rehacer con `archify` los diagramas** `tecnico`, `calidad` y `arquitectura` solo si los revisores cambian el diseño. Los de agentes ya están en «Horma v3» y `arquitectura`, `ingesta` y `tecnico` ya no llevan n8n.
