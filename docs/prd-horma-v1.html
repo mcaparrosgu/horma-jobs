@@ -1,0 +1,287 @@
+<title>PRD de Horma jobs</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Documento de lectura: una columna de 78ch, tablas con scroll propio, tarjetas solo para las historias de usuario. */
+:root{
+  --bg:#F4F6F8; --surface:#FFFFFF; --surface-2:#EEF2F5; --ink:#24303B; --muted:#5F6B76; --line:#DDE3E9;
+  --accent:#38D5BE; --accent-ink:#0E7C70; --accent-soft:#E2FAF6; --on-accent:#123B37;
+  --warn:#8C5A1E; --warn-soft:#FFF0DA;
+  --f-body:"Inter","Segoe UI",system-ui,sans-serif; --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#1D2227; --surface:#262C32; --surface-2:#20252B; --ink:#DCE1E6; --muted:#9BA5AE; --line:#39414A;
+    --accent:#38D5BE; --accent-ink:#5FE2CE; --accent-soft:#244C49; --on-accent:#123B37;
+    --warn:#FFB86A; --warn-soft:#34280D;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#1D2227; --surface:#262C32; --surface-2:#20252B; --ink:#DCE1E6; --muted:#9BA5AE; --line:#39414A;
+  --accent:#38D5BE; --accent-ink:#5FE2CE; --accent-soft:#244C49; --on-accent:#123B37;
+  --warn:#FFB86A; --warn-soft:#34280D;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.65;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 64px}
+main{max-width:78ch;margin:0 auto}
+h1{font-size:clamp(1.7rem,4vw,2.3rem);font-weight:650;letter-spacing:-.03em;line-height:1.12;margin:6px 0 10px;text-wrap:balance}
+h3{font-size:1.12rem;font-weight:650;margin:34px 0 8px;padding-top:20px;border-top:1px solid var(--line);text-wrap:balance}
+h4{font-size:.95rem;font-weight:650;margin:22px 0 6px}
+p{margin:10px 0}
+a{color:var(--accent-ink)}
+strong{font-weight:650}
+code{font-family:var(--f-mono);font-size:.84em;background:var(--surface-2);border:1px solid var(--line);border-radius:5px;padding:1px 5px;overflow-wrap:anywhere}
+.kicker{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
+.pj-ficha{list-style:none;padding:0;margin:14px 0;display:grid;gap:4px;font-size:.9rem}
+.pj-estado{display:inline-block;background:var(--accent-soft);color:var(--accent-ink);border-radius:999px;padding:1px 10px;font-size:.76rem;font-weight:700}
+.pj-pend{color:var(--warn);font-weight:600}
+.note{border-radius:10px;padding:12px 16px;margin:16px 0;font-size:.92rem;background:var(--accent-soft);border:1px solid var(--line)}
+.note b{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:2px}
+.tbl{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:520px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tbody tr:last-child td{border-bottom:0}
+th{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--surface-2)}
+ul,ol{padding-left:22px}
+li{margin:5px 0;min-width:0}
+.pj-us{border:1px solid var(--line);border-radius:10px;padding:4px 16px 14px;margin:14px 0;background:var(--surface)}
+.pj-us h4{margin-top:12px}
+.pj-gh{font-family:var(--f-mono);font-size:.78rem;line-height:1.7;background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:10px 0 0;overflow-wrap:anywhere}
+.pj-gh b{color:var(--accent-ink)}
+.pj-and{padding-left:16px}
+.cierre{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.86rem}
+.cm-fila{margin:12px 0 0}
+.cm-btn{font:inherit;font-size:.8rem;font-weight:600;color:var(--accent-ink);background:transparent;border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+.cm-btn:hover,.cm-btn:focus-visible{background:var(--accent-soft);border-color:var(--accent)}
+.cm-flota{position:fixed;z-index:50;font:inherit;font-size:.8rem;font-weight:700;color:var(--on-accent);background:var(--accent);border:0;border-radius:8px;padding:7px 14px;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent-ink);outline-offset:2px}
+</style>
+<main id="prd">
+<p class="kicker">Proyecto final del bootcamp</p>
+<h1>PRD de Horma jobs</h1>
+<p>Los requisitos de Horma jobs en la estructura del PRD que se trabajó en clase (MA·S03, De la elicitación a la especificación). Sirve de puente entre la propuesta y la especificación.</p>
+<ul class="pj-ficha">
+<li><b>Caso:</b> metabuscador europeo de empleo con CV y carta honestos</li>
+<li><b>Versión:</b> <span class="pj-estado">v1 · incorpora la revisión del profesor</span> · sustituye al borrador anterior, que se conserva como archivo</li>
+<li><b>Estado:</b> pendiente de aprobación para Spec-Driven Development (MA·S04)</li>
+<li><b>Autoras:</b> Mar, con la Copiloto</li>
+</ul>
+<div class="note"><b>Cifras</b>Todo lo de este PRD sale de <code>docs/propuesta-horma.md</code> y <code>docs/analisis-tecnico.md</code>. Donde falta una medición o una decisión, pone <span class="pj-pend">por fijar</span> en lugar de inventar una cifra.</div>
+<p class="cm-fila"><button type="button" class="cm-btn" id="cm-btn" hidden>Comentar este documento</button></p>
+<h3>1. Contexto y problema de negocio</h3>
+<p>Horma jobs sustituye a Erna como proyecto final del bootcamp de AI Engineering de Neoland y es la pieza de portfolio de Mar. </p>
+<p>El problema que Horma resuelve para quien busca trabajo: las ofertas están repartidas en muchos portales, cada candidatura exige un CV y una carta a medida, y los asistentes de IA actuales tienden a inventar o exagerar. Horma junta las ofertas de la UE y España en un sitio, propone las que encajan y redacta un CV y una carta nuevos para cada oferta, de forma que <strong>cada frase venga de lo que la usuaria dio</strong>.</p>
+<h3>2. Objetivos y métricas de éxito</h3>
+<p>Horma busca que la candidata encuentre, prepare y envíe candidaturas desde un solo sitio, con un CV y una carta honestos y orientados a ATS (los programas con los que las empresas filtran candidaturas).</p>
+<div class="tbl"><table>
+<thead><tr><th>Objetivo de negocio</th><th>Métrica (SLI / KPI)</th><th>Meta de éxito (SLO)</th></tr></thead>
+<tbody>
+<tr><td>Honestidad del CV y la carta</td><td>Porcentaje de frases con origen rastreable al CV o al perfil (eval de trazabilidad)</td><td>100 % (línea roja del producto) · cada frase con origen, o marcada como propuesta de Horma que la candidata aprueba</td></tr>
+<tr><td>Ahorro de tiempo al candidatar</td><td>Tiempo desde «me interesa» hasta candidatura enviada</td><td class="pj-pend">Por fijar tras la prueba con usuarias</td></tr>
+<tr><td>Calidad de la recomendación</td><td>Relevancia de las ofertas recomendadas frente a un conjunto de referencia (<em>golden dataset</em>)</td><td class="pj-pend">Por fijar en el paso 14 (evals)</td></tr>
+<tr><td>Seguridad frente a ofertas maliciosas</td><td>Ataques de red teaming que consiguen activar un envío o filtrar datos</td><td>0 (paso 16)</td></tr>
+<tr><td>Eficiencia económica</td><td>Coste medio de LLM por candidatura enviada, medido con cada llamada registrada</td><td class="pj-pend">Medir antes de fijar el precio de los planes (sin topes de uso)</td></tr>
+</tbody></table></div>
+<h3>3. Personas y usuarios</h3>
+<ul>
+<li><strong>Candidata (persona primaria — «Lucía», ficticia):</strong> busca trabajo en España o la UE. Quiere ver ofertas que encajen con sus condiciones, tener un CV y una carta a medida de cada una sin que se invente nada, y seguir el estado de cada candidatura. Decide qué se envía y cuándo.</li>
+<li><strong>Empresa que publica ofertas (persona de gestión — «Marc», ficticio):</strong> publica sus ofertas en el portal y recibe solo las candidaturas que cada candidata decide enviar. No ve listas, puntuaciones ni búsquedas de candidatas.</li>
+<li><strong>Propietaria del producto (stakeholder clave — Mar):</strong> decide el alcance y las líneas rojas; el precio de los planes debe cubrir los costes reales.</li>
+<li><strong>Profesor evaluador (stakeholder):</strong> da el ok antes de empezar la definición y la construcción, y valora la arquitectura y la calidad (evals, guardrails).</li>
+</ul>
+<h3>4. Alcance del producto y user stories principales</h3>
+<p>No hay MVP: la primera entrega es la Fase 1 y nada del alcance se recorta; las fases ordenan el trabajo, no lo eliminan. <strong>Fases según el profesor:</strong> Fase 1 (alcance de abajo); Fase 2 o 3 (aplicaciones automáticas); Fase 3 (entrevista del perfil, privacidad, exportación y borrado); Fase 4 (construcción más avanzada, por definir con el profesor). El alcance de la Fase 1 es una web instalable en el móvil (PWA) y de escritorio, multiusuaria, con ingesta de ofertas, recomendación, CV y carta a medida, envío de candidaturas, seguimiento y portal de empresas. Las historias están priorizadas con MoSCoW y ordenadas por riesgo técnico decreciente.</p>
+
+<div class="pj-us">
+<h4>US-001 [MUST HAVE / Alto riesgo]: CV y carta a medida sin inventar nada</h4>
+<p>Como candidata, quiero que Horma redacte un CV y una carta nuevos para cada oferta usando solo lo que yo le he dado, para presentarme con honestidad y no tener que reescribir a mano cada candidatura.</p>
+<div class="pj-gh">
+<div><b>Scenario:</b> Redacción de CV y carta con origen visible en cada frase</div>
+<div class="pj-and"><b>Given</b> una candidata autenticada con su CV subido y su perfil revisado</div>
+<div class="pj-and"><b>And</b> una oferta recomendada</div>
+<div class="pj-and"><b>When</b> la candidata pide el CV y la carta para esa oferta</div>
+<div class="pj-and"><b>Then</b> Horma genera un CV y una carta nuevos a partir del CV base del sector de la oferta, que incluye sus viajes; la IA lo toma de referencia y lo adapta a la oferta</div>
+<div class="pj-and"><b>And</b> cada frase muestra de qué dato de la candidata sale</div>
+<div class="pj-and"><b>And</b> el PDF se vuelve a leer para comprobar que un ATS lo lee bien</div>
+<div class="pj-and"><b>And</b> el CV base se organiza en hasta 5 categorías de industria, con hasta 2 cartas base, y se pueden regenerar para adaptarlos a los filtros ATS; un subagente ATS lee las palabras clave de la oferta y adapta el CV base sin salirse de él</div>
+<div class="pj-and"><b>And</b> las experiencias poco relevantes para un sector no se ocultan: se condensan en una línea («Otras experiencias»), se pueden mostrar solo los años y la candidata decide qué se muestra; Horma nunca cambia fechas, cargos, empresas ni titulaciones</div>
+</div>
+</div>
+
+<div class="pj-us">
+<h4>US-002 [MUST HAVE / Alto riesgo]: Preguntar cuando falta un dato (no inventar)</h4>
+<p>Como candidata, quiero que Horma me pregunte cuando le falta un dato en lugar de rellenarlo, para no enviar nunca información inventada o exagerada.</p>
+<div class="pj-gh">
+<div><b>Scenario:</b> Frase o campo sin origen en el perfil</div>
+<div class="pj-and"><b>Given</b> una candidata autenticada</div>
+<div class="pj-and"><b>And</b> una oferta que pide un dato que no está en su CV ni en su perfil</div>
+<div class="pj-and"><b>When</b> Horma redacta el CV o rellena el formulario de la candidatura</div>
+<div class="pj-and"><b>Then</b> Horma no lo da por confirmado y se lo pregunta a la candidata; si propone completar el hueco con información redactada, la marca y la avisa, sin exagerar</div>
+<div class="pj-and"><b>And</b> la candidatura queda como «pendiente de ti» hasta que ella responda</div>
+<div class="pj-and"><b>And</b> human in the loop: nada propuesto por Horma sale en un CV, carta o formulario sin que ella lo apruebe</div>
+</div>
+</div>
+
+<div class="pj-us">
+<h4>US-003 [MUST HAVE / Riesgo medio]: Ofertas recomendadas con filtros y explicación del encaje</h4>
+<p>Como candidata, quiero filtrar las ofertas con casillas y ver por qué me recomiendan cada una, para decidir con criterio y corregir la explicación si es errónea.</p>
+<div class="pj-gh">
+<div><b>Scenario:</b> Recomendación dentro de mis condiciones</div>
+<div class="pj-and"><b>Given</b> una candidata con sus condiciones guardadas (país, contrato, sueldo mínimo, teletrabajo)</div>
+<div class="pj-and"><b>When</b> abre su lista de ofertas recomendadas</div>
+<div class="pj-and"><b>Then</b> Horma muestra solo ofertas que cumplen esas condiciones; una oferta sin sueldo publicado sale marcada, no descartada</div>
+<div class="pj-and"><b>And</b> cada oferta incluye una explicación del encaje que la candidata puede corregir</div>
+<div class="pj-and"><b>And</b> la explicación no menciona rasgos de personalidad</div>
+</div>
+</div>
+
+<div class="pj-us">
+<h4>US-004 [MUST HAVE / Riesgo medio]: Aprobar y enviar una candidatura · Fase 2 o 3 (aplicaciones automáticas) · tronco: no se recorta, la fase solo ordena el trabajo</h4>
+<p>Como candidata, quiero aprobar cada candidatura antes de que se envíe, para tener el control de lo que sale a nombre mío.</p>
+<div class="pj-gh">
+<div><b>Scenario:</b> Envío con aprobación de la candidata</div>
+<div class="pj-and"><b>Given</b> un CV y una carta generados para una oferta con formulario ATS de empresa o portal de Horma</div>
+<div class="pj-and"><b>When</b> la candidata aprueba la candidatura</div>
+<div class="pj-and"><b>Then</b> el agente rellena y envía el formulario con datos de su CV y su perfil</div>
+<div class="pj-and"><b>And</b> la candidatura pasa al registro con su estado y fecha</div>
+<div class="pj-and"><b>And</b> Horma no envía nada a LinkedIn ni a Indeed: allí prepara el material y lo envía la candidata</div>
+</div>
+</div>
+
+<div class="pj-us">
+<h4>US-005 [SHOULD HAVE / Riesgo medio]: Entrevista opcional para el perfil humano · Fase 3</h4>
+<p>Como candidata, quiero contar mi experiencia en una entrevista corta en la que solo hablo yo, para que Horma saque evidencias redactadas como logros que yo pueda revisar.</p>
+<div class="pj-gh">
+<div><b>Scenario:</b> Entrevista transcrita, sin análisis de la voz</div>
+<div class="pj-and"><b>Given</b> una candidata que ha dado su consentimiento explícito para la entrevista</div>
+<div class="pj-and"><b>When</b> responde por voz a las preguntas de Horma, que aparecen por escrito</div>
+<div class="pj-and"><b>Then</b> Horma transcribe, borra el audio y guarda solo el texto</div>
+<div class="pj-and"><b>And</b> propone evidencias que la candidata puede ocultar o pedir que se corrijan, sin reescribirlas</div>
+<div class="pj-and"><b>And</b> no se analiza la voz ni se puntúa la personalidad</div>
+</div>
+</div>
+
+<div class="pj-us">
+<h4>US-006 [SHOULD HAVE / Riesgo bajo]: Privacidad, exportación y borrado de datos · Fase 3</h4>
+<p>Como candidata, quiero exportar y borrar mis datos, para ejercer mis derechos del RGPD y no dejar rastro cuando me vaya.</p>
+<div class="pj-gh">
+<div><b>Scenario:</b> Borrado de la cuenta</div>
+<div class="pj-and"><b>Given</b> una candidata autenticada con CVs, perfil y transcripciones guardados</div>
+<div class="pj-and"><b>When</b> pide borrar su cuenta</div>
+<div class="pj-and"><b>Then</b> Horma elimina sus datos, transcripciones, embeddings y caché asociados</div>
+<div class="pj-and"><b>And</b> los logs no contenían datos personales en ningún momento</div>
+</div>
+</div>
+<h3>5. Requisitos del sistema (FR y NFR)</h3>
+<h4>5.1 Requisitos funcionales (FR)</h4>
+<ul>
+<li><strong>RF-001:</strong> El sistema debe ingerir ofertas de varias fuentes con un script propio, controlado desde un dashboard en el frontend, validarlas, deduplicarlas, extraerles campos estructurados e indexarlas para búsqueda por palabras clave y por significado.</li>
+<li><strong>RF-002:</strong> El sistema debe ofrecer filtros con casillas (país, contrato, idioma, nivel, sector, teletrabajo, salario mínimo) y mostrar si el salario está publicado o no.</li>
+<li><strong>RF-003:</strong> El sistema debe recomendar ofertas según el perfil y explicar el encaje: nota 0-100 solo de experiencia y formación, y 3 niveles solo sobre condiciones de trabajo.</li>
+<li><strong>RF-004:</strong> El sistema debe generar un CV y una carta nuevos por oferta, enseñar el origen de cada frase; si completa un hueco con información propuesta (sin exagerar), la marca y avisa a la candidata para que la apruebe; parte del CV base del sector de la oferta (hasta 5 CV base y 2 cartas base) y solo cambia qué se muestra y cómo se redacta, nunca los hechos.</li>
+<li><strong>RF-005:</strong> Integrado en RF-004 y US-002 (ya se trató más arriba). Se mantiene el número para no romper la trazabilidad.</li>
+<li><strong>RF-006:</strong> El sistema debe permitir aprobar, enviar y registrar candidaturas, con tablero de seguimiento y registro del historial.</li>
+<li><strong>RF-007:</strong> El sistema debe ofrecer un editor del CV y la carta con asistente de edición que muestre el cambio antes de aceptarlo.</li>
+<li><strong>RF-008:</strong> El sistema debe permitir a las empresas publicar ofertas y recibir solo las candidaturas que cada candidata envía.</li>
+</ul>
+
+<h4>5.2 Requisitos no funcionales (NFR) y criterios de evaluación (evals)</h4>
+<p>Los umbrales numéricos marcados <span class="pj-pend">por fijar</span> se decidirán con mediciones reales, no con cifras supuestas.</p>
+<div class="tbl"><table>
+<thead><tr><th>ID</th><th>Atributo (arc42)</th><th>Fit criterion / enunciado verificable</th><th>Método de verificación / eval</th></tr></thead>
+<tbody>
+<tr><td>NFR-01</td><td>Honestidad / Explicabilidad</td><td>El 100 % de las frases del CV y la carta tiene un origen rastreable al CV o al perfil de la candidata (nunca a la oferta) o va marcada como propuesta de Horma que la candidata aprueba.</td><td>Eval de trazabilidad con LLM-as-judge sobre un conjunto de casos, más comprobación determinista de que cada frase enlaza a un dato.</td></tr>
+<tr><td>NFR-02</td><td>Seguridad / <em>Prompt injection</em></td><td>En un banco de ofertas con instrucciones maliciosas, ninguna activa un envío ni filtra datos. Tamaño del banco: <span class="pj-pend">por fijar</span>.</td><td>Red teaming con ofertas manipuladoras (paso 16) ejecutado en CI.</td></tr>
+<tr><td>NFR-03</td><td>Privacidad / RGPD</td><td>El audio se borra tras transcribirlo; un test que intenta leer datos de otra usuaria falla; ni los logs ni los mensajes de error contienen datos personales.</td><td>Test de aislamiento por usuaria (RLS), test de borrado del audio, revisión de logs con datos de prueba inventados.</td></tr>
+<tr><td>NFR-04</td><td>Fiabilidad / Retrieval</td><td>La búsqueda recupera las ofertas relevantes de un conjunto anotado. Umbral: <span class="pj-pend">por fijar</span>.</td><td>Eval de ranking sobre un <em>golden dataset</em> (paso 14).</td></tr>
+<tr><td>NFR-05</td><td>Compatibilidad ATS</td><td>El PDF de cada diseño es de una sola columna y sin tablas; al releerlo se extrae el texto completo y las palabras clave de la oferta presentes en el perfil.</td><td>Prueba de relectura del PDF generado, con el eval ATS.</td></tr>
+<tr><td>NFR-06</td><td>Coste económico</td><td>Cada llamada al LLM queda registrada con modelo, tokens, coste y latencia, y el precio de los planes sale del coste medido con uso intenso.</td><td>Tabla de métricas de llamadas y cálculo del coste por candidatura. Umbral: <span class="pj-pend">por fijar</span>.</td></tr>
+<tr><td>NFR-07</td><td>Eficiencia / Latencia</td><td>La API responde sin bloquearse: lo lento (extracción, agentes, CV) se encola y lo ejecuta el worker. Umbral de tiempo: <span class="pj-pend">por fijar</span>.</td><td>Pruebas de carga sobre la API y medición de la latencia de cada llamada.</td></tr>
+</tbody></table></div>
+<h3>6. Restricciones técnicas y de negocio (RES)</h3>
+<ul>
+<li><strong>RES-01 (Arquitectura):</strong> El backend es 100 % Python (FastAPI). La ingesta de ofertas se hace con un script propio, controlado desde un dashboard en el frontend, y escribe por <code>POST /ofertas</code>.</li>
+<li><strong>RES-02 (Regulatorio / AI Act y RGPD):</strong> Se analiza lo que dice la usuaria, nunca su voz; no se puntúa la personalidad ni se preguntan categorías especiales (art. 9 del RGPD); Horma nunca ordena ni filtra candidatas para empresas (alto riesgo, Anexo III.4 del AI Act).</li>
+<li><strong>RES-03 (Envío):</strong> Por defecto la usuaria aprueba y el agente envía. El modo autónomo solo existe si ella lo configura y solo donde esté permitido. En LinkedIn e Indeed el envío lo hace siempre la candidata, porque esos portales prohíben automatizarlo.</li>
+<li><strong>RES-04 (Datos):</strong> Datos personales fuera de logs, ejemplos, tests y mensajes de commit; datos de prueba inventados. La transcripción de voz se hace en la UE y el audio se borra tras transcribirlo.</li>
+<li><strong>RES-05 (Presupuesto):</strong> Los costes los pagan las usuarias con su suscripción (Stripe en modo de prueba durante el bootcamp). No hay topes de producto, sí frenos técnicos de seguridad.</li>
+</ul>
+<h3>7. Fuera de alcance (exclusiones explícitas del sistema)</h3>
+<p>Para evitar el <em>scope creep</em> y delimitar la responsabilidad del agente de código y del equipo:</p>
+<ol>
+<li><strong>Horma no es una red social:</strong> no se sigue a las empresas, no hay perfiles de empresa, seguidores, contactos ni muro.</li>
+<li><strong>No ordena, puntúa ni filtra candidatas para las empresas:</strong> la empresa solo recibe la candidatura que la candidata envía.</li>
+<li><strong>No envía candidaturas a LinkedIn ni a Indeed:</strong> allí Horma prepara el material y lo envía la usuaria.</li>
+<li><strong>No analiza la voz ni las emociones</strong> y no puntúa la personalidad.</li>
+<li><strong>No promete que el CV «pase el ATS»:</strong> promete que el ATS lo lee bien y que recoge las palabras clave sin inventar nada.</li>
+<li><strong>No incluye una sección de información de empresas</strong> (decisión de Mar).</li>
+<li><strong>No hay minijuegos en la entrevista de la Fase 1</strong> ni voz de Horma en la entrevista del perfil: la voz de Horma solo existe en el entrenador de entrevistas, si hay tiempo antes de la entrega.</li>
+<li><strong>No hay app en las tiendas de apps en esta versión:</strong> primero la PWA, sin fecha para las tiendas.</li>
+</ol>
+<h3>8. Gestión de riesgos y mitigación</h3>
+<p>Impacto y probabilidad son estimaciones de la Copiloto, a revisar con Mar y el profesor.</p>
+<div class="tbl"><table>
+<thead><tr><th>Riesgo identificado</th><th>Impacto</th><th>Probabilidad</th><th>Estrategia de mitigación</th></tr></thead>
+<tbody>
+<tr><td>R-01: Un dato inventado o exagerado llega al CV, la carta o un formulario.</td><td>Alto</td><td>Media</td><td>Si una frase no tiene origen se pregunta, o se marca como propuesta que la candidata aprueba; eval de trazabilidad (NFR-01) en CI; el texto editado pasa los mismos controles.</td></tr>
+<tr><td>R-02: <em>Prompt injection</em>: una oferta o un correo intenta dar órdenes al agente.</td><td>Alto</td><td>Media</td><td>Defensa por capas: la oferta es dato y no orden, agentes que leen ofertas sin herramientas con efectos, salidas en esquemas cerrados, visto bueno de la usuaria antes de enviar y red teaming (NFR-02).</td></tr>
+<tr><td>R-03: Un envío autónomo erróneo sale a muchas ofertas y no se puede retirar.</td><td>Alto</td><td>Media</td><td>Supervisor que revisa cada envío con reglas duras en código y denegación por defecto; aviso de cada envío, registro, botón de pausa y freno técnico por hora y día.</td></tr>
+<tr><td>R-04: Una fuente de ofertas prohíbe su uso, cambia sus condiciones o desaparece.</td><td>Medio</td><td>Media</td><td>Revisar condiciones de uso y <code>robots.txt</code> antes de integrar cada fuente; preferir APIs, feeds oficiales y listados públicos de ATS; no depender de un tercero de pago.</td></tr>
+<tr><td>R-05: Incumplir el AI Act o el RGPD (voz, personalidad, filtrado de candidatas).</td><td>Alto</td><td>Baja</td><td>Las líneas rojas están escritas y las revisa el subagente <code>auditor-lineas-rojas</code> al cerrar cada módulo; <code>revisor-seguridad</code> revisa el diseño y el código.</td></tr>
+<tr><td>R-06: El uso intenso sin topes dispara el coste de LLM.</td><td>Medio</td><td>Media</td><td>Registrar cada llamada, medir el coste del usuario más intensivo antes de fijar el precio y mantener frenos técnicos contra bucles y abuso.</td></tr>
+<tr><td>R-07: No llegar a la entrega por el tamaño del alcance.</td><td>Medio</td><td>Media</td><td>Construir por módulos con demo y tests en cada uno; lo opcional (voz del entrenador, tiendas de apps) queda en segundo plano.</td></tr>
+</tbody></table></div>
+<h3>9. Dependencias críticas</h3>
+<ul>
+<li><strong>DEP-01:</strong> Ok del profesor para empezar la definición (pasos 1-8) y la construcción.</li>
+<li><strong>DEP-02:</strong> Elección y revisión de las condiciones de uso de las fuentes de ofertas (con el profesor), antes de integrarlas.</li>
+<li><strong>DEP-03:</strong> Elección del servicio de transcripción en la UE, sin análisis de emociones y con borrado del audio, en el paso 6.</li>
+<li><strong>DEP-04:</strong> Decisiones de arquitectura del paso 6: alojamiento, proxy, cola de tareas, proveedores de LLM y de embeddings, diseño del supervisor del modo autónomo, cada una como ADR.</li>
+<li><strong>DEP-05:</strong> Rúbrica de Neoland, que Mar pregunta en Neoland.</li>
+</ul>
+<p class="cierre"><strong>Control de trazabilidad:</strong> este PRD mapea contra los requisitos RF-001 a RF-008, NFR-01 a NFR-07 y las restricciones RES-01 a RES-05, y se apoya en <code>docs/propuesta-horma.md</code> (decisiones de Mar, líneas rojas, fases y pendientes) y <code>docs/analisis-tecnico.md</code> (procesos, flujos y requisitos de seguridad).</p>
+</main>
+<script>
+/* Comentarios: solo la entrada (botón y selección de texto). Los hilos los pinta claude.ai; la página no guarda nada. */
+(async function () {
+  try {
+    var c = await (window.claude && window.claude.use ? window.claude.use("comments") : null);
+    if (!c) return;
+    var fl = document.createElement("button");
+    fl.type = "button"; fl.className = "cm-flota"; fl.textContent = "Comentar"; fl.hidden = true;
+    document.body.appendChild(fl);
+    var rango = null;
+    function ocultar() { fl.hidden = true; rango = null; }
+    function revisar() {
+      var s = window.getSelection();
+      if (!s || s.isCollapsed || !s.rangeCount || !s.toString().trim()) return ocultar();
+      var r = s.getRangeAt(0), m = document.querySelector("main");
+      if (!m || !m.contains(r.commonAncestorContainer)) return ocultar();
+      var b = r.getBoundingClientRect();
+      if (!b.width && !b.height) return ocultar();
+      rango = r.cloneRange();
+      fl.hidden = false;
+      var w = fl.offsetWidth || 90, x = Math.min(Math.max(8, b.left + b.width / 2 - w / 2), window.innerWidth - w - 8);
+      var y = b.top - 44; if (y < 8) y = b.bottom + 8;
+      fl.style.left = x + "px"; fl.style.top = y + "px";
+    }
+    document.addEventListener("mouseup", function () { setTimeout(revisar, 10); });
+    document.addEventListener("touchend", function () { setTimeout(revisar, 250); });
+    document.addEventListener("keyup", function (e) { if (e.shiftKey || e.key === "Escape") revisar(); });
+    document.addEventListener("scroll", ocultar, { passive: true });
+    fl.addEventListener("mousedown", function (e) { e.preventDefault(); });
+    fl.addEventListener("click", function () {
+      var r = rango; if (!r) return;
+      c.openComposer({ range: r }).then(function (res) { if (res && res.opened) ocultar(); }).catch(function () { ocultar(); });
+    });
+    var b = document.getElementById("cm-btn");
+    b.hidden = false;
+    b.addEventListener("click", function () {
+      c.openComposer({ element: document.getElementById("prd") }).catch(function () { b.hidden = true; });
+    });
+  } catch (e) {}
+})();
+</script>

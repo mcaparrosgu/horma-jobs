@@ -1,0 +1,16 @@
+# Documentos que no deben subirse nunca a GitHub (decisión de Mar, 27-oct-2026)
+docs/comparativa-ai-job-search/
+
+# Secretos y ajustes locales: nunca a GitHub
+.env
+.env.*
+!.env.example
+.claude/settings.local.json
+
+# Restos de herramientas y dependencias
+.playwright-mcp/
+__pycache__/
+*.pyc
+.venv/
+venv/
+node_modules/

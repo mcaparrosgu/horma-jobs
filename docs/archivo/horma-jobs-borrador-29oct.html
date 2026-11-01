@@ -1,0 +1,1715 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+
+<title>Horma jobs</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+
+:root{
+  --bg:#F4F6F8; --grid:rgba(0,0,0,0); --surface:#FFFFFF; --surface-2:#F4F6F8; --card-hover:#FAFDFC;
+  --ink:#24303B; --muted:#697681; --line:#E1E6EB;
+  --accent:#38D5BE; --on-accent:#123B37; --accent-soft:#E2FAF6; --accent-ink:#0E7C70;
+  --brand:#38D5BE; --brand-soft:#E2FAF6; --on-brand:#123B37; --ring-base:rgba(18,59,55,.14);
+  --hl:#FFD23F; --mark:rgba(255,210,63,.7);
+  --pastel:#CDEFE3; --pastel-fill:#8FD3BE;
+  --t-vf:#2FA58F; --t-test:#5499C7; --t-rel:#FFB86A; --t-hue:#FF692A; --t-lib:#8697C9; --on-tc:#15201E; --tag-mix:#000; --t-lib-ink:color-mix(in srgb, var(--t-lib) 50%, var(--tag-mix)); --t-profe:#8DB4EC; --t-profe-ink:#2B559A; --on-profe:#1B3A6B;--t-prog:#EDA8C8; --t-prog-ink:#9B2C6B; --on-prog:#6B1F45;
+  --ok:#237A55; --ok-soft:#DDF3E8; --bad:#B3450D; --bad-soft:#FFE8DC; --mid:#8C5A1E; --mid-soft:#FFF0DA;
+  --mejora:#E8720C; --nuevo:#1D5FD6;
+  --shadow:0 1px 2px rgba(21,32,30,.06), 0 6px 20px -8px rgba(21,32,30,.14);
+  --f-display:"Inter", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Inter", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#20252B; --grid:rgba(0,0,0,0); --surface:#2A3037; --surface-2:#20252B; --card-hover:#30373F;
+    --ink:#D9DEE4; --muted:#9BA5AE; --line:#3B434C;
+    --accent:#38D5BE; --on-accent:#123B37; --accent-soft:#244C49; --accent-ink:#5FE2CE;
+    --brand:#38D5BE; --brand-soft:#244C49; --on-brand:#D8F5EE; --ring-base:rgba(216,245,238,.16);
+    --mark:rgba(255,210,63,.34); --pastel:#23504A; --pastel-fill:#5FAE98;
+    --t-vf:#5FC4AE; --t-test:#5499C7; --t-rel:#FFB86A; --t-hue:#FF692A; --t-lib:#8697C9; --tag-mix:#fff; --t-profe:#6F93CC; --t-profe-ink:#A9C6F5; --on-profe:#0E1E38;--t-prog:#C47FA4; --t-prog-ink:#F0B8D4; --on-prog:#2E0A1C;
+    --ok:#7FD1A4; --ok-soft:#11301E; --bad:#FF9B6E; --bad-soft:#3A1A18; --mid:#FFB86A; --mid-soft:#34280D;
+    --mejora:#FF9D4D; --nuevo:#5A9BFF;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px -10px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+    color-scheme:dark;
+    --bg:#20252B; --grid:rgba(0,0,0,0); --surface:#2A3037; --surface-2:#20252B; --card-hover:#30373F;
+    --ink:#D9DEE4; --muted:#9BA5AE; --line:#3B434C;
+    --accent:#38D5BE; --on-accent:#123B37; --accent-soft:#244C49; --accent-ink:#5FE2CE;
+    --brand:#38D5BE; --brand-soft:#244C49; --on-brand:#D8F5EE; --ring-base:rgba(216,245,238,.16);
+    --mark:rgba(255,210,63,.34); --pastel:#23504A; --pastel-fill:#5FAE98;
+    --t-vf:#5FC4AE; --t-test:#5499C7; --t-rel:#FFB86A; --t-hue:#FF692A; --t-lib:#8697C9; --tag-mix:#fff; --t-profe:#6F93CC; --t-profe-ink:#A9C6F5; --on-profe:#0E1E38;--t-prog:#C47FA4; --t-prog-ink:#F0B8D4; --on-prog:#2E0A1C;
+    --ok:#7FD1A4; --ok-soft:#11301E; --bad:#FF9B6E; --bad-soft:#3A1A18; --mid:#FFB86A; --mid-soft:#34280D;
+    --mejora:#FF9D4D; --nuevo:#5A9BFF;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px -10px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box}
+/* Defensa: un elemento con [hidden] siempre se oculta, aunque una regla propia (.chat, .buscar-modal-fondo…)
+   le ponga display:flex/grid — sin esto, la propia cascada CSS gana a [hidden] y el panel se ve por defecto. */
+[hidden]{display:none !important}
+html{background:var(--bg)}
+body{
+  margin:0;
+  background-color:var(--bg);
+  color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.6;
+}
+.app-shell{display:flex;min-height:100vh}
+.main-content{flex:1;min-width:0}
+/* Ancho literal de v0 (.main-content:max-width:1480px;padding:0 44px 52px) */
+.wrap{max-width:1480px;margin:0 auto;padding:0 44px 52px}
+@media(max-width:1100px){.wrap{padding-inline:28px}}
+@media(max-width:720px){.wrap{padding:0 17px 88px}}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.12;margin:0}
+p{margin:10px 0}
+a{color:var(--accent-ink)}
+strong{font-weight:700}
+mark.t{background:linear-gradient(100deg, transparent 2%, var(--mark) 4%, var(--mark) 96%, transparent 98%) 0 62%/100% 48% no-repeat;color:inherit;font-weight:700;padding:0 2px}
+code{font-family:var(--f-mono);font-size:.84em;background:var(--surface-2);border:1px solid var(--line);border-radius:5px;padding:1px 5px;overflow-wrap:anywhere}
+button,select,input,textarea{font:inherit}
+:focus-visible{outline:3px solid var(--accent-ink);outline-offset:2px}
+
+/* ── Menú lateral + barra superior (diseño v0, 27-sep-2026) ─────────── */
+/* .app-shell (body) es una fila: .sidebar fijo a la izquierda + .main-content (.topbar + .wrap#main).
+   El selector de unidad es el <select> nativo literal de v0 (sin buscador, sin ‹›, sin progreso en la
+   lista) — Mar lo prefirió así el 27-sep-2026 sobre el panel enriquecido que tenía antes; para buscar una
+   unidad por nombre sigue estando Ctrl/⌘K, y el progreso por unidad sigue en "Seguimiento detallado" (Inicio).
+   En ≤900px la barra lateral se oculta y aparece .mobile-nav abajo. */
+.sidebar{width:224px;flex:0 0 224px;min-height:100vh;position:sticky;top:0;align-self:flex-start;
+  padding:20px 14px 18px;border-right:1px solid var(--line);background:var(--surface);
+  display:flex;flex-direction:column;z-index:20;overflow-y:auto}
+.sidebar.collapsed{width:72px;flex-basis:72px;align-items:center;padding-inline:10px}
+.brand{display:flex;align-items:center;gap:9px;min-height:32px}
+.brand .logo{width:30px;height:30px;flex:0 0 30px;display:grid;place-items:center;border-radius:9px;background:var(--accent);color:var(--on-accent);font-family:var(--f-display);font-weight:800;font-size:.78rem}
+.brand-t{display:flex;flex-direction:column;min-width:0}
+.brand-t strong{font-family:var(--f-display);font-weight:700;font-size:.92rem}
+.brand-t span{color:var(--muted);font-size:.68rem;margin-top:1px}
+.sidebar.collapsed .brand-t,.sidebar.collapsed .unit-select,.sidebar.collapsed .streak{display:none}
+.collapse-btn{margin-left:auto;flex:0 0 auto;border:0;background:transparent;color:var(--muted);padding:5px;border-radius:8px;cursor:pointer;font-size:1rem;line-height:1}
+.collapse-btn:hover{background:var(--surface-2);color:var(--ink)}
+
+.unit-select{margin-top:26px}
+.unit-select>span{display:block;color:var(--muted);font-size:.62rem;font-weight:700;letter-spacing:.1em;margin-bottom:8px}
+.unit-select select{display:block;width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--ink);font-size:.6875rem;padding:9px 8px}
+.unit-select select:focus{border-color:var(--accent)}
+
+.seg{display:grid;gap:4px;margin-top:22px}
+.seg button{display:flex;align-items:center;gap:11px;position:relative;border:0;background:transparent;color:var(--muted);padding:10px 11px;border-radius:8px;text-align:left;font-size:.86rem;font-weight:500;cursor:pointer}
+.seg button:hover{background:var(--surface-2);color:var(--ink)}
+.seg button[aria-current="page"]{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+.seg .dot{display:none}
+/* v0 dejaba este .dot listo (botón en position:relative) pero sin usar; se reaprovecha como
+   aviso de "esta categoría de la unidad actual tiene contenido mejorado" en vez de crear un
+   elemento nuevo. Solo se ve con la clase .mej, que pintarCabecera() añade o quita. */
+.seg .dot.mej{display:block;position:absolute;top:8px;right:10px;width:7px;height:7px;border-radius:50%;background:var(--mejora)}
+.sidebar.collapsed .seg .dot.mej{top:6px;right:6px}
+/* Punto azul de «contenido nuevo»: segundo punto que pintarCabecera() crea en el botón; si también
+   hay naranja, se coloca a su izquierda. */
+.seg .dot2{display:none}
+.seg .dot2.nue{display:block;position:absolute;top:8px;right:10px;width:7px;height:7px;border-radius:50%;background:var(--nuevo)}
+.seg .dot.mej ~ .dot2.nue{right:20px}
+.sidebar.collapsed .seg .dot2.nue{top:6px;right:6px}
+.sidebar.collapsed .seg .dot.mej ~ .dot2.nue{top:6px;right:14px}
+.seg .ico{display:inline-flex;width:19px;justify-content:center;font-size:1.05rem;flex:0 0 19px}
+.sidebar.collapsed .seg .lg{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sidebar.collapsed .seg button{justify-content:center}
+
+.sidebar-bottom{margin-top:auto}
+.streak{display:flex;align-items:center;gap:9px;border-top:1px solid var(--line);padding-top:16px;margin-top:16px}
+.streak-ico{color:var(--accent-ink);flex:0 0 auto}
+.streak b{display:block;font-size:.72rem;font-family:var(--f-display)}
+.streak span{display:block;color:var(--muted);font-size:.66rem;margin-top:2px}
+.streak-n{margin-left:auto;font-size:1.1rem;font-weight:700;color:var(--accent-ink)}
+
+/* Barra superior: migas + Dudas / Buscar / Guardar / tema */
+.topbar{position:sticky;top:0;z-index:15;height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:0 32px;border-bottom:1px solid var(--line);background:color-mix(in srgb, var(--bg) 90%, transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.breadcrumb{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:.78rem;min-width:0}
+.breadcrumb strong{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top-actions{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.dudas-btn,.buscar-btn,.tema,#copia-btn{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--muted);padding:8px 11px;font-size:.72rem;font-weight:600;cursor:pointer;white-space:nowrap}
+.dudas-btn:hover,.buscar-btn:hover,.tema:hover,#copia-btn:hover{border-color:var(--accent);color:var(--accent-ink)}
+.buscar-btn{min-width:170px;text-align:left}
+.buscar-btn kbd{margin-left:auto;font-size:.62rem;border:1px solid var(--line);border-radius:4px;padding:1px 5px}
+.tema{width:38px;height:38px;justify-content:center;padding:0;font-size:1rem}
+#copia-btn{position:relative;width:auto;justify-content:center;padding:8px 11px}
+@media(max-width:900px){#copia-btn .lg{display:none}#copia-btn{padding:8px;width:38px}}
+#copia-btn .cop-aviso{position:absolute;top:3px;right:5px;width:7px;height:7px;border-radius:50%;background:var(--bad);border:1.5px solid var(--surface)}
+.ico{display:inline-flex}
+.lg{display:inline}
+/* Iconos de línea (data-ico, rellenados por pintarIconos): tamaño consistente, heredan el color del texto */
+.ico-i,.ico-i svg{display:inline-flex;width:1em;height:1em}
+.ico-i svg{width:100%;height:100%}
+.seg .ico-i,.mobile-nav .ico-i{width:18px;height:18px}
+.dudas-btn .ico-i,.buscar-btn .ico-i,.tema .ico-i,#copia-btn .ico-i{width:16px;height:16px}
+.collapse-btn .ico-i{width:15px;height:15px;transition:transform .15s}
+.sidebar.collapsed .collapse-btn .ico-i{transform:rotate(180deg)}
+.streak-ico.ico-i{width:17px;height:17px}
+.stat-icon .ico-i{width:17px;height:17px}
+
+.mobile-nav{display:none}
+@media(max-width:900px){
+  .sidebar{display:none}
+  .topbar{padding:0 16px}
+  .buscar-btn span:not(.ico-i),.buscar-btn kbd{display:none}
+  .buscar-btn{min-width:0;padding:8px}
+  .dudas-btn span:not(.ico-i){display:none}
+  .dudas-btn{padding:8px}
+}
+@media(max-width:720px){
+  .topbar{height:56px;padding:0 12px}
+  .mobile-nav{position:fixed;z-index:20;display:flex;bottom:0;left:0;right:0;height:62px;background:var(--surface);border-top:1px solid var(--line);justify-content:space-around;padding:6px 2px}
+  .mobile-nav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:0;background:transparent;color:var(--muted);font-size:.6rem;font-weight:600;flex:1;padding:2px;cursor:pointer}
+  .mobile-nav button[aria-current="page"]{color:var(--accent-ink)}
+  .mobile-nav .ico{width:20px;height:20px}
+  .mobile-nav .ico svg{width:100%;height:100%}
+}
+/* Modal de búsqueda (Ctrl/⌘K) */
+.buscar-modal-fondo{position:fixed;inset:0;z-index:40;display:grid;place-items:start center;padding:12vh 16px 20px;background:rgb(28 36 42 / .34)}
+.buscar-modal{width:min(100%,560px);max-height:70vh;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+.buscar-modal input{width:100%;border:0;border-bottom:1px solid var(--line);padding:16px 18px;font-size:1.02rem;background:var(--surface);color:var(--ink)}
+.buscar-modal input:focus{outline:none}
+.buscar-res{overflow:auto;padding:8px}
+.buscar-res button{width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:0;background:none;text-align:left;color:var(--ink);padding:10px 12px;border-radius:10px;cursor:pointer;font:inherit}
+.buscar-res button:hover,.buscar-res button:focus-visible{background:var(--surface-2)}
+.buscar-res .bq{font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink)}
+.buscar-grupo{display:flex;align-items:center;gap:8px;padding:12px 12px 4px;font-size:.78rem;font-weight:650;color:var(--muted)}
+.buscar-grupo:first-child{padding-top:4px}
+.bq-abierta{font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:1px 7px}
+.buscar-res .bt{font-size:.92rem;font-weight:600}
+.buscar-res .bs{font-size:.8rem;color:var(--muted);line-height:1.45}
+.buscar-res mark{background:var(--accent-soft);color:inherit;border-radius:3px;padding:0 1px;box-shadow:0 0 0 1px var(--accent)}
+.buscar-res button.buscar-mas{flex-direction:row;font-size:.8rem;color:var(--accent-ink);padding:6px 12px}
+.buscar-vacio{padding:24px 18px;color:var(--muted);font-size:.9rem;text-align:center}
+
+/* ── Portada de unidad (diseño v0: cabecera plana, sin el banner de color) ── */
+.study-header{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:26px 0 24px;flex-wrap:wrap}
+.study-header .kicker{font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink)}
+.study-header h1{font-size:clamp(1.75rem,3vw,2.375rem);font-weight:650;letter-spacing:-.04em;margin:6px 0 4px;max-width:26ch}
+.study-header .meta{margin:0;color:var(--muted);font-size:.88rem}
+.study-header .meta .status-pill{margin-left:2px;vertical-align:1px}
+.ring{position:relative;width:92px;height:92px;flex:0 0 auto}
+.ring svg{display:block}
+.ring .lbl{position:absolute;inset:0;display:grid;place-content:center;text-align:center;font-family:var(--f-display);font-weight:800;font-size:1.3rem;line-height:1;font-variant-numeric:tabular-nums}
+.ring .lbl small{display:block;font-family:var(--f-body);font-weight:400;font-size:.68rem;opacity:.85;margin-top:3px;letter-spacing:.04em}
+@media (max-width:520px){.study-header{padding-top:18px}.ring{width:76px;height:76px}}
+
+.goals{margin:0 0 4px;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:10px}
+.goals li{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:.95rem;overflow-wrap:anywhere}
+.goals li::before{content:"";flex:0 0 18px;height:18px;margin-top:3px;border-radius:50%;border:2.5px solid var(--accent)}
+
+/* Teoría: columna de lectura + índice de la unidad (diseño v0) */
+.study-layout{display:grid;grid-template-columns:minmax(0,680px) 240px;gap:18px;align-items:start;margin-top:18px}
+.study-layout:has(> :only-child){grid-template-columns:1fr}
+.reading{min-width:0}
+.reading>.sec:first-child{margin-top:0}
+/* .card.unit-menu de v0: filas separadas por línea, sin píldora de fondo en la activa */
+.unit-menu{position:sticky;top:76px;height:max-content;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:21px}
+.unit-menu .eyebrow{display:block}
+.unit-menu button{display:flex;justify-content:space-between;align-items:center;gap:6px;width:100%;border:0;border-top:1px solid var(--line);background:transparent;color:var(--muted);padding:13px 0;text-align:left;font-size:.75rem;cursor:pointer}
+.unit-menu button .ico-i{width:14px;height:14px;opacity:.6}
+.unit-menu button:hover{color:var(--ink)}
+.unit-menu button.activo{color:var(--accent-ink);font-weight:650}
+.unit-menu button.prog{box-shadow:inset 3px 0 0 var(--t-prog);padding-left:10px;color:var(--t-prog-ink)}
+.unit-menu button.prog.activo{color:var(--t-prog-ink);font-weight:650}
+.unit-menu .leyenda-indice{margin:12px 0 0;padding-top:12px;border-top:1px solid var(--line);font-size:.68rem;color:var(--muted);display:flex;gap:8px;align-items:center}
+.unit-menu .leyenda-indice::before{content:"";width:12px;height:12px;border-radius:4px;background:var(--t-prog);flex:0 0 auto}
+.unit-menu button.idx-ej{padding-left:0;border-top-style:dashed;font-size:.7rem;gap:8px}
+.unit-menu button.idx-ej .ico-i{width:12px;height:12px;flex:0 0 12px}
+.unit-menu button.idx-ej.activo{color:var(--t-lib-ink)}
+@media(max-width:900px){.study-layout{grid-template-columns:1fr}.unit-menu{position:static;display:flex;overflow-x:auto;gap:2px;padding:6px}.unit-menu .eyebrow,.unit-menu .leyenda-indice{display:none}.unit-menu button{width:auto;white-space:nowrap}.unit-menu button.prog{padding-left:12px}.unit-menu button.idx-ej{padding-left:0}}
+
+/* ── Teoría (tarjeta "reading" de v0: eyebrow + h2 + prosa a 14px en muted) ── */
+.sec{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:21px;margin-top:14px;scroll-margin-top:80px;line-height:1.75;font-size:.875rem}
+.sec .secnum{display:block;color:var(--accent-ink);font-size:.625rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.sec h2{font-size:1.02rem;font-weight:650;letter-spacing:-.01em;margin-bottom:10px;color:var(--ink)}
+.sec h3{font-size:.92rem;font-weight:650;margin-top:20px;color:var(--ink)}
+.sec p{color:var(--muted);max-width:70ch}
+.sec li{color:var(--muted)}
+.sec strong{color:var(--ink)}
+.sec-repaso{background:var(--surface);border-color:var(--line)}
+.sec-repaso h2::before{content:"★ ";color:var(--accent-ink)}
+.sec-repaso .goals{grid-template-columns:1fr}
+.sec-repaso .goals li{background:var(--surface)}
+.tbl{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:.93rem;overflow-wrap:break-word}
+table code{overflow-wrap:break-word}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:nth-child(even){background:var(--surface-2)}
+th{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--surface-2)}
+dl.defs{margin:14px 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:10px}
+dl.defs div{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;border-top:3px solid var(--accent)}
+dl.defs dt{font-family:var(--f-display);font-weight:650;font-size:.92rem;color:var(--ink)}
+dl.defs dd{margin:4px 0 0;font-size:.82rem;color:var(--muted)}
+.note{border-radius:12px;padding:12px 16px;margin:16px 0;font-size:.95rem;background:var(--mid-soft);border:1px solid color-mix(in srgb, var(--mid) 30%, transparent)}
+.note>b:first-child{display:flex;align-items:center;gap:6px;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:3px}
+.note>b:first-child::before{content:"!";display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--mid);color:var(--surface);font-size:.72rem;letter-spacing:0}
+.note.info{background:var(--brand-soft);border-color:color-mix(in srgb, var(--accent) 30%, transparent)}
+.note.info>b:first-child{color:var(--accent-ink)}
+.note.info>b:first-child::before{content:"i";background:var(--accent);color:var(--on-accent)}
+.profe{border-radius:12px;padding:12px 16px 12px 18px;margin:16px 0;font-size:.95rem;background:color-mix(in srgb, var(--t-profe) 8%, var(--surface));border:1px solid color-mix(in srgb, var(--t-profe) 30%, transparent);border-left:5px solid var(--t-profe)}
+.profe::before{content:"Apuntes del profe";display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--on-profe);background:var(--t-profe);border-radius:999px;padding:2px 10px;margin-bottom:6px}
+.profe p:last-child,.profe ul:last-child{margin-bottom:0}
+.leyenda-profe{margin-top:16px;font-size:.9rem;color:var(--muted);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.leyenda-profe::before{content:"";width:14px;height:14px;border-radius:4px;background:var(--t-profe);flex:0 0 auto}
+.chip-profe{font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--on-profe);background:var(--t-profe);border-radius:999px;padding:2px 9px;white-space:nowrap}
+.programa{border-radius:12px;padding:12px 16px 12px 18px;margin:16px 0;font-size:.95rem;background:color-mix(in srgb, var(--t-prog) 8%, var(--surface));border:1px solid color-mix(in srgb, var(--t-prog) 30%, transparent);border-left:5px solid var(--t-prog)}
+.programa::before{content:"Del programa oficial";display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--on-prog);background:var(--t-prog);border-radius:999px;padding:2px 10px;margin-bottom:6px}
+.programa p:last-child,.programa ul:last-child{margin-bottom:0}
+.leyenda-programa{margin-top:16px;font-size:.9rem;color:var(--muted);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.leyenda-programa::before{content:"";width:14px;height:14px;border-radius:4px;background:var(--t-prog);flex:0 0 auto}
+.chip-programa{font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--on-prog);background:var(--t-prog);border-radius:999px;padding:2px 9px;white-space:nowrap}
+/* Marca "mejorado": punto naranja para localizar el contenido corregido en la auditoría dim3/dim5
+   del 29-sep-2026 (correcciones tandas 1-8). Nunca reutiliza --bad/--mid/--accent: son estados de
+   respuesta o el color de marca, no una señal de auditoría. */
+/* Dos remesas con el mismo mecanismo: «mej» (naranja, lo reescrito) y «nue» (azul, lo añadido nuevo).
+   Cada familia fija --marca y el resto de reglas se comparten. */
+.mej-dot,.mej-marca,.mej-chip,.mej-banner,.mej-card{--marca:var(--mejora)}
+.nue-dot,.nue-marca,.nue-chip,.nue-banner,.nue-card{--marca:var(--nuevo)}
+.mej-dot,.nue-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--marca);flex:0 0 auto}
+.mej-dot.chico,.nue-dot.chico{width:6px;height:6px;margin-left:4px;vertical-align:middle}
+/* Locator dentro del contenido: franja en el borde + etiqueta. Un punto de 8px no bastaba: en un
+   ejercicio suelto entre 29 no se veía. Franja con pseudo-elemento para que ningún estado del
+   ejercicio (done-*) que pinte el borde la tape. Si hay las dos, la azul se coloca a la derecha de la naranja. */
+.mej-marca,.nue-marca{position:relative}
+.mej-marca::before,.nue-marca::after{content:"";position:absolute;left:0;top:14px;bottom:14px;width:4px;border-radius:0 4px 4px 0;background:var(--marca)}
+.mej-marca.nue-marca::after{left:6px}
+.mej-chip,.nue-chip{display:inline-flex;align-items:center;gap:5px;font-size:.68rem;font-weight:700;letter-spacing:.02em;color:var(--ink);background:color-mix(in srgb,var(--marca) 14%,transparent);border-radius:999px;padding:2px 9px 2px 7px;margin-left:8px;vertical-align:middle;white-space:nowrap}
+.mej-chip .mej-dot,.nue-chip .nue-dot{width:6px;height:6px}
+/* Aviso de entrada: sale una sola vez, la primera vez que se abre algo marcado */
+.mej-banner,.nue-banner{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border:1px solid var(--line);border-left:3px solid var(--marca);border-radius:12px;background:var(--surface);padding:11px 14px;margin:0 0 18px}
+.mej-banner p,.nue-banner p{margin:0;font-size:.85rem;color:var(--muted);flex:1 1 260px}
+.mej-banner .btn,.nue-banner .btn{flex:0 0 auto;padding:6px 14px;min-height:0}
+.mej-banner b,.nue-banner b{color:var(--ink)}
+/* Cola de revisión en Inicio */
+.mej-card .eyebrow .mej-dot,.nue-card .eyebrow .nue-dot{margin-right:6px;vertical-align:middle}
+.mej-card .card-heading,.nue-card .card-heading{flex-wrap:wrap}
+.mej-card .card-heading .actions,.nue-card .card-heading .actions{flex:0 0 auto;margin:0}
+.mej-lista{margin-top:12px}
+.mej-lista summary{cursor:pointer;font-size:.85rem;font-weight:600;color:var(--accent-ink)}
+.mej-lista ul{list-style:none;margin:10px 0 0;padding:0;max-height:320px;overflow:auto}
+.mej-lista li{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 12px;padding:8px 2px;border-top:1px solid var(--line);font-size:.82rem}
+.mej-lista li>span:first-child{min-width:0;flex:1 1 200px}
+.mej-cats{display:flex;gap:6px;flex-wrap:wrap;flex:0 0 auto}
+.unit-row .mej-dot,.unit-row .nue-dot{margin-left:6px}
+pre.json{background:#11211F;color:#DDEFEA;border-radius:12px;padding:14px 16px;overflow-x:auto;white-space:pre-wrap;overflow-wrap:anywhere;font-family:var(--f-mono);font-size:.84rem;line-height:1.6;border:1px solid var(--line)}
+@media(max-width:640px){pre.json{font-size:.76rem;padding:12px 13px}}
+/* Respuesta escrita dentro de un «Pruébalo» de la teoría (sin ella no había dónde escribir) */
+.en-teoria textarea{display:block;width:100%;min-height:96px;margin:10px 0 4px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:9px 11px;font-family:var(--f-mono);font-size:.84rem;resize:vertical}
+.en-teoria textarea:focus{outline:none;border-color:var(--accent)}
+
+/* Cajas anidadas */
+.nest{margin:16px 0}
+.box{border-radius:14px;padding:12px 14px 14px;background:var(--brand-soft);border:1.5px solid color-mix(in srgb, var(--accent) 25%, transparent)}
+.box .box{margin-top:12px;background:color-mix(in srgb, var(--accent) 16%, var(--surface));border-color:color-mix(in srgb, var(--accent) 40%, transparent)}
+.box .box .box{background:color-mix(in srgb, var(--accent) 30%, var(--surface))}
+.box .box .box .box{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
+.box .box .box .box .sub{color:var(--on-brand);opacity:.85}
+.box .box .box .box .lbl{color:var(--on-brand)}
+.box .lbl{font-family:var(--f-display);font-weight:800;font-size:1.02rem}
+.box .sub{font-size:.88rem;color:var(--muted)}
+.box .box .box .sub{color:var(--ink)}
+/* Línea de tiempo */
+.timeline{list-style:none;margin:16px 0;padding:0;position:relative}
+.timeline::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:var(--line)}
+.timeline li{position:relative;padding:0 0 14px 30px}
+.timeline li::before{content:"";position:absolute;left:0;top:5px;width:16px;height:16px;border-radius:50%;background:var(--surface);border:3px solid var(--accent)}
+.timeline li:last-child::before{background:var(--accent)}
+.timeline .yr{display:block;font-family:var(--f-mono);font-weight:700;font-size:.82rem;color:var(--accent-ink);font-variant-numeric:tabular-nums}
+/* Flujo */
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:18px 0;padding:14px;border-radius:14px;background:var(--surface-2);border:1px dashed var(--line)}
+.flow .ins{display:grid;gap:8px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:7px 12px;font-size:.9rem;border-left:3px solid var(--accent)}
+.chip.core{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-family:var(--f-display);font-weight:800;font-size:1.05rem;padding:10px 16px}
+.arrow{color:var(--accent-ink);font-size:1.4rem;font-weight:700}
+@media (max-width:520px){.flow{flex-direction:column;align-items:stretch}.arrow{transform:rotate(90deg);align-self:center}}
+/* Figura: un flujo o un nest con su pie. Mismos componentes que el resto de la teoría, sin estilo propio */
+.fig{margin:18px 0}
+.fig .flow,.fig .nest{margin:0}
+.fig figcaption{margin-top:8px;font-size:.8rem;line-height:1.5;color:var(--muted)}
+
+/* Esquemas de interfaz: dibujo de una pantalla real (n8n, Pinecone, Docker). Se ven como esquema, no como captura */
+.ui{max-width:560px;border:1px solid var(--line);border-radius:14px;background:var(--surface);overflow:hidden;font-size:.78rem;line-height:1.35}
+.fig img{display:block;max-width:100%;height:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
+.ui-bar{display:flex;align-items:center;gap:6px;padding:7px 12px;background:var(--surface-2);border-bottom:1px solid var(--line);color:var(--muted);font-family:var(--f-mono);font-size:.7rem}
+.ui-bar i{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.ui-bar span{margin-left:6px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ui-body{padding:14px}
+.ui-canvas{display:flex;align-items:center;justify-content:center;gap:0;padding:26px 10px 20px;background-color:var(--surface-2);background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:14px 14px;border-bottom:1px solid var(--line)}
+.ui-node{flex:0 0 auto;width:88px;padding:8px 6px;text-align:center;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);position:relative}
+.ui-node b{display:block;font-size:.74rem;font-weight:650;color:var(--ink)}
+.ui-node span{display:block;margin-top:1px;font-size:.66rem;color:var(--muted)}
+.ui-node.ok{border-color:var(--ok)}
+.ui-node.ok::after{content:"\2713";position:absolute;top:-8px;right:-6px;width:16px;height:16px;border-radius:50%;background:var(--ok);color:#fff;font-size:.62rem;line-height:16px;font-weight:700}
+.ui-node.disparo{border-radius:22px 10px 10px 22px}
+.ui-link{flex:1 1 20px;min-width:18px;max-width:46px;height:2px;background:var(--muted);position:relative}
+.ui-link em{position:absolute;left:50%;top:-17px;transform:translateX(-50%);font-style:normal;font-size:.64rem;color:var(--muted);white-space:nowrap}
+.ui-tabs{display:flex;gap:2px;padding:8px 12px 0;background:var(--surface-2);border-bottom:1px solid var(--line)}
+.ui-tabs span{padding:5px 10px;border-radius:8px 8px 0 0;color:var(--muted);font-size:.72rem}
+.ui-tabs .on{background:var(--surface);color:var(--ink);font-weight:650;border:1px solid var(--line);border-bottom-color:var(--surface);margin-bottom:-1px}
+.ui-out{margin:0;padding:12px 14px;font-family:var(--f-mono);font-size:.74rem;background:var(--surface);color:var(--ink);white-space:pre;overflow-x:auto}
+.ui-field{display:grid;gap:3px;margin-bottom:10px}
+.ui-field label{font-size:.7rem;color:var(--muted)}
+.ui-field div{overflow-wrap:anywhere;border:1px solid var(--line);border-radius:8px;padding:7px 10px;background:var(--surface-2);font-family:var(--f-mono);font-size:.76rem;color:var(--ink)}
+.ui-field div.num{font-weight:700;border-color:var(--accent)}
+.ui-row{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.1fr) auto;gap:8px;align-items:center;padding:9px 12px;border-bottom:1px solid var(--line);font-family:var(--f-mono);font-size:.72rem}
+.ui-row:last-child{border-bottom:0}
+.ui-row.cab{font-family:inherit;background:var(--surface-2);color:var(--muted);font-size:.68rem}
+.ui-row > *{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ui-estado{display:inline-block;padding:1px 8px;border-radius:999px;font-family:inherit;font-size:.66rem;font-weight:650;background:var(--accent-soft);color:var(--accent-ink)}
+.ui-estado.par{background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
+.ui-canvas.col{flex-direction:column}
+.ui-stem{width:2px;height:20px;background:var(--muted)}
+.ui-subs{display:flex;justify-content:center;gap:8px}
+.ui-node.sub{width:96px;border-style:dashed;border-color:var(--muted)}
+.ui-node.sub.req{border-style:solid;border-color:var(--accent)}
+.ui-estado.u-mal{background:transparent;color:var(--bad);border:1px solid var(--bad)}
+.ui-row.mcp{grid-template-columns:4.4rem 3.2rem minmax(0,1fr)}
+.ui-row.mcp .ui-estado{white-space:nowrap;font-size:.62rem}
+.ui-row.reg{grid-template-columns:minmax(0,1fr) 4.3rem minmax(0,1fr)}
+.ui-row.sb{grid-template-columns:4.4rem minmax(0,1fr);align-items:start}
+.ui-row.sb > *{white-space:normal;overflow:visible}
+.ui-node.ancho{width:auto;min-width:150px;padding:8px 12px}
+.ui-node.vol{border-color:var(--accent);border-width:2px}
+.ui-row.it{grid-template-columns:2.4rem minmax(0,1fr)}
+.ui-rel{margin:2px 0;font-family:var(--f-mono);font-size:.66rem;color:var(--muted);text-align:center}
+.ui-estado.u-espera{background:transparent;color:var(--ink);border:1px solid var(--muted)}
+.ui-ctx{display:flex;height:24px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.ui-ctx i{display:block;height:100%}
+.ui-ctx .c1,.ui-leyenda .c1{background:var(--accent)}
+.ui-ctx .c2,.ui-leyenda .c2{background:var(--accent-soft)}
+.ui-ctx .c3,.ui-leyenda .c3{background:var(--line)}
+.ui-ctx .c4,.ui-leyenda .c4{background:var(--muted)}
+.ui-leyenda{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 12px;margin:12px 0 0;padding:0;list-style:none}
+.ui-leyenda li{display:flex;align-items:center;gap:7px;min-width:0}
+.ui-leyenda i{flex:0 0 auto;width:12px;height:12px;border-radius:3px;border:1px solid var(--line)}
+.ui-leyenda .c0{background:var(--surface)}
+.ui-par{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:16px 12px;background:var(--surface-2)}
+.ui-par>div{display:flex;flex-direction:column;align-items:stretch}
+.ui-par small{margin-bottom:8px;text-align:center;font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.ui-par .ui-node{width:auto}
+.ui-par .ui-stem{align-self:center}
+.ui-row.mt{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) 4.6rem}
+.ui-row.mt>*{white-space:normal;overflow-wrap:anywhere}
+@media (max-width:520px){.ui-node.sub{width:80px}.ui-node{width:76px}.ui-node b{font-size:.68rem}.ui-row{padding:9px 10px}}
+/* Pasos en columna con una línea continua que une cada círculo con el siguiente: nunca se parte en filas */
+.pasos{list-style:none;margin:0;padding:0;max-width:560px}
+.pasos li{position:relative;display:grid;grid-template-columns:36px minmax(0,1fr);gap:14px;padding-bottom:14px}
+.pasos li:last-child{padding-bottom:0}
+.pasos li::before{content:"";position:absolute;left:17px;top:36px;bottom:0;width:2px;background:var(--line)}
+.pasos li:last-child::before{display:none}
+.pasos .n{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:2px solid var(--accent);color:var(--accent-ink);font-family:var(--f-display);font-weight:800;font-size:.9rem;line-height:1;position:relative;z-index:1}
+.pasos .n.core{background:var(--accent);color:var(--on-accent)}
+.pasos .cuerpo{min-width:0;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.pasos .cuerpo.core{border-color:var(--accent)}
+.pasos .cuerpo b{display:block;font-family:var(--f-display);font-weight:650;font-size:.95rem;color:var(--ink)}
+.pasos .cuerpo span{display:block;margin-top:2px;font-size:.84rem;color:var(--muted)}
+/* Color que sube con el paso: tarjeta y círculo se intensifican hasta el último; el final va sólido */
+.pasos li:nth-child(1){--t:20%}
+.pasos li:nth-child(2){--t:30%}
+.pasos li:nth-child(3){--t:40%}
+.pasos li:nth-child(4){--t:50%}
+.pasos li:nth-child(5){--t:60%}
+.pasos li:nth-child(6){--t:70%}
+.pasos li::before{background:color-mix(in srgb, var(--accent) 55%, var(--line))}
+.pasos .n{background:color-mix(in srgb, var(--accent) var(--t, 12%), var(--surface))}
+.pasos .n.core{background:var(--accent)}
+.pasos .cuerpo{background:color-mix(in srgb, var(--accent) var(--t, 12%), var(--surface));border-color:color-mix(in srgb, var(--accent) 40%, transparent)}
+.pasos .cuerpo.core b,.pasos .cuerpo.core span{color:var(--on-accent)}
+.pasos .cuerpo.core{background:var(--accent);border-color:var(--accent)}
+/* Comparación en dos columnas: pilas de capas, de arriba (lo que usas) a abajo (el hardware) */
+.comparar{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:560px}
+.comparar h4{margin:0 0 8px;font-family:var(--f-display);font-weight:650;font-size:.92rem;color:var(--ink)}
+.pila{display:grid;gap:4px;align-content:start;padding:12px;border:1px solid var(--line);border-radius:16px;background:var(--surface-2)}
+.cap.hueco{background:transparent;border-color:transparent}
+.cap{display:block;border-radius:8px;padding:8px 10px;font-size:.8rem;line-height:1.3;background:var(--surface);border:1px solid var(--line);color:var(--ink)}
+.cap.app{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:650}
+.cap:not(.app):not(.base):not(.hueco){background:color-mix(in srgb, var(--accent) 18%, var(--surface));border-color:color-mix(in srgb, var(--accent) 40%, transparent)}
+.cap.base{background:color-mix(in srgb, var(--accent) 8%, transparent);border-style:dashed;border-color:color-mix(in srgb, var(--accent) 50%, transparent);color:var(--ink)}
+.next{display:flex;justify-content:flex-end;margin-top:24px}
+
+/* ── Botones ──────────────────────────────── */
+.btn{font-weight:700;font-size:.6875rem;border-radius:9px;padding:10px 18px;cursor:pointer;border:0;background:var(--accent);color:var(--on-accent);transition:transform .08s, opacity .12s}
+.btn:hover:not(:disabled){opacity:.92}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:var(--surface-2);color:var(--ink);border:1px solid var(--line)}
+.btn:disabled{opacity:.55;cursor:default}
+
+/* ── Ejercicios ───────────────────────────── */
+.hint{font-size:.85rem;color:var(--muted);margin-top:10px}
+/* Color uniforme turquesa para toda tarjeta de ejercicio, tal cual v0 (Mar, 27-sep-2026: "v0 tal cual", ya no un color por tipo) */
+/* Tarjeta de ejercicio = .exercise-card de v0 (1 columna, decisión de Mar): sin franja de color,
+   eyebrow de tipo en vez de pastilla, opciones como botones planos de v0 (sin insignia de letra) */
+.ex{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:21px;margin-top:14px}
+.ex .head{display:flex;gap:10px;align-items:baseline;justify-content:space-between;flex-wrap:wrap}
+.tag{font-size:.625rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink)}
+.ex .n{font-size:.68rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.ex .from{font-size:.68rem;color:var(--muted)}
+.ex .state{font-size:.8rem;font-weight:700}
+.ex .q{font-size:1rem;font-weight:650;line-height:1.45;margin:10px 0 14px;color:var(--ink)}
+.opts{display:grid;gap:8px}
+.opts.two{grid-template-columns:1fr 1fr}
+@media (max-width:420px){.opts.two{grid-template-columns:1fr}}
+.opts label{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:7px;padding:11px 12px;cursor:pointer;background:transparent;font-size:.8rem;transition:border-color .12s, background .12s}
+.opts label:hover{border-color:var(--accent);background:var(--accent-soft)}
+.opts label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.opts input{position:absolute;opacity:0;pointer-events:none}
+.opts .key{flex:0 0 auto;font-family:var(--f-mono);font-weight:700;font-size:.75rem;color:var(--muted)}
+.opts label:has(input:checked) .key{color:var(--accent-ink)}
+.opts label:has(input:focus-visible){outline:3px solid var(--accent-ink);outline-offset:2px}
+.match{display:grid;gap:10px}
+.match .pair{display:grid;grid-template-columns:minmax(110px,150px) 1fr;gap:10px;align-items:center;background:var(--surface-2);border-radius:10px;padding:8px 10px}
+@media (max-width:520px){.match .pair{grid-template-columns:1fr;gap:6px}}
+.match select,.ex input[type=text],.ex textarea{color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:9px 11px;width:100%;max-width:100%;font-size:.85rem}
+.ex input[type=text]:focus,.ex textarea:focus,.match select:focus{border-color:var(--accent)}
+.ex textarea{min-height:120px;resize:vertical}
+.ex input[type=text].term,.ex textarea.term{background:#11211F;color:#DDEFEA;border-color:#0b1a18;font-family:var(--f-mono);font-size:.84rem;caret-color:#DDEFEA}
+.ex input[type=text].term::placeholder,.ex textarea.term::placeholder{color:#7fa39c}
+.ex input[type=text].term:focus,.ex textarea.term:focus{border-color:var(--accent)}
+.actions{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.aviso{font-size:.85rem;color:var(--bad)}
+.actions.solo-reintentar:has(.btn[hidden]):not(:has(.aviso:not(:empty))){display:none}
+.opts label:has(input:disabled){cursor:default}
+.opts label:has(input:disabled):not(.right):not(.wrong){opacity:.55}
+.opts label.right{border-color:var(--ok);background:var(--ok-soft)}
+.opts label.right .key{color:var(--ok)}
+.opts label.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opts label.wrong .key{color:var(--bad)}
+.match .pair.ok{background:var(--ok-soft)} .match .pair.bad{background:var(--bad-soft)}
+.match select:disabled{opacity:1;color:var(--ink)}
+.match.orden .pair{grid-template-columns:96px 1fr}
+.match.orden .pair select{width:auto;min-width:84px}
+.match.orden .paso{font-size:.85rem;line-height:1.45}
+@media (max-width:520px){.match.orden .pair{grid-template-columns:1fr}}
+details.solucion{margin-top:12px}
+details.solucion .mas-body p{margin:8px 0}
+.hint-sel{font-size:.82rem;color:var(--muted);margin:-6px 0 10px}
+.fb{margin-top:14px;border-radius:10px;padding:12px 16px;font-size:.85rem;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.fb .ico{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.8rem;color:var(--surface)}
+.fb b{display:block;font-size:.88rem;font-weight:650}
+.fb.correcto{background:var(--ok-soft)} .fb.correcto .ico{background:var(--ok)} .fb.correcto b{color:var(--ok)}
+.fb.incorrecto{background:var(--bad-soft)} .fb.incorrecto .ico{background:var(--bad)} .fb.incorrecto b{color:var(--bad)}
+.fb.parcial{background:var(--mid-soft)} .fb.parcial .ico{background:var(--mid)} .fb.parcial b{color:var(--mid)}
+.fb.wait{background:color-mix(in srgb, var(--t-lib) 12%, var(--surface))} .fb.wait .ico{background:var(--t-lib);color:var(--on-tc);animation:pulse 1.2s ease-in-out infinite} .fb.wait b{color:var(--t-lib-ink)}
+.ex.done-correcto{border-color:color-mix(in srgb, var(--ok) 55%, var(--line))}
+.ex.done-incorrecto{border-color:color-mix(in srgb, var(--bad) 55%, var(--line))}
+.ex.done-parcial{border-color:color-mix(in srgb, var(--mid) 55%, var(--line))}
+.ex.pop{animation:pop .35s ease-out}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.012)}100%{transform:scale(1)}}
+@keyframes pulse{50%{opacity:.45}}
+@media (prefers-reduced-motion:reduce){.ex.pop,.fb.wait .ico,.msg.tutor.pensando{animation:none}.btn{transition:none}}
+
+/* ── Chat de dudas (el botón que lo abre ahora vive en .top-actions, ver .dudas-btn) ── */
+.chat{position:fixed;top:0;right:0;bottom:0;z-index:30;width:min(420px,100%);display:flex;flex-direction:column;background:var(--surface);border-left:1px solid var(--line);box-shadow:-12px 0 40px -20px rgba(0,0,0,.35);
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.chat-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:16px 18px;background:var(--accent);color:var(--on-accent)}
+.chat-title{font-weight:650;font-size:.95rem}
+.chat-sub{font-size:.72rem;opacity:.85;margin-top:2px}
+.icon-btn{border:0;background:color-mix(in srgb, var(--on-accent) 12%, transparent);color:var(--on-accent);width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:.9rem}
+.chat-log{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;background:var(--surface-2)}
+.msg{max-width:92%;border-radius:12px;padding:10px 14px;font-size:.8rem;line-height:1.55}
+.msg p{margin:0 0 8px} .msg p:last-child{margin-bottom:0}
+.msg ul{margin:4px 0 8px;padding-left:20px} .msg li{margin:2px 0}
+.msg.yo{align-self:flex-end;background:var(--accent);color:var(--on-accent);border-bottom-right-radius:4px}
+.msg.tutor{align-self:flex-start;background:var(--surface);border:1px solid var(--line);border-bottom-left-radius:4px}
+.msg.tutor.pensando{color:var(--muted);font-style:italic;animation:pulse 1.2s ease-in-out infinite}
+.msg.error{align-self:stretch;background:var(--mid-soft);border:1px solid color-mix(in srgb, var(--mid) 30%, transparent);font-size:.75rem}
+.sep{align-self:center;font-size:.625rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.sugs{display:flex;flex-wrap:wrap;gap:8px}
+.sug{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 12px;font-size:.72rem;cursor:pointer;text-align:left}
+.sug:hover{border-color:var(--accent);background:var(--accent-soft)}
+.chat-empty{color:var(--muted);font-size:.8rem}
+.chat-form{border-top:1px solid var(--line);padding:12px 14px;display:grid;gap:8px;background:var(--surface)}
+.chat-form textarea{width:100%;resize:none;border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--surface-2);color:var(--ink);font-size:.8rem;max-height:160px}
+.chat-form textarea:focus{border-color:var(--accent)}
+.chat-actions{display:flex;align-items:center;gap:8px}
+.chat-note{flex:1;font-size:.68rem;color:var(--muted)}
+@media (min-width:1180px){body.chat-open{padding-right:436px}}
+
+/* ── Plan B y copia de seguridad ──────────── */
+.fb.auto{background:color-mix(in srgb, var(--t-lib) 10%, var(--surface))} .fb.auto .ico{background:var(--t-lib);color:var(--on-tc)} .fb.auto b{color:var(--t-lib-ink)}
+.fb .modelo{background:var(--surface);border-radius:10px;padding:10px 12px;margin:6px 0}
+.fb .hint{margin:4px 0 0}
+.msg.manual{align-self:stretch;background:var(--surface);border:1.5px dashed var(--t-lib)}
+.msg.manual .actions{margin-top:8px}
+.msg.tutor.aparte{color:var(--muted);font-style:italic;font-size:.88rem}
+textarea.copia{width:100%;min-height:90px;margin-top:8px;font-family:var(--f-mono);font-size:.78rem;border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--surface-2);color:var(--ink)}
+.copia-pop{position:absolute;right:0;top:calc(100% + 10px);z-index:15;width:min(320px,calc(100vw - 32px));max-height:70vh;overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow)}
+.copia-pop p{margin:6px 0 0;color:var(--muted);font-size:.88rem}
+.copia-pop .accion-t{font-size:1rem}
+.btn.peq{padding:6px 12px;font-size:.625rem}
+.ok-msg{color:var(--ok)!important;font-weight:700}
+.link{border:0;background:none;padding:0;color:var(--accent-ink);font:inherit;text-decoration:underline;cursor:pointer}
+a.btn{display:inline-block;text-decoration:none}
+
+/* ── Glosario ─────────────────────────────── */
+.gselect{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:7px;background:var(--surface);color:var(--ink);margin-top:14px;font-size:.8rem}
+.gsearch{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:7px;background:var(--surface);color:var(--ink);margin-top:14px;font-size:.85rem}
+/* Términos del glosario = .glossary-item de v0, en la rejilla .content-grid */
+.content-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:14px}
+@media(max-width:720px){.content-grid{grid-template-columns:1fr}}
+.glossary-item{display:flex;justify-content:space-between;gap:15px}
+.glossary-item .eyebrow{display:flex;align-items:center;gap:6px}
+.glossary-item h2{font-size:.95rem;font-weight:650;margin:7px 0}
+.glossary-item p:not(.eyebrow){color:var(--muted);font-size:.75rem;line-height:1.5}
+/* Glosario compacto (6-oct-2026, decisión de Mar): cada término es una fila plegable; la definición se abre al pulsar y así caben todos los de una unidad en una pantalla */
+.study-header.compacta{padding:12px 0 10px}
+.study-header.compacta h1{font-size:clamp(1.35rem,2.4vw,1.75rem);margin:2px 0 0}
+.study-header.compacta .meta{margin-top:2px}
+.glos-lista{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:8px;margin-top:10px}
+.gterm{min-width:0;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.gterm>summary span{min-width:0;overflow-wrap:break-word}
+.gterm>summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px 10px 14px;cursor:pointer;font-size:.85rem;font-weight:650;color:var(--ink)}
+.gterm>summary::-webkit-details-marker{display:none}
+.gterm>summary::after{content:"+";color:var(--muted);font-weight:500;font-size:1rem;line-height:1}
+.gterm[open]>summary::after{content:"−"}
+.gterm .cuerpo{padding:0 14px 12px;overflow-wrap:anywhere}
+.gterm .cuerpo .eyebrow{margin:0 0 4px}
+.gterm .cuerpo p:not(.eyebrow){color:var(--muted);font-size:.78rem;line-height:1.5;margin:0}
+.gterm .mastery{font-size:.6rem;margin-left:auto}
+.gterm.mej-marca::before,.gterm.nue-marca::after{top:10px;bottom:10px}
+@media(max-width:720px){.study-header.compacta{padding:6px 0 8px}.glos-lista{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.gterm>summary{flex-wrap:wrap;row-gap:6px;padding:9px 10px 9px 12px;font-size:.8rem}.gterm>summary>span:first-child{flex:1 1 calc(100% - 20px)}.gterm .mastery{font-size:.56rem;padding:3px 5px}}
+.mastery{color:var(--accent-ink);background:var(--accent-soft);padding:5px 8px;border-radius:5px;font-size:.625rem;font-weight:600;height:max-content;white-space:nowrap}
+.empty{color:var(--muted);margin-top:16px}
+
+/* ── Inicio ───────────────────────────────── */
+/* ── Inicio (diseño v0, 27-sep-2026): bienvenida + fichas + "sigue donde lo dejaste" + accesos + unidades ── */
+.welcome{padding:8px 0 22px}
+.welcome .kicker{font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
+.welcome h2{font-size:clamp(1.75rem,3vw,2.375rem);font-weight:650;letter-spacing:-.04em;margin:7px 0 4px}
+.welcome p{color:var(--muted);font-size:.92rem;margin:0}
+
+.stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+/* Fila de fichas reutilizable (progreso de ejercicios, contador del glosario…), mismas .stat-card de v0 */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:14px}
+.stats-row.uno{grid-template-columns:minmax(0,240px)}
+.stat-card{display:flex;gap:11px;min-height:96px;padding:15px 13px;border:1px solid var(--line);border-radius:14px;background:var(--surface);text-align:left;color:inherit;cursor:default}
+button.stat-card{cursor:pointer;font:inherit}
+button.stat-card:hover:not(:disabled){border-color:var(--accent)}
+button.stat-card:disabled{cursor:default}
+.stat-icon{flex:0 0 32px;width:32px;height:32px;display:grid;place-items:center;border-radius:9px;font-size:1rem}
+/* Los 5 tonos literales de v0 (globals.css: .blue/.mint/.peach/.lavender/.yellow); v0 no los adapta al tema oscuro */
+.stat-card.blue .stat-icon{color:#238D7D;background:#E2FAF6}
+.stat-card.mint .stat-icon{color:#399877;background:#E4F5EF}
+.stat-card.peach .stat-icon{color:#C77B55;background:#FFF0E8}
+.stat-card.lavender .stat-icon{color:#816CBD;background:#EEE9FB}
+.stat-card.yellow .stat-icon{color:#AF8A37;background:#FAF3D9}
+.stat-card .eyebrow{color:var(--muted);font-size:.66rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.stat-value{margin:4px 0 2px;font-size:1.3rem;font-weight:700;font-variant-numeric:tabular-nums}
+.stat-detail{margin:0;color:var(--muted);font-size:.72rem}
+
+.bloque{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink);margin-top:26px}
+.card{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:20px}
+.card.ancho{margin-top:14px}
+.card-heading{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.card-heading h2{font-size:1.02rem;margin:6px 0;font-weight:650}
+.status-pill{color:var(--accent-ink);background:var(--accent-soft);padding:4px 9px;border-radius:6px;font-size:.68rem;font-weight:700;white-space:nowrap}
+.continue-body{display:flex;align-items:center;gap:22px;padding:20px 2px 2px;flex-wrap:wrap}
+.continue-copy{max-width:42ch;flex:1 1 260px}
+.continue-copy p{font-size:.92rem;line-height:1.5;margin:0 0 6px}
+.continue-copy span{color:var(--muted);font-size:.76rem}
+.continue-side{display:flex;flex-direction:column;align-items:flex-end;gap:14px;margin-left:auto}
+.continue-mini{display:flex;gap:20px}
+.continue-mini .cm-item{display:flex;flex-direction:column;align-items:center;gap:7px}
+.continue-mini .cm-cap{color:var(--muted);font-size:.62rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+@media(max-width:700px){.continue-side{align-items:flex-start;margin-left:0}.continue-mini{gap:14px}}
+.shortcut-card{display:flex;flex-direction:column;gap:2px}
+.shortcut-row{display:flex;align-items:center;gap:11px;border:0;border-top:1px solid var(--line);background:transparent;color:var(--ink);padding:13px 0;text-align:left;width:100%;cursor:pointer;font:inherit}
+.shortcut-row:first-of-type{border-top:0}
+.shortcut-row:hover{color:var(--accent-ink)}
+.shortcut-row:disabled{opacity:.55;cursor:default;color:var(--ink)}
+.shortcut-row>span.txt{flex:1;min-width:0}
+.shortcut-row strong,.shortcut-row small{display:block}
+.shortcut-row strong{font-size:.86rem;font-weight:600}
+.shortcut-row small{color:var(--muted);font-size:.74rem;margin-top:2px}
+.shortcut-icon{flex:0 0 32px;width:32px;height:32px;display:grid;place-items:center;border-radius:9px;color:var(--accent-ink);background:var(--accent-soft)}
+.shortcut-arrow{flex:0 0 auto;color:var(--muted)}
+.unit-card{margin-top:14px}
+.unit-count{color:var(--muted);font-size:.78rem}
+.unit-list{display:grid;grid-template-columns:repeat(2,1fr);column-gap:26px;margin-top:14px}
+.unit-row{display:flex;align-items:center;gap:12px;border:0;border-top:1px solid var(--line);background:transparent;color:var(--ink);padding:11px 0;text-align:left;width:100%;cursor:pointer;font:inherit}
+.unit-list>.unit-row:nth-child(1),.unit-list>.unit-row:nth-child(2){border-top:0}
+.unit-row:hover{background:var(--card-hover)}
+.unit-info{flex:1;min-width:0}
+.unit-info strong{display:block;font-size:.82rem;font-weight:600}
+.unit-info strong span{color:var(--muted);margin-right:9px;font-size:.72rem;font-weight:500}
+.unit-info small{display:block;color:var(--muted);font-size:.72rem;margin-top:3px}
+.pring{position:relative;flex:0 0 auto}
+.pring .lbl{position:absolute;inset:0;display:grid;place-content:center;font-size:.62rem;font-weight:700;font-variant-numeric:tabular-nums}
+@media(max-width:900px){.stats-grid{grid-template-columns:repeat(3,1fr)}.stats-grid .stat-card:nth-child(n+4){display:none}}
+@media(max-width:640px){.dashboard-grid,.unit-list{grid-template-columns:1fr}.stats-grid{grid-template-columns:repeat(2,1fr)}.stats-grid .stat-card:nth-child(n+4){display:flex}}
+.seguimiento-det{margin-top:14px}
+.seguimiento-det summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:.92rem}
+.seguimiento-det summary::-webkit-details-marker{display:none}
+.seguimiento-det summary::after{content:"▾";color:var(--muted);transition:transform .15s}
+.seguimiento-det[open] summary::after{transform:rotate(180deg)}
+.seguimiento-det .trk-wrap{margin-top:12px;border:1px solid var(--line);box-shadow:none}
+.ucard h4{font-family:var(--f-display);font-weight:700;font-size:1.12rem;margin:8px 0 4px}
+.checks{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.88rem;color:var(--muted)}
+.checks .si{color:var(--ok);font-weight:700}
+.ucard-btns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.estado{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:3px 10px;background:var(--surface-2);color:var(--muted)}
+.hero .estado{background:color-mix(in srgb, var(--surface) 65%, transparent)}
+.e-leida,.e-curso{background:var(--brand-soft);color:var(--accent-ink)}
+.e-practicada{background:var(--mid-soft);color:var(--mid)}
+.e-dominada{background:var(--ok-soft);color:var(--ok)}
+.barra{margin-top:14px}
+.barra-txt{display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:6px}
+.barra-txt strong{font-variant-numeric:tabular-nums}
+.progress{height:8px;border-radius:5px;background:var(--surface-2);overflow:hidden}
+.progress span{display:block;height:100%;background:var(--accent);border-radius:5px;transition:width .3s}
+.panel-progreso{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:4px 16px 14px;margin-top:16px}
+.panel-progreso .stat{box-shadow:none;background:var(--surface-2)}
+.volver{margin-top:20px}
+.from{font-size:.75rem;font-weight:700;color:var(--muted);margin-right:auto;margin-left:8px}
+.actions.center{justify-content:center}
+.actions.end{justify-content:flex-end}
+
+/* ── Teoría: saber más y fin ──────────────── */
+details.mas{margin-top:16px}
+details.fechas ul{margin:10px 0 0;padding-left:0;list-style:none;display:grid;gap:6px;font-size:.92rem}
+details.fechas li b{display:inline-block;min-width:3.6em}
+details.mas summary{list-style:none;display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-weight:700;font-size:.92rem;color:var(--t-lib-ink);border:1.5px solid color-mix(in srgb, var(--t-lib) 40%, transparent);background:color-mix(in srgb, var(--t-lib) 9%, var(--surface));border-radius:999px;padding:7px 16px 7px 12px}
+details.mas summary::-webkit-details-marker{display:none}
+details.mas summary::before{content:"+";display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--t-lib);color:var(--on-tc);font-weight:800;line-height:1}
+details.mas[open] summary::before{content:"−"}
+details.mas .cerrar{display:none}
+details.mas[open] .abrir{display:none}
+details.mas[open] .cerrar{display:inline}
+details.mas.mas-abierto>summary{display:none}
+details.mas.mas-abierto{margin-top:0}
+.mas-body{margin-top:12px;padding:6px 18px 14px;border-radius:14px;background:color-mix(in srgb, var(--t-lib) 6%, var(--surface-2));border-left:4px solid var(--t-lib)}
+.mas-body h3{font-size:1rem;margin-top:14px}
+details.mas.profe summary{color:var(--t-profe-ink);border-color:color-mix(in srgb, var(--t-profe) 40%, transparent);background:color-mix(in srgb, var(--t-profe) 9%, var(--surface))}
+details.mas.profe summary::before{background:var(--t-profe);color:var(--on-profe)}
+details.mas.profe .mas-body{background:color-mix(in srgb, var(--t-profe) 6%, var(--surface-2));border-left-color:var(--t-profe)}
+details.mas.programa summary{color:var(--t-prog-ink);border-color:color-mix(in srgb, var(--t-prog) 40%, transparent);background:color-mix(in srgb, var(--t-prog) 9%, var(--surface))}
+details.mas.programa summary::before{background:var(--t-prog);color:var(--on-prog)}
+details.mas.programa .mas-body{background:color-mix(in srgb, var(--t-prog) 6%, var(--surface-2));border-left-color:var(--t-prog)}
+.mas-body ul{padding-left:20px}
+.sec ul:not(.goals):not(.timeline){padding-left:22px}
+.sec li{margin:4px 0}
+.fin-teoria{margin-top:22px;background:var(--surface);border:1.5px dashed var(--line);border-radius:16px;padding:16px 18px}
+.fin-teoria p{margin:0;color:var(--muted)}
+
+/* ── Glosario, tarjetas y examen ──────────── */
+.gl-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px}
+/* Juego del glosario: tarjeta .card plana de v0, ya no el pastel (Mar, 27-sep-2026 2ª ronda: "pasa a v0") */
+.flash-wrap{margin-top:14px}
+.flash{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px 24px;text-align:center;min-height:220px;display:flex;flex-direction:column;justify-content:center;gap:8px;position:relative}
+.flash .fb{text-align:left}
+.fb p{margin:6px 0 0}
+.actions.fija{position:sticky;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:5;justify-content:flex-start;margin-inline:-16px;padding:10px 16px;background:color-mix(in srgb, var(--bg) 88%, transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+.actions.fija:has(> .btn[hidden]){display:none}
+.flash-big{font-weight:700;font-size:clamp(1.5rem,5vw,2rem);letter-spacing:-.02em;line-height:1.1;color:var(--ink)}
+.flash-back{margin-top:10px;padding-top:14px;border-top:1px solid var(--line);font-size:.95rem}
+.flash-back p{margin:0 0 6px}
+.btn.bien{background:var(--ok);color:var(--surface)}
+.btn.mal{background:var(--bad);color:var(--surface)}
+.exam-start{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px}
+.exam-start p{margin:0 0 12px}
+/* Resultado del examen: card de v0 con stat-value grande, no el banner de color de antes */
+.nota{margin-top:16px;border-radius:16px;background:var(--surface);border:1px solid var(--line);padding:26px;text-align:center}
+.nota-big{font-size:2.4rem;font-weight:700;line-height:1;color:var(--ink)}
+.nota p{margin:10px 0 0;font-size:.85rem;color:var(--muted)}
+.fallos{display:grid;gap:10px;margin-top:10px}
+.fallo{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.fallo p{margin:4px 0;font-size:.8rem;color:var(--muted)}
+.fallo .q{color:var(--ink);font-weight:650;font-size:.9rem}
+.fallo .hint{color:var(--bad);font-size:.625rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.historial{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:2px}
+.historial li{display:flex;justify-content:space-between;align-items:center;background:transparent;border:0;border-top:1px solid var(--line);border-radius:0;padding:12px 0;font-variant-numeric:tabular-nums;font-size:.8rem}
+.historial li:first-child{border-top:0}
+.historial li small{color:var(--muted);font-size:.72rem;margin-left:8px}
+.cal-barra{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 14px}
+.cal-barra select{font:inherit;font-size:.8rem;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);max-width:100%}
+.cal-mes{margin-top:16px}
+.historial.cal li{display:grid;grid-template-columns:7.5rem minmax(0,1fr);gap:16px;align-items:start;font-size:.85rem}
+.cal-dia b{display:block;font-size:.95rem}
+.cal-dia small{display:block;margin:0;text-transform:capitalize}
+.cal-temas{display:grid;gap:8px}
+.cal-tema{text-align:left;font:inherit;background:transparent;border:1px solid var(--line);border-radius:12px;padding:9px 12px;cursor:pointer;color:var(--ink);display:grid;gap:2px}
+.cal-tema:hover{border-color:var(--accent);background:var(--accent-soft)}
+.cal-u{font-size:.72rem;font-weight:700;color:var(--accent-ink)}
+.cal-t{color:var(--muted);line-height:1.5}
+@media (max-width:600px){.historial.cal li{grid-template-columns:minmax(0,1fr);gap:8px}}
+.multi{margin-top:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.multi-atajos{display:flex;flex-wrap:wrap;gap:6px}
+.chip-btn{font:inherit;font-size:.85rem;font-weight:700;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);border-radius:999px;padding:5px 12px;cursor:pointer}
+.chip-btn:hover{border-color:var(--accent)}
+.multi-rango{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:10px;font-size:.88rem;color:var(--muted)}
+.multi-rango select{font:inherit;padding:4px 6px;border:1.5px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+.multi .content-grid{margin-top:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:8px}
+/* .exam-unit de v0: una tarjeta por unidad, con casilla (compacta: varias columnas, sin tanto aire) */
+.exam-unit{display:flex;align-items:center;gap:12px;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 12px;cursor:pointer}
+.exam-unit input{accent-color:var(--accent);margin:0;flex:0 0 auto}
+.exam-unit span{flex:1;font-size:.75rem;min-width:0}
+.exam-unit b,.exam-unit small{display:block}
+.exam-unit b{font-size:.625rem;color:var(--muted);margin-bottom:4px}
+.exam-unit small{color:var(--muted);font-size:.625rem}
+.exam-unit.on{border-color:var(--accent);background:var(--accent-soft)}
+.chips-n{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+.chip-btn[aria-pressed="true"],.partes .chip-btn[aria-current="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+/* Fila de partes de una unidad grande (Teoría y Ejercicios): los mismos chips que el número de preguntas del examen */
+.partes{margin:0 0 20px}
+.partes .chip-btn small{font-weight:500;opacity:.8}
+/* Móvil: solo la parte abierta enseña su título y las demás su número (ocho chips apilados tapaban la pantalla) */
+@media (max-width:520px){
+  .partes .chip-btn:not([aria-current="true"]){min-width:44px;text-align:center}
+  .partes .chip-btn:not([aria-current="true"]) .pt{display:none}
+}
+/* Frase de entrada de una parte: el mismo texto gris que el subtítulo de una cabecera (.study-header .meta) */
+.entrada-parte{margin:0 0 16px;color:var(--muted);font-size:.88rem}
+.reading a.ref{color:var(--accent-ink);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+/* Prácticas (B6): lista numerada de pasos con casilla */
+.pr-pasos{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:10px}
+.pr-paso{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.pr-paso input{margin-top:5px;accent-color:var(--accent);flex:none}
+.pr-pasos pre.json{margin:8px 0 0 26px}
+.pr-pasos details{margin:8px 0 0 26px}
+.trk-wrap{margin-top:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.trk{width:100%;border-collapse:collapse;font-size:.88rem}
+.trk th,.trk td{padding:5px 4px;border-bottom:1px solid var(--line);text-align:center}
+.trk thead th{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;background:var(--surface-2);padding:8px 4px}
+.trk tbody tr:last-child td{border-bottom:0}
+.trk th.u,.trk td.u{text-align:left;width:38%;max-width:0;padding-left:10px}
+.cel{font:inherit;font-weight:700;font-variant-numeric:tabular-nums;border:0;border-radius:8px;padding:4px 6px;min-width:44px;cursor:pointer;background:transparent;color:var(--muted)}
+.cel:hover{outline:2px solid var(--accent)}
+.cel.n1{background:var(--bad-soft);color:var(--bad)}
+.cel.n2{background:var(--mid-soft);color:var(--mid)}
+.cel.n3{background:var(--ok-soft);color:var(--ok)}
+.cel-t{display:block;width:100%;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink);background:transparent;padding:4px 2px;min-width:0}
+.cel-t b{color:var(--accent-ink);margin-right:6px;font-variant-numeric:tabular-nums}
+/* Móvil: cada unidad ocupa dos líneas (título completo arriba, 4 casillas debajo) */
+@media (max-width:520px){
+  .trk,.trk tbody{display:block}
+  .trk tr{display:grid;grid-template-columns:repeat(5,1fr);align-items:center;border-bottom:1px solid var(--line)}
+  .trk tbody tr:last-child{border-bottom:0}
+  .trk th,.trk td{border-bottom:0}
+  .trk thead{display:block}
+  .trk th.u{display:none}
+  .trk th.u,.trk td.u{width:auto}
+  .trk td.u{grid-column:1/-1;padding:8px 8px 0}
+  .cel-t{white-space:normal;overflow:visible;text-overflow:clip}
+  .trk td:not(.u) .cel{width:100%}
+}
+/* Táctil: objetivos de 44px (WCAG 2.5.8 / HIG) */
+@media (pointer:coarse){
+  .cel,.chip-btn,.seg button,.exam-unit,.link,.btn{min-height:44px}
+  .icon-btn{width:44px;height:44px}
+  .tema{width:44px;height:44px}
+  .chip-btn{padding-inline:14px}
+  .seg button{display:inline-flex;align-items:center;justify-content:center}
+}
+/* Opciones del juego = botones de .exercise-card de v0 */
+.jopts{display:grid;gap:8px;margin-top:14px;text-align:left}
+.jopt{font:inherit;font-size:.8rem;text-align:left;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:7px;padding:11px 12px;cursor:pointer;display:flex;gap:10px;align-items:flex-start}
+.jopt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft)}
+.jopt:disabled{color:var(--ink);cursor:default}
+.jopt .key{flex:none;font-family:var(--f-mono);font-weight:700;font-size:.72rem;color:var(--muted)}
+.jopt.right{background:var(--ok-soft);border-color:var(--ok)}
+.jopt.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.emp{display:grid;grid-template-columns:1fr 1.6fr;gap:10px;margin-top:14px}
+.emp-col{display:grid;gap:8px;align-content:start}
+.emp .jopt{align-items:center;min-height:48px}
+.emp .jopt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.emp .jopt.hecho{background:var(--ok-soft);border-color:var(--ok);cursor:default}
+.emp .jopt.fallo{background:var(--bad-soft);border-color:var(--bad);animation:pop .4s}
+.en-teoria{margin-top:18px;border-top:1.5px dashed var(--line);padding-top:14px}
+.en-teoria-t{font-family:var(--f-display);font-weight:800;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--t-lib-ink);margin-bottom:-4px}
+.repaso{margin-top:14px;border-top:1.5px dashed var(--line);padding-top:12px}
+.repaso h4{font-family:var(--f-display);margin:0 0 6px;font-size:1.02rem}
+.repaso-exp{background:color-mix(in srgb, var(--t-lib) 10%, var(--surface));border-radius:12px;padding:8px 14px;margin-bottom:8px}
+.repaso-exp p{margin:6px 0}
+.repaso .ex{margin-top:12px}
+@media (max-width:560px){.emp{grid-template-columns:1fr 1.3fr}.cel{min-width:36px;padding:4px 3px}.trk th.u,.trk td.u{padding-left:6px}}
+
+
+.pj-indice{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 4px}
+.pj-indice .chip-btn{font-size:.72rem;font-weight:600;padding:4px 10px;min-height:0}
+.pj-volver{margin-top:18px}
+.pj .sec h3{margin-top:16px}
+.pj .sec h4{font-size:.88rem;font-weight:650;margin:18px 0 4px;color:var(--ink)}
+.pj-ficha{list-style:none;padding:0;margin:10px 0;display:grid;gap:4px;font-size:.88rem}
+.pj-estado{display:inline-block;background:var(--mid-soft);color:var(--mid);border-radius:999px;padding:1px 10px;font-size:.74rem;font-weight:700}
+.pj-pend{color:var(--mid);font-weight:600}
+.pj-us{border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:6px 16px 12px;margin:12px 0;background:var(--surface-2)}
+.pj-us h4{margin-top:10px}
+.pj-gh{font-family:var(--f-mono);font-size:.78rem;line-height:1.7;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:8px 0 0;overflow-wrap:anywhere}
+.pj-and{padding-left:16px}
+.cp{color:var(--nuevo);font-weight:600}
+.cm{color:var(--mejora);font-weight:600}
+.pj-gh b{color:var(--accent-ink)}
+.pj-dia{margin:16px 0 8px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+.pj-dia iframe{display:block;width:100%;border:0}
+.pj-dia-pie{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:8px 0 0;font-size:.8rem;color:var(--muted)}
+.pj-dia-pie .btn{padding:7px 12px}
+@media(max-width:900px){.pj-dia{display:none}}
+.pj-mapa{display:grid;justify-items:center;margin:18px 0}
+.pj-hub{position:relative;background:var(--accent);color:var(--on-accent);font-family:var(--f-display);font-weight:800;font-size:1rem;border-radius:999px;padding:10px 22px}
+.pj-hub::after{content:"";position:absolute;left:50%;top:100%;width:2px;height:14px;background:color-mix(in srgb,var(--accent) 55%,var(--line))}
+.pj-ramas{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;width:100%;margin-top:28px}
+.pj-ramas::before{content:"";position:absolute;top:-14px;left:12.5%;right:12.5%;height:2px;background:color-mix(in srgb,var(--accent) 55%,var(--line))}
+.pj-rama{position:relative;background:color-mix(in srgb,var(--accent) 12%,var(--surface));border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);border-radius:14px;padding:10px 12px}
+.pj-rama::before{content:"";position:absolute;top:-15px;left:50%;width:2px;height:15px;background:color-mix(in srgb,var(--accent) 55%,var(--line))}
+.pj-rama b{display:block;font-family:var(--f-display);font-weight:650;font-size:.9rem;color:var(--ink);margin-bottom:4px}
+.pj-rama ul{margin:0;padding-left:16px;font-size:.8rem;line-height:1.5}
+.pj-rama.no{background:color-mix(in srgb,var(--bad) 7%,var(--surface));border-color:color-mix(in srgb,var(--bad) 35%,transparent)}
+@media(max-width:720px){
+  .pj-mapa{justify-items:start}
+  .pj-hub::after{left:24px}
+  .pj-ramas{grid-template-columns:1fr;padding-left:38px;margin-top:14px}
+  .pj-ramas::before{top:0;bottom:24px;left:24px;right:auto;width:2px;height:auto}
+  .pj-rama::before{top:22px;left:-14px;width:14px;height:2px}
+}
+.pj .pasos.viaje{max-width:none}
+.pj .pasos.viaje li:nth-child(1){--t:12%}.pj .pasos.viaje li:nth-child(2){--t:20%}.pj .pasos.viaje li:nth-child(3){--t:28%}.pj .pasos.viaje li:nth-child(4){--t:36%}
+.pj .pasos.viaje li:nth-child(5){--t:44%}.pj .pasos.viaje li:nth-child(6){--t:52%}.pj .pasos.viaje li:nth-child(7){--t:60%}
+.pj-tres{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
+.pj-tres>div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:7px 10px}
+.pj .pasos .cuerpo .pj-tres i{display:block;font-style:normal;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink)}
+.pj .pasos .cuerpo .pj-tres span{margin:0;font-size:.8rem;color:var(--ink)}
+@media(max-width:720px){.pj-tres{grid-template-columns:1fr}}
+.pj-rojas.defs div{border-top-color:var(--bad)}
+.pj-carpeta{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:14px;margin-top:6px}
+.pj-carpeta .card h2{margin:4px 0 2px}
+.pj-carpeta .actions{margin-top:12px}
+
+.chip-btn{text-decoration:none;display:inline-block}
+.pj-indice .chip-btn{font-weight:600}
+.cm-fila{margin:-4px 0 12px}
+.cm-btn{font:inherit;font-size:.8rem;font-weight:600;color:var(--accent-ink);background:transparent;border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+.cm-btn:hover,.cm-btn:focus-visible{background:var(--accent-soft);border-color:var(--accent)}
+.cm-nota{margin-top:10px}
+.cm-flota{position:fixed;z-index:50;font:inherit;font-size:.8rem;font-weight:700;color:var(--on-accent);background:var(--accent);border:0;border-radius:8px;padding:7px 14px;cursor:pointer;box-shadow:var(--shadow)}
+.cm-flota:hover{opacity:.92}
+</style>
+<main class="wrap">
+<section class="study-header">
+<div>
+<p class="kicker">Proyecto final del bootcamp</p>
+<h1>Horma jobs</h1>
+<p class="meta">Propuesta vigente a 29 de octubre de 2026 · <span class="status-pill">En definición</span></p>
+</div>
+</section>
+<div class="note"><b>Borrador del 29-oct · no vigente</b>Esta página se conserva como constancia del primer borrador, con los comentarios del profesor del 30-oct y los cambios marcados en azul y naranja. La versión vigente del PRD es <a href="https://claude.ai/artifact/SC6HJfJZAWy1BkwQQoYiYR" target="_blank" rel="noopener">«PRD de Horma jobs» (v1)</a>. Lo que diga esta página sobre n8n, CV sin base o envío a LinkedIn e Indeed puede estar superado.</div>
+<div class="note info"><b>Qué es esto</b>Los apuntes de la propuesta de Horma. Aún no hay código: el documento se actualiza cuando una decisión cambia en los pasos del método. Los diagramas se pueden tocar: pulsa una pieza o un trayecto. «Unidad N» remite al temario del bootcamp.<span class="cm-nota" id="cm-nota" hidden><b>Comentarios</b>Selecciona una palabra, una frase o un párrafo y pulsa «Comentar» para dejar una mejora, una corrección o una pregunta sobre ese texto. Para un diagrama o un apartado entero, usa «Comentar este apartado» bajo el título. Mar ve todos los comentarios y responde en el mismo hilo.</span></div>
+<p class="pj-prd" style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:14px 0 8px"><a class="btn" href="#s23" style="text-decoration:none;display:inline-block">PRD · Product Requirements Document</a><span style="font-size:.8rem;color:var(--muted)">Requisitos del producto en la estructura de clase (MA·S03).</span></p>
+<nav class="pj-indice" aria-label="Apartados del proyecto">
+<a class="chip-btn" href="#s1">1. Horma en una frase</a>
+<a class="chip-btn" href="#s2">2. Quién lo usa</a>
+<a class="chip-btn" href="#s3">3. Los servicios: qué te ofrece</a>
+<a class="chip-btn" href="#s4">4. Canales: por dónde entra y sale todo</a>
+<a class="chip-btn" href="#s5">5. Arquitectura técnica</a>
+<a class="chip-btn" href="#s6">6. Arquitectura: las piezas por dentro</a>
+<a class="chip-btn" href="#s7">7. La arquitectura en un minuto</a>
+<a class="chip-btn" href="#s8">8. Levantar Horma: servidores y contenedores</a>
+<a class="chip-btn" href="#s9">9. El taller y el producto: MCP, skills, subagentes y hooks</a>
+<a class="chip-btn" href="#s10">10. Los agentes por dentro</a>
+<a class="chip-btn" href="#s11">11. Calidad y vigilancia: dónde se enchufan</a>
+<a class="chip-btn" href="#s12">12. Proceso: cómo entra una oferta</a>
+<a class="chip-btn" href="#s13">13. Proceso: cómo te recomienda ofertas</a>
+<a class="chip-btn" href="#s14">14. Proceso: tu CV y tu carta</a>
+<a class="chip-btn" href="#s15">15. Trayecto de una candidata</a>
+<a class="chip-btn" href="#s16">16. Trayecto de una empresa</a>
+<a class="chip-btn" href="#s17">17. Los estados de una candidatura</a>
+<a class="chip-btn" href="#s18">18. Lo que Horma nunca hace</a>
+<a class="chip-btn" href="#s19">19. Qué practica cada pieza</a>
+<a class="chip-btn" href="#s20">20. El plan por fases</a>
+<a class="chip-btn" href="#s21">21. Qué está decidido y qué no</a>
+<a class="chip-btn" href="#s22">22. Diccionario de Horma</a>
+<a class="chip-btn" href="#s23">23. PRD · Product Requirements Document</a>
+</nav>
+<div class="pj">
+<section class="sec" id="s1"><span class="secnum">01</span><h2>Horma en una frase</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s1" hidden>Comentar este apartado</button></p>
+<p><strong>Horma jobs</strong> es un buscador de empleo europeo que trabaja para ti. Junta ofertas de muchas webs, te conoce con una entrevista corta y opcional en la que solo hablas tú, te propone las que encajan contigo, te ayuda a escribir un CV y una carta honestos, te prepara las entrevistas de trabajo y lleva el seguimiento de cada candidatura. No es una red social: no hay seguidores, perfiles de empresa ni muro. Presume de ser <strong>brutalmente honesta</strong>, y la promesa es sobre Horma: cada frase de tu CV viene de lo que tú le diste.</p>
+<p>Una <mark class="t">horma</mark> es el molde con la forma del pie que usa el zapatero para que el zapato quede a medida. Horma hace lo mismo con tu candidatura: la ajusta a cada oferta, pero con tu forma real, sin inventar ni exagerar nada.</p>
+<p>Es el proyecto final de Mar en el bootcamp (sustituye a Erna) y su pieza de portfolio. Parte de <strong>Jobs</strong>, el sistema personal de Mar que ya busca ofertas y escribe CVs, y lo convierte en un producto para muchas personas.</p>
+<figure class="fig">
+<div class="pj-mapa" role="group" aria-label="Mapa conceptual de Horma jobs">
+<span class="pj-hub">Horma jobs</span>
+<div class="pj-ramas">
+<div class="pj-rama"><b>Quién lo usa</b><ul><li>Candidatas</li><li>Empresas</li><li>Mar, que lo mantiene</li><li>El profesor, que lo evalúa</li></ul></div>
+<div class="pj-rama"><b>Qué hace</b><ul><li>Conocerte</li><li>Encontrar ofertas</li><li>Presentarte</li><li>Seguir tus candidaturas</li></ul></div>
+<div class="pj-rama"><b>Por dónde</b><ul><li>Web y app de móvil</li><li>Voz</li><li>Correo de Horma</li><li>Portales de empleo</li></ul></div>
+<div class="pj-rama no"><b>Qué nunca hace</b><ul><li>Inventar datos</li><li>Analizar tu voz</li><li>Puntuar personas</li><li>Filtrar candidatas</li></ul></div>
+</div>
+</div>
+<figcaption>Las cuatro preguntas que contesta este documento. Cada rama tiene su apartado más abajo.</figcaption>
+</figure>
+
+</section>
+<section class="sec" id="s2"><span class="secnum">02</span><h2>Quién lo usa</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s2" hidden>Comentar este apartado</button></p>
+<p>Horma es <mark class="t">multiusuaria</mark>: muchas personas, cada una con su cuenta, y cada una ve solo lo suyo. Funciona como los buzones de un portal: todas usan el mismo portal, pero cada vecina abre solo su buzón.</p>
+<dl class="defs">
+<div><dt>Candidata</dt><dd>Busca trabajo. Sube sus CVs, hace la entrevista, elige ofertas y aprueba cada envío.</dd></div>
+<div><dt>Empresa</dt><dd>Publica ofertas en Horma. No tiene perfil ni se la sigue; como mucho, la oferta enlaza a su web oficial. Solo ve lo que cada candidata decide compartir con ella.</dd></div>
+<div><dt>Mar, la operadora</dt><dd>Mantiene Horma en marcha: vigila la calidad de la IA, los costes y los fallos.</dd></div>
+<div><dt>El profesor</dt><dd>Evalúa el proyecto. Ve la demostración con cuentas de prueba y datos inventados, nunca con datos de usuarias reales.</dd></div>
+</dl>
+
+</section>
+<section class="sec" id="s3"><span class="secnum">03</span><h2>Los servicios: qué te ofrece</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s3" hidden>Comentar este apartado</button></p>
+<p>Un <mark class="t">servicio</mark> es algo que Horma hace por ti y que puedes usar por separado. Son catorce, agrupados en cuatro familias, en el orden en que los usarías.</p>
+<figure class="fig"><div class="nest"><div class="box"><span class="lbl">Horma jobs</span> <span class="sub">— todo bajo el mismo techo</span>
+<div class="box"><span class="lbl">1 · Conocerte</span>
+<ul><li><strong>Perfil desde tus CVs:</strong> subes uno o varios y la IA los ordena en un perfil. Un solo perfil por persona; si buscas cosas distintas, guardas varias búsquedas.</li><li><strong>Entrevista opcional:</strong> 20 minutos como máximo; hablas tú y Horma te pregunta por escrito. Se transcribe tu voz, el audio se borra y solo queda el texto. Saca tu perfil humano (cómo trabajas, qué te importa).</li></ul></div>
+<div class="box"><span class="lbl">2 · Encontrar</span>
+<ul><li><strong>Metabuscador:</strong> ofertas de la UE y España de muchas webs, en un solo sitio.</li><li><strong>Filtros con casillas:</strong> remoto, sueldo, país, idioma, contrato, nivel, sector.</li><li><strong>Salario a la vista:</strong> cada oferta dice si publica el sueldo; puedes ver solo las que lo publican y fijar tu mínimo.</li><li><strong>Recomendación explicada:</strong> por qué encaja cada oferta, y tú puedes corregirlo.</li></ul></div>
+<div class="box"><span class="lbl">3 · Presentarte</span>
+<ul><li><strong>CV y carta a medida:</strong> para cada oferta, la IA elige de tu perfil lo que más encaja y escribe un CV y una carta nuevos, sin inventar nada; 12 diseños y PDF.</li><li><strong>Revisión antes de enseñártelo:</strong> comprueba que estén las palabras clave de la oferta, que los programas de las empresas lo lean bien y que cada frase salga de tu perfil; tú ves de qué dato tuyo sale cada frase.</li><li><strong>Asistente de edición:</strong> señalas una frase («no me gusta», «es demasiado informal») y te la reescribe. Solo reformula lo que ya está respaldado por tu CV o tu perfil.</li><li><strong>Agente de candidatura:</strong> rellena el formulario de la empresa y adjunta tus documentos. Por defecto apruebas tú cada envío; también puedes darle permiso una vez (modo autónomo).</li><li><strong>Entrenador de entrevistas:</strong> te prepara para las ofertas a las que has aplicado o quieres aplicar, con preguntas a medida de cada una. Por escrito; con voz de Horma solo si se llega a tiempo.</li></ul></div>
+<div class="box"><span class="lbl">4 · Seguir</span>
+<ul><li><strong>Tablero y registro:</strong> en qué punto está cada candidatura y el historial de todas: enviadas, descartadas por ti, rechazadas…</li><li><strong>Portal de empresas:</strong> donde publican sus ofertas. No hay sección de información sobre empresas, ni perfiles, ni seguidores: Horma no es una red social.</li><li><strong>Suscripciones:</strong> los planes de pago que cubren los costes.</li></ul></div>
+</div></div><figcaption>Las cuatro familias de servicios, dentro de una sola aplicación.</figcaption></figure>
+<p>Un <mark class="t">ATS</mark> (sistema de seguimiento de candidatos) es el programa con el que las empresas reciben y criban CVs. Es como el portero de una discoteca con la lista en la mano: si no lee bien tu nombre, no entras, aunque estés invitada.</p>
+<div class="note"><b>Ojo</b>Horma no puede prometer que «pasas el ATS»: eso lo decide cada empresa. Lo que sí asegura es que el ATS lea bien tu CV y que recoja las palabras clave de la oferta sin inventar nada.</div>
+
+</section>
+<section class="sec" id="s4"><span class="secnum">04</span><h2>Canales: por dónde entra y sale todo</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s4" hidden>Comentar este apartado</button></p>
+<p>Un <mark class="t">canal</mark> es un camino por el que la información entra en Horma o sale de ella. Son como las puertas de una tienda: la de clientes, la del almacén y el buzón.</p>
+<figure class="fig"><div class="comparar">
+<div><h4>Entra en Horma</h4><div class="pila">
+<span class="cap app">Web y app de móvil: lo que haces tú</span>
+<span class="cap">Voz: tu entrevista, que se transcribe</span>
+<span class="cap">Portales de empleo, a través de n8n</span>
+<span class="cap">Portal de empresas: sus ofertas</span>
+<span class="cap">Correo de Horma: respuestas que reenvías</span>
+<span class="cap base">Entrada con Google o con tu email</span>
+</div></div>
+<div><h4>Sale de Horma</h4><div class="pila">
+<span class="cap app">Pantallas: ofertas, perfil y tablero</span>
+<span class="cap">PDF de tu CV y tu carta</span>
+<span class="cap">Formularios de empresa, que rellena el agente</span>
+<span class="cap">Cobro de la suscripción (Stripe)</span>
+<span class="cap base">Exportar o borrar todos tus datos</span>
+</div></div>
+</div><figcaption>Arriba, lo que más usas; abajo, con borde discontinuo, lo que siempre está pero apenas ves.</figcaption></figure>
+<p>La web se puede instalar en el móvil como si fuera una app: es una <mark class="t">PWA</mark> (aplicación web instalable). No pasa por la tienda de apps; la añades desde el navegador, como un acceso directo con su icono.</p>
+<p>Más adelante, Horma también estará en las <strong>tiendas de apps</strong> (App Store y Google Play). Todavía no tiene fecha: cada tienda tiene sus cuotas y su revisión, y la PWA permite empezar sin ese coste.</p>
+<p>¿Por qué reenviar el correo en vez de que Horma lea tu Gmail? Porque leer el correo de otras personas obliga a pasar una verificación de pago de Google. Reenviar las respuestas de las empresas a un correo de Horma da lo mismo sin ese coste.</p>
+
+</section>
+<section class="sec" id="s5"><span class="secnum">05</span><h2>Arquitectura técnica</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s5" hidden>Comentar este apartado</button></p>
+<p>Arquitectura prevista a nivel de implementación: procesos y contenedores, capas del backend, protocolo y control de acceso en cada frontera, e invariantes del sistema. Es lo previsto, no código: lo marcado como propuesta se confirma en el paso 6.</p>
+<h3>Procesos y contenedores</h3>
+<div class="pj-dia"><iframe src="proyectos/horma/tecnico.html" title="Horma, vista de ingeniería" loading="lazy" style="height:800px"></iframe></div>
+<p class="pj-dia-pie"><a class="btn ghost" href="proyectos/horma/tecnico.html" target="_blank" rel="noopener">Abrir «Horma, vista de ingeniería» en pantalla completa ↗</a><span>Cada flecha lleva su protocolo. Pulsa una pieza para ver sus conexiones o «Play story» para seguir un trayecto. Los botones del visor están en inglés.</span></p>
+<p>Horma no es «una API»: son <strong>cuatro tipos de proceso</strong> con responsabilidades y niveles de confianza distintos.</p>
+<div class="tbl"><table>
+<thead><tr><th>Proceso</th><th>Qué hace</th><th>Estado</th></tr></thead>
+<tbody>
+<tr><td><strong>API síncrona</strong> (FastAPI)</td><td>Responde a la web y a los webhooks en milisegundos: autentica, valida y lee o escribe en la base de datos.</td><td>Decidido</td></tr>
+<tr><td><strong>Worker</strong> (Python, mismo código base)</td><td>Ejecuta lo lento o incierto: extracción y embeddings de ofertas, agentes (redactora, entrenador, asistente de edición) y evals.</td><td>Propuesta</td></tr>
+<tr><td><strong>n8n</strong> (contenedor propio)</td><td>Solo ingesta de ofertas; escribe únicamente por <code>POST /ofertas</code>.</td><td>Decidido</td></tr>
+<tr><td><strong>Navegador aislado</strong> (Playwright)</td><td>Rellena formularios ATS sin acceso a la base de datos.</td><td>Propuesta</td></tr>
+</tbody></table></div>
+<p>¿Por qué un <mark class="t">monolito modular</mark> con dos procesos y no <mark class="t">microservicios</mark>? Un monolito modular es un solo programa dividido en módulos con fronteras claras; los microservicios son varios programas independientes que se hablan por red. La API y el worker comparten modelos, reglas y acceso a datos, así que son un solo código base con dos comandos de arranque. Separarlos da lo que importa: un CV de 40 segundos no bloquea la web y el worker puede caer sin tumbar la API. Los microservicios solo se justificarían con equipos distintos o escalado independiente real.</p>
+<h3>Capas dentro de la API</h3>
+<div class="tbl"><table>
+<thead><tr><th>Capa</th><th>Responsabilidad</th><th>No hace</th></tr></thead>
+<tbody>
+<tr><td><strong>Routers</strong></td><td>Rutas HTTP, autenticación (JWT), validación de entrada y salida con Pydantic.</td><td>Lógica de negocio.</td></tr>
+<tr><td><strong>Servicios</strong></td><td>Reglas de negocio, máquina de estados de la candidatura, orquestación de agentes (LangGraph) y llamadas al LLM.</td><td>Conocer HTTP ni escribir SQL.</td></tr>
+<tr><td><strong>Repositorios</strong></td><td>Único acceso a PostgreSQL: consultas, búsqueda híbrida (texto + pgvector), transacciones.</td><td>Lógica de negocio.</td></tr>
+</tbody></table></div>
+<h3>Fronteras y controles</h3>
+<div class="tbl"><table>
+<thead><tr><th>Tramo</th><th>Protocolo</th><th>Control en la frontera</th></tr></thead>
+<tbody>
+<tr><td>Navegador / PWA → API</td><td>HTTPS · HTML + HTMX</td><td>JWT tras el inicio de sesión con Google (OAuth 2.0); Pydantic en los routers.</td></tr>
+<tr><td>n8n → API</td><td>HTTPS · <code>POST /ofertas</code></td><td>Clave de API; mismas validaciones que cualquier otra oferta.</td></tr>
+<tr><td>Servicio de transcripción (por elegir) → API</td><td>Webhook HTTPS</td><td>Verificación del webhook según el mecanismo del proveedor (a fijar en el paso 6). Transcripción en la UE y sin análisis de emociones; el audio se borra al transcribir, también en el proveedor.</td></tr>
+<tr><td>Stripe → API</td><td>Webhook HTTPS</td><td>Verificación de la firma <code>Stripe-Signature</code> antes de procesar el evento.</td></tr>
+<tr><td>Worker → API de LLM</td><td>HTTPS</td><td>Clave del proveedor solo en el servidor; una única puerta al LLM que registra modelo, tokens, coste y latencia.</td></tr>
+<tr><td>Repositorios → PostgreSQL</td><td>SQL</td><td>Acceso exclusivo desde repositorios; aislamiento de datos por usuaria.</td></tr>
+<tr><td>Worker → navegador aislado</td><td>Tarea con los datos de una sola candidatura</td><td>El navegador no ve la base de datos ni otras candidaturas; el envío es idempotente (reintentar no envía dos veces).</td></tr>
+<tr><td>Navegador aislado → formularios ATS</td><td>HTTPS · navegador controlado con Playwright</td><td>Solo se ejecuta desde el estado «aprobada» (o con el permiso autónomo y el supervisor); en LinkedIn e Indeed no envía.</td></tr>
+</tbody></table></div>
+<h3>Invariantes</h3>
+<ul>
+<li>Todo dato externo entra por los routers; nada escribe en la base de datos sin pasar por servicios y repositorios.</li>
+<li>Filtros, deduplicación y transiciones de estado son deterministas; los modelos solo extraen, ordenan, explican y redactan.</li>
+<li>Recomendación: filtros SQL, después búsqueda híbrida contra el perfil y, por último, ajuste y explicación con el LLM.</li>
+<li>Los datos personales no se registran en logs ni se usan en tests.</li>
+<li>Lo lento se encola en PostgreSQL y lo hace el worker; la API nunca espera a un LLM para responder a la web.</li>
+</ul>
+<h3>Recomendación de ofertas en tres pasos</h3>
+<div class="pj-dia"><iframe src="proyectos/horma/recomendacion.html" title="Recomendación de ofertas" loading="lazy" style="height:800px"></iframe></div>
+<p class="pj-dia-pie"><a class="btn ghost" href="proyectos/horma/recomendacion.html" target="_blank" rel="noopener">Abrir «Recomendación de ofertas» en pantalla completa ↗</a><span>Los tres trayectos de arriba siguen el orden: filtro duro, búsqueda híbrida y ajuste con el LLM.</span></p>
+<p>El orden es deliberado: <strong>lo barato y exacto va primero</strong>. El filtro SQL no gasta ni un token y limita el coste del paso caro: el LLM puntúa por tandas de 30 y no hay tope de ofertas mostradas (las que aún no se han puntuado salen sin nota hasta que se pagina). La <mark class="t">búsqueda híbrida</mark> combina palabras clave (<code>tsvector</code>) y significado (pgvector) y fusiona los resultados con <em>Reciprocal Rank Fusion</em>. El LLM da dos salidas separadas: una nota 0-100 solo de experiencia y formación y 3 niveles sobre condiciones de trabajo (autonomía, ritmo, equipo). Las evidencias humanas no entran en la nota, y puntúa ofertas, nunca la personalidad de nadie.</p>
+<h3>La redactora: generar, evaluar, corregir</h3>
+<div class="pj-dia"><iframe src="proyectos/horma/redactora.html" title="La redactora" loading="lazy" style="height:900px"></iframe></div>
+<p class="pj-dia-pie"><a class="btn ghost" href="proyectos/horma/redactora.html" target="_blank" rel="noopener">Abrir «La redactora» en pantalla completa ↗</a><span>Si una frase no tiene origen o el ATS no lee bien el PDF, se corrige; tras dos intentos o con un dato que falta, te pregunta.</span></p>
+<p>Nada llega a la usuaria sin pasar dos controles: <strong>trazabilidad</strong> (un juez comprueba que cada frase sale del perfil) y <strong>lectura ATS</strong> (se vuelve a leer el PDF generado y se cuentan las palabras clave). Se promete que el ATS lee bien el CV, no que lo apruebe. Las evidencias del perfil humano solo entran si las activaste y no las ocultaste, y lo que edites con el asistente pasa los mismos controles.</p>
+<h3>Envío: aprobación, supervisor y aislamiento</h3>
+<div class="pj-dia"><iframe src="proyectos/horma/envio.html" title="Envío de una candidatura" loading="lazy" style="height:900px"></iframe></div>
+<p class="pj-dia-pie"><a class="btn ghost" href="proyectos/horma/envio.html" target="_blank" rel="noopener">Abrir «Envío de una candidatura» en pantalla completa ↗</a><span>Por defecto decides tú. En modo autónomo, un supervisor revisa cada envío antes de que salga.</span></p>
+<p>El supervisor del modo autónomo aplica <mark class="t">denegar por defecto</mark>: lo que no está en su lista conocida no se envía y queda «pendiente de ti». No envía si falta un dato o si no pasa el eval de trazabilidad, nunca contesta solo preguntas del art. 9, salariales o legales, y pausa el modo si repite errores. Sus reglas son código determinista: un LLM solo puede endurecerlas, nunca relajarlas. El permiso es único y revocable, avisa de qué datos van a quién y hay un botón de pausa total. Además hay un <strong>freno técnico</strong> (envíos por hora y por día) como medida de seguridad, no como tope de producto. Solo se envía a formularios ATS de empresa y al portal de Horma; nunca a LinkedIn ni Indeed. Su diseño detallado se fija en el paso 6.</p>
+<h3>Calidad y registro de llamadas</h3>
+<div class="pj-dia"><iframe src="proyectos/horma/calidad.html" title="Calidad y LLMOps" loading="lazy" style="height:900px"></iframe></div>
+<p class="pj-dia-pie"><a class="btn ghost" href="proyectos/horma/calidad.html" target="_blank" rel="noopener">Abrir «Calidad y LLMOps» en pantalla completa ↗</a><span>Toda llamada al LLM pasa por una sola puerta; los evals en CI bloquean los cambios que empeoran.</span></p>
+<p>El registro guarda cifras (modelo, tokens, coste, latencia), no el texto de la usuaria; con él se fija el precio de los planes sin topes. Los casos de prueba son siempre datos inventados.</p>
+<h3>Requisitos de seguridad antes de escribir código</h3>
+<p>Revisados con el subagente de seguridad. Cada punto pasa a ser una ADR (una página por decisión) en el paso 6.</p>
+<div class="tbl"><table>
+<thead><tr><th>Punto</th><th>El riesgo</th><th>Qué se haría</th></tr></thead>
+<tbody>
+<tr><td><strong>RLS de verdad</strong></td><td>La seguridad por fila no protege si la API o el worker se conectan como dueños de las tablas o como superusuario.</td><td>Roles separados sin saltarse la RLS, <code>FORCE ROW LEVEL SECURITY</code>, usuaria fijada en cada transacción y un test que intente leer datos ajenos.</td></tr>
+<tr><td><strong>Navegador aislado</strong></td><td>Visita direcciones sacadas de ofertas, que no son de fiar: puede sufrir <mark class="t">SSRF</mark> (que lo engañen para llamar a direcciones internas).</td><td>Red propia sin ruta a la base de datos ni a n8n, rangos privados bloqueados, solo <code>https</code>, perfil nuevo por envío y límites de tiempo y memoria.</td></tr>
+<tr><td><strong>Prompt injection</strong></td><td>Una oferta maliciosa puede intentar manipular al modelo; un filtro de entrada no basta.</td><td>Agentes que leen ofertas sin herramientas con efectos, salidas en esquemas cerrados y el juez comparando con el perfil, no con la oferta.</td></tr>
+<tr><td><strong>Estados del envío</strong></td><td>Un envío es irreversible: un fallo podría enviar dos veces o fuera de «aprobada».</td><td>Máquina de estados en la base de datos, revalidación justo antes de enviar, clave de idempotencia y, si cae en «enviando», no reintentar solo.</td></tr>
+<tr><td><strong>Supervisor autónomo</strong></td><td>Si es un LLM, la propia oferta puede convencerlo.</td><td>Reglas duras en código con denegación por defecto, registro de cada decisión y freno técnico de envíos.</td></tr>
+</tbody></table></div>
+<p>Con las primeras líneas de la API se añaden: clave de n8n limitada a <code>POST /ofertas</code>, cola con reintentos máximos, JWT y OAuth bien verificados, webhooks con firma y eventos ya procesados, secretos fuera del repositorio y logs sin datos personales.</p>
+<h3>Pendiente de fijar en el paso 6</h3>
+<p>Despliegue y proxy (Caddy es propuesta), librería de cola (propuesta: tabla en PostgreSQL), capa de acceso a datos (ORM o SQL directo), proveedor de LLM, de embeddings y de transcripción en la UE, diseño del supervisor, permisos del rol de empresa y si las métricas se quedan en tabla propia.</p>
+
+</section>
+<section class="sec" id="s6"><span class="secnum">06</span><h2>Arquitectura: las piezas por dentro</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s6" hidden>Comentar este apartado</button></p>
+<p>La <mark class="t">arquitectura</mark> es el plano de las piezas de un programa y de quién habla con quién. Piensa en un restaurante:</p>
+<ul>
+<li>Los <strong>proveedores</strong> (los portales de empleo) traen el género: las ofertas.</li>
+<li>El <strong>encargado de compras</strong> (n8n) lo recoge cada día, lo revisa y tira lo repetido.</li>
+<li>El <strong>pase de cocina</strong> (la API) es la única puerta por la que entra y sale todo.</li>
+<li>La <strong>despensa</strong> (la base de datos) lo guarda ordenado.</li>
+<li>Unos pocos <strong>cocineros especialistas</strong> (los agentes) hacen platos concretos.</li>
+<li>Un <strong>chef consultor</strong> (los modelos de IA) se alquila por horas para redactar y explicar.</li>
+</ul>
+<div class="pj-dia"><iframe src="proyectos/horma/arquitectura.html" title="Arquitectura de Horma" loading="lazy" style="height:800px"></iframe></div>
+<p class="pj-dia-pie"><a class="btn ghost" href="proyectos/horma/arquitectura.html" target="_blank" rel="noopener">Abrir «Arquitectura de Horma» en pantalla completa ↗</a><span>Pulsa una pieza para ver con quién habla. Arriba hay cinco trayectos: «Play story» los recorre uno a uno. Los botones del visor están en inglés.</span></p>
+<dl class="defs">
+<div><dt>API de Horma</dt><dd>El centro, escrito en Python con FastAPI. Comprueba y decide todo. Ej.: recibe una oferta y la rechaza si le falta el título.</dd></div>
+<div><dt>Base de datos</dt><dd>PostgreSQL con pgvector: guarda ofertas, perfiles y candidaturas, y permite buscar por significado.</dd></div>
+<div><dt>n8n</dt><dd>Recoge ofertas de los portales cada día. Viene de Jobs y no escribe en la base de datos: se las pasa a la API.</dd></div>
+<div><dt>Modelos de IA</dt><dd>Se alquilan por uso para ordenar datos, redactar y explicar. Cada llamada se apunta con su coste y su tiempo.</dd></div>
+<div><dt>Agentes</dt><dd>La transcriptora de la entrevista, la redactora de CV y carta (con su asistente de edición), el agente de envío (Playwright, que maneja un navegador) con su supervisor auditor, y el entrenador de entrevistas.</dd></div>
+<div><dt>Web</dt><dd>HTML, CSS y JavaScript que sirve la propia API (con Jinja2 y HTMX): una sola base de código, sin React.</dd></div>
+</dl>
+<div class="note info"><b>La idea que se defiende ante el profesor</b>Agentes donde aportan; reglas fijas donde no. Los filtros, quitar repetidas y los estados de una candidatura son <strong>deterministas</strong>: con la misma entrada dan siempre el mismo resultado, como una calculadora. Así son más baratos, más rápidos y más fáciles de probar.</div>
+
+</section>
+<section class="sec" id="s7"><span class="secnum">07</span><h2>La arquitectura en un minuto</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s7" hidden>Comentar este apartado</button></p>
+<p>Si solo tienes un minuto para explicar Horma, cuéntala por capas, de fuera hacia dentro. Es el guion para presentarla al profesor y para ti: cinco frases que se pueden decir de memoria.</p>
+<figure class="fig"><ol class="pasos" aria-label="La arquitectura de Horma en cinco frases">
+<li><span class="n">1</span><div class="cuerpo"><b>Una sola puerta</b><span>Todo entra y sale por la API de Horma, escrita en Python con FastAPI. La web, n8n, la voz, Stripe y las empresas hablan con ella; nadie toca la base de datos por su cuenta.</span></div></li>
+<li><span class="n">2</span><div class="cuerpo"><b>Tres capas dentro de la API</b><span>Los routers reciben y validan, los servicios deciden y los repositorios son los únicos que hablan con la base de datos.</span></div></li>
+<li><span class="n">3</span><div class="cuerpo"><b>Una despensa que entiende significados</b><span>PostgreSQL con pgvector guarda los datos y, junto a cada oferta, su embedding para buscar por significado.</span></div></li>
+<li><span class="n">4</span><div class="cuerpo"><b>Reglas fijas y IA alquilada</b><span>Filtros, duplicados y estados son código determinista. Los modelos de IA solo extraen, ordenan, explican y redactan, y cada llamada se apunta con su coste.</span></div></li>
+<li><span class="n core">5</span><div class="cuerpo core"><b>Pocos agentes y con correa</b><span>La transcriptora, la redactora de CV y carta (con su asistente de edición), el agente de envío y el entrenador. Cada uno solo tiene las herramientas que necesita, y el de envío no actúa sin tu permiso y está vigilado por un supervisor auditor.</span></div></li>
+</ol><figcaption>Si te preguntan «¿cómo funciona Horma?», recorre estas cinco frases en orden. Los apartados siguientes desarrollan cada una.</figcaption></figure>
+<h3>Las preguntas que te harán</h3>
+<dl class="defs">
+<div><dt>¿Dónde está el RAG?</dt><dd>En la búsqueda de ofertas: embeddings, pgvector y búsqueda híbrida (Unidad 10). El perfil de una persona cabe entero en el contexto del modelo, así que no hace falta un RAG sobre él.</dd></div>
+<div><dt>¿Por qué n8n si el backend es Python?</dt><dd>Porque ya trae las ofertas en Jobs y no decide nada. Se presenta así: n8n orquesta la ingesta y toda la lógica de producto está en Python.</dd></div>
+<div><dt>¿Por qué tan pocos agentes?</dt><dd>Más autonomía es más riesgo y más coste (Unidad 22). Donde la secuencia de pasos ya se conoce, basta un flujo fijo, que es más barato y más fácil de probar.</dd></div>
+<div><dt>¿Y si la IA se equivoca?</dt><dd>Hay tres redes: un verificador que comprueba que cada frase sale del CV o del perfil, evals que lo miden con números, y tu aprobación antes de que se envíe nada.</dd></div>
+<div><dt>¿Dónde están los MCP y los subagentes?</dt><dd>Sobre todo en el taller donde se construye Horma, no en el producto. Está explicado en el apartado 9.</dd></div>
+</dl>
+
+</section>
+<section class="sec" id="s8"><span class="secnum">08</span><h2>Levantar Horma: servidores y contenedores</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s8" hidden>Comentar este apartado</button></p>
+<p>Un <mark class="t">servidor</mark> es un programa que se queda encendido esperando peticiones, como un camarero que espera en la barra a que alguien pida. <strong>Levantarlo</strong> es arrancarlo y dejarlo escuchando. «Levantar Horma» es encender varios servidores a la vez y que se encuentren entre sí.</p>
+<p>Cada servidor va dentro de un <mark class="t">contenedor</mark> de Docker (Unidad 8): una caja cerrada con el programa y todo lo que necesita, que funciona igual en tu ordenador que en un servidor de internet. <mark class="t">Docker Compose</mark> es el archivo que lista todas las cajas y las enciende de golpe con un solo comando, <code>docker compose up</code>. Es la hoja de apertura del restaurante: quién abre primero y con qué.</p>
+<h3>Qué se levanta</h3>
+<div class="tbl"><table>
+<thead><tr><th>Pieza</th><th>Qué es</th><th>Por qué así</th></tr></thead>
+<tbody>
+<tr><td><strong>api</strong></td><td>La API de Horma: FastAPI atendida por Uvicorn, el servidor que escucha las peticiones web. También sirve la web (Jinja2 y HTMX).</td><td>Es la única pieza que habla con el exterior. Ej.: recibe <code>POST /ofertas</code> de n8n.</td></tr>
+<tr><td><strong>db</strong></td><td>PostgreSQL con pgvector.</td><td>Guarda sus datos en un <em>volumen</em>, un disco que sobrevive aunque se borre el contenedor. Sin volumen, apagar la caja sería perderlo todo.</td></tr>
+<tr><td><strong>worker</strong></td><td>Un proceso aparte con el mismo código que la API, para los trabajos lentos: el agente de envío con Playwright, generar PDF, calcular embeddings en lote.</td><td>Así la web no se queda colgada mientras el agente rellena un formulario. La cola de tareas sería una tabla de PostgreSQL, sin Redis: una pieza menos que mantener.</td></tr>
+<tr><td><strong>n8n</strong></td><td>La ingesta diaria de ofertas, heredada de Jobs.</td><td>Instancia propia de Horma, en un contenedor del mismo servidor, separada del n8n personal de Mar, que no se toca. Solo trae ofertas: su licencia no permite usarlo para recoger las credenciales de las usuarias (por ejemplo, su Gmail).</td></tr>
+<tr><td><strong>proxy</strong></td><td>La puerta con HTTPS (por ejemplo Caddy): recibe de internet y reparte hacia la API.</td><td>Se encarga del certificado, para que la API no tenga que hacerlo.</td></tr>
+</tbody></table></div>
+<h3>Lo que no se levanta: servicios de fuera</h3>
+<p>Cinco piezas viven en otras empresas y se llaman por internet. Lo que sí es de Horma es guardar su clave en el servidor y comprobar sus avisos. Un <mark class="t">webhook</mark> es un aviso automático que un servicio manda a tu API cuando pasa algo, como que el cartero llame al timbre cuando llega un paquete.</p>
+<dl class="defs">
+<div><dt>Proveedor de LLM</dt><dd>Los modelos de IA. La clave solo está en el servidor.</dd></div>
+<div><dt>Servicio de voz (Vapi u otro)</dt><dd>Transcribe tu voz en la entrevista y, si se llega a tiempo, pone la voz del entrenador. Avisa a la API por webhook.</dd></div>
+<div><dt>Stripe</dt><dd>El cobro. Su aviso se verifica con la firma antes de creerlo.</dd></div>
+<div><dt>Google</dt><dd>La entrada con tu cuenta (OAuth).</dd></div>
+<div><dt>Correo de Horma</dt><dd>Recibe las respuestas de empresas que reenvías.</dd></div>
+</dl>
+<h3>Orden de arranque</h3>
+<figure class="fig"><ol class="pasos" aria-label="Orden en que arranca Horma">
+<li><span class="n">1</span><div class="cuerpo"><b>La base de datos</b><span>Y no se sigue hasta que responda: es lo que se llama una comprobación de salud (healthcheck).</span></div></li>
+<li><span class="n">2</span><div class="cuerpo"><b>Las migraciones</b><span>Un script que crea o actualiza las tablas para que coincidan con el código.</span></div></li>
+<li><span class="n">3</span><div class="cuerpo"><b>La API</b><span>Ya puede atender peticiones.</span></div></li>
+<li><span class="n">4</span><div class="cuerpo"><b>El worker y n8n</b><span>Necesitan la API para entregarle su trabajo.</span></div></li>
+<li><span class="n core">5</span><div class="cuerpo core"><b>El proxy</b><span>Lo último: abre la puerta al público cuando todo lo de dentro ya está listo.</span></div></li>
+</ol><figcaption>Como abrir un restaurante: primero la cocina, luego la puerta.</figcaption></figure>
+<h3>Tres sitios donde corre</h3>
+<dl class="defs">
+<div><dt>Tu ordenador</dt><dd>Con <code>docker compose up</code> y datos inventados. Las claves van en un <code>.env</code> fuera de git.</dd></div>
+<div><dt>Pruebas automáticas</dt><dd>En cada cambio, GitHub Actions levanta una base temporal y pasa los tests y los evals (Unidad 18).</dd></div>
+<div><dt>Producción</dt><dd>Un VPS al que se entra por SSH (Unidad 8). La demostración para el profesor usa cuentas de prueba con datos inventados.</dd></div>
+</dl>
+<h3>Tareas programadas</h3>
+<div class="tbl"><table>
+<thead><tr><th>Qué</th><th>Quién la lanza</th><th>Cuándo (orientativo)</th></tr></thead>
+<tbody>
+<tr><td>Traer ofertas nuevas</td><td>n8n, con su disparador de programación</td><td>Cada día</td></tr>
+<tr><td>Marcar «sin respuesta» a los 30 días</td><td>Una tarea programada de la API (cron, Unidad 5)</td><td>Cada noche</td></tr>
+<tr><td>Retirar ofertas cerradas o fantasma</td><td>Igual</td><td>Cada semana</td></tr>
+<tr><td>Copia de seguridad de la base de datos</td><td>Cron en el servidor</td><td>Cada noche; hay que probar a restaurarla</td></tr>
+</tbody></table></div>
+<div class="note info"><b>Qué está fijado y qué no</b>Ya elegidos: FastAPI, PostgreSQL con pgvector y Docker. Pendientes del paso 6, con el coste mensual a la vista: dónde se aloja, qué proxy y cómo es la cola de tareas.</div>
+
+</section>
+<section class="sec" id="s9"><span class="secnum">09</span><h2>El taller y el producto: MCP, skills, subagentes y hooks</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s9" hidden>Comentar este apartado</button></p>
+<p>Aquí se resuelve la confusión más común. Hay <strong>dos mundos técnicos</strong> y los MCP y los subagentes de Claude Code viven sobre todo en el primero:</p>
+<ul>
+<li><strong>El taller</strong> es donde se construye Horma: tu Claude Code con sus reglas, skills, subagentes, hooks y MCP. Es como las herramientas y los planos del zapatero.</li>
+<li><strong>El producto</strong> es lo que corre para las usuarias: la API, la base de datos y los agentes. Es el zapato ya hecho.</li>
+</ul>
+<figure class="fig"><div class="comparar">
+<div><h4>El taller (construir)</h4><div class="pila">
+<span class="cap app">CLAUDE.md y la Copiloto: las reglas</span>
+<span class="cap">Skills: el método de 20 pasos, archify, workbook</span>
+<span class="cap">Subagentes: revisores con el contexto limpio</span>
+<span class="cap">Hooks: reglas que se cumplen siempre</span>
+<span class="cap base">MCP: n8n, GitHub, Playwright</span>
+</div></div>
+<div><h4>El producto (usar)</h4><div class="pila">
+<span class="cap app">API, base de datos y web</span>
+<span class="cap">Agentes: transcriptora, redactora, envío, entrenador</span>
+<span class="cap">Herramientas de los agentes (funciones Python)</span>
+<span class="cap">Modelos de IA y Vapi</span>
+<span class="cap base">Servidor MCP «Horma»: por decidir</span>
+</div></div>
+</div><figcaption>Si una pieza ayuda a escribir Horma, es del taller. Si corre cuando una candidata entra, es del producto.</figcaption></figure>
+<h3>En el taller: qué usar para qué</h3>
+<p>La Unidad 7 da una regla para elegir: pregunta qué le falta al agente.</p>
+<div class="tbl"><table>
+<thead><tr><th>Si le falta…</th><th>Se usa</th><th>En Horma</th></tr></thead>
+<tbody>
+<tr><td>Llegar a algo</td><td><strong>MCP</strong> (el adaptador)</td><td>El de n8n para crear los flujos de ingesta, con la regla que le quita el poder de publicar; el de GitHub; el de Playwright para probar la web en móvil y escritorio. Propuesto: uno de PostgreSQL para consultar la base de desarrollo, nunca la de producción.</td></tr>
+<tr><td>Saber cómo</td><td><strong>Skill</strong> (el manual)</td><td>Los pasos 1 a 20 del método, archify para los diagramas, workbook para el cuaderno.</td></tr>
+<tr><td>Repartir el trabajo</td><td><strong>Subagente</strong> (el especialista)</td><td>Dos propuestos, abajo.</td></tr>
+<tr><td>Que algo se cumpla siempre</td><td><strong>Hook</strong> (el cerrojo)</td><td>Bloquear <code>git add .</code>, el push a main y la lectura de <code>.env</code>; pasar los tests antes de cada commit.</td></tr>
+</tbody></table></div>
+<p>Los hooks importan porque hoy esas reglas viven en CLAUDE.md, y un agente puede olvidarlas. Un hook es código que las hace cumplir aunque se olvide: la diferencia entre un cartel de «prohibido el paso» y una puerta cerrada con llave.</p>
+<h3>Subagentes propuestos para el taller</h3>
+<p>Un subagente es un archivo Markdown en <code>.claude/agents/</code> con su nombre y sus permisos. Revisa con el contexto limpio, sin el sesgo de quien escribió el código: es una segunda opinión de verdad.</p>
+<div class="tbl"><table>
+<thead><tr><th>Subagente</th><th>Qué revisa</th><th>Permisos</th></tr></thead>
+<tbody>
+<tr><td><strong>revisor-seguridad</strong></td><td>Cada cambio: secretos en el código, que cada usuaria solo vea lo suyo, validación de entradas y posible inyección de instrucciones.</td><td>Solo lectura</td></tr>
+<tr><td><strong>auditor-lineas-rojas</strong></td><td>Cada cambio frente a las líneas rojas: ¿se inventa un dato?, ¿se analiza la voz?, ¿se ordena a candidatas para empresas?</td><td>Solo lectura</td></tr>
+</tbody></table></div>
+<p>No hace falta crear uno para buscar código de Jobs que reaprovechar: Claude Code trae el subagente <em>Explore</em>, que solo lee. Borrar gana a añadir.</p>
+<div class="note"><b>Ojo</b>Un MCP que trae texto de fuera, como una página o una oferta, puede colar órdenes escondidas al agente (<em>prompt injection</em>). Conecta solo servidores de los que te fíes.</div>
+<h3>En el producto: ¿dónde hay MCP?</h3>
+<dl class="defs">
+<div><dt>Hoy, ninguno</dt><dd>Los agentes del producto usan herramientas escritas como funciones de Python (function calling, Unidad 20). Una capa menos, más control y más fácil de probar.</dd></div>
+<div><dt>Playwright: librería, no MCP</dt><dd>El agente de envío maneja el navegador desde Python, sin pasar por un MCP. Así el código decide qué se hace, no el modelo.</dd></div>
+<div><dt>Servidor MCP «Horma»: por decidir</dt><dd>Dejaría usar Horma desde Claude con herramientas como <em>buscar_ofertas</em> o <em>ver_tablero</em>. Al ser multiusuaria, cada llamada necesitaría la identidad de la usuaria.</dd></div>
+</dl>
+<div class="note info"><b>Recomendación sobre el MCP «Horma»</b>Sí, pero al final (fase 5), solo de lectura y con tres o cuatro herramientas, sin ninguna que envíe. Practica «construir tu propio servidor MCP», que es del programa oficial pero no se dio en clase. Cuesta mantener una superficie más, y es reversible: si no aporta, se retira.</div>
+
+</section>
+<section class="sec" id="s10"><span class="secnum">10</span><h2>Los agentes por dentro</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s10" hidden>Comentar este apartado</button></p>
+<p>Un <mark class="t">agente</mark> es un modelo de IA con herramientas, un bucle de pensar-actuar-observar y unos límites (Unidad 20). Es un empleado nuevo con una caja de herramientas y un reglamento. Las <mark class="t">herramientas</mark> son funciones que el modelo puede pedir que se ejecuten; él decide cuál, pero el código es quien la ejecuta.</p>
+<div class="tbl"><table>
+<thead><tr><th>Agente</th><th>Cómo está montado</th><th>Herramientas</th><th>Límites</th></tr></thead>
+<tbody>
+<tr><td><strong>Entrevista del perfil</strong></td><td>Hablas tú; un servicio de voz transcribe y Horma pregunta por escrito, con un prompt y herramientas. Sin voz de Horma.</td><td>guardar_evidencia, repreguntar, cerrar_entrevista</td><td>20 minutos como máximo. Solo usa el texto transcrito, nunca el tono. El audio se borra al transcribir. Ninguna pregunta de categorías especiales.</td></tr>
+<tr><td><strong>Entrenador de entrevistas</strong></td><td>Simulacro a medida de cada oferta, por escrito; con voz de Horma solo si hay tiempo.</td><td>leer_oferta, leer_perfil, proponer_preguntas</td><td>Sin puntuarte ni guardar notas. Las sugerencias salen de tu CV o tu perfil: nunca te aconseja contar algo que no sea cierto. Avisa de que la voz es una IA.</td></tr>
+<tr><td><strong>Asistente de edición</strong></td><td>Chat junto al editor: señalas una frase y pides un cambio de tono o de contenido.</td><td>leer_perfil, reescribir_frase</td><td>Solo reformula lo respaldado; el cambio se ve antes de aceptarlo y pasa la misma revisión de trazabilidad. Si tú dictas un dato nuevo, se guarda como dato tuyo.</td></tr>
+<tr><td><strong>Redactora de CV y carta</strong></td><td>Con toda tu información (CVs, perfil y entrevista) y la oferta, elige qué experiencias, estudios, tareas y responsabilidades te dan más opciones de conseguir la entrevista, y con eso escribe un CV y una carta nuevos para esa oferta. Antes de enseñártelos se revisa a sí misma con el patrón de reflexión (Unidad 22): redactar, evaluar, corregir, con un tope de vueltas.</td><td>leer_oferta, leer_perfil, extraer_palabras_clave, releer_pdf, pedir_dato</td><td>Solo elige y reformula lo que ya está en tu CV o tu perfil: cada frase se puede rastrear. Si falta un dato, pregunta; no lo inventa. Escribe para que lo lea bien un ATS y suene a ti, no a una plantilla.</td></tr>
+<tr><td><strong>Agente de envío</strong></td><td>Un grafo de LangGraph con un nodo por paso y una pausa para que apruebes.</td><td>abrir_formulario, leer_campos, rellenar_campo, adjuntar_archivo, pedir_dato</td><td>Solo arranca desde el estado «aprobada». Solo en una lista de dominios permitidos. Nunca en LinkedIn ni en Indeed.</td></tr>
+</tbody></table></div>
+<h3>El agente de envío, paso a paso</h3>
+<figure class="fig"><ol class="pasos" aria-label="Nodos del agente de envío">
+<li><span class="n">1</span><div class="cuerpo"><b>Leer el formulario</b><span>Abre la página con Playwright y lista los campos que pide.</span></div></li>
+<li><span class="n">2</span><div class="cuerpo"><b>Rellenar con tus datos</b><span>Empareja cada campo con un dato de tu CV o perfil. Si no hay dato, te lo pregunta.</span></div></li>
+<li><span class="n">3</span><div class="cuerpo"><b>Verificar</b><span>Comprueba que cada valor tiene origen. Lo que no se pueda rastrear no se envía.</span></div></li>
+<li><span class="n">4</span><div class="cuerpo"><b>Pausa: tu aprobación</b><span>El grafo se detiene hasta que pulsas «Aprobar y enviar». En modo autónomo, esta pausa la hace el supervisor auditor.</span></div></li>
+<li><span class="n core">5</span><div class="cuerpo core"><b>Enviar y registrar</b><span>Envía, guarda una captura de lo enviado y pasa la candidatura a «enviada».</span></div></li>
+</ol><figcaption>Un grafo es una lista de pasos con flechas entre ellos. Que se detenga a esperar a una persona es lo que se llama «humano en el bucle».</figcaption></figure>
+<div class="note info"><b>¿Y los subagentes del producto?</b>Esos cinco pasos reparten tres papeles (lector, rellenador, verificador). Mi recomendación es mantenerlos como nodos de un solo grafo y no como tres agentes independientes: colaborar entre agentes es más difícil de controlar y de depurar (Unidad 22). Se separaría el verificador, con su propio modelo, solo si los evals demostraran que mejora el resultado.</div>
+<h3>Modo autónomo y supervisor auditor</h3>
+<p>En <mark class="t">modo autónomo</mark> das permiso una vez y el agente envía sin pedirte aprobación en cada candidatura. Quita tu última revisión, así que lo vigila un <mark class="t">supervisor auditor</mark>: otra pieza que comprueba cada envío antes de que salga, como el revisor que firma antes de que un paquete salga del almacén. Reglas:</p>
+<ul>
+<li>Si falta un dato, <strong>no se envía</strong>: la candidatura queda «pendiente de ti».</li>
+<li>Las preguntas de salud, discapacidad, religión, origen o afiliación (artículo 9 del RGPD), y las salariales o legales, <strong>nunca se contestan solas</strong>.</li>
+<li>Si el texto no pasa la revisión de trazabilidad (cada frase con su origen), no se envía.</li>
+<li>Solo vale para ofertas dentro del rango de compatibilidad que elegiste; puedes revocarlo cuando quieras. Te avisa de cada envío, lo registra y tiene botón de pausa.</li>
+<li>Si detecta errores repetidos, pausa el modo. Nunca en LinkedIn ni Indeed. Una candidatura enviada no se puede retirar.</li>
+</ul>
+<p>El estado de una candidatura vive en la base de datos, no en la memoria del agente. Así, si el worker se reinicia a mitad de un envío, nada se pierde ni se duplica.</p>
+
+</section>
+<section class="sec" id="s11"><span class="secnum">11</span><h2>Calidad y vigilancia: dónde se enchufan</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s11" hidden>Comentar este apartado</button></p>
+<p>Los tests, los evals y los guardrails no son una fase suelta: son piezas que se conectan a puntos concretos de la arquitectura.</p>
+<div class="tbl"><table>
+<thead><tr><th>Pieza</th><th>Dónde se engancha</th><th>Qué comprueba</th></tr></thead>
+<tbody>
+<tr><td><strong>Validación (Pydantic)</strong></td><td>En los routers, en cada frontera</td><td>Que cada dato que entra tiene el tipo y la forma esperados.</td></tr>
+<tr><td><strong>Guardrail de entrada</strong></td><td>Antes de que una oferta llegue al modelo</td><td>El texto de una oferta es un dato, nunca una orden. El modelo de extracción devuelve un JSON con esquema fijo, y lo raro se marca.</td></tr>
+<tr><td><strong>Guardrail de salida</strong></td><td>Antes de mostrar o enviar un CV, una carta o un formulario</td><td>El verificador de trazabilidad: cada frase sale del CV o del perfil.</td></tr>
+<tr><td><strong>Trazas (LLMOps)</strong></td><td>En cada llamada al modelo, una tabla propia</td><td>Modelo, tokens, coste y latencia. Sin guardar el texto con datos personales.</td></tr>
+<tr><td><strong>Tests (pytest)</strong></td><td>En la integración continua, con una base temporal</td><td>Que la lógica determinista no se rompe: filtros, duplicados y estados.</td></tr>
+<tr><td><strong>Evals</strong></td><td>En la integración continua, cuando cambia un prompt o un modelo</td><td>Fidelidad y lectura ATS sobre un conjunto de CVs y ofertas inventados, con el número de antes y de después (Unidad 18).</td></tr>
+<tr><td><strong>Red teaming</strong></td><td>Antes de publicar</td><td>Ofertas trampa que intentan manipular a la IA, sin que se filtre ningún dato.</td></tr>
+</tbody></table></div>
+<p>El coste que miden las trazas fija el precio de los planes. Los topes de uso (por plan o diarios) se exploran más adelante; por ahora solo se decide que no hay tope de ofertas ni de candidaturas.</p>
+
+</section>
+<section class="sec" id="s12"><span class="secnum">12</span><h2>Proceso: cómo entra una oferta</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s12" hidden>Comentar este apartado</button></p>
+<p>La <mark class="t">ingesta</mark> es el proceso de traer datos de fuera y dejarlos guardados y ordenados. Sigue aquí una oferta inventada: «Junior Data Analyst, Berlin, remote, 45-52k».</p>
+<div class="pj-dia"><iframe src="proyectos/horma/ingesta.html" title="Cómo entra una oferta" loading="lazy" style="height:800px"></iframe></div>
+<p class="pj-dia-pie"><a class="btn ghost" href="proyectos/horma/ingesta.html" target="_blank" rel="noopener">Abrir «Cómo entra una oferta» en pantalla completa ↗</a><span>Los tres trayectos de arriba siguen la oferta: recoger, comprobar y entender.</span></p>
+<ul>
+<li><strong>Comprobar la forma:</strong> la API usa Pydantic, que mira que cada dato tenga el tipo correcto. Es como un formulario que no te deja enviar sin el email.</li>
+<li><strong>Ordenar los datos:</strong> un modelo de IA lee el texto y saca país (Alemania), remoto (sí) y sueldo (45 000-52 000 €).</li>
+<li><strong>Convertir en números:</strong> un <mark class="t">embedding</mark> es una lista de números que resume el significado de un texto. Dos textos parecidos dan números parecidos, y así «analista de datos» encuentra «Data Analyst».</li>
+</ul>
+<p>Las fuentes nuevas son EURES (el portal oficial de empleo de la UE), Adzuna, Arbeitnow, The Hub, InfoJobs y las listas públicas de los ATS de empresa (Greenhouse, Lever, Ashby, Workable). Antes de usar cada una se comprueban sus condiciones de uso.</p>
+<p>Un <mark class="t">agente buscador de fuentes</mark> rastrea webs y portales nuevos con ofertas. Es como un ojeador de fútbol: encuentra candidatos, pero no los ficha él. Solo <strong>propone</strong> fuentes; cada una entra cuando se han revisado sus condiciones de uso y su <code>robots.txt</code> (el archivo donde una web dice qué se puede leer). Nunca LinkedIn ni Indeed. Después, unos filtros dejan pasar solo las ofertas fiables y las que encajan contigo, borran los datos de contacto de quien contrata y tratan el texto de la oferta como dato, nunca como orden.</p>
+<div class="note info"><b>Apify no es la base</b>Apify cobra por uso, un fallo también se cobra y sus «actores» (los lectores de cada web) pueden desaparecer sin aviso: dependes de un tercero. La base son APIs, feeds, listas públicas de los ATS y el portal de empresas. Qué fuentes se usan y si se lee alguna web sin API se decide con el profesor.</div>
+
+</section>
+<section class="sec" id="s13"><span class="secnum">13</span><h2>Proceso: cómo te recomienda ofertas</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s13" hidden>Comentar este apartado</button></p>
+<p>La <mark class="t">compatibilidad</mark> es cuánto encaja una oferta contigo. Se mira en tres capas, en este orden, como quien busca piso: primero descarta lo que no paga o no le pilla, luego mira si le dan el piso y al final si le gusta el barrio.</p>
+<figure class="fig"><ol class="pasos" aria-label="Las tres capas de la compatibilidad">
+<li><span class="n">1</span><div class="cuerpo"><b>Tus condiciones (filtro)</b><span>Sueldo mínimo, horario, teletrabajo y estabilidad. Si la oferta no las cumple, no aparece. Si no publica el sueldo, aparece marcada «sin salario», salvo que pidas ver solo las que lo publican.</span></div></li>
+<li><span class="n">2</span><div class="cuerpo"><b>Lo que pide la oferta</b><span>Experiencia, estudios y habilidades. Tienes opciones si cumples sus requisitos imprescindibles.</span></div></li>
+<li><span class="n core">3</span><div class="cuerpo core"><b>Cómo se trabaja allí</b><span>Lo que dice la oferta sobre autonomía, ritmo y equipo, frente a lo que tú contaste en la entrevista. Nunca tus rasgos de personalidad.</span></div></li>
+</ol><figcaption>Puedes ampliar la flexibilidad de las capas 2 y 3 para ver ofertas menos parecidas a ti; las condiciones de la capa 1 las cambias tú cuando quieras.</figcaption></figure>
+<figure class="fig"><ol class="pasos" aria-label="Cómo recomienda Horma una oferta">
+<li><span class="n">1</span><div class="cuerpo"><b>Tu perfil</b><span>El técnico (de tus CVs) y el humano (de la entrevista).</span></div></li>
+<li><span class="n">2</span><div class="cuerpo"><b>Búsqueda híbrida</b><span>Busca a la vez por palabras exactas y por significado.</span></div></li>
+<li><span class="n">3</span><div class="cuerpo"><b>Ajuste y explicación</b><span>Un modelo de IA afina el orden y escribe por qué encaja cada oferta.</span></div></li>
+<li><span class="n core">4</span><div class="cuerpo core"><b>Tú corriges</b><span>Si la explicación no te convence, la cambias y Horma aprende tus preferencias.</span></div></li>
+</ol><figcaption>Las casillas de filtro (remoto, sueldo, país…) se aplican antes: la IA solo ordena lo que ya cumple tus condiciones.</figcaption></figure>
+<p><strong>Qué ofertas quieres:</strong> después de subir el CV, Horma rellena tus preferencias (puestos, nivel, sector…) solo con datos de tu CV, y tú las corriges. Si quieres cambiar de carrera, añades puestos nuevos que no salen en tu CV. Todo se cambia luego en Configuración.</p>
+<p><strong>Salario a la vista:</strong> si una oferta no publica el sueldo, Horma te da una frase para pedirlo antes de la entrevista. Ojo con lo que dice: la Directiva europea de transparencia salarial reconoce ese derecho, pero en España aún no está en vigor (a 27 de octubre de 2026).</p>
+<p>La <mark class="t">búsqueda híbrida</mark> junta dos maneras de buscar: la de Ctrl+F, que encuentra la palabra exacta, y la de los embeddings, que encuentra lo que significa lo mismo. Es lo que se aprende en Unidad 10.</p>
+
+</section>
+<section class="sec" id="s14"><span class="secnum">14</span><h2>Proceso: tu CV y tu carta</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s14" hidden>Comentar este apartado</button></p>
+<figure class="fig"><ol class="pasos" aria-label="Cómo se prepara el CV y la carta">
+<li><span class="n">1</span><div class="cuerpo"><b>Elige lo que más encaja</b><span>De todo tu perfil (experiencias, estudios, tareas, responsabilidades), lo que más pesa para esta oferta, y explica por qué.</span></div></li>
+<li><span class="n">2</span><div class="cuerpo"><b>Redacta</b><span>Un CV y una carta nuevos, solo con esa información, usando las palabras de la oferta allí donde sean verdad.</span></div></li>
+<li><span class="n">3</span><div class="cuerpo"><b>Evalúa</b><span>¿Están las palabras clave de la oferta? ¿Cada frase sale de tu perfil? ¿Suena a una persona y no a una plantilla?</span></div></li>
+<li><span class="n">4</span><div class="cuerpo"><b>Corrige</b><span>Arregla lo que la evaluación señaló. Si falta un dato, te lo pregunta.</span></div></li>
+<li><span class="n core">5</span><div class="cuerpo core"><b>Tú revisas</b><span>Editor con vista previa, eliges diseño y sale el PDF.</span></div></li>
+</ol><figcaption>Generar, evaluar y corregir antes de enseñártelo: es el patrón de reflexión.</figcaption></figure>
+<p>Ese bucle es el patrón de <mark class="t">reflexión</mark> de Unidad 22: el modelo revisa su propio borrador con unos criterios antes de darlo por bueno, como releer un correo importante antes de enviarlo.</p>
+<p><strong>Cada frase con su origen.</strong> En el editor, cada frase del CV y de la carta enseña de qué dato tuyo sale (tu CV o una evidencia de la entrevista). Si una frase no tiene origen, no se escribe: Horma te pregunta. Así preparas también la entrevista, porque sabes defender cada línea.</p>
+<p><strong>CV base por sector.</strong> <span class="cp">De tu CV completo, Horma prepara una sola vez hasta 5 CV base (uno por sector, por ejemplo hostelería y mecánica) y hasta 2 cartas base. Cada oferta recibe un CV y una carta hechos para ella a partir del base que le corresponde, lo que ahorra tokens.</span> <span class="cm">Cada frase sigue saliendo de tu información: Horma cambia qué se muestra y cómo se cuenta, nunca fechas, cargos, empresas ni titulaciones.</span> Es la idea de la horma: el zapatero usa siempre la misma horma, tu pie, y con ella hace un zapato distinto para cada ocasión, sin añadir nada que no sea tuyo.</p>
+<div class="note"><b>Ojo</b>«Que no se note que lo ha escrito una IA» se consigue escribiendo bien: hechos concretos tuyos, cifras reales y frases cortas, sin muletillas («apasionada por», «sinergias»). No se busca engañar a programas detectores, porque eso sería otra forma de mentir.</div>
+<div class="note"><b>Ojo</b>Los 12 diseños se diferencian en tipografía, color y espaciado, pero todos tienen <strong>una sola columna y ninguna tabla</strong>. Los ATS leen mal las columnas: mezclarían tu experiencia con tus idiomas.</div>
+
+</section>
+<section class="sec" id="s15"><span class="secnum">15</span><h2>Trayecto de una candidata</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s15" hidden>Comentar este apartado</button></p>
+<p>Un <mark class="t">trayecto</mark> es el recorrido completo de una persona por el producto, con lo que ve ella y lo que pasa por detrás en cada paso. Es el mapa más útil para entender un producto, porque lo cuenta en el orden en que se vive.</p>
+<figure class="fig"><ol class="pasos viaje" aria-label="Trayecto de una candidata en ocho etapas">
+<li><span class="n">1</span><div class="cuerpo"><b>Alta</b><div class="pj-tres"><div><i>Ves</i><span>Entras con Google o con tu email.</span></div><div><i>Por dentro</i><span>Se crea tu cuenta; solo tú ves tus datos.</span></div><div><i>Servicio</i><span>Entrada y permisos</span></div></div></div></li>
+<li><span class="n">2</span><div class="cuerpo"><b>Subes tus CVs</b><div class="pj-tres"><div><i>Ves</i><span>Arrastras uno o varios PDF.</span></div><div><i>Por dentro</i><span>La IA los ordena: experiencia, estudios, idiomas.</span></div><div><i>Servicio</i><span>Perfil</span></div></div></div></li>
+<li><span class="n">3</span><div class="cuerpo"><b>Entrevista (opcional)</b><div class="pj-tres"><div><i>Ves</i><span>Hablas hasta 20 minutos; Horma pregunta por escrito.</span></div><div><i>Por dentro</i><span>Se transcribe tu voz y el audio se borra; solo cuenta el texto, nunca tu tono. Salen evidencias.</span></div><div><i>Servicio</i><span>Entrevistador</span></div></div></div></li>
+<li><span class="n">4</span><div class="cuerpo"><b>Revisas tu perfil</b><div class="pj-tres"><div><i>Ves</i><span>Cada evidencia con la frase de la que sale.</span></div><div><i>Por dentro</i><span>Nada cuenta hasta que lo apruebas. No puedes reescribir una evidencia, pero sí ocultarla o pedir que se corrija.</span></div><div><i>Servicio</i><span>Perfil</span></div></div></div></li>
+<li><span class="n">5</span><div class="cuerpo"><b>Ofertas para ti</b><div class="pj-tres"><div><i>Ves</i><span>Una lista con casillas de filtro y el porqué de cada una.</span></div><div><i>Por dentro</i><span>Búsqueda híbrida y explicación de la IA.</span></div><div><i>Servicio</i><span>Metabuscador y recomendación</span></div></div></div></li>
+<li><span class="n">6</span><div class="cuerpo"><b>CV y carta</b><div class="pj-tres"><div><i>Ves</i><span>Un editor con vista previa y tu diseño.</span></div><div><i>Por dentro</i><span>La redactora elige lo que encaja, escribe, se evalúa y corrige.</span></div><div><i>Servicio</i><span>CV y carta a medida</span></div></div></div></li>
+<li><span class="n">7</span><div class="cuerpo"><b>Envías</b><div class="pj-tres"><div><i>Ves</i><span>El botón «Aprobar y enviar».</span></div><div><i>Por dentro</i><span>El agente rellena el formulario de la empresa.</span></div><div><i>Servicio</i><span>Agente de candidatura</span></div></div></div></li>
+<li><span class="n core">8</span><div class="cuerpo core"><b>Seguimiento</b><div class="pj-tres"><div><i>Ves</i><span>Un tablero con el estado de cada candidatura.</span></div><div><i>Por dentro</i><span>Las respuestas que reenvías actualizan el estado.</span></div><div><i>Servicio</i><span>Seguimiento</span></div></div></div></li>
+</ol><figcaption>Es también la prueba completa con la que se comprobará que Horma funciona.</figcaption></figure>
+<h3>La entrevista, de cerca</h3>
+<p>Nada de preguntas típicas de recursos humanos ni de test psicotécnicos. Las preguntas piden <strong>hechos</strong>: «cuéntame la última vez que…». Hay una base común para todas y una parte adaptada a tu sector y tu trayectoria: no se pregunta igual a un enfermero que a una directora de recursos humanos. Si una respuesta queda corta, repregunta. Lo que sale son <mark class="t">evidencias</mark>: hechos con la frase de la que salen, no adjetivos como «proactiva».</p>
+<h3>Tus evidencias: qué puedes hacer con ellas</h3>
+<dl class="defs">
+<div><dt>Reescribirlas</dt><dd>No. Si pudieras cambiarlas a tu gusto, dejarían de ser hechos.</dd></div>
+<div><dt>Ocultarlas</dt><dd>Sí. Una evidencia oculta sale del CV y de todos los envíos. Ocultar no es mentir.</dd></div>
+<div><dt>Pedir que se corrija</dt><dd>Sí, si es errónea: Horma te vuelve a preguntar o usa tus propias palabras, y el cambio queda registrado. El RGPD (artículo 16) te da derecho a corregir datos inexactos.</dd></div>
+</dl>
+<div class="note info"><b>Mejora futura</b>Minijuegos en la entrevista, si da tiempo antes de la entrega. Condición: cada uno mide una habilidad del puesto con un resultado comprobable (por ejemplo, ordenar las tareas de un día real), nunca un rasgo de personalidad, y su resultado no llega a ninguna empresa como nota.</div>
+<div class="pj-dia"><iframe src="proyectos/horma/entrevista.html" title="La entrevista opcional" loading="lazy" style="height:1000px"></iframe></div>
+<p class="pj-dia-pie"><a class="btn ghost" href="proyectos/horma/entrevista.html" target="_blank" rel="noopener">Abrir «La entrevista opcional» en pantalla completa ↗</a><span>Fíjate en las flechas de permiso: la primera y la última las decides tú.</span></p>
+<h3>Enviar una candidatura, de cerca</h3>
+<div class="pj-dia"><iframe src="proyectos/horma/candidatura.html" title="De «me interesa» a enviada" loading="lazy" style="height:1000px"></iframe></div>
+<p class="pj-dia-pie"><a class="btn ghost" href="proyectos/horma/candidatura.html" target="_blank" rel="noopener">Abrir «De «me interesa» a enviada» en pantalla completa ↗</a><span>El agente solo actúa después de tu «apruebo». Una candidatura enviada no se puede retirar.</span></p>
+<p>Por defecto apruebas tú cada envío. Puedes activar un <strong>modo autónomo</strong>: das permiso una vez y el agente rellena y envía sin pedirte aprobación en cada candidatura, vigilado por el supervisor auditor (apartado 10). Solo funciona en los formularios ATS de empresa y en el portal de empresas de Horma. En LinkedIn o Indeed el agente lo prepara y envías tú, porque esos portales prohíben automatizar y podrías perder tu cuenta.</p>
+<h3>Preparar la entrevista de trabajo</h3>
+<p>El <mark class="t">entrenador de entrevistas</mark> te prepara para las ofertas a las que has aplicado o quieres aplicar: preguntas a medida de cada una y ayuda para contestar con lo que de verdad hay en tu CV. Funciona por escrito. La voz de Horma solo se añadiría si se llega a tiempo para la entrega del 24 de noviembre. No te pone nota, no guarda un historial de tu rendimiento si no quieres y avisa de que la voz es una IA.</p>
+
+</section>
+<section class="sec" id="s16"><span class="secnum">16</span><h2>Trayecto de una empresa</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s16" hidden>Comentar este apartado</button></p>
+<figure class="fig"><ol class="pasos" aria-label="Trayecto de una empresa">
+<li><span class="n">1</span><div class="cuerpo"><b>Se da de alta</b><span>Con su propia cuenta, separada de las candidatas. No tiene perfil público ni seguidores.</span></div></li>
+<li><span class="n">2</span><div class="cuerpo"><b>Publica una oferta</b><span>Entra por la misma API que las ofertas de n8n y pasa las mismas comprobaciones.</span></div></li>
+<li><span class="n">3</span><div class="cuerpo"><b>Las candidatas deciden</b><span>Cada una elige si comparte su perfil con esa empresa.</span></div></li>
+<li><span class="n core">4</span><div class="cuerpo core"><b>Ve solo lo compartido</b><span>Ni rankings ni puntuaciones: solo lo que cada candidata quiso enseñar.</span></div></li>
+</ol></figure>
+<p>Horma <strong>no es una red social</strong>: no se sigue a las empresas y, como mucho, la oferta enlaza a su web oficial. La empresa solo recibe la candidatura que la candidata le envía. Horma no le enseña listas, puntuaciones ni búsquedas de candidatas, ni dirige sus ofertas a personas concretas.</p>
+<div class="note"><b>Ojo</b>Si Horma ordenara o puntuara candidatas para las empresas, el AI Act lo trataría como sistema de <strong>alto riesgo</strong> (anexo III, punto 4): evaluación de conformidad, registro y supervisión. Para un proyecto así es inviable, y por eso es una línea roja. Lo explica Unidad 19.</div>
+
+</section>
+<section class="sec" id="s17"><span class="secnum">17</span><h2>Los estados de una candidatura</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s17" hidden>Comentar este apartado</button></p>
+<p>Un <mark class="t">estado</mark> es la etiqueta que dice en qué punto está algo, como «en reparto» en un paquete. Una candidatura pasa de un estado a otro solo por caminos permitidos: no puede estar «enviada» sin haber tenido tu visto bueno.</p>
+<div class="pj-dia"><iframe src="proyectos/horma/estados.html" title="La vida de una candidatura" loading="lazy" style="height:895px"></iframe></div>
+<p class="pj-dia-pie"><a class="btn ghost" href="proyectos/horma/estados.html" target="_blank" rel="noopener">Abrir «La vida de una candidatura» en pantalla completa ↗</a><span>La fila de arriba es el camino normal; debajo, cómo puede acabar.</span></p>
+<p>Son los estados que ya usa Jobs (pendiente, CV creado, enviado, respuesta, entrevista, oferta, rechazada, descartada y sin respuesta a los 30 días). Horma añade uno: tu visto bueno antes de enviar. La lista final se fija al escribir la especificación (paso 5 del método).</p>
+<h3>El registro de tus candidaturas</h3>
+<p>En la web y en la app hay un apartado con el historial de todas las ofertas que has tocado, agrupadas por cómo acabaron. Es como el historial de pedidos de una tienda online: ves lo que pediste, lo que cancelaste y lo que te devolvieron.</p>
+<div class="tbl"><table>
+<thead><tr><th>Grupo</th><th>Qué incluye</th></tr></thead>
+<tbody>
+<tr><td><strong>Enviadas</strong></td><td>Las que han salido con tu CV, con la fecha y una copia de lo que se mandó.</td></tr>
+<tr><td><strong>En marcha</strong></td><td>Las que tienen respuesta, entrevista u oferta.</td></tr>
+<tr><td><strong>Descartadas por ti</strong></td><td>Las que viste y decidiste no seguir.</td></tr>
+<tr><td><strong>Rechazadas</strong></td><td>Las que la empresa cerró con un no.</td></tr>
+<tr><td><strong>Sin respuesta</strong></td><td>Las que llevan 30 días sin noticias.</td></tr>
+</tbody></table></div>
+<p>El registro no guarda nada aparte: ordena los mismos estados del diagrama para que los veas de un vistazo.</p>
+
+</section>
+<section class="sec" id="s18"><span class="secnum">18</span><h2>Lo que Horma nunca hace</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s18" hidden>Comentar este apartado</button></p>
+<p>Las <mark class="t">líneas rojas</mark> son reglas que no se cruzan aunque fuera más cómodo. Las ponen la honestidad y la ley (AI Act y RGPD).</p>
+<dl class="defs pj-rojas">
+<div><dt>Inventar o exagerar</dt><dd>Cada frase del CV, la carta o un formulario sale de tu CV o tu perfil. Si falta un dato, pregunta. Un eval lo comprueba.</dd></div>
+<div><dt>Analizar tu voz</dt><dd>Se analiza lo que dices, nunca tu tono ni tus emociones: el AI Act prohíbe reconocer emociones en el trabajo. Solo se usa el texto transcrito y el audio se borra tras transcribirlo.</dd></div>
+<div><dt>Puntuar personas</dt><dd>Ni notas de personalidad ni rankings de candidatas.</dd></div>
+<div><dt>Datos especiales</dt><dd>Nunca pregunta religión, salud, política ni nada de la lista del artículo 9 del RGPD.</dd></div>
+<div><dt>Filtrar para empresas</dt><dd>Las empresas solo ven lo que tú compartes.</dd></div>
+<div><dt>Obedecer textos de fuera</dt><dd>Una oferta o una web pueden esconder instrucciones para la IA (<em>prompt injection</em>). Horma las trata como datos, nunca como órdenes. Se defiende por capas: separar datos de instrucciones, dar a cada pieza el mínimo permiso, tu visto bueno antes de enviar y pruebas de ataque.</dd></div>
+<div><dt>Tus datos en registros</dt><dd>Fuera de los logs y de los tests; las pruebas usan datos inventados. Puedes exportarlo o borrarlo todo.</dd></div>
+</dl>
+
+</section>
+<section class="sec" id="s19"><span class="secnum">19</span><h2>Qué practica cada pieza</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s19" hidden>Comentar este apartado</button></p>
+<p>Cada pieza de Horma pone en práctica un tema del bootcamp. Sirve para el case study, la memoria y para saber qué repasar antes de construirla.</p>
+<dl class="defs">
+<div><dt>API por capas</dt><dd>FastAPI, rutas, capas y despliegue: Unidad 16; el plano general, Unidad 15.</dd></div>
+<div><dt>Base de datos</dt><dd>SQL, índices y pgvector: Unidad 17.</dd></div>
+<div><dt>Búsqueda semántica</dt><dd>Embeddings y búsqueda híbrida (el RAG del proyecto): Unidad 10.</dd></div>
+<div><dt>Ingesta</dt><dd>Flujos, webhooks y APIs en n8n: Unidad 9.</dd></div>
+<div><dt>Agentes</dt><dd>LangGraph y varios agentes: Unidad 20; reflexión y autonomía: Unidad 22.</dd></div>
+<div><dt>Entrevista y entrenador</dt><dd>Voz a texto y asistentes de voz: Unidad 21.</dd></div>
+<div><dt>Entrada y permisos</dt><dd>OAuth y JWT: Unidad 16.</dd></div>
+<div><dt>Calidad</dt><dd>Evals, modelo juez, guardrails y red teaming: Unidad 18.</dd></div>
+<div><dt>Costes</dt><dd>Tokens y precio de cada llamada: Unidad 6; medirlos (LLMOps): Unidad 18.</dd></div>
+<div><dt>Líneas rojas</dt><dd>Clasificar el riesgo y proteger datos: Unidad 19.</dd></div>
+<div><dt>Servidores y contenedores</dt><dd>VPS, SSH y Docker: Unidad 8; tareas programadas con cron: Unidad 5.</dd></div>
+<div><dt>MCP, subagentes y hooks</dt><dd>Ampliar y controlar a un agente de código: Unidad 7.</dd></div>
+<div><dt>Web y app</dt><dd>HTMX, Jinja2 y PWA: temas nuevos para este proyecto.</dd></div>
+</dl>
+
+</section>
+<section class="sec" id="s20"><span class="secnum">20</span><h2>El plan por fases</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s20" hidden>Comentar este apartado</button></p>
+<ul class="timeline">
+<li><span class="yr">Fase 0</span><span>Preparar el terreno: reglas del proyecto, git y secretos fuera del código.</span></li>
+<li><span class="yr">Fase 1</span><span>Entender antes de construir: este documento y la teoría que hace falta.</span></li>
+<li><span class="yr">Fase 2</span><span>Definir: pasos 1 a 8 del método (problema, historias, MVP, ley, spec, stack, papel de la IA, tareas), fuentes y precios.</span></li>
+<li><span class="yr">Fase 3</span><span>Construir por módulos: API y base de datos, ingesta, perfil, recomendación, CV y carta, entrevista, agente, seguimiento, empresas y suscripciones.</span></li>
+<li><span class="yr">Fase 4</span><span>Calidad: tests, evals con números de antes y después, guardrails y red teaming con ofertas trampa.</span></li>
+<li><span class="yr">Fase 5</span><span>Publicar, vigilar y presentar: despliegue, demostración para el profesor, case study y memoria.</span></li>
+<li><span class="yr">Si da tiempo</span><span>Voz de Horma en el entrenador de entrevistas, solo si se llega a la entrega del 24 de noviembre. Minijuegos de habilidades en la entrevista, antes de la entrega.</span></li>
+<li><span class="yr">Después</span><span>Primero, web instalable en el móvil (PWA). Las tiendas de apps (App Store y Google Play), sin fecha.</span></li>
+</ul>
+
+</section>
+<section class="sec" id="s21"><span class="secnum">21</span><h2>Qué está decidido y qué no</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s21" hidden>Comentar este apartado</button></p>
+<figure class="fig"><div class="comparar">
+<div><h4>Decidido por Mar</h4><div class="pila">
+<span class="cap app">Backend 100 % Python (FastAPI)</span>
+<span class="cap">n8n sigue trayendo las ofertas</span>
+<span class="cap">Las empresas solo ven lo compartido</span>
+<span class="cap">Por defecto apruebas tú cada envío</span>
+<span class="cap">Tu perfil humano solo sale en el CV si tú lo activas, como logros</span>
+<span class="cap">Tú eliges el rango de compatibilidad con las ofertas</span>
+<span class="cap">Un CV y una carta para cada oferta, a partir de tus CV base por sector (hasta 5) y tus cartas base (hasta 2)</span>
+<span class="cap">Registro de todas tus candidaturas</span>
+<span class="cap">Primero web instalable (PWA); tiendas de apps, sin fecha</span>
+<span class="cap">Evidencias: no se reescriben; se ocultan o se corrigen</span>
+<span class="cap">Preferencias desde tu CV, con puestos nuevos si cambias de carrera</span>
+<span class="cap">Entrevista con preguntas de hechos, adaptada a tu sector</span>
+<span class="cap">Salario a la vista</span>
+<span class="cap">Cada frase del CV con su origen</span>
+<span class="cap">Portal de empresas sí; sección de información de empresas, no</span>
+<span class="cap">Un perfil por persona, con búsquedas guardadas</span>
+<span class="cap">Agente que propone fuentes nuevas, con filtros</span>
+<span class="cap">Compatibilidad en tres capas: condiciones, requisitos y forma de trabajar</span>
+<span class="cap">n8n en un contenedor propio, en el servidor de Horma</span>
+<span class="cap">Defensa por capas contra el <em>prompt injection</em></span>
+<span class="cap">La Copiloto es la agente del proyecto, con dos subagentes revisores</span>
+<span class="cap">Horma no es una red social: no se sigue a empresas ni hay perfiles de empresa</span>
+<span class="cap">Modo autónomo con permiso único, vigilado por un supervisor auditor</span>
+<span class="cap">Asistente de edición para el CV, la carta y otros documentos</span>
+<span class="cap">Entrenador de entrevistas a medida de cada oferta</span>
+<span class="cap">En la entrevista del perfil habla solo la usuaria; el audio se borra tras transcribir</span>
+<span class="cap">Apify no es la base de las ofertas</span>
+<span class="cap">Lema: brutalmente honestos, con la promesa sobre Horma</span>
+<span class="cap">No se construye ni se define hasta el ok del profesor</span>
+<span class="cap base">Las suscripciones pagan los costes</span>
+</div></div>
+<div><h4>Por decidir</h4><div class="pila">
+<span class="cap app">Fuentes de ofertas (con el profesor)</span>
+<span class="cap">Topes de uso: se exploran más adelante</span>
+<span class="cap">Diseño del supervisor auditor y servicio de transcripción en la UE (paso 6)</span>
+<span class="cap">Carta «cómo trabajo mejor»: auditada, sin decidir</span>
+<span class="cap">Seguimiento por correo: leer Gmail o reenviar</span>
+<span class="cap">Servidor MCP «Horma», más adelante</span>
+<span class="cap">Lista final de estados (paso 5)</span>
+<span class="cap">Alojamiento, proxy y cola de tareas (paso 6)</span>
+<span class="cap">Precios de los planes</span>
+<span class="cap base">Rúbrica y fecha de entrega</span>
+</div></div>
+</div><figcaption>Lo de la derecha puede cambiar este documento: se actualiza al cerrar cada decisión.</figcaption></figure>
+
+</section>
+<section class="sec" id="s22"><span class="secnum">22</span><h2>Diccionario de Horma</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s22" hidden>Comentar este apartado</button></p>
+<p>Las palabras de este documento que no están en el glosario del cuaderno o que aquí tienen un sentido propio.</p>
+<dl class="defs">
+<div><dt>Metabuscador</dt><dd>Buscador que busca en otros buscadores y lo junta todo, como un comparador de vuelos.</dd></div>
+<div><dt>Perfil humano</dt><dd>Cómo trabajas y qué te importa, sacado de la entrevista con evidencias.</dd></div>
+<div><dt>Evidencia</dt><dd>Un hecho con la frase de la que sale. «Reorganizó el turno cuando faltaron dos personas», no «es resolutiva».</dd></div>
+<div><dt>Determinista</dt><dd>Que con la misma entrada da siempre el mismo resultado.</dd></div>
+<div><dt>HTMX</dt><dd>Librería pequeña que actualiza trozos de una página sin recargarla entera, sin escribir mucho JavaScript.</dd></div>
+<div><dt>Uvicorn</dt><dd>El servidor que escucha las peticiones web y se las pasa a FastAPI.</dd></div>
+<div><dt>Worker</dt><dd>Proceso aparte que hace los trabajos lentos para que la web no se quede esperando.</dd></div>
+<div><dt>Proxy inverso</dt><dd>La puerta de entrada: recibe lo de internet, pone el HTTPS y lo reparte hacia dentro.</dd></div>
+<div><dt>Volumen</dt><dd>Disco que conserva los datos aunque se borre el contenedor.</dd></div>
+<div><dt>Playwright</dt><dd>Herramienta que maneja un navegador con código: abre la web, escribe en los campos y pulsa botones.</dd></div>
+<div><dt>Vapi</dt><dd>Servicio para montar agentes que hablan por voz: escucha, pasa a texto, responde y lo lee en voz alta. En Horma, la voz de Horma solo estaría en el entrenador de entrevistas.</dd></div>
+<div><dt>Supervisor auditor</dt><dd>Pieza que comprueba cada envío del modo autónomo antes de que salga y pausa el modo si hay errores repetidos.</dd></div>
+<div><dt>Modo autónomo</dt><dd>Das permiso una vez y el agente envía las candidaturas sin pedirte aprobación en cada una. Solo donde está permitido.</dd></div>
+</dl>
+
+</section>
+<section class="sec" id="s23"><span class="secnum">23</span><h2>PRD · Product Requirements Document</h2><p class="cm-fila"><button type="button" class="cm-btn" data-t="s23" hidden>Comentar este apartado</button></p>
+<p>Los requisitos de Horma jobs en la estructura del PRD que trabajamos en clase (MA·S03, De la elicitación a la especificación). Sirve de puente entre la propuesta y la especificación del paso 5.</p>
+<ul class="pj-ficha">
+<li><b>Documento:</b> PRD de Horma jobs</li>
+<li><b>Módulo / Asignatura:</b> MA·S03 — De la elicitación a la especificación</li>
+<li><b>Caso:</b> Horma jobs — metabuscador europeo de empleo con CV y carta honestos</li>
+<li><b>Estado:</b> <span class="pj-estado">Borrador para revisión del profesor</span> <span>· 29 de octubre de 2026 · aún no aprobado para Spec-Driven Development (MA·S04)</span></li>
+<li><b>Autoras:</b> Mar, con la Copiloto</li>
+</ul>
+<div class="note info"><b>Cifras</b>Todo lo de este PRD sale de <code>docs/propuesta-horma.md</code> y <code>docs/analisis-tecnico.md</code>. Donde falta una medición o una decisión, pone <span class="pj-pend">por fijar</span> en lugar de inventar una cifra.</div>
+<p><span class="cp">Azul eléctrico: cambio pedido por el profesor (comentarios del 30-oct).</span> <span class="cm">Naranja: aclaración de Mar.</span></p>
+<h3>1. Contexto y problema de negocio</h3>
+<p>Horma jobs sustituye a Erna como proyecto final del bootcamp de AI Engineering de Neoland (entrega en noviembre de 2026) <span class="cp">[Profesor: quitar la fecha al pasar el documento a Claude Code o a la fase de construcción]</span> y es la pieza de portfolio de Mar. Parte de <strong>Jobs</strong>, el sistema personal de Mar: 4 workflows de n8n que recogen ofertas de 13 fuentes, aplican filtros deterministas, puntúan el encaje con un LLM y redactan CV y carta. <span class="cp">[Profesor: evitar referencias a Jobs en la fase de construcción]</span></p>
+<p>Jobs funciona para una sola persona y tiene límites claros: el perfil está escrito a mano en el código, los filtros son listas de palabras, Google Sheets hace de base de datos e interfaz, y no hay tests, evals, trazas ni medición de costes. La protección contra <em>prompt injection</em> (instrucciones maliciosas escondidas en el texto de una oferta) no se ha probado.</p>
+<p>El problema que Horma resuelve para quien busca trabajo: las ofertas están repartidas en muchos portales, cada candidatura exige un CV y una carta a medida, y los asistentes de IA actuales tienden a inventar o exagerar. Horma junta las ofertas de la UE y España en un sitio, propone las que encajan y redacta un CV y una carta nuevos para cada oferta, de forma que <strong>cada frase venga de lo que la usuaria dio</strong>.</p>
+<h3>2. Objetivos y métricas de éxito</h3>
+<p>Horma busca que la candidata encuentre, prepare y envíe candidaturas desde un solo sitio, con un CV y una carta honestos y orientados a ATS (los programas con los que las empresas filtran candidaturas).</p>
+<div class="tbl"><table>
+<thead><tr><th>Objetivo de negocio</th><th>Métrica (SLI / KPI)</th><th>Línea base (actual) <span class="cp">[Profesor: evitar referencias a Jobs]</span></th><th>Meta de éxito (SLO)</th></tr></thead>
+<tbody>
+<tr><td>Honestidad del CV y la carta</td><td>Porcentaje de frases con origen rastreable al CV o al perfil (eval de trazabilidad)</td><td>Jobs no lo mide</td><td>100 % (línea roja del producto) <span class="cp">· cada frase con origen, o marcada como propuesta de Horma que la candidata aprueba</span></td></tr>
+<tr><td>Ahorro de tiempo al candidatar</td><td>Tiempo desde «me interesa» hasta candidatura enviada</td><td>No medido</td><td class="pj-pend">Por fijar tras la prueba con usuarias</td></tr>
+<tr><td>Calidad de la recomendación</td><td>Relevancia de las ofertas recomendadas frente a un conjunto de referencia (<em>golden dataset</em>)</td><td>No medido</td><td class="pj-pend">Por fijar en el paso 14 (evals)</td></tr>
+<tr><td>Seguridad frente a ofertas maliciosas</td><td>Ataques de red teaming que consiguen activar un envío o filtrar datos</td><td>No probado</td><td>0 (paso 16)</td></tr>
+<tr><td>Eficiencia económica</td><td>Coste medio de LLM por candidatura enviada, medido con cada llamada registrada</td><td>No medido</td><td class="pj-pend">Medir antes de fijar el precio de los planes (sin topes de uso)</td></tr>
+</tbody></table></div>
+<h3>3. Personas y usuarios</h3>
+<ul>
+<li><strong>Candidata (persona primaria — «Lucía», ficticia):</strong> busca trabajo en España o la UE. Quiere ver ofertas que encajen con sus condiciones, tener un CV y una carta a medida de cada una sin que se invente nada, y seguir el estado de cada candidatura. Decide qué se envía y cuándo.</li>
+<li><strong>Empresa que publica ofertas (persona de gestión — «Marc», ficticio):</strong> publica sus ofertas en el portal y recibe solo las candidaturas que cada candidata decide enviar. No ve listas, puntuaciones ni búsquedas de candidatas.</li>
+<li><strong>Propietaria del producto (stakeholder clave — Mar):</strong> decide el alcance y las líneas rojas; el precio de los planes debe cubrir los costes reales.</li>
+<li><strong>Profesor evaluador (stakeholder):</strong> da el ok antes de empezar la definición y la construcción, y valora la arquitectura y la calidad (evals, guardrails).</li>
+</ul>
+<h3>4. Alcance del producto y user stories principales</h3>
+<p><span class="cp">No hay MVP: la primera entrega es la Fase 1 y nada del alcance se recorta; las fases ordenan el trabajo, no lo eliminan.</span> El alcance de la <span class="cp">Fase 1</span> es una web instalable en el móvil (PWA) y de escritorio, multiusuaria, con ingesta de ofertas, recomendación, CV y carta a medida, envío de candidaturas, seguimiento y portal de empresas. Las historias están priorizadas con MoSCoW y ordenadas por riesgo técnico decreciente.</p>
+
+<div class="pj-us">
+<h4>US-001 [MUST HAVE / Alto riesgo]: CV y carta a medida sin inventar nada</h4>
+<p>Como candidata, quiero que Horma redacte un CV y una carta nuevos para cada oferta usando solo lo que yo le he dado, para presentarme con honestidad y no tener que reescribir a mano cada candidatura.</p>
+<div class="pj-gh">
+<div><b>Scenario:</b> Redacción de CV y carta con origen visible en cada frase</div>
+<div class="pj-and"><b>Given</b> una candidata autenticada con su CV subido y su perfil revisado</div>
+<div class="pj-and"><b>And</b> una oferta recomendada</div>
+<div class="pj-and"><b>When</b> la candidata pide el CV y la carta para esa oferta</div>
+<div class="pj-and"><b>Then</b> Horma genera un CV y una carta nuevos <span class="cp">a partir del CV base de la candidata, que incluye sus viajes; la IA lo toma de referencia y lo adapta a la oferta</span> <span class="cm">(omitiendo o encuadrando viajes, huecos de tiempo sin trabajar o trabajos que no sean relevantes para esa oferta)</span></div>
+<div class="pj-and"><b>And</b> cada frase muestra de qué dato de la candidata sale</div>
+<div class="pj-and"><b>And</b> el PDF se vuelve a leer para comprobar que un ATS lo lee bien</div>
+<div class="pj-and cp"><b>And</b> el CV base se organiza en hasta 5 categorías de industria, con hasta 2 cartas base, y se pueden regenerar para adaptarlos a los filtros ATS; un subagente ATS lee las palabras clave de la oferta y adapta el CV base sin salirse de él</div>
+<div class="pj-and"><b>And</b> <span class="cm">las experiencias poco relevantes para un sector no se ocultan: se condensan en una línea («Otras experiencias»), se pueden mostrar solo los años y la candidata decide qué se muestra; Horma nunca cambia fechas, cargos, empresas ni titulaciones</span></div>
+</div>
+</div>
+
+<div class="pj-us">
+<h4>US-002 [MUST HAVE / Alto riesgo]: Preguntar cuando falta un dato (no inventar)</h4>
+<p>Como candidata, quiero que Horma me pregunte cuando le falta un dato en lugar de rellenarlo, para no enviar nunca información inventada o exagerada.</p>
+<div class="pj-gh">
+<div><b>Scenario:</b> Frase o campo sin origen en el perfil</div>
+<div class="pj-and"><b>Given</b> una candidata autenticada</div>
+<div class="pj-and"><b>And</b> una oferta que pide un dato que no está en su CV ni en su perfil</div>
+<div class="pj-and"><b>When</b> Horma redacta el CV o rellena el formulario de la candidatura</div>
+<div class="pj-and"><b>Then</b> Horma no lo da por confirmado y se lo pregunta a la candidata<span class="cp">; si propone completar el hueco con información redactada, la marca y la avisa, sin exagerar</span></div>
+<div class="pj-and"><b>And</b> la candidatura queda como «pendiente de ti» hasta que ella responda</div>
+<div class="pj-and cp"><b>And</b> human in the loop: nada propuesto por Horma sale en un CV, carta o formulario sin que ella lo apruebe</div>
+</div>
+</div>
+
+<div class="pj-us">
+<h4>US-003 [MUST HAVE / Riesgo medio]: Ofertas recomendadas con filtros y explicación del encaje</h4>
+<p>Como candidata, quiero filtrar las ofertas con casillas y ver por qué me recomiendan cada una, para decidir con criterio y corregir la explicación si es errónea.</p>
+<div class="pj-gh">
+<div><b>Scenario:</b> Recomendación dentro de mis condiciones</div>
+<div class="pj-and"><b>Given</b> una candidata con sus condiciones guardadas (país, contrato, sueldo mínimo, teletrabajo)</div>
+<div class="pj-and"><b>When</b> abre su lista de ofertas recomendadas</div>
+<div class="pj-and"><b>Then</b> Horma muestra solo ofertas que cumplen esas condiciones; una oferta sin sueldo publicado sale marcada, no descartada</div>
+<div class="pj-and"><b>And</b> cada oferta incluye una explicación del encaje que la candidata puede corregir</div>
+<div class="pj-and"><b>And</b> la explicación no menciona rasgos de personalidad</div>
+</div>
+</div>
+
+<div class="pj-us">
+<h4>US-004 [MUST HAVE / Riesgo medio]: Aprobar y enviar una candidatura <span class="cp">· Fase 2 o 3 (aplicaciones automáticas)</span> <span class="cm">· tronco: no se recorta, la fase solo ordena el trabajo</span></h4>
+<p>Como candidata, quiero aprobar cada candidatura antes de que se envíe, para tener el control de lo que sale a nombre mío.</p>
+<div class="pj-gh">
+<div><b>Scenario:</b> Envío con aprobación de la candidata</div>
+<div class="pj-and"><b>Given</b> un CV y una carta generados para una oferta con formulario ATS de empresa o portal de Horma</div>
+<div class="pj-and"><b>When</b> la candidata aprueba la candidatura</div>
+<div class="pj-and"><b>Then</b> el agente rellena y envía el formulario con datos de su CV y su perfil</div>
+<div class="pj-and"><b>And</b> la candidatura pasa al registro con su estado y fecha</div>
+<div class="pj-and"><b>And</b> Horma no envía nada a LinkedIn ni a Indeed <span class="cp">en las primeras fases (quizá más adelante)</span></div>
+</div>
+</div>
+
+<div class="pj-us">
+<h4>US-005 [SHOULD HAVE / Riesgo medio]: Entrevista opcional para el perfil humano <span class="cp">· Fase 3</span></h4>
+<p>Como candidata, quiero contar mi experiencia en una entrevista corta en la que solo hablo yo, para que Horma saque evidencias redactadas como logros que yo pueda revisar.</p>
+<div class="pj-gh">
+<div><b>Scenario:</b> Entrevista transcrita, sin análisis de la voz</div>
+<div class="pj-and"><b>Given</b> una candidata que ha dado su consentimiento explícito para la entrevista</div>
+<div class="pj-and"><b>When</b> responde por voz a las preguntas de Horma, que aparecen por escrito</div>
+<div class="pj-and"><b>Then</b> Horma transcribe, borra el audio y guarda solo el texto</div>
+<div class="pj-and"><b>And</b> propone evidencias que la candidata puede ocultar o pedir que se corrijan, sin reescribirlas</div>
+<div class="pj-and"><b>And</b> no se analiza la voz ni se puntúa la personalidad</div>
+</div>
+</div>
+
+<div class="pj-us">
+<h4>US-006 [SHOULD HAVE / Riesgo bajo]: Privacidad, exportación y borrado de datos <span class="cp">· Fase 3</span></h4>
+<p>Como candidata, quiero exportar y borrar mis datos, para ejercer mis derechos del RGPD y no dejar rastro cuando me vaya.</p>
+<div class="pj-gh">
+<div><b>Scenario:</b> Borrado de la cuenta</div>
+<div class="pj-and"><b>Given</b> una candidata autenticada con CVs, perfil y transcripciones guardados</div>
+<div class="pj-and"><b>When</b> pide borrar su cuenta</div>
+<div class="pj-and"><b>Then</b> Horma elimina sus datos, transcripciones, embeddings y caché asociados</div>
+<div class="pj-and"><b>And</b> los logs no contenían datos personales en ningún momento</div>
+</div>
+</div>
+<h3>5. Requisitos del sistema (FR y NFR)</h3>
+<h4>5.1 Requisitos funcionales (FR)</h4>
+<ul>
+<li><strong>RF-001:</strong> El sistema debe ingerir ofertas de varias fuentes<span class="cp"> con un script propio, controlado desde un dashboard en el frontend</span>, validarlas, deduplicarlas, extraerles campos estructurados e indexarlas para búsqueda por palabras clave y por significado.</li>
+<li><strong>RF-002:</strong> El sistema debe ofrecer filtros con casillas (país, contrato, idioma, nivel, sector, teletrabajo, salario mínimo) y mostrar si el salario está publicado o no.</li>
+<li><strong>RF-003:</strong> El sistema debe recomendar ofertas según el perfil y explicar el encaje: nota 0-100 solo de experiencia y formación, y 3 niveles solo sobre condiciones de trabajo.</li>
+<li><strong>RF-004:</strong> El sistema debe generar un CV y una carta nuevos por oferta, enseñar el origen de cada frase<span class="cp">; si completa un hueco con información propuesta (sin exagerar), la marca y avisa a la candidata para que la apruebe</span><span class="cp">; parte del CV base del sector de la oferta (hasta 5 CV base y 2 cartas base)</span><span class="cm"> y solo cambia qué se muestra y cómo se redacta, nunca los hechos</span>.</li>
+<li><strong>RF-005:</strong> <span class="cp">Integrado en RF-004 y US-002 (ya se trató más arriba). Se mantiene el número para no romper la trazabilidad.</span></li>
+<li><strong>RF-006:</strong> El sistema debe permitir aprobar, enviar y registrar candidaturas, con tablero de seguimiento y registro del historial.</li>
+<li><strong>RF-007:</strong> El sistema debe ofrecer un editor del CV y la carta con asistente de edición que muestre el cambio antes de aceptarlo.</li>
+<li><strong>RF-008:</strong> El sistema debe permitir a las empresas publicar ofertas y recibir solo las candidaturas que cada candidata envía.</li>
+</ul>
+
+<h4>5.2 Requisitos no funcionales (NFR) y criterios de evaluación (evals)</h4>
+<p>Los umbrales numéricos marcados <span class="pj-pend">por fijar</span> se decidirán con mediciones reales, no con cifras supuestas.</p>
+<div class="tbl"><table>
+<thead><tr><th>ID</th><th>Atributo (arc42)</th><th>Fit criterion / enunciado verificable</th><th>Método de verificación / eval</th></tr></thead>
+<tbody>
+<tr><td>NFR-01</td><td>Honestidad / Explicabilidad</td><td>El 100 % de las frases del CV y la carta tiene un origen rastreable al CV o al perfil de la candidata (nunca a la oferta) <span class="cp">o va marcada como propuesta de Horma que la candidata aprueba</span>.</td><td>Eval de trazabilidad con LLM-as-judge sobre un conjunto de casos, más comprobación determinista de que cada frase enlaza a un dato.</td></tr>
+<tr><td>NFR-02</td><td>Seguridad / <em>Prompt injection</em></td><td>En un banco de ofertas con instrucciones maliciosas, ninguna activa un envío ni filtra datos. Tamaño del banco: <span class="pj-pend">por fijar</span>.</td><td>Red teaming con ofertas manipuladoras (paso 16) ejecutado en CI.</td></tr>
+<tr><td>NFR-03</td><td>Privacidad / RGPD</td><td>El audio se borra tras transcribirlo; un test que intenta leer datos de otra usuaria falla; ni los logs ni los mensajes de error contienen datos personales.</td><td>Test de aislamiento por usuaria (RLS), test de borrado del audio, revisión de logs con datos de prueba inventados.</td></tr>
+<tr><td>NFR-04</td><td>Fiabilidad / Retrieval</td><td>La búsqueda recupera las ofertas relevantes de un conjunto anotado. Umbral: <span class="pj-pend">por fijar</span>.</td><td>Eval de ranking sobre un <em>golden dataset</em> (paso 14).</td></tr>
+<tr><td>NFR-05</td><td>Compatibilidad ATS</td><td>El PDF de cada diseño es de una sola columna y sin tablas; al releerlo se extrae el texto completo y las palabras clave de la oferta presentes en el perfil.</td><td>Prueba de relectura del PDF generado, con el eval ATS.</td></tr>
+<tr><td>NFR-06</td><td>Coste económico</td><td>Cada llamada al LLM queda registrada con modelo, tokens, coste y latencia, y el precio de los planes sale del coste medido con uso intenso.</td><td>Tabla de métricas de llamadas y cálculo del coste por candidatura. Umbral: <span class="pj-pend">por fijar</span>.</td></tr>
+<tr><td>NFR-07</td><td>Eficiencia / Latencia</td><td>La API responde sin bloquearse: lo lento (extracción, agentes, CV) se encola y lo ejecuta el worker. Umbral de tiempo: <span class="pj-pend">por fijar</span>.</td><td>Pruebas de carga sobre la API y medición de la latencia de cada llamada.</td></tr>
+</tbody></table></div>
+<h3>6. Restricciones técnicas y de negocio (RES)</h3>
+<ul>
+<li><strong>RES-01 (Arquitectura):</strong> El backend es 100 % Python (FastAPI). <span class="cp">La ingesta de ofertas se hace con un script propio, controlado desde un dashboard en el frontend, y escribe por <code>POST /ofertas</code>.</span></li>
+<li><strong>RES-02 (Regulatorio / AI Act y RGPD):</strong> Se analiza lo que dice la usuaria, nunca su voz; no se puntúa la personalidad ni se preguntan categorías especiales (art. 9 del RGPD); Horma nunca ordena ni filtra candidatas para empresas (alto riesgo, Anexo III.4 del AI Act).</li>
+<li><strong>RES-03 (Envío):</strong> Por defecto la usuaria aprueba y el agente envía. El modo autónomo solo existe si ella lo configura y solo donde esté permitido; <span class="cp">en LinkedIn e Indeed, no en las primeras fases (quizá más adelante).</span></li>
+<li><strong>RES-04 (Datos):</strong> Datos personales fuera de logs, ejemplos, tests y mensajes de commit; datos de prueba inventados. La transcripción de voz se hace en la UE y el audio se borra tras transcribirlo.</li>
+<li><strong>RES-05 (Presupuesto):</strong> Los costes los pagan las usuarias con su suscripción (Stripe en modo de prueba durante el bootcamp). No hay topes de producto, sí frenos técnicos de seguridad.</li>
+<li><strong>RES-06 (Alcance del repositorio):</strong> Se reaprovecha Jobs copiando; Jobs personal y el n8n de Mar no se modifican.</li>
+</ul>
+<h3>7. Fuera de alcance (exclusiones explícitas del sistema)</h3>
+<p>Para evitar el <em>scope creep</em> y delimitar la responsabilidad del agente de código y del equipo:</p>
+<ol>
+<li><strong>Horma no es una red social:</strong> no se sigue a las empresas, no hay perfiles de empresa, seguidores, contactos ni muro.</li>
+<li><strong>No ordena, puntúa ni filtra candidatas para las empresas:</strong> la empresa solo recibe la candidatura que la candidata envía.</li>
+<li><strong>No envía candidaturas a LinkedIn ni a Indeed</strong> <span class="cp">en las primeras fases (quizá más adelante)</span><strong>:</strong> allí el agente prepara y envía la usuaria.</li>
+<li><strong>No analiza la voz ni las emociones</strong> y no puntúa la personalidad.</li>
+<li><strong>No promete que el CV «pase el ATS»:</strong> promete que el ATS lo lee bien y que recoge las palabras clave sin inventar nada.</li>
+<li><strong>No incluye una sección de información de empresas</strong> (decisión de Mar, 27-oct).</li>
+<li><strong>No hay minijuegos en la entrevista de la Fase 1</strong> ni voz de Horma en la entrevista del perfil: la voz de Horma solo existe en el entrenador de entrevistas, si hay tiempo antes de la entrega.</li>
+<li><strong>No hay app en las tiendas de apps en esta versión:</strong> primero la PWA, sin fecha para las tiendas.</li>
+</ol>
+<h3>8. Gestión de riesgos y mitigación</h3>
+<p>Impacto y probabilidad son estimaciones de la Copiloto, a revisar con Mar y el profesor.</p>
+<div class="tbl"><table>
+<thead><tr><th>Riesgo identificado</th><th>Impacto</th><th>Probabilidad</th><th>Estrategia de mitigación</th></tr></thead>
+<tbody>
+<tr><td>R-01: Un dato inventado o exagerado llega al CV, la carta o un formulario.</td><td>Alto</td><td>Media</td><td>Si una frase no tiene origen se pregunta, o se marca como propuesta que la candidata aprueba; eval de trazabilidad (NFR-01) en CI; el texto editado pasa los mismos controles.</td></tr>
+<tr><td>R-02: <em>Prompt injection</em>: una oferta o un correo intenta dar órdenes al agente.</td><td>Alto</td><td>Media</td><td>Defensa por capas: la oferta es dato y no orden, agentes que leen ofertas sin herramientas con efectos, salidas en esquemas cerrados, visto bueno de la usuaria antes de enviar y red teaming (NFR-02).</td></tr>
+<tr><td>R-03: Un envío autónomo erróneo sale a muchas ofertas y no se puede retirar.</td><td>Alto</td><td>Media</td><td>Supervisor que revisa cada envío con reglas duras en código y denegación por defecto; aviso de cada envío, registro, botón de pausa y freno técnico por hora y día.</td></tr>
+<tr><td>R-04: Una fuente de ofertas prohíbe su uso, cambia sus condiciones o desaparece.</td><td>Medio</td><td>Media</td><td>Revisar condiciones de uso y <code>robots.txt</code> antes de integrar cada fuente; preferir APIs, feeds oficiales y listados públicos de ATS; no depender de un tercero de pago.</td></tr>
+<tr><td>R-05: Incumplir el AI Act o el RGPD (voz, personalidad, filtrado de candidatas).</td><td>Alto</td><td>Baja</td><td>Las líneas rojas están escritas y las revisa el subagente <code>auditor-lineas-rojas</code> al cerrar cada módulo; <code>revisor-seguridad</code> revisa el diseño y el código.</td></tr>
+<tr><td>R-06: El uso intenso sin topes dispara el coste de LLM.</td><td>Medio</td><td>Media</td><td>Registrar cada llamada, medir el coste del usuario más intensivo antes de fijar el precio y mantener frenos técnicos contra bucles y abuso.</td></tr>
+<tr><td>R-07: No llegar a la entrega por el tamaño del alcance.</td><td>Medio</td><td>Media</td><td>Construir por módulos con demo y tests en cada uno; lo opcional (voz del entrenador, tiendas de apps) queda en segundo plano. La fecha exacta de entrega está <span class="pj-pend">por confirmar</span> (20 o 24 de noviembre).</td></tr>
+</tbody></table></div>
+<h3>9. Dependencias críticas</h3>
+<ul>
+<li><strong>DEP-01:</strong> Ok del profesor para empezar la definición (pasos 1-8) y la construcción.</li>
+<li><strong>DEP-02:</strong> Elección y revisión de las condiciones de uso de las fuentes de ofertas (con el profesor), antes de integrarlas.</li>
+<li><strong>DEP-03:</strong> Elección del servicio de transcripción en la UE, sin análisis de emociones y con borrado del audio, en el paso 6.</li>
+<li><strong>DEP-04:</strong> Decisiones de arquitectura del paso 6: alojamiento, proxy, cola de tareas, proveedores de LLM y de embeddings, diseño del supervisor del modo autónomo, cada una como ADR.</li>
+<li><strong>DEP-05:</strong> Rúbrica de Neoland y fecha exacta de entrega, que Mar pregunta en Neoland.</li>
+</ul>
+<p class="cierre"><strong>Control de trazabilidad:</strong> este PRD mapea contra los requisitos RF-001 a RF-008, NFR-01 a NFR-07 y las restricciones RES-01 a RES-06, y se apoya en <code>docs/propuesta-horma.md</code> (decisiones de Mar, líneas rojas, fases y pendientes) y <code>docs/analisis-tecnico.md</code> (procesos, flujos y requisitos de seguridad).</p></section>
+</div>
+</main>
+<script>
+/* Comentarios: solo la entrada (botón que abre el cuadro de comentario de claude.ai). Los hilos los pinta
+   claude.ai; la página no guarda nada. Si la capacidad no está disponible, los botones siguen ocultos. */
+(async function () {
+  try {
+    var c = await (window.claude && window.claude.use ? window.claude.use("comments") : null);
+    if (!c) return;
+    document.getElementById("cm-nota").hidden = false;
+    /* Comentar por selección (palabra, frase o párrafo), como en un PDF: al seleccionar texto sale «Comentar». */
+    var fl = document.createElement("button");
+    fl.type = "button"; fl.className = "cm-flota"; fl.textContent = "Comentar"; fl.hidden = true;
+    document.body.appendChild(fl);
+    var rango = null;
+    function ocultar() { fl.hidden = true; rango = null; }
+    function revisar() {
+      var s = window.getSelection();
+      if (!s || s.isCollapsed || !s.rangeCount || !s.toString().trim()) return ocultar();
+      var r = s.getRangeAt(0), m = document.querySelector("main");
+      if (!m || !m.contains(r.commonAncestorContainer) || (r.commonAncestorContainer.parentElement && r.commonAncestorContainer.parentElement.closest(".cm-flota"))) return ocultar();
+      var b = r.getBoundingClientRect();
+      if (!b.width && !b.height) return ocultar();
+      rango = r.cloneRange();
+      fl.hidden = false;
+      var w = fl.offsetWidth || 90, x = Math.min(Math.max(8, b.left + b.width / 2 - w / 2), window.innerWidth - w - 8);
+      var y = b.top - 44; if (y < 8) y = b.bottom + 8;
+      fl.style.left = x + "px"; fl.style.top = y + "px";
+    }
+    document.addEventListener("mouseup", function () { setTimeout(revisar, 10); });
+    document.addEventListener("touchend", function () { setTimeout(revisar, 250); });
+    document.addEventListener("keyup", function (e) { if (e.shiftKey || e.key === "Escape") revisar(); });
+    document.addEventListener("scroll", ocultar, { passive: true });
+    fl.addEventListener("mousedown", function (e) { e.preventDefault(); });
+    fl.addEventListener("click", function () {
+      var r = rango; if (!r) return;
+      c.openComposer({ range: r }).then(function (res) { if (res && res.opened) ocultar(); }).catch(function () { ocultar(); });
+    });
+    document.querySelectorAll(".cm-btn").forEach(function (b) {
+      b.hidden = false;
+      b.addEventListener("click", function () {
+        var el = document.getElementById(b.dataset.t) || document.querySelector("main");
+        c.openComposer({ element: el }).catch(function () { b.hidden = true; });
+      });
+    });
+  } catch (e) {}
+})();
+</script>
+
+</body></html>
