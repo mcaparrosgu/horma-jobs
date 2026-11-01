@@ -20,7 +20,7 @@
 4. **¿Cuentan como el «RAG, base de datos y agentes» que se pidió en clase?**
    - RAG: búsqueda híbrida de ofertas (embeddings con pgvector y búsqueda por palabras), y el LLM explica por qué encaja cada oferta.
    - Base de datos: PostgreSQL con pgvector.
-   - Agentes: redactora de CV y carta, agente de candidatura y entrevistadora de voz.
+   - Agentes: redactor y juez para CV y cartas; relleno y supervisor para el envío (el ejecutor es un script); extractor y verificador en la entrevista.
    - Por qué: si el profesor entiende RAG de otra forma (por ejemplo, sobre documentos), hay que saberlo antes de diseñar.
 5. **¿Valora evals, LLM-as-judge, guardrails, red teaming y LLMOps?** Es lo que menos se practica en el bootcamp y lo que más distingue a una ingeniera de IA.
    - Propuesta: evals con dataset de referencia, un juez que comprueba que cada frase del CV tiene origen, lectura ATS del PDF y registro de coste y latencia de cada llamada.
@@ -41,18 +41,18 @@
 ## D. Arquitectura y stack
 
 12. **Stack:** FastAPI + PostgreSQL/pgvector + HTML, CSS y JS planos, instalable como PWA (sin HTMX ni Caddy, Mar, 1-nov). Sin React. ¿Le parece bien?
-13. **n8n en la ingesta:** n8n trae las ofertas y llama a la API de Horma; toda la lógica de producto está en Python. ¿Lo acepta como parte del proyecto, o quiere la ingesta también en Python?
+13. ~~n8n en la ingesta~~ **Resuelta (30-oct):** sin n8n; la ingesta es un script propio en Python con un dashboard. Número conservado para no alterar las referencias.
 14. **¿Framework de agentes o SDK directo?** ¿Espera LangGraph (u otro framework) o basta con el SDK del LLM y function calling?
-14 bis. **«Subagente ATS» (pendiente de cerrar):** el PRD v1 lo nombra así, pero en la arquitectura actual medir las palabras clave lo hace una herramienta de código (`medir_ats`) y el redactor adapta el texto. ¿Cómo define usted «agente»? ¿Le vale esta opción o quiere un subagente con LLM? Según su respuesta se corrige el PRD o la arquitectura.
     - Propuesta (1-nov): SDK directo en el resto, y LangGraph solo en dos flujos: CV y cartas (bucle redactor-juez con tope de 2 y pausa para que la usuaria apruebe) y envío (pausa para aprobar). Orquestación en código, sin LangChain. Si prefiere Python plano, los agentes y los flujos no cambian.
     - Diagramas: Cuaderno, Proyectos, «Horma v3».
     - Por qué: cada framework añade mantenimiento y una capa más que depurar.
+14 bis. **«Subagente ATS» (pendiente de cerrar):** el PRD v1 lo nombra así, pero en la arquitectura actual medir las palabras clave lo hace una herramienta de código (`medir_ats`) y el redactor adapta el texto. ¿Cómo define usted «agente»? ¿Le vale esta opción o quiere un subagente con LLM? Según su respuesta se corrige el PRD o la arquitectura.
 15. **Modelos:** Jobs usa Claude (Haiku y Sonnet) y `gpt-4.1-mini`. ¿Hay libertad de proveedor? ¿El bootcamp da créditos?
 16. **Voz con Vapi** (aprox. 1-3 € por usuaria). Desde el 29 oct, en la entrevista del perfil solo habla la usuaria (se transcribe, sin voz de Horma); la voz de Horma solo estaría en el entrenador de entrevistas, si hay tiempo antes del 24 de noviembre. ¿Es aceptable un servicio de pago en el proyecto, o prefiere voz montada a mano (speech-to-text + LLM + text-to-speech)?
-17. **Agente de candidatura con Playwright:** maneja un navegador para rellenar formularios ATS. ¿Le parece bien para el MVP o es demasiado frágil para la demo?
+17. **Envío con Playwright:** el relleno (LLM) prepara un plan, el supervisor (código) lo comprueba y el ejecutor (script) maneja el navegador para rellenar formularios ATS. ¿Le parece bien para el MVP o es demasiado frágil para la demo?
 18. **Observabilidad:** ¿basta con una tabla propia de coste, tokens y latencia, o espera una herramienta como Langfuse?
-18 bis. **Arquitectura por procesos (29 oct, a raíz de su comentario sobre el análisis técnico):** en lugar de una sola API, proponemos un monolito modular con dos procesos (API síncrona y worker, mismo código base), n8n en contenedor propio y un navegador aislado para el envío; la cola de tareas sería una tabla de PostgreSQL y no Redis. ¿Le parece el nivel de detalle y de complejidad adecuado para un proyecto final, o espera algo más (o menos)?
-    - Propuesta: la de `docs/analisis-tecnico.md`; diagramas en el WB (`tecnico`, `recomendacion`, `redactora`, `envio`, `calidad`). Si responde a la 14 con «SDK directo», los grafos del worker se simplifican.
+18 bis. **Arquitectura por procesos (29 oct, a raíz de su comentario sobre el análisis técnico):** en lugar de una sola API, proponemos un monolito modular con dos procesos (API síncrona y worker, mismo código base), un script de ingesta aparte y un navegador aislado para el envío; la cola de tareas sería una tabla de PostgreSQL y no Redis. ¿Le parece el nivel de detalle y de complejidad adecuado para un proyecto final, o espera algo más (o menos)?
+    - Propuesta: la de `docs/analisis-tecnico.md`; diagramas en el WB (`tecnico`, `recomendacion`, `calidad` y los de «Horma v3»). Si responde a la 14 con «SDK directo», los grafos del worker se simplifican.
     - Por qué importa: separa lo lento de lo rápido y aísla el envío (lo único irreversible), sin el coste de microservicios.
     - Pedirle también una opinión sobre los requisitos de seguridad previos al código (apartado 8 del análisis): roles de BD con RLS forzada, navegador sin red interna, máquina de estados del envío y supervisor con denegación por defecto.
 
@@ -71,15 +71,15 @@
 
 ## F. Infraestructura y costes
 
-23. **Alojamiento:** API, base de datos y n8n de Horma en contenedores Docker en un servidor propio.
+23. **Alojamiento:** API, base de datos y script de ingesta en contenedores Docker en un servidor propio.
     - Pregunta: ¿recomienda algún proveedor? ¿El bootcamp ofrece alguno?
     - Coste: pendiente de investigar en el paso 6.
-24. **Licencia de n8n:** usarlo solo para la ingesta interna dentro de un producto con suscripción. ¿Ve algún problema?
+24. ~~Licencia de n8n~~ **Resuelta (30-oct):** sin n8n, no aplica. Número conservado para no alterar las referencias.
 25. **Pagos:** Stripe en modo de prueba durante el bootcamp. ¿Espera que los pagos funcionen de verdad o basta la demo?
-26. **Repositorio:** ¿público o privado para la entrega? El nombre lo decido yo más adelante.
+26. **Repositorio:** ya existe, `mcaparrosgu/horma-jobs`, privado (1-nov). ¿Debe ser público para la entrega?
 
 ## Después de la reunión
 
 - Apuntar las respuestas aquí, debajo de cada punto.
 - Pasarlas a `docs/propuesta-horma.md` (apartado 4) y a `docs/tareas-pendientes.md`.
-- Si da el ok: empezar con `/paso-01-problema`.
+- Si da el ok: desglosar en tareas pequeñas y construir por componentes, empezando por la ingesta (su método, 30-oct).

@@ -99,7 +99,7 @@ Están como referencia; las ideas de Mar del apartado 3 mandan sobre ellas.
 | Perfil humano en el CV, forma (27 oct) | Sutil: evidencias redactadas como logros, sin etiquetas ni notas |
 | Construcción | No empieza hasta el ok del profesor |
 | Perfil humano en el CV (27 oct) | **Cada usuaria elige** si la información de su perfil humano aparece o no en su CV. Por defecto, apagado |
-| CV y carta a medida (30 oct) | **CV base por sector.** De su CV completo, Horma genera una sola vez hasta 5 CV base (uno por sector) y hasta 2 cartas base, para ahorrar tokens. Para cada oferta, la agente redactora parte del base que le toca y escribe un CV y una carta nuevos: sin inventar, pensando en los ATS y con redacción natural. Un subagente ATS adapta el base a las palabras clave (forma pendiente de cerrar con el profesor, pregunta 14 bis). **Regla de los huecos:** cambia qué se muestra y cómo se cuenta, nunca fechas, cargos, empresas ni titulaciones. ~~27 oct: no hay CVs base~~ |
+| CV y carta a medida (30 oct) | **CV base por sector.** De su CV completo, Horma genera una sola vez hasta 5 CV base (uno por sector) y hasta 2 cartas base, para ahorrar tokens. Para cada oferta, el redactor parte del base que le toca y escribe un CV y una carta nuevos, que revisa un juez: sin inventar, pensando en los ATS y con redacción natural. Un subagente ATS adapta el base a las palabras clave (forma pendiente de cerrar con el profesor, pregunta 14 bis). **Regla de los huecos:** cambia qué se muestra y cómo se cuenta, nunca fechas, cargos, empresas ni titulaciones. ~~27 oct: no hay CVs base~~ |
 | Registro de candidaturas (27 oct) | Apartado en la web y la app con el historial: enviadas, descartadas por la usuaria, rechazadas, sin respuesta… |
 | Demo (27 oct) | No hay tribunal ni «modo demo». La demo es para el profesor, con cuentas de prueba y datos inventados |
 | Tiendas de apps (27 oct) | Más adelante, sin fecha. Primero la PWA |
@@ -140,11 +140,11 @@ Están como referencia; las ideas de Mar del apartado 3 mandan sobre ellas.
 4. **Filtros con casillas:** remoto, salario, país, idioma, contrato, nivel, sector… Más **salario a la vista** (publicado o no, y tu mínimo).
 5. **Recomendación de ofertas** según el perfil técnico y humano, con una **explicación del encaje** que la usuaria puede corregir.
 6. **CV y carta:**
-   - La agente redactora elige, de toda la información de la candidata, lo que más encaja con cada oferta, explica por qué y escribe un CV y una carta nuevos, partiendo del CV base del sector de la oferta (hasta 5 CV base y 2 cartas base; 30 oct).
+   - El redactor elige, de toda la información de la candidata, lo que más encaja con cada oferta, explica por qué y escribe un CV y una carta nuevos, partiendo del CV base del sector de la oferta (hasta 5 CV base y 2 cartas base; 30 oct).
    - Antes de enseñarlo sigue el ciclo generar → evaluar → corregir: palabras clave, lectura ATS, trazabilidad de cada frase y redacción natural.
    - Editor con vista previa y **asistente de edición** (29 oct): la usuaria señala una frase y le pide cambios de tono o contenido.
    - **12 diseños** y PDF generado en Python.
-7. **Agente de candidatura:** rellena y adjunta en los formularios ATS abiertos y en el portal de empresas.
+7. **Agente de candidatura:** rellena y adjunta en los formularios ATS abiertos y en el portal de empresas. Por dentro (1-nov): relleno (LLM), supervisor (código) y ejecutor (script).
 8. **Seguimiento:** tablero con el estado de cada candidatura y **registro** con el historial (enviadas, descartadas por la usuaria, rechazadas, sin respuesta). Las respuestas de las empresas llegan por reenvío a un correo de Horma.
 9. **Portal de empresas:** publicar ofertas y recibir las candidaturas que cada candidata decide enviar. Sin listas, puntuaciones ni búsquedas de candidatas. No hay sección de información de empresas (27 oct).
 10. **Suscripciones** con Stripe, en modo de prueba durante el bootcamp. **Sin topes de producto por plan** (29 oct; sí hay frenos técnicos de seguridad, apartado 4): el precio sale del coste real medido con uso intenso.
@@ -165,8 +165,8 @@ Visión por procesos (detalle y diagramas en `docs/analisis-tecnico.md`): **API 
   - la entrevista del perfil: transcripción de la voz de la usuaria, sin voz de Horma (29 oct; sustituye al entrevistador de voz con Vapi, a replantear en el paso 6);
   - el entrenador de entrevistas (29 oct; voz de Horma solo si hay tiempo);
   - el asistente de edición (29 oct);
-  - la redactora de CV y carta;
-  - el agente de candidatura (Playwright, que maneja un navegador).
+  - el redactor y el juez de CV y carta;
+  - el relleno y el supervisor del envío; el ejecutor es un script con Playwright (maneja un navegador), no un agente.
 - **Deterministas:** filtros, deduplicación y estados de las candidaturas. Es el relato para el profesor: «agentes donde aportan, flujos deterministas donde no».
 - **LLMOps:** cada llamada al LLM se guarda con su modelo, tokens, coste y latencia, y todas pasan por una única puerta (módulo propio) con guardrails de entrada y salida.
 - **Tareas lentas:** la API las encola y el worker las ejecuta; la cola sería una tabla de PostgreSQL (propuesta; Redis descartado el 27-oct).
@@ -177,7 +177,7 @@ Visión por procesos (detalle y diagramas en `docs/analisis-tecnico.md`): **API 
 |---|---|
 | FastAPI por capas, SQL, Docker (TaskFlow) | API y base de datos de Horma |
 | Embeddings, BD vectoriales, RAG | Búsqueda semántica de ofertas |
-| Agentes, function calling | Redactora de CV y carta, y agente de candidatura |
+| Agentes, function calling | Redactor y juez de CV y carta; relleno y supervisor del envío |
 | Agentes de voz (Vapi) | Entrenador de entrevistas, solo si hay tiempo (29 oct); la entrevista del perfil se transcribe |
 | n8n (Unidad 9) | Desde el 30 oct ya no se practica en Horma (la ingesta es un script); queda en Jobs |
 | Seguridad de APIs (OAuth, JWT) | Entrada de usuarias y permisos |
@@ -230,7 +230,7 @@ Visión por procesos (detalle y diagramas en `docs/analisis-tecnico.md`): **API 
      - No tocar Jobs personal ni el n8n de Mar sin permiso.
      - Seguridad de git y `.env`.
      - Explicarlo todo para principiantes.
-   - `git init`, `.gitignore` y `.env.example`.
+   - `.gitignore` y `.env.example` (el repositorio ya existe desde el 1-nov).
    - Anotar en Erna que queda aparcada, con confirmación antes de tocar ese repositorio.
 1. **Workbook, antes de construir.** Documento «Horma jobs» en la sección **Proyectos** del Cuaderno AI Engineering (hecho; 22 apartados a 27 oct).
    - Teoría para principiantes (definición, analogía y ejemplo de Horma) de: API y capas, embeddings y búsqueda híbrida, agentes, voz, ATS, evals, guardrails, LLMOps, servidores, MCP y subagentes.
@@ -267,7 +267,7 @@ Visión por procesos (detalle y diagramas en `docs/analisis-tecnico.md`): **API 
 
 - La rúbrica de Neoland.
 - La fecha exacta de entrega (constan el 20 y el 24 de noviembre; Mar lo pregunta en Neoland).
-- El nombre del repositorio en GitHub (27 oct: se espera; aún no se crea).
+- Si el repositorio debe ser público en la entrega (ya existe: `mcaparrosgu/horma-jobs`, privado, 1-nov).
 - ¿Servidor MCP «Horma»? (27 oct: se decide más adelante). Recomendación de la Copiloto: sí, en la fase 5, solo lectura y sin herramientas que envíen.
 - (27 oct) Fuentes de ofertas y uso de Apify: con el profesor (29 oct: Apify no es la base).
 - (29 oct) Explorar y perfilar los topes (por plan, diarios, modo autónomo). El supervisor auditor del modo autónomo está decidido; falta diseñarlo (paso 6).

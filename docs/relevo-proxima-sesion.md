@@ -67,4 +67,4 @@ El PRD v1 está en el apartado 23 (comprobado por código, igual que `docs/prd-h
 - Exportar y borrar datos (RGPD) tiene que estar antes de usuarias reales, aunque el profesor lo ponga en Fase 3.
 - «Que invente un poco» (profesor) **no se aplica**: línea roja. Está resuelto como «propone, marca, aprueba».
 - El resumen de Gemini mezcla el proyecto de Alberto con el de Mar.
-- Sin hacer: `docs/decisiones-pendientes.md` y `docs/preguntas-profesor.md` (históricos), skills `paso-NN` (quedan como consulta).
+- Sin actualizar a propósito: `docs/decisiones-pendientes.md` (histórico) y skills `paso-NN` (quedan como consulta). `docs/preguntas-profesor.md` sí está al día (1-nov).

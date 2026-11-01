@@ -30,7 +30,7 @@ Actualizado el 2026-11-01 (diagramas al día, sin Caddy ni HTMX; «subagente ATS
 - Pedir el **ok para definir y construir** (bloquea el paso 1 en adelante, git, código y Docker).
 - **Pregunta sobre fuentes:** «Para un producto con suscripción, ¿es aceptable usar Apify para leer portales cuyas condiciones de uso prohíben el scraping (LinkedIn), o la base debe ser APIs, feeds y los ATS públicos de las empresas?». Datos en `docs/ideas-2026-10-27.md` (C4.4 y «Puntos 3 y 8»). Recomendación de la Copiloto: híbrido.
 - Preguntar en Neoland la **rúbrica** y la **fecha exacta de entrega** (20 o 24 de noviembre).
-- El **nombre del repositorio** espera: Mar aún no quiere crearlo.
+- **Repositorio:** creado (`mcaparrosgu/horma-jobs`, privado, 1-nov). Queda preguntar si debe ser público en la entrega (pregunta 26).
 
 ### 2. Hook que bloquea la lectura de `.env`
 **Prioridad: media.** Decidido (16A): ya. Los de git (`git add .`, push a `main`, tests antes de commit), en el paso 9.
@@ -38,8 +38,8 @@ Actualizado el 2026-11-01 (diagramas al día, sin Caddy ni HTMX; «subagente ATS
 
 ### 3. Investigaciones pendientes
 **Prioridad: media.** Solo documentación; no tocan código ni Jobs.
-- **Seguimiento por correo (14A):** requisitos de Google para leer Gmail frente a una dirección de reenvío de Horma. Ojo: si el n8n de Horma usara las credenciales de Gmail de las usuarias, chocaría con la licencia de n8n (ver Parte D).
-- **Coste del servidor** donde vivirán la API y el n8n de Horma (13A: contenedor propio), en el paso 6.
+- **Seguimiento por correo (14A):** requisitos de Google para leer Gmail frente a una dirección de reenvío de Horma.
+- **Coste del servidor** donde vivirán la API y el script de ingesta, en el paso 6.
 - **Fuentes** (cuando lo decida el profesor): condiciones de InfoJobs y EURES, SmartRecruiters, Ashby, Workable y la sentencia C-30/14.
 
 ### 4. Mejoras anotadas para cuando haya tiempo
@@ -89,7 +89,7 @@ Detalle de las del 27 oct en `docs/propuesta-horma.md`, apartado 4.
 - **Portal de empresas (8C):** sí; sección de información de empresas, no. La empresa solo recibe lo que la candidata le envía.
 - **Un perfil por persona (9A)**, con búsquedas guardadas.
 - **Agente buscador de fuentes (11B)**, con filtros de fiabilidad y encaje, y las condiciones del auditor.
-- **n8n de Horma (13A):** contenedor propio en el servidor de Horma; solo ingesta.
+- ~~n8n de Horma (13A)~~ **Superado el 30-oct:** sin n8n; la ingesta es un script propio.
 - **Indeed en Jobs (12C):** se deja como está.
 - **Subagentes (15A):** los dos actuales; revisor de evals en el paso 14.
 - **PWA primero (18A);** tiendas sin fecha.

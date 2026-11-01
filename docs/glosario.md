@@ -15,7 +15,7 @@ Términos que descolocaron a Mar, en orden alfabético. Tres líneas por términ
 ## Contenedor
 - **Qué es:** caja cerrada de Docker con un programa y todo lo que necesita para funcionar.
 - **Analogía:** un táper con el menú completo: lo abres en cualquier casa y sabe igual.
-- **En Horma:** la API, la base de datos, el worker, n8n y el proxy van cada uno en el suyo, y `docker compose up` los enciende juntos.
+- **En Horma:** la API, la base de datos, el worker, el script de ingesta y el navegador aislado van cada uno en el suyo, y `docker compose up` los enciende juntos.
 
 ## Denegar por defecto
 - **Qué es:** regla de seguridad por la que todo lo que no está expresamente permitido queda prohibido.
@@ -50,7 +50,7 @@ Términos que descolocaron a Mar, en orden alfabético. Tres líneas por términ
 ## Proxy inverso
 - **Qué es:** servidor que recibe lo que llega de internet, pone el HTTPS y lo reparte hacia los servidores de dentro.
 - **Analogía:** el portero de un edificio: recibe a todos en la entrada y los manda a su piso.
-- **En Horma:** la puerta pública, por ejemplo Caddy; lo último en arrancar (propuesto, paso 6).
+- **En Horma:** sin proxy propio desde el 1-nov (se quitó Caddy). El HTTPS y los límites los asume el alojamiento o la API; se decide en el paso 6.
 
 ## RLS (row-level security)
 - **Qué es:** regla de la propia base de datos que decide qué filas puede ver cada usuaria.
@@ -60,7 +60,7 @@ Términos que descolocaron a Mar, en orden alfabético. Tres líneas por términ
 ## SSRF
 - **Qué es:** ataque que engaña a un servidor para que haga peticiones a direcciones internas que solo él puede alcanzar.
 - **Analogía:** pedirle a la recepcionista que te abra la puerta de la sala de servidores diciéndole que es un encargo del jefe.
-- **En Horma:** una oferta maliciosa podría hacer que el navegador de envío llame a la base de datos o a n8n; por eso va aislado y con rangos privados bloqueados.
+- **En Horma:** una oferta maliciosa podría hacer que el navegador de envío llame a la base de datos o a otros servicios internos; por eso va aislado y con rangos privados bloqueados.
 
 ## Volumen
 - **Qué es:** disco que conserva los datos de un contenedor aunque el contenedor se borre.
