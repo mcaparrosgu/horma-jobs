@@ -12,13 +12,14 @@ Léelo entero antes de tocar nada. Después, `docs/tareas-pendientes.md` (secci�
 
 ## Qué artefacto es cada cosa
 
-Horma tiene estos cuatro y ninguno más:
+Horma tiene estos cinco y ninguno más (el quinto, el índice de construcción, se añadió el 1-nov a petición de Mar):
 
 | Artefacto | Para qué | Quién lo usa | Fuente |
 |---|---|---|---|
 | Cuaderno personal: https://claude.ai/artifact/4BuaSjpRvJYBtEVvW3RevH | Documentos «Horma jobs» y «Horma v3» | Mar | `Workbook\web\workbook.html` |
 | Horma jobs: https://claude.ai/artifact/QYapVgfjiX7QgN7X1obrNd | Página del profesor, con comentarios | Profesor | `Workbook\web\horma-apuntes.html`, generada por `web\proyectos\construir-horma-aparte.py` |
 | Horma por dentro: https://claude.ai/artifact/QBkk83ZVbjHC97kNq1y9xH | Guía privada para estudiar, con chat de dudas (`sample` y `db`: repetirlas si se cambian) | Mar | `docs/horma-por-dentro.html` |
+| Construcción de Horma: https://claude.ai/artifact/BiiqfZdu3C3F2M32Myggeb | Pasos ordenados para construir Horma completa (troncos y ramas, sin mover nada de fase) | Mar | `docs/indice-construccion-horma.html` |
 | Horma jobs · archivo 29-oct: https://claude.ai/artifact/Rz3LtzSVM8yeGkMYks9SQs | Temporal, con los 19 hilos: se borra cuando el profesor haya visto la nueva | Nadie | `docs/archivo/horma-jobs-borrador-29oct.html` |
 
 **Regla:** antes de publicar sobre uno, léelo. Se regenera siempre desde su fuente.

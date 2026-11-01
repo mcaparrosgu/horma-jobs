@@ -1,0 +1,279 @@
+<title>Construcción de Horma</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: cabecera, índice de etapas en rejilla, y cada etapa como lista ordenada de pasos con número a la izquierda */
+:root{
+  --f-display:'Fraunces',Georgia,'Times New Roman',serif;
+  --f-body:'Atkinson Hyperlegible',system-ui,'Segoe UI',sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+  --bg:#eef1f0; --card:#f9fbfa; --fg:#17262b; --mut:#52666a; --line:#cbd6d4;
+  --acc:#1f6f6a; --acc-fg:#ffffff;
+  --tronco:#1f6f6a;  --tronco-bg:#d6ebe7;
+  --rama:#6a4c9c;    --rama-bg:#e6def2;
+  --puerta:#7d5a00;  --puerta-bg:#f6e6b4;
+  --decidir:#9c3048; --decidir-bg:#f5d7de;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1819; --card:#162224; --fg:#e3ecea; --mut:#9bb1b0; --line:#2a3b3d;
+  --acc:#5fc1b8; --acc-fg:#08201e;
+  --tronco:#5fc1b8;  --tronco-bg:#12332f;
+  --rama:#b9a4ea;    --rama-bg:#2a2144;
+  --puerta:#e9c76a;  --puerta-bg:#3b3010;
+  --decidir:#f29bad; --decidir-bg:#42202b;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1819; --card:#162224; --fg:#e3ecea; --mut:#9bb1b0; --line:#2a3b3d;
+  --acc:#5fc1b8; --acc-fg:#08201e;
+  --tronco:#5fc1b8;  --tronco-bg:#12332f;
+  --rama:#b9a4ea;    --rama-bg:#2a2144;
+  --puerta:#e9c76a;  --puerta-bg:#3b3010;
+  --decidir:#f29bad; --decidir-bg:#42202b;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 64px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+.wrap{max-width:900px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);line-height:1.2;text-wrap:balance;margin:0}
+h1{font-size:clamp(1.9rem,5vw,2.7rem);font-weight:700;letter-spacing:-.015em}
+h2{font-size:clamp(1.3rem,3vw,1.65rem);font-weight:700}
+h3{font-size:1.02rem;font-weight:600}
+p{margin:0 0 .8em;max-width:68ch}
+code{font-family:var(--f-mono);font-size:.84em;background:var(--tronco-bg);color:var(--tronco);padding:1px 5px;border-radius:4px}
+a{color:var(--acc)}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px;border-radius:6px}
+
+header{padding-top:40px;display:grid;gap:14px}
+.eyebrow{font:700 .72rem var(--f-body);letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.lead{font-size:1.08rem;color:var(--fg);max-width:62ch;margin:0}
+
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:6px;font-size:.9rem;color:var(--mut)}
+.legend span{display:flex;align-items:center;gap:8px}
+
+.tag{display:inline-block;font:700 .66rem var(--f-body);letter-spacing:.07em;text-transform:uppercase;padding:2px 8px;border-radius:99px;white-space:nowrap}
+.k-tronco{background:var(--tronco-bg);color:var(--tronco)}
+.k-rama{background:var(--rama-bg);color:var(--rama)}
+.k-puerta{background:var(--puerta-bg);color:var(--puerta)}
+.k-decidir{background:var(--decidir-bg);color:var(--decidir)}
+
+nav.index{margin-top:30px}
+nav.index h2{margin-bottom:12px}
+.grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px}
+.grid a{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;align-items:baseline;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+.grid a:hover{border-color:var(--acc)}
+.grid .n{font:500 .85rem var(--f-mono);color:var(--acc)}
+.grid .c{grid-column:2;font-size:.78rem;color:var(--mut)}
+
+section.etapa{margin-top:44px;scroll-margin-top:calc(env(safe-area-inset-top,0px) + 12px)}
+.etapa-head{display:grid;gap:6px;padding-bottom:12px;border-bottom:2px solid var(--line)}
+.etapa-head .row{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px}
+.etapa-head .num{font:500 .95rem var(--f-mono);color:var(--acc)}
+.tema{font-size:.86rem;color:var(--mut);margin:0}
+.tema b{color:var(--fg)}
+
+ol.pasos{list-style:none;margin:0;padding:0}
+ol.pasos li{display:grid;grid-template-columns:3.1rem minmax(0,1fr);gap:0 8px;padding:13px 0;border-bottom:1px solid var(--line)}
+ol.pasos .n{font:500 .88rem var(--f-mono);color:var(--acc);padding-top:2px}
+ol.pasos .t{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+ol.pasos .d{grid-column:2;margin:4px 0 0;color:var(--mut);font-size:.95rem;max-width:72ch}
+
+aside.box{margin-top:44px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px min(22px,4vw)}
+aside.box h2{margin-bottom:10px}
+aside.box ul{margin:0;padding-left:1.15em;display:grid;gap:7px}
+aside.box li{max-width:74ch}
+footer{margin-top:40px;font-size:.86rem;color:var(--mut);max-width:70ch}
+noscript{display:block;margin-top:30px}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">Horma jobs · plan de construcción</div>
+  <h1>Construcción de Horma, paso a paso</h1>
+  <p class="lead">Todo lo que Horma tiene que llegar a ser, en el orden en que se puede construir: cada paso se apoya en los anteriores. Incluye los troncos y también las ramas (entrevista del perfil, voz del entrenador, minijuegos, servidor MCP, tiendas de apps), sin mover nada a una fase posterior.</p>
+  <div class="legend">
+    <span><span class="tag k-puerta">Puerta</span> hay que cumplirla antes de seguir</span>
+    <span><span class="tag k-tronco">Tronco</span> base de Horma</span>
+    <span><span class="tag k-rama">Rama</span> completa Horma</span>
+    <span><span class="tag k-decidir">Por decidir</span> aún no cerrado</span>
+  </div>
+</header>
+
+<nav class="index" aria-label="Índice de etapas">
+  <h2>Etapas</h2>
+  <ul class="grid" id="indice"></ul>
+</nav>
+
+<main id="etapas"></main>
+<noscript>Esta página necesita JavaScript para mostrar las etapas.</noscript>
+
+<aside class="box">
+  <h2>Cómo se cierra cada paso</h2>
+  <ul>
+    <li>Demo real en móvil y escritorio, tests en verde y una entrada en la bitácora.</li>
+    <li>Pasan <code>revisor-seguridad</code> (seguridad) y <code>auditor-lineas-rojas</code> (honestidad, AI Act, RGPD) al cerrar cada módulo y antes de cada commit.</li>
+    <li>Cada módulo suma su parte de borrado de datos y la prueba correspondiente en la etapa 9.</li>
+    <li>Datos de prueba siempre inventados; nada de datos personales en logs, tests ni commits.</li>
+  </ul>
+</aside>
+
+<aside class="box">
+  <h2>Qué ya no se recorta</h2>
+  <ul>
+    <li><b>Entrevista del perfil</b> completa, con sus evidencias (etapa 10), en lugar de esperar a una fase tardía.</li>
+    <li><b>Envío automático</b> con supervisor (paso 7.7) y <b>voz de Horma</b> en el entrenador (paso 11.2).</li>
+    <li><b>Minijuegos</b> de habilidad (paso 11.3), <b>servidor MCP</b> y <b>tiendas de apps</b> (etapa 15).</li>
+    <li><b>Sin topes de producto</b>: los únicos límites son frenos técnicos de seguridad.</li>
+    <li>Sigue igual lo que son líneas rojas: nada inventado, sin analizar la voz, sin filtrar candidatas para empresas, LinkedIn e Indeed solo los envía la persona.</li>
+  </ul>
+</aside>
+
+<aside class="box">
+  <h2>Pendiente de decidir</h2>
+  <ul>
+    <li>LangGraph en CV y cartas y en envío, y cómo se define el «subagente ATS»: preguntas al profesor.</li>
+    <li>Tope de 5 CV base: choca con «sin topes». Propuesta: limitar los CV generados al mes, no los CV base.</li>
+    <li>Leer el Gmail de cada usuaria o recibir las respuestas por reenvío a un correo de Horma.</li>
+    <li>Servidor MCP (recomendación: solo lectura, sin herramientas que envíen) y fecha de las tiendas de apps.</li>
+    <li>Ideas anotadas sin decidir: candidaturas honestas (<code>docs/ideas/honestidad.md</code>), carta «cómo trabajo», modo «escucho ofertas», seguimiento hasta la incorporación.</li>
+  </ul>
+</aside>
+
+<footer>La construcción y la definición no empiezan hasta tener el ok del profesor (etapa 0). Este orden es una propuesta de la Copiloto: se ajusta en el desglose de tareas.</footer>
+</div>
+
+<script>
+var ETAPAS = [
+{ id:0, k:'puerta', t:'Puertas antes de escribir código', tema:'Arquitectura de software (C4 y ADR), seguridad de APIs', pasos:[
+  ['Ok formal del profesor','Sin él no empieza la definición ni la construcción. Se aprovecha para cerrar sus respuestas: LangGraph, «subagente ATS», qué cubre la Fase 4, rúbrica y fecha de entrega.','puerta'],
+  ['Desglose en tareas pequeñas y priorizadas','Método del profesor: PRD, arquitectura y tareas verificables, ordenadas según esta lista.','puerta'],
+  ['Decisiones del paso 6, como ADR y diagrama C4','Alojamiento (quién asume TLS, límites, cabeceras y CSRF sin Caddy), librería de cola, proveedores de LLM, embeddings y transcripción en la UE, ORM, permisos del rol de empresa y diseño del supervisor.','puerta'],
+  ['Seguridad previa al código','Roles de base de datos con RLS forzada, navegador aislado, máquina de estados del envío y reglas duras del supervisor, decididos antes de la primera línea. Pasa <code>revisor-seguridad</code>.','puerta'],
+  ['Terreno del repositorio','Carpetas, <code>.gitignore</code>, <code>.env.example</code>, hooks (bloquear la lectura de <code>.env</code> y los de git), Docker Compose con <code>api</code>, <code>worker</code>, <code>ingesta</code> y PostgreSQL, CI base con escaneo de secretos.','puerta']
+]},
+{ id:1, k:'tronco', t:'Cimientos: API, datos e identidad', tema:'FastAPI por capas, SQL, Docker, seguridad de APIs, LLMOps', pasos:[
+  ['Base de datos y RLS','PostgreSQL con pgvector, migraciones, roles <code>migrador</code>, <code>api</code> y <code>worker</code>, y <code>FORCE ROW LEVEL SECURITY</code>. Un test intenta leer datos de otra usuaria y tiene que fallar.'],
+  ['API por capas','Routers, servicios y repositorios; validación con Pydantic en la frontera; los errores 422 no devuelven lo que escribió la usuaria.'],
+  ['Identidad','Google OAuth 2.0 y email, JWT verificado (firma, <code>exp</code>, <code>aud</code>, <code>iss</code>), cookies <code>HttpOnly</code>, <code>Secure</code> y <code>SameSite</code>, protección CSRF. La usuaria sale del token, nunca de la URL.'],
+  ['Cola de tareas y worker','Tabla en PostgreSQL con <code>FOR UPDATE SKIP LOCKED</code>, reintentos con retroceso, estado <code>dead</code> y tope de coste por tarea. La carga guarda ids, no texto.'],
+  ['Puerta única al LLM','Reintentos, tiempos límite, guardrails de entrada y salida y tabla de métricas (modelo, tokens, coste, latencia) sin el texto de la usuaria. Logs sin datos personales.'],
+  ['Esqueleto de la web','HTML, CSS y JavaScript planos servidos por FastAPI, instalable como PWA, texto siempre escapado y CSP estricta.'],
+  ['Pruebas y CI','<code>pytest</code> y evals en GitHub Actions desde el primer módulo, con datos de prueba inventados.']
+]},
+{ id:2, k:'tronco', t:'Ingesta y ofertas', tema:'APIs, cron (Unidad 5), embeddings y bases vectoriales', pasos:[
+  ['<code>POST /ofertas</code>','Clave de API limitada a esa ruta, guardada como hash y rotable, con límite de tamaño y ritmo. Valida y encola el procesado.'],
+  ['Script de ingesta','Proceso aparte, sin credenciales de la base de datos. Reaprovecha por copia las fuentes, filtros y deduplicación de Jobs, que nunca se modifica.'],
+  ['Procesado de la oferta','El worker extrae los campos con el LLM y calcula el embedding. La oferta es texto no fiable. Eval de extracción (F1 por campo).'],
+  ['Dashboard de ingesta','En el frontend: lanzar ahora, ver fuentes y errores. El botón deja una petición en la API; no toca la base de datos.'],
+  ['Fuentes de la UE y España','EURES, Adzuna, Arbeitnow, The Hub, InfoJobs y los listados públicos de ATS (Greenhouse, Lever, Ashby, Workable), tras revisar sus condiciones de uso y <code>robots.txt</code>. Nunca LinkedIn ni Indeed.'],
+  ['Agente buscador de fuentes','Propone portales nuevos; cada uno entra solo tras revisar condiciones y sin datos de contacto.','rama'],
+  ['Transparencia de las ofertas','Salario publicado o no, salario mínimo y frase para pedirlo, con la nota legal sobre la Directiva 2023/970. Detector de ofertas fantasma.']
+]},
+{ id:3, k:'tronco', t:'Perfil y CV maestro', tema:'APIs de LLM, modelado de datos', pasos:[
+  ['Subida de CVs','Varios CVs por usuaria. Ficheros con nombre aleatorio y descarga solo por la API, nunca como estáticos.'],
+  ['CV maestro y perfil estructurado','Extracción con el LLM, editable por la usuaria. Cada dato conserva su origen.'],
+  ['Preferencias de ofertas','Rellenadas solo con datos del CV (sin deducir edad, nacionalidad ni categorías del art. 9) y editables. Puede añadir puestos nuevos para cambiar de carrera.'],
+  ['Un perfil por persona','Con búsquedas guardadas.']
+]},
+{ id:4, k:'tronco', t:'Recomendación de ofertas', tema:'Embeddings, búsqueda híbrida, RAG', pasos:[
+  ['Filtros con casillas y filtro duro en SQL','País, contrato, remoto, idioma, nivel, sector y sueldo mínimo. Una oferta sin sueldo no se descarta: sale marcada.'],
+  ['Búsqueda híbrida','Palabras clave (<code>tsvector</code>) y significado (pgvector), fusionadas con <i>Reciprocal Rank Fusion</i>.'],
+  ['Puntuación por tandas','El LLM puntúa de 30 en 30, sin tope de ofertas mostradas, con caché por usuaria y oferta. Nota 0-100 solo de experiencia y formación; 3 niveles solo sobre condiciones de trabajo.'],
+  ['Rango y flexibilidad','La usuaria elige su rango de compatibilidad y puede ampliarlo o cerrarlo. La flexibilidad amplía las capas 2 y 3, nunca el filtro duro. Explicación del encaje que ella puede corregir.'],
+  ['Eval de la recomendación','Ninguna explicación menciona rasgos. Las evidencias humanas no entran en el embedding ni en la nota.']
+]},
+{ id:5, k:'tronco', t:'CV y carta', tema:'Agentes, patrón de reflexión, evals y LLM-as-judge', pasos:[
+  ['CV base por sector y cartas base','Hasta 5 CV base y 2 cartas base, generados una sola vez del CV maestro para ahorrar tokens.','tronco',true],
+  ['Herramienta <code>medir_ats</code>','Código, no agente: vuelve a leer el PDF y cuenta palabras clave. Una palabra sin origen en el perfil no se inserta: se avisa a la usuaria.'],
+  ['Redactor y juez','Generar, evaluar y corregir, con un máximo de 2 intentos. El juez comprueba primero con código (fechas, cargos, empresas y titulaciones idénticos al CV maestro) y después con el LLM, que cita la fuente de cada frase. LangGraph si el profesor lo aprueba; si no, Python plano.','tronco',true],
+  ['Regla de los huecos','Se cambia qué se muestra y cómo se cuenta (una línea de «Otras experiencias», solo el año), nunca fechas, cargos, empresas ni titulaciones. Propone Horma, aprueba la usuaria, y nunca se infiere la causa de un hueco.'],
+  ['Origen visible de cada frase','Cada frase enseña de qué dato sale. Sin origen no se escribe: se pregunta.'],
+  ['12 diseños y PDF','Una columna y sin tablas, legibles por un ATS. PDF generado en Python y diseño predeterminado en Configuración.'],
+  ['Editor y asistente de edición','Vista previa; la usuaria señala una frase y el asistente la reescribe con los mismos controles de trazabilidad. Se muestra el cambio antes de aceptarlo.'],
+  ['Evals del CV','CV con errores sembrados (cifra inventada, cargo subido), comparación del juez frente al código solo, y fechas idénticas al maestro en el 100 % de los casos.']
+]},
+{ id:6, k:'tronco', t:'Portal de empresas', tema:'Seguridad de APIs, permisos y roles', pasos:[
+  ['Rol de empresa con permisos mínimos','Sin acceso a perfiles, puntuaciones ni evidencias.'],
+  ['Publicar ofertas','Entran por la misma ingesta, con enlace a su web oficial como mucho. Sin perfil de empresa ni seguidores: Horma no es una red social.'],
+  ['Recibir candidaturas','La empresa solo recibe lo que la candidata envía: ni listas, ni puntuaciones, ni búsqueda de candidatas. Un test lo demuestra.']
+]},
+{ id:7, k:'tronco', t:'Candidatura y envío', tema:'Agentes con herramientas, Playwright, seguridad', pasos:[
+  ['Máquina de estados','Borrador, aprobada, enviando, enviada, fallida, pendiente de ti. Clave de idempotencia por candidatura; solo la API, con el JWT de la dueña, puede aprobar.'],
+  ['Aprobar y enviar al portal de Horma','Primer envío real, sin navegador.'],
+  ['Navegador aislado','Playwright en red propia, sin ruta a la base de datos ni a la API, salida solo a internet público, perfil nuevo por envío. El ejecutor es un script, no un LLM.'],
+  ['Relleno y supervisor','El relleno devuelve un plan JSON de esquema cerrado. El supervisor, con reglas en código y denegación por defecto, revisa antes de salir: si falta un dato queda «pendiente de ti»; art. 9, salario y preguntas legales nunca se contestan solas.'],
+  ['Formularios ATS de empresa','Uno a uno, comprobando antes los términos de cada ATS. Un eval de ablación decide si el relleno es agente LLM o adaptadores por ATS.','tronco',true],
+  ['LinkedIn e Indeed','Horma prepara la candidatura y la envía siempre la persona.'],
+  ['Modo autónomo','Permiso único y revocable, aviso de cada envío, registro, pausa total y frenos técnicos. Solo dentro del rango elegido y solo donde esté permitido.']
+]},
+{ id:8, k:'tronco', t:'Seguimiento', tema:'Webhooks, máquinas de estado', pasos:[
+  ['Tablero de estados','Estado de cada candidatura.'],
+  ['Registro de candidaturas','Historial: enviadas, descartadas por la usuaria, rechazadas, sin respuesta.'],
+  ['Respuestas de las empresas','Por reenvío a un correo de Horma (remitente verificado, tamaño máximo, texto no fiable), o leyendo Gmail si Google lo permite.','tronco',true]
+]},
+{ id:9, k:'puerta', t:'Privacidad y RGPD', tema:'RGPD, AI Act, seguridad de datos', pasos:[
+  ['Exportar los datos','Todo lo que Horma guarda de la usuaria, en un formato que pueda llevarse.','puerta'],
+  ['Borrar la cuenta','Incluye ficheros, transcripciones, embeddings, caché y trazas de agentes. Prueba de que no queda nada.','puerta'],
+  ['Consentimientos y mensaje claro','Qué se guarda y qué decide compartir la usuaria, dicho sin letra pequeña. Debe estar antes de tener usuarias reales.','puerta']
+]},
+{ id:10, k:'rama', t:'Entrevista del perfil y evidencias', tema:'Agentes de voz, transcripción, AI Act', pasos:[
+  ['Consentimiento y transcripción','Habla solo la usuaria y Horma pregunta por escrito. Transcripción en la UE, sin análisis de emociones; el audio se borra tras transcribir, también en el proveedor.'],
+  ['Preguntas de hechos','20 minutos como máximo: base común más preguntas adaptadas al sector y la trayectoria, con repreguntas. Sin psicotécnicos ni categorías especiales.'],
+  ['Extractor y verificador del art. 9','De la transcripción salen evidencias; el verificador rechaza ante la duda. Nada se guarda sin que la usuaria lo apruebe.'],
+  ['Gestión de evidencias','No se reescriben; se pueden ocultar o pedir su corrección (RGPD art. 16), y el cambio queda registrado.'],
+  ['Perfil humano en el CV y en la compatibilidad','Apagado por defecto y redactado como logros. La compatibilidad usa 3 niveles sobre condiciones de trabajo, nunca sobre rasgos.']
+]},
+{ id:11, k:'rama', t:'Entrenador de entrevistas', tema:'Agentes de voz (Vapi), AI Act art. 50', pasos:[
+  ['Preparación por escrito por oferta','Simulacro personalizado. Las sugerencias se apoyan en su CV o perfil; los datos de la oferta salen de la oferta publicada. Sin notas ni perfil de rendimiento; el historial solo si ella lo pide y es borrable.'],
+  ['Voz de Horma','Con aviso de que es una IA (AI Act, art. 50). Solo se analiza la transcripción: nunca el tono, la emoción ni la fluidez.'],
+  ['Minijuegos de habilidad','Miden una habilidad del puesto con resultado comprobable, nunca rasgos, y sin nota para empresas.','rama',true]
+]},
+{ id:12, k:'tronco', t:'Suscripciones y precios', tema:'APIs de LLM: coste y latencia, negocio', pasos:[
+  ['Coste real con uso intenso','Se mide con la tabla de métricas, con el usuario más intensivo como referencia.'],
+  ['Precios de los planes','Se estudian con <code>/asesora-negocio</code>. El precio tiene que cubrir el uso intenso porque no hay topes de producto.'],
+  ['Stripe en modo de prueba','Webhooks con firma sobre el cuerpo en bruto, tabla de eventos procesados y respuesta rápida.']
+]},
+{ id:13, k:'tronco', t:'Calidad y seguridad finales', tema:'Evals, guardrails, red teaming', pasos:[
+  ['Evals completos en CI','Se fijan los umbrales que hoy están «por fijar», con una clave aparte de presupuesto limitado.'],
+  ['Guardrails por capas','Entrada, salida y la aprobación de la usuaria como capa obligatoria antes de enviar.'],
+  ['Red teaming','Ofertas que intentan manipular a la IA, activar un envío o filtrar datos.'],
+  ['Revisión final de los revisores','<code>auditor-lineas-rojas</code> sobre cada prompt y el flujo de aprobación; <code>revisor-seguridad</code> sobre el envío, el aislamiento y las trazas.'],
+  ['Prueba con cinco personas reales','Antes de publicar, con la skill <code>prueba-usuarios</code>.']
+]},
+{ id:14, k:'tronco', t:'Publicar y vigilar', tema:'Despliegue, observabilidad', pasos:[
+  ['Despliegue','HTTPS, límites de tamaño y ritmo, cabeceras de seguridad, secretos distintos por entorno, contenedores sin root y puerto de la base de datos sin publicar.'],
+  ['Observabilidad','Errores y costes sin datos personales, con alertas.'],
+  ['Jobs personal sigue igual','Se comprueba que Jobs sigue funcionando sin ningún cambio.']
+]},
+{ id:15, k:'rama', t:'Extensiones', tema:'MCP, PWA', pasos:[
+  ['Servidor MCP de Horma','Solo lectura, tres o cuatro herramientas y ninguna que envíe.','rama',true],
+  ['Tiendas de apps','Sobre la PWA ya hecha; sin fecha.','rama',true]
+]},
+{ id:16, k:'tronco', t:'Cierre del proyecto', tema:'Case study y memoria del bootcamp', pasos:[
+  ['Demo','Con cuentas de prueba y datos inventados, para el profesor.'],
+  ['Case study','Con la skill <code>paso-19-case-study</code> y la bitácora.'],
+  ['Memoria','Con la skill <code>paso-20-memoria</code>.'],
+  ['Cuaderno al día','El documento «Horma jobs» del Cuaderno refleja lo construido.']
+]}
+];
+var NOMBRE = {puerta:'Puerta', tronco:'Tronco', rama:'Rama'};
+var indice = document.getElementById('indice');
+var cont = document.getElementById('etapas');
+var htmlI = '', htmlE = '';
+ETAPAS.forEach(function(e){
+  htmlI += '<li><a href="#etapa-'+e.id+'"><span class="n">'+e.id+'</span><span>'+e.t+'</span><span class="c">'+e.pasos.length+' pasos</span></a></li>';
+  htmlE += '<section class="etapa" id="etapa-'+e.id+'"><div class="etapa-head"><div class="row"><span class="num">Etapa '+e.id+'</span><span class="tag k-'+e.k+'">'+NOMBRE[e.k]+'</span></div><h2>'+e.t+'</h2><p class="tema"><b>Tema del bootcamp:</b> '+e.tema+'</p></div><ol class="pasos">';
+  e.pasos.forEach(function(p, i){
+    var k = p[2] || e.k;
+    var tags = (k !== e.k ? '<span class="tag k-'+k+'">'+NOMBRE[k]+'</span>' : '') + (p[3] ? '<span class="tag k-decidir">Por decidir</span>' : '');
+    htmlE += '<li><span class="n">'+e.id+'.'+(i+1)+'</span><div class="t"><h3>'+p[0]+'</h3>'+tags+'</div><p class="d">'+p[1]+'</p></li>';
+  });
+  htmlE += '</ol></section>';
+});
+indice.innerHTML = htmlI;
+cont.innerHTML = htmlE;
+</script>
