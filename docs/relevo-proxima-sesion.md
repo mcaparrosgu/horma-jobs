@@ -7,19 +7,30 @@ Léelo entero antes de tocar nada. Después, `docs/tareas-pendientes.md` (secci�
 - **LangGraph** solo en CV y cartas y en envío (Mar), pendiente del profesor. Ver `docs/analisis-tecnico.md` (apartado 9) y la pregunta 14 de `docs/preguntas-profesor.md`.
 - **Documento «Horma v3»** en el Cuaderno (Proyectos), con 3 diagramas en `Workbook\web\proyectos\horma-v3\`. Sustituye a `redactora` y `envio`, ahora en `horma\archivo\`.
 - **Repositorios:** `mcaparrosgu/horma-jobs` (privado, `main`) y `mcaparrosgu/workbook` (commit `b2097c8`).
-- **Rz3… (resuelto el 1-nov):** al publicar la página del profesor se pisó por error la versión 19 de Rz3… (borrador del 29-oct con aviso, marcas del PRD y los 19 hilos). Se restauró el mismo día, idéntica a `docs/archivo/horma-jobs-borrador-29oct.html`. La página del profesor (`horma-apuntes`, con los apartados de «Horma v3») vive ahora en su propio artefacto: https://claude.ai/artifact/QYapVgfjiX7QgN7X1obrNd (privado: Mar debe compartirlo con él desde *Share*). No se ha comprobado si los 19 hilos siguen anclados.
+- **Rz3… (resuelto el 1-nov):** al publicar la página del profesor se pisó por error la versión 19 de Rz3… (borrador del 29-oct con aviso, marcas del PRD y los 19 hilos). Se restauró el mismo día, idéntica a `docs/archivo/horma-jobs-borrador-29oct.html`. La página del profesor (`horma-apuntes`, con los apartados de «Horma v3») vive ahora en su propio artefacto: https://claude.ai/artifact/QYapVgfjiX7QgN7X1obrNd (privado: Mar debe compartirlo con él desde *Share*). Los 19 hilos siguen en Rz3… (comprobado tras publicar).
+- **Artefactos ordenados (1-nov):** el PRD y la comparativa se borraron como artefactos; sus copias locales son las de la tabla de abajo.
 
-## Dónde está cada cosa
+## Qué artefacto es cada cosa
+
+Horma tiene estos cuatro y ninguno más:
+
+| Artefacto | Para qué | Quién lo usa | Fuente |
+|---|---|---|---|
+| Cuaderno personal: https://claude.ai/artifact/4BuaSjpRvJYBtEVvW3RevH | Documentos «Horma jobs» y «Horma v3» | Mar | `Workbook\web\workbook.html` |
+| Horma jobs: https://claude.ai/artifact/QYapVgfjiX7QgN7X1obrNd | Página del profesor, con comentarios | Profesor | `Workbook\web\horma-apuntes.html`, generada por `web\proyectos\construir-horma-aparte.py` |
+| Horma por dentro: https://claude.ai/artifact/QBkk83ZVbjHC97kNq1y9xH | Guía privada para estudiar | Mar | `docs/horma-por-dentro.html` |
+| Horma jobs · archivo 29-oct: https://claude.ai/artifact/Rz3LtzSVM8yeGkMYks9SQs | Temporal, con los 19 hilos: se borra cuando el profesor haya visto la nueva | Nadie | `docs/archivo/horma-jobs-borrador-29oct.html` |
+
+**Regla:** antes de publicar sobre uno, léelo. Se regenera siempre desde su fuente.
+
+## Dónde está lo demás
 
 | Qué | Dónde |
 |---|---|
-| PRD v1 (vigente) | `docs/prd-horma-v1.html` · artefacto provisional https://claude.ai/artifact/SC6HJfJZAWy1BkwQQoYiYR |
-| Borrador del 29-oct (archivado) | `docs/archivo/horma-jobs-borrador-29oct.html` · artefacto https://claude.ai/artifact/Rz3LtzSVM8yeGkMYks9SQs (lleva aviso de «no vigente») |
+| PRD v1 | Apartado 23 del documento «Horma jobs»; copia en `docs/prd-horma-v1.html` |
+| Comparativa con ai-job-search | Solo en este PC: `docs/comparativa-ai-job-search/` (no se sube a GitHub) |
 | Los 19 hilos del profesor | `docs/archivo/comentarios-profesor-30oct.md` |
 | Registro de decisiones | `docs/revision_profesor_30oct.md` |
-| Cuaderno personal | https://claude.ai/artifact/4BuaSjpRvJYBtEVvW3RevH |
-| Fuente del WB | `C:\AI Engineering\Workbook\web\workbook.html` (reglas en `Workbook\CLAUDE.md`) |
-| Página del profesor | `Workbook\web\horma-apuntes.html`, generada por `web\proyectos\construir-horma-aparte.py` · artefacto https://claude.ai/artifact/QYapVgfjiX7QgN7X1obrNd |
 | Diagramas | `Workbook\web\proyectos\horma\*.json` → `*.html` y `horma-v3\` (skill `archify`) |
 | Repositorio del proyecto | https://github.com/mcaparrosgu/horma-jobs (privado) |
 
@@ -35,39 +46,11 @@ Léelo entero antes de tocar nada. Después, `docs/tareas-pendientes.md` (secci�
 8. Fases: no se unifican por ahora (PRD Fase 1-4 y sección 20 Fases 0-5 conviven).
 9. Sin presión de fechas; si hay que recortar, ramas pequeñas, nunca troncos.
 
-## Tarea A: meter el PRD v1 en el WB (apartado 23 del documento «Horma jobs»)
+## Tareas A y B: hechas (1-nov)
 
-Objetivo de Mar: todo en el mismo sitio, **no** en un artefacto aparte.
+El PRD v1 está en el apartado 23 (comprobado por código, igual que `docs/prd-horma-v1.html`). Los otros 22 apartados y los diagramas ya no llevan n8n, salvo como «sin n8n» o «en clase, con n8n». Los flujos con agentes viven solo en «Horma v3».
 
-1. **Antes de nada, comparar.** El artefacto Rz3… se editó directamente (PRD con marcas, secciones 14 y 21, aviso de archivo) y `workbook.html` **no** tiene esos cambios. Léelo con `Artifact read` y decide qué se rescata.
-2. **Guardar antes de regenerar:** los hilos ya están en `docs/archivo/comentarios-profesor-30oct.md`. Regenerar puede dejar sin ancla los 19 hilos de Rz3…; avisa a Mar.
-3. En `workbook.html`, sustituir el contenido del apartado 23 (`#s23`) desde `<h3>1. Contexto` hasta el cierre de la sección por el cuerpo de `docs/prd-horma-v1.html`. Cambiar la ficha «Estado» a «v1 · incorpora la revisión del profesor». Sin leyenda azul/naranja (recomendado: sin marcas; confirmar con Mar).
-4. El archivo usa CRLF; `comprobar-estructura.js` necesita una copia LF.
-5. Regenerar `horma-apuntes.html` con `construir-horma-aparte.py`.
-6. Publicar el Cuaderno personal y la página aparte con `capabilities {"comments":{"composer_only":true}}` y `files` `proyectos/horma/*.html`.
-7. Commit **local**, sin push, añadiendo archivos por nombre (nunca `git add .`).
-8. Borrar el artefacto provisional SC6… **solo con confirmación de Mar**.
-9. Ninguna página publicada se ha visto con los ojos: comprobarlo.
-
-## Tarea B: corregir los otros 22 apartados del WB
-
-| Apartado | Qué corregir |
-|---|---|
-| 1 | Referencias a Jobs |
-| 3 | Servicios y CV base |
-| 4 | n8n |
-| 5 | n8n (×4) y LinkedIn |
-| 6, 7, 8, 9 | n8n y Jobs |
-| 10 | LinkedIn |
-| 12 | LinkedIn e ingesta |
-| 14 y 21 | CV base (ya corregidos solo en Rz3…) |
-| 15 | LinkedIn y «24 nov» |
-| 16 | n8n |
-| 17 | Jobs |
-| 19 | n8n |
-| 20 | Plan por fases / MVP / «24 nov» → estructura del profesor |
-
-Diagramas que nombran n8n y hay que rehacer con `archify`: `arquitectura.architecture.json`, `ingesta.dataflow.json`, `tecnico.architecture.json`.
+**Falta:** que Mar abra las páginas. El navegador de pruebas se cuelga con el Cuaderno, así que no se ha visto renderizado.
 
 ## Preguntas para el profesor
 

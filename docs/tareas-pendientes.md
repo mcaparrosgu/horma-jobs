@@ -1,6 +1,6 @@
 # Tareas pendientes de Horma jobs
 
-Actualizado el 2026-10-31 (revisión del profesor del 30-oct incorporada; PRD v1 hecho; ver `docs/relevo-proxima-sesion.md`). Antes: ideas de Michael Page, PRD como apartado 23. Orden = prioridad. Cada tarea lleva su siguiente acción y qué la bloquea.
+Actualizado el 2026-11-01 (artefactos ordenados; PRD v1 en el Cuaderno; ver `docs/relevo-proxima-sesion.md`). Antes: ideas de Michael Page, PRD como apartado 23. Orden = prioridad. Cada tarea lleva su siguiente acción y qué la bloquea.
 
 ## Reglas permanentes (decididas por Mar)
 - **Construcción y definición: no empiezan hasta tener el ok del profesor** (27 oct: también los pasos 1-8). Mientras tanto, solo investigación y documentación de apoyo.
@@ -12,12 +12,15 @@ Actualizado el 2026-10-31 (revisión del profesor del 30-oct incorporada; PRD v1
 
 ### 0. Siguiente sesión (31-oct)
 **Prioridad: alta.** Detalle paso a paso en **`docs/relevo-proxima-sesion.md`**.
-- Insertar el PRD v1 (`docs/prd-horma-v1.html`) como apartado 23 del documento «Horma jobs» del WB y corregir los otros 22 apartados (n8n, CV base, LinkedIn, fases, Jobs, fechas) y los diagramas que nombran n8n.
-- **Rehacer el artefacto «Horma explicada a un niño de 10 años»** con la arquitectura nueva (sin n8n, multiagente A-ajustada de `docs/analisis-tecnico.md`, apartado 9). Ya no la bloquea la decisión sobre multiagente (decidida el 1-nov); falta confirmar con Mar el borrador de piezas (sin Caddy ni HTMX; LangGraph solo en CV y cartas y en envío).
-- **Rehacer con `archify` los diagramas** `tecnico`, `redactora`, `envio`, `calidad`, `arquitectura` e `ingesta` con la arquitectura nueva (después de confirmar el borrador y pasar los revisores).
+- **Mirar las páginas (Mar):** abrir el Cuaderno, la página del profesor y «Horma por dentro». El Cuaderno no se ha visto renderizado.
+- **¿«Horma por dentro» es el artefacto «Horma explicada a un niño de 10 años»? (Mar):** no hay ninguno con ese título. Si es ese, esa tarea queda hecha: se actualizó el 1-nov (Caddy y HTMX siguen como propuesta).
+- **Borrar `Rz3…` (archivo 29-oct):** cuando el profesor haya visto https://claude.ai/artifact/QYapVgfjiX7QgN7X1obrNd. Antes, pasarle ese enlace. Irreversible; los hilos están en `docs/archivo/comentarios-profesor-30oct.md`.
+- **Decidir si el Cuaderno personal deja de ser «cualquiera con el enlace» (Mar):** se cambia desde *Share*.
+- **Limpiar los artefactos que no son de Horma:** Cuadernos antiguos, «Mapa de una API» repetidos y pruebas. Tarea aparte, con la lista delante.
+- **Rehacer con `archify` los diagramas** `tecnico`, `calidad` y `arquitectura` solo si los revisores cambian el diseño. Los de agentes ya están en «Horma v3» y `arquitectura`, `ingesta` y `tecnico` ya no llevan n8n.
 - **Pasar `auditor-lineas-rojas` y `revisor-seguridad`** sobre el diseño multiagente (`analisis-tecnico.md`, apartado 9) antes de dar nada por cerrado.
 - **Esperando al profesor (LangGraph):** Mar lo quiere en CV y cartas y en envío (1-nov). Pregunta 14 de `preguntas-profesor.md` y diagramas en el Cuaderno, Proyectos, «Horma v3». Si dice que no: Python plano, sin cambiar agentes ni flujos.
-- **Compartir la página del profesor (Mar):** https://claude.ai/artifact/QYapVgfjiX7QgN7X1obrNd es privada; hay que compartirla con él desde *Share*. Rz3… quedó restaurado el 1-nov (borrador archivado). Comprobar si los 19 hilos siguen anclados. Ver `docs/bitacora.md`, 1-nov (tarde).
+- **Compartir la página del profesor (Mar):** https://claude.ai/artifact/QYapVgfjiX7QgN7X1obrNd es privada; hay que compartirla con él desde *Share*. Qué artefacto es cada cosa: tabla en `docs/relevo-proxima-sesion.md`.
 - **Preguntar al profesor:** cómo define «agente» y si el «subagente ATS» puede ser una herramienta de código (medir palabras clave) más el redactor que adapta. Las notas de Gemini no muestran que pidiera un gerente.
 - **Por confirmar (Mar):** estructura simplificada (sin Caddy ni HTMX; reasignar TLS, límites, cabeceras y CSRF, ver nota en `analisis-tecnico.md`, apartado 8); ingesta como proceso aparte; agente de relleno LLM frente a adaptadores por ATS (lo decide el eval de ablación).
 - Pedir al profesor: qué cubre la Fase 4, si «aprobar y enviar» entra en la Fase 1 o en la 2 o 3, y el ok formal para empezar.

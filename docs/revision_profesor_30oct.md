@@ -28,7 +28,7 @@ Los hilos de comentarios no están activados para mí, así que siguen abiertos.
 
 **Dónde está cada cosa**
 - Borrador del 29-oct (archivado, con sus 19 hilos): https://claude.ai/artifact/Rz3LtzSVM8yeGkMYks9SQs · copia en `docs/archivo/horma-jobs-borrador-29oct.html`
-- Vigente, «PRD de Horma jobs» v1: https://claude.ai/artifact/SC6HJfJZAWy1BkwQQoYiYR · copia en `docs/prd-horma-v1.html`
+- Vigente, «PRD de Horma jobs» v1: apartado 23 de https://claude.ai/artifact/QYapVgfjiX7QgN7X1obrNd · copia en `docs/prd-horma-v1.html` (su artefacto aparte se borró el 1-nov)
 
 **Decisiones de Mar**
 1. **CV base por sector:** hasta 5 CV base y 2 cartas base, generados una vez del CV completo para ahorrar tokens. Cada oferta se adapta desde el base que le toca. Un subagente ATS adapta el base a las palabras clave de la oferta.
