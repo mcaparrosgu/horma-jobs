@@ -12,7 +12,7 @@ Actualizado el 2026-11-01 (artefactos ordenados; PRD v1 en el Cuaderno; ver `doc
 
 ### 0. Siguiente sesión (31-oct)
 **Prioridad: alta.** Detalle paso a paso en **`docs/relevo-proxima-sesion.md`**.
-- **Mirar las páginas (Mar):** abrir el Cuaderno, la página del profesor y «Horma por dentro». El Cuaderno no se ha visto renderizado.
+- **Mirar las páginas (Mar):** abrir el Cuaderno, la página del profesor y «Horma por dentro». El Cuaderno no se ha visto renderizado. Probar también el índice nuevo de Proyectos y sus 3 enlaces externos.
 - **¿«Horma por dentro» es el artefacto «Horma explicada a un niño de 10 años»? (Mar):** no hay ninguno con ese título. Si es ese, esa tarea queda hecha: se actualizó el 1-nov (Caddy y HTMX siguen como propuesta).
 - **Borrar `Rz3…` (archivo 29-oct):** cuando el profesor haya visto https://claude.ai/artifact/QYapVgfjiX7QgN7X1obrNd. Antes, pasarle ese enlace. Irreversible; los hilos están en `docs/archivo/comentarios-profesor-30oct.md`. Al borrarlo, quitarlo de `ARTEFACTOS_HORMA` en `workbook.html` y republicar el Cuaderno personal, o quedará un botón roto.
 - **Decidir si el Cuaderno personal deja de ser «cualquiera con el enlace» (Mar):** se cambia desde *Share*.
@@ -101,6 +101,7 @@ Detalle de las del 27 oct en `docs/propuesta-horma.md`, apartado 4.
 - Que se invoquen siempre solo está garantizado con un **hook**. Hasta entonces, la Copiloto los usa al cerrar cada módulo y antes de cada commit.
 
 ## Hecho
+- **2026-11-01:** índice de los 4 artefactos de Horma, con descripción y botones, al inicio de Proyectos, «Horma jobs» y «Horma v3» (Cuaderno personal, versión 259). No llega a la página del profesor ni a la edición compartida.
 - **2026-11-01:** sesión de diseño sobre multiagente. Decidida por Mar la opción A-ajustada (redactor↔juez con código primero; envío con ejecutor en script; ATS como herramienta de código; gerente en código). Anotada en `docs/analisis-tecnico.md` (apartado 9 y tablas) y en la bitácora. **No hecho:** diagramas, artefacto «niño de 10 años», `propuesta-horma.md` y `CLAUDE.md` (aún nombran LangGraph, HTMX y Caddy), revisores. **Commit:** no se hizo; no hay repositorio git y el `git init` lo decide Mar.
 - **2026-10-31:** revisión del profesor (clase del 30-oct) incorporada. Leídos transcripción y 19 hilos; PRD v1 limpio (`docs/prd-horma-v1.html`, artefacto https://claude.ai/artifact/SC6HJfJZAWy1BkwQQoYiYR, provisional); borrador del 29-oct archivado (`docs/archivo/`, artefacto Rz3Lt… con aviso); `CLAUDE.md`, `docs/propuesta-horma.md` y `docs/analisis-tecnico.md` puestos en coherencia (CV base, sin n8n, LinkedIn humano, estructura del profesor). **No hecho:** WB (22 apartados + diagramas), `docs/decisiones-pendientes.md` y `docs/preguntas-profesor.md` (históricos), skills `paso-NN`.
 - **2026-10-30:** comentarios del profesor en su página (`horma-apuntes.html`, versión 15): «Comentar» al seleccionar texto y «Comentar este apartado» bajo cada título; commit local en el Workbook, sin push. **Pendiente (Mar):** invitar al profesor desde Compartir con permiso de comentarista (el enlace público no basta) y pedirle una prueba; después, leer sus comentarios aquí. Al republicar, repetir `capabilities` `{"comments":{"composer_only":true}}`.

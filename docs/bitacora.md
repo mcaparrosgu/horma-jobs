@@ -97,3 +97,11 @@ Cuaderno de decisiones de Horma jobs en orden cronológico. Solo se añade al fi
 - POR QUÉ ESTA — Cada contenido tiene un solo sitio y un artefacto con un solo lector; lo demás se regenera desde su fuente.
 - QUÉ SE ROMPIÓ — Nada nuevo. Antes de borrar se comprobó por código: el PRD publicado era igual a la copia local y su texto está en el apartado 23; la comparativa local tiene los mismos apartados. Esa copia solo existe en este PC. El profesor pudo ver un rato la versión equivocada de Rz3… mientras estuvo publicada.
 - QUÉ QUEDA PENDIENTE DE ENTENDER — Si «Horma por dentro» es el artefacto «Horma explicada a un niño de 10 años». El aspecto real de las páginas: el navegador de pruebas se cuelga con el Cuaderno. Falta limpiar los artefactos que no son de Horma.
+
+## 2026-11-01 (noche, 2) · Índice de artefactos en el Cuaderno
+
+- QUÉ SE DECIDIÓ — Mar pidió un índice con descripción y botones al inicio del proyecto. Sale al inicio de Proyectos, de «Horma jobs» y de «Horma v3», con una sola lista en el código (`ARTEFACTOS_HORMA`). Publicado en el Cuaderno personal, versión 259.
+- ALTERNATIVAS DESCARTADAS — Escribirlo dentro del HTML de los documentos: habría llegado a la página del profesor con los enlaces a la guía privada y al Cuaderno. Publicar antes una versión de prueba privada: habría sido un artefacto más de Horma.
+- POR QUÉ ESTA — Un solo sitio que editar y ningún cambio en lo que ven el profesor y los compañeros. La edición compartida sale idéntica (`cmp`).
+- QUÉ SE ROMPIÓ — Nada en la página. `comprobar-estructura.js` falla con la copia local de `workbook.html` porque no acepta finales de línea de Windows; con el archivo normalizado da correcto. Queda anotado en `correcciones-pendientes.md` del Workbook. El aviso del archivo `Rz3…` enlaza a un PRD ya borrado: no se arregla porque ese archivo se borrará.
+- QUÉ QUEDA PENDIENTE DE ENTENDER — El aspecto real del índice y los 3 enlaces externos: falta que Mar los pruebe. Si el Cuaderno sigue visible para cualquiera con el enlace, ahora también con este índice.
