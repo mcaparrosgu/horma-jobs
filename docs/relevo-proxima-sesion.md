@@ -2,6 +2,13 @@
 
 Léelo entero antes de tocar nada. Después, `docs/tareas-pendientes.md` (sección 0) y `docs/revision_profesor_30oct.md`.
 
+## Cambios del 2-nov
+
+- **Multiagente:** LangGraph solo dentro de Horma; para construir, subagentes de Claude Code sin framework y piloto con la ingesta. Roles nuevos por definir; nada empieza sin el ok del profesor. Ver la bitácora del 2-nov.
+- **Pregunta 14** de `docs/preguntas-profesor.md` ampliada (matiz honesto, prueba comparativa, alternativas sin verificar).
+- **Skills apagadas** tras `/doctor`: `paso-11` a `paso-18`, `paso-20`, `auditoria-diseno`, `design-taste-frontend`. Si una skill `paso-NN` no aparece, es por eso.
+- Sin commitear: `docs/preguntas-profesor.md`, `docs/bitacora.md`, `docs/tareas-pendientes.md` y este archivo.
+
 ## Cambios del 1-nov (tarde)
 
 - **LangGraph** solo en CV y cartas y en envío (Mar), pendiente del profesor. Ver `docs/analisis-tecnico.md` (apartado 9) y la pregunta 14 de `docs/preguntas-profesor.md`.
