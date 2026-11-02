@@ -4,6 +4,7 @@ Léelo entero antes de tocar nada. Después, `docs/tareas-pendientes.md` (secci�
 
 ## Cambios del 2-nov
 
+- **«Horma por fases»** (sexto artefacto): construcción en las 4 fases del profesor, con comentarios y enlazada desde su página. Fase 4 es propuesta nuestra. Pendiente: compartirlo con él (email en `docs/privado/contactos.md`, ignorado por git).
 - **Multiagente:** LangGraph solo dentro de Horma; para construir, subagentes de Claude Code sin framework y piloto con la ingesta. Roles nuevos por definir; nada empieza sin el ok del profesor. Ver la bitácora del 2-nov.
 - **Pregunta 14** de `docs/preguntas-profesor.md` ampliada (matiz honesto, prueba comparativa, alternativas sin verificar).
 - **Skills apagadas** tras `/doctor`: `paso-11` a `paso-18`, `paso-20`, `auditoria-diseno`, `design-taste-frontend`. Si una skill `paso-NN` no aparece, es por eso.
@@ -19,7 +20,7 @@ Léelo entero antes de tocar nada. Después, `docs/tareas-pendientes.md` (secci�
 
 ## Qué artefacto es cada cosa
 
-Horma tiene estos cinco y ninguno más (el quinto, el índice de construcción, se añadió el 1-nov a petición de Mar):
+Horma tiene estos seis y ninguno más (el quinto, el índice de construcción, se añadió el 1-nov; el sexto, «Horma por fases», el 2-nov, ambos a petición de Mar):
 
 | Artefacto | Para qué | Quién lo usa | Fuente |
 |---|---|---|---|
@@ -27,6 +28,7 @@ Horma tiene estos cinco y ninguno más (el quinto, el índice de construcción, 
 | Horma jobs: https://claude.ai/artifact/QYapVgfjiX7QgN7X1obrNd | Página del profesor, con comentarios | Profesor | `Workbook\web\horma-apuntes.html`, generada por `web\proyectos\construir-horma-aparte.py` |
 | Horma por dentro: https://claude.ai/artifact/QBkk83ZVbjHC97kNq1y9xH | Guía privada para estudiar, con chat de dudas (`sample` y `db`: repetirlas si se cambian) | Mar | `docs/horma-por-dentro.html` |
 | Construcción de Horma: https://claude.ai/artifact/BiiqfZdu3C3F2M32Myggeb | Pasos ordenados para construir Horma completa (troncos y ramas, sin mover nada de fase) | Mar | `docs/indice-construccion-horma.html` |
+| Horma por fases: https://claude.ai/artifact/SSztJsDarsow9YaRju6aAR | Construcción en las 4 fases del profesor, con comentarios; enlazado desde su página (botón bajo el PRD). Privado: compartirlo con él como comentarista | Profesor | `docs/construccion-por-fases-horma.html` |
 | Horma jobs · archivo 29-oct: https://claude.ai/artifact/Rz3LtzSVM8yeGkMYks9SQs | Temporal, con los 19 hilos: se borra cuando el profesor haya visto la nueva | Nadie | `docs/archivo/horma-jobs-borrador-29oct.html` |
 
 **Regla:** antes de publicar sobre uno, léelo. Se regenera siempre desde su fuente.

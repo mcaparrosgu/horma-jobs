@@ -1,6 +1,6 @@
 # Tareas pendientes de Horma jobs
 
-Actualizado el 2026-11-01 (diagramas al día, sin Caddy ni HTMX; «subagente ATS» pendiente del profesor; artefactos ordenados; PRD v1 en el Cuaderno; ver `docs/relevo-proxima-sesion.md`). Antes: ideas de Michael Page, PRD como apartado 23. Orden = prioridad. Cada tarea lleva su siguiente acción y qué la bloquea.
+Actualizado el 2026-11-02 («Horma por fases» publicado, falta compartirlo con el profesor; diagramas al día, sin Caddy ni HTMX; «subagente ATS» pendiente del profesor; artefactos ordenados; PRD v1 en el Cuaderno; ver `docs/relevo-proxima-sesion.md`). Antes: ideas de Michael Page, PRD como apartado 23. Orden = prioridad. Cada tarea lleva su siguiente acción y qué la bloquea.
 
 ## Reglas permanentes (decididas por Mar)
 - **Construcción y definición: no empiezan hasta tener el ok del profesor** (27 oct: también los pasos 1-8). Mientras tanto, solo investigación y documentación de apoyo.
@@ -24,6 +24,7 @@ Actualizado el 2026-11-01 (diagramas al día, sin Caddy ni HTMX; «subagente ATS
 - **Cada agente de Horma, una función independiente del framework (2-nov):** regla de diseño para el paso 6, para poder cambiar de orquestador sin rehacer nada.
 - **Skills apagadas (2-nov):** `paso-11` a `paso-18`, `paso-20`, `auditoria-diseno` y `design-taste-frontend` están en «off» en `~/.claude/settings.json` (copia en la carpeta temporal de la sesión). Reactivarlas si hacen falta. Pendiente: Mar ejecuta `/mcp disable n8n-mcp`, `semantic-scholar` y `google-sheets` en este proyecto.
 - **Contradicción por resolver (Mar, 2-nov):** `CLAUDE.md` del proyecto pide analogía y ejemplo siempre; el global dice analogía solo si aclara. Recomendación: que mande el global.
+- **Compartir con el profesor como comentarista (Mar, 2-nov):** «Horma por fases» (https://claude.ai/artifact/SSztJsDarsow9YaRju6aAR) y su página principal, desde *Share*. Su email, en `docs/privado/contactos.md` (ignorado por git). Después comprobar que le llegan los comentarios.
 - **Compartir la página del profesor (Mar):** https://claude.ai/artifact/QYapVgfjiX7QgN7X1obrNd es privada; hay que compartirla con él desde *Share*. Qué artefacto es cada cosa: tabla en `docs/relevo-proxima-sesion.md`.
 - **Decisión pendiente de cerrar con el profesor: «subagente ATS» (Mar, 1-nov).** El PRD v1 dice «subagente ATS» y la arquitectura usa `medir_ats`, que es código, más el redactor que adapta. Pregunta 14 bis de `preguntas-profesor.md`: cómo define «agente» y si le vale esta opción. El PRD no se cambia hasta tener su respuesta. Las notas de Gemini no muestran que pidiera un gerente.
 - **Por confirmar (Mar):** ingesta como proceso aparte; agente de relleno LLM frente a adaptadores por ATS (lo decide el eval de ablación).

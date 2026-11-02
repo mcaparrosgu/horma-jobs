@@ -1,0 +1,369 @@
+<title>Horma por fases</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: cabecera, 4 tarjetas de fase en rejilla, y cada fase como bloque con entregable, módulos y pasos */
+:root{
+  --f-display:'Fraunces',Georgia,'Times New Roman',serif;
+  --f-body:'Atkinson Hyperlegible',system-ui,'Segoe UI',sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+  --bg:#eef1f0; --card:#f9fbfa; --fg:#17262b; --mut:#52666a; --line:#cbd6d4;
+  --acc:#1f6f6a; --acc-fg:#ffffff;
+  --tronco:#1f6f6a;  --tronco-bg:#d6ebe7;
+  --rama:#6a4c9c;    --rama-bg:#e6def2;
+  --puerta:#7d5a00;  --puerta-bg:#f6e6b4;
+  --decidir:#9c3048; --decidir-bg:#f5d7de;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1819; --card:#162224; --fg:#e3ecea; --mut:#9bb1b0; --line:#2a3b3d;
+  --acc:#5fc1b8; --acc-fg:#08201e;
+  --tronco:#5fc1b8;  --tronco-bg:#12332f;
+  --rama:#b9a4ea;    --rama-bg:#2a2144;
+  --puerta:#e9c76a;  --puerta-bg:#3b3010;
+  --decidir:#f29bad; --decidir-bg:#42202b;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1819; --card:#162224; --fg:#e3ecea; --mut:#9bb1b0; --line:#2a3b3d;
+  --acc:#5fc1b8; --acc-fg:#08201e;
+  --tronco:#5fc1b8;  --tronco-bg:#12332f;
+  --rama:#b9a4ea;    --rama-bg:#2a2144;
+  --puerta:#e9c76a;  --puerta-bg:#3b3010;
+  --decidir:#f29bad; --decidir-bg:#42202b;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 64px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+.wrap{max-width:920px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);line-height:1.2;text-wrap:balance;margin:0}
+h1{font-size:clamp(1.9rem,5vw,2.7rem);font-weight:700;letter-spacing:-.015em}
+h2{font-size:clamp(1.3rem,3vw,1.65rem);font-weight:700}
+h3{font-size:1.08rem;font-weight:600}
+h4{font:600 1rem var(--f-body);margin:0}
+p{margin:0 0 .8em;max-width:68ch}
+code{font-family:var(--f-mono);font-size:.84em;background:var(--tronco-bg);color:var(--tronco);padding:1px 5px;border-radius:4px}
+a{color:var(--acc)}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px;border-radius:6px}
+
+header{padding-top:40px;display:grid;gap:14px}
+.eyebrow{font:700 .72rem var(--f-body);letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.lead{font-size:1.08rem;max-width:64ch;margin:0}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:4px;font-size:.9rem;color:var(--mut)}
+.legend span{display:flex;align-items:center;gap:8px}
+
+.tag{display:inline-block;font:700 .66rem var(--f-body);letter-spacing:.07em;text-transform:uppercase;padding:2px 8px;border-radius:99px;white-space:nowrap}
+.k-tronco{background:var(--tronco-bg);color:var(--tronco)}
+.k-rama{background:var(--rama-bg);color:var(--rama)}
+.k-puerta{background:var(--puerta-bg);color:var(--puerta)}
+.k-decidir{background:var(--decidir-bg);color:var(--decidir)}
+
+nav.fases{margin-top:30px}
+nav.fases h2{margin-bottom:12px}
+.cards{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.cards a{display:grid;gap:6px;align-content:start;height:100%;text-decoration:none;color:var(--fg);
+  background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.cards a:hover{border-color:var(--acc)}
+.cards .big{font:700 2rem/1 var(--f-display);color:var(--acc)}
+.cards .nm{font:600 1rem/1.3 var(--f-display)}
+.cards .org{font-size:.78rem;color:var(--mut)}
+.cards .cnt{font-size:.78rem;color:var(--mut);font-family:var(--f-mono)}
+.cards .pend a, .cards li.pend a{border-style:dashed}
+
+section.fase{margin-top:52px;scroll-margin-top:calc(env(safe-area-inset-top,0px) + 12px)}
+.fase-head{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 16px;align-items:center;padding-bottom:14px;border-bottom:2px solid var(--line)}
+.fase-head .num{grid-row:span 2;font:700 clamp(3rem,9vw,4.4rem)/1 var(--f-display);color:var(--acc)}
+.fase-head .tags{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center}
+.origen{font-size:.86rem;color:var(--mut);margin:0}
+.entrega{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px min(20px,4vw)}
+.entrega h4{margin-bottom:6px}
+.entrega p{margin:0;color:var(--fg)}
+.nota{margin-top:12px;font-size:.92rem;color:var(--mut);max-width:74ch}
+.nota b{color:var(--fg)}
+
+.modulo{margin-top:30px}
+.modulo-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+.tema{font-size:.84rem;color:var(--mut);margin:2px 0 0}
+.tema b{color:var(--fg)}
+ol.pasos{list-style:none;margin:8px 0 0;padding:0}
+ol.pasos li{display:grid;grid-template-columns:3rem minmax(0,1fr);gap:0 8px;padding:11px 0;border-bottom:1px solid var(--line)}
+ol.pasos .n{font:500 .85rem var(--f-mono);color:var(--acc);padding-top:2px}
+ol.pasos .t{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+ol.pasos .d{grid-column:2;margin:3px 0 0;color:var(--mut);font-size:.94rem;max-width:72ch}
+
+aside.box{margin-top:48px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px min(22px,4vw)}
+aside.box h2{margin-bottom:10px}
+aside.box ul,aside.box ol{margin:0;padding-left:1.2em;display:grid;gap:8px}
+aside.box li{max-width:74ch}
+footer{margin-top:36px;font-size:.86rem;color:var(--mut);max-width:70ch}
+noscript{display:block;margin-top:30px}
+.cm-fila{margin:10px 0 0}
+.cm-btn{font:inherit;font-size:.8rem;font-weight:700;color:var(--acc);background:transparent;border:1px solid var(--line);border-radius:99px;padding:5px 12px;cursor:pointer}
+.cm-btn:hover,.cm-btn:focus-visible{border-color:var(--acc);background:var(--tronco-bg)}
+.cm-flota{position:fixed;z-index:50;font:inherit;font-size:.8rem;font-weight:700;color:var(--acc-fg);background:var(--acc);border:0;border-radius:8px;padding:7px 14px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.cm-nota{margin-top:6px;font-size:.88rem;color:var(--mut)}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">Horma jobs · construcción por fases</div>
+  <h1>Horma por fases</h1>
+  <p class="lead">La construcción de Horma ordenada en las cuatro fases que marcó el profesor. Las fases ordenan el trabajo; no recortan nada del alcance. Cada módulo indica si es base de Horma (tronco), si completa el producto y puede cambiar de fase (rama), o si es una condición que hay que cumplir antes de seguir (puerta).</p>
+  <div class="legend">
+    <span><span class="tag k-puerta">Puerta</span> se cumple antes de seguir</span>
+    <span><span class="tag k-tronco">Tronco</span> base de Horma, no se recorta</span>
+    <span><span class="tag k-rama">Rama</span> puede moverse de fase</span>
+    <span><span class="tag k-decidir">Por decidir</span> pendiente de cerrar</span>
+  </div>
+</header>
+
+<nav class="fases" aria-label="Fases">
+  <h2>Las cuatro fases</h2>
+  <ul class="cards" id="cards"></ul>
+</nav>
+
+<p class="cm-nota" id="cm-nota" hidden>Para comentar una frase concreta, selecciónala y pulsa «Comentar». También hay un botón al final de cada fase.</p>
+<main id="fases"></main>
+<noscript>Esta página necesita JavaScript para mostrar las fases.</noscript>
+
+<aside class="box">
+  <h2>Qué necesito del profesor</h2>
+  <ol>
+    <li><b>Qué cubre la Fase 4.</b> La propuesta de esta página reúne lo más avanzado: entrenador de entrevistas, suscripciones, calidad final, publicación y extensiones. Si tenía otra idea, se recoloca.</li>
+    <li><b>Dónde cae «aprobar y enviar».</b> El PRD dice «Fase 2 o 3» para las aplicaciones automáticas. Propuesta: el envío con aprobación manual, en la Fase 1; el envío automático con navegador, en la Fase 2.</li>
+    <li><b>Ok formal para empezar</b> la definición y la construcción.</li>
+    <li><b>LangGraph</b> en los dos flujos con agentes (CV y cartas, y envío). Si no lo aprueba, Python plano con los mismos agentes y flujos.</li>
+    <li><b>«Subagente ATS».</b> El PRD lo nombra; la arquitectura mide el ATS con código y deja el ajuste al redactor. ¿Le vale como agente?</li>
+    <li><b>Tope de 5 CV base.</b> Choca con «sin topes de producto». Propuesta: limitar los CV generados al mes, no los CV base.</li>
+  </ol>
+</aside>
+
+<aside class="box">
+  <h2>Reglas que valen en todas las fases</h2>
+  <ul>
+    <li><b>Cuentas de prueba hasta cerrar la Fase 3.</b> Horma no abre a usuarias reales sin exportar y borrar datos, aunque el resto vaya por delante. Todos los datos de prueba son inventados.</li>
+    <li><b>Líneas rojas:</b> ningún dato inventado ni exagerado en CV, carta o formularios; se analiza el contenido de la entrevista, nunca la voz; Horma no ordena ni filtra candidatas para empresas; LinkedIn e Indeed los envía siempre la persona.</li>
+    <li><b>Cada módulo se cierra con:</b> demo en móvil y escritorio, tests en verde, revisión de seguridad y de líneas rojas, y su parte de borrado de datos.</li>
+    <li><b>Calidad desde el primer módulo.</b> Las pruebas y los evals corren en CI desde la Fase 1; la Fase 4 los completa y fija los umbrales.</li>
+    <li><b>Sin fechas rígidas.</b> Si hubiera que recortar, se recortan ramas pequeñas; los troncos no.</li>
+  </ul>
+</aside>
+
+<footer>Este orden es una propuesta y se afina en el desglose de tareas. Lo marcado como «Por decidir» no está cerrado.</footer>
+</div>
+
+<script>
+/* Un paso: [título, descripción, tipo opcional (si difiere del módulo), 'd' si está por decidir] */
+var FASES = [
+{ n:1, t:'Horma funciona de principio a fin', org:'Alcance de la Fase 1 del profesor', pend:false,
+  entrega:'Una usuaria de prueba sube su CV, ve ofertas recomendadas con el porqué, obtiene un CV y una carta con el origen de cada frase, aprueba y envía una candidatura, y la sigue en un tablero. Una empresa de prueba publica una oferta y recibe solo lo que la candidata envía.',
+  nota:'<b>Es la fase más grande.</b> Se construye por componentes en este orden: cimientos, ingesta, perfil, recomendación, CV y carta, portal de empresas, envío con aprobación y seguimiento.',
+  mods:[
+  { k:'puerta', t:'Puertas antes de escribir código', tema:'Arquitectura de software (C4 y ADR), seguridad de APIs', pasos:[
+    ['Ok formal del profesor','Sin él no empieza la definición ni la construcción.'],
+    ['Desglose en tareas pequeñas y priorizadas','Método del profesor: PRD, revisión de la arquitectura y tareas verificables, ordenadas según esta página.'],
+    ['Decisiones de arquitectura','Alojamiento, librería de cola, proveedores de LLM, embeddings y transcripción en la UE, ORM y permisos del rol de empresa, registradas como ADR con su diagrama C4.'],
+    ['Seguridad previa al código','Roles de base de datos con seguridad por filas forzada, navegador aislado, máquina de estados del envío y reglas del supervisor, decididos antes de la primera línea.'],
+    ['Terreno del repositorio','Carpetas, secretos fuera del código, Docker Compose con API, worker, ingesta y PostgreSQL, y CI base con escaneo de secretos.']
+  ]},
+  { k:'tronco', t:'Cimientos: API, datos e identidad', tema:'FastAPI por capas, SQL, Docker, seguridad de APIs, LLMOps', pasos:[
+    ['Base de datos y seguridad por filas','PostgreSQL con pgvector, migraciones y roles de mínimo privilegio. Un test intenta leer datos de otra usuaria y tiene que fallar.'],
+    ['API por capas','Routers, servicios y repositorios. Validación con Pydantic en la frontera; los errores no devuelven lo que escribió la usuaria.'],
+    ['Identidad','Google OAuth 2.0 y email, JWT verificado, cookies seguras y protección CSRF. La usuaria sale del token, nunca de la URL.'],
+    ['Cola de tareas y worker','Tabla en PostgreSQL con reintentos con retroceso y tope de coste por tarea. La carga guarda ids, no texto.'],
+    ['Puerta única al LLM','Reintentos, tiempos límite, guardrails de entrada y salida y tabla de métricas (modelo, tokens, coste, latencia) sin el texto de la usuaria.'],
+    ['Esqueleto de la web','HTML, CSS y JavaScript planos servidos por FastAPI, instalable como PWA, texto siempre escapado y CSP estricta.'],
+    ['Pruebas y CI','<code>pytest</code> y evals en GitHub Actions desde el primer módulo.']
+  ]},
+  { k:'tronco', t:'Ingesta y ofertas', tema:'APIs, cron, embeddings y bases vectoriales', pasos:[
+    ['Ruta <code>POST /ofertas</code>','Clave de API limitada a esa ruta, guardada como hash y rotable, con límite de tamaño y ritmo. Valida y encola el procesado.'],
+    ['Script de ingesta','Proceso aparte, sin credenciales de la base de datos. Lo controla un dashboard en el frontend, sin n8n.'],
+    ['Procesado de la oferta','El worker extrae los campos con el LLM y calcula el embedding. La oferta es texto no fiable. Eval de extracción por campo.'],
+    ['Dashboard de ingesta','Lanzar ahora, ver fuentes y errores. El botón deja una petición en la API; no toca la base de datos.'],
+    ['Fuentes de la UE y España','EURES, Adzuna, Arbeitnow, The Hub, InfoJobs y los listados públicos de ATS, tras revisar condiciones de uso y <code>robots.txt</code>. Nunca LinkedIn ni Indeed.'],
+    ['Transparencia de las ofertas','Salario publicado o no, salario mínimo y frase para pedirlo, y detector de ofertas fantasma.']
+  ]},
+  { k:'tronco', t:'Perfil y CV maestro', tema:'APIs de LLM, modelado de datos', pasos:[
+    ['Subida de CVs','Varios CVs por usuaria. Ficheros con nombre aleatorio y descarga solo por la API.'],
+    ['CV maestro y perfil estructurado','Extracción con el LLM, editable por la usuaria. Cada dato conserva su origen.'],
+    ['Preferencias de ofertas','Rellenadas solo con datos del CV, sin deducir edad, nacionalidad ni categorías del art. 9, y editables. Puede añadir puestos nuevos para cambiar de carrera.'],
+    ['Un perfil por persona','Con búsquedas guardadas.']
+  ]},
+  { k:'tronco', t:'Recomendación de ofertas', tema:'Embeddings, búsqueda híbrida, RAG', pasos:[
+    ['Filtros con casillas y filtro duro en SQL','País, contrato, remoto, idioma, nivel, sector y sueldo mínimo. Una oferta sin sueldo no se descarta: sale marcada.'],
+    ['Búsqueda híbrida','Palabras clave y significado (pgvector), fusionadas con <i>Reciprocal Rank Fusion</i>.'],
+    ['Puntuación por tandas','El LLM puntúa de 30 en 30 con caché por usuaria y oferta. Nota 0-100 solo de experiencia y formación; 3 niveles solo sobre condiciones de trabajo.'],
+    ['Rango y explicación del encaje','La usuaria elige su rango de compatibilidad y puede corregir la explicación.'],
+    ['Eval de la recomendación','Ninguna explicación menciona rasgos personales.']
+  ]},
+  { k:'tronco', t:'CV y carta', tema:'Agentes, patrón de reflexión, evals y LLM-as-judge', pasos:[
+    ['CV base por sector y cartas base','Hasta 5 CV base y 2 cartas base, generados una vez del CV maestro para ahorrar tokens. Cada oferta se adapta desde el base que le toca.','tronco','d'],
+    ['Herramienta <code>medir_ats</code>','Código, no agente: vuelve a leer el PDF y cuenta palabras clave. Una palabra sin origen en el perfil no se inserta; se avisa a la usuaria.','tronco','d'],
+    ['Redactor y juez','Generar, evaluar y corregir, con un máximo de 2 intentos. El juez comprueba primero con código (fechas, cargos, empresas y titulaciones idénticos al CV maestro) y después con el LLM, que cita la fuente de cada frase.','tronco','d'],
+    ['Regla de los huecos','Se cambia qué se muestra y cómo se cuenta, nunca fechas, cargos, empresas ni titulaciones. Propone Horma y aprueba la usuaria (human in the loop).'],
+    ['Origen visible de cada frase','Cada frase enseña de qué dato sale. Sin origen no se escribe: se pregunta.'],
+    ['Diseños y PDF','Una columna y sin tablas, legibles por un ATS. PDF por defecto.'],
+    ['Editor y asistente de edición','La usuaria señala una frase y el asistente la reescribe con los mismos controles de trazabilidad; se muestra el cambio antes de aceptarlo.'],
+    ['Evals del CV','CV con errores sembrados (cifra inventada, cargo subido) y fechas idénticas al maestro en el 100 % de los casos.']
+  ]},
+  { k:'tronco', t:'Portal de empresas', tema:'Seguridad de APIs, permisos y roles', pasos:[
+    ['Rol de empresa con permisos mínimos','Sin acceso a perfiles, puntuaciones ni evidencias.'],
+    ['Publicar ofertas','Entran por la misma ingesta. Sin perfil de empresa ni seguidores: Horma no es una red social.'],
+    ['Recibir candidaturas','La empresa solo recibe lo que la candidata envía: ni listas, ni puntuaciones, ni búsqueda de candidatas. Un test lo demuestra.']
+  ]},
+  { k:'tronco', t:'Envío con aprobación', tema:'Máquinas de estado, seguridad', pasos:[
+    ['Máquina de estados','Borrador, aprobada, enviando, enviada, fallida, pendiente de ti. Clave de idempotencia por candidatura; solo la dueña, con su JWT, puede aprobar.'],
+    ['Aprobar y enviar al portal de Horma','Primer envío real, sin navegador: la usuaria aprueba y la candidatura llega a la empresa.','tronco','d']
+  ]},
+  { k:'tronco', t:'Seguimiento', tema:'Webhooks, máquinas de estado', pasos:[
+    ['Tablero de estados','Estado de cada candidatura.'],
+    ['Registro de candidaturas','Historial: enviadas, descartadas por la usuaria, rechazadas, sin respuesta.'],
+    ['Respuestas de las empresas','Por reenvío a un correo de Horma (remitente verificado, tamaño máximo, texto no fiable) o leyendo Gmail si Google lo permite.','tronco','d']
+  ]}
+]},
+
+{ n:2, t:'Aplicaciones automáticas', org:'Fase 2 o 3 del profesor (aplicaciones automáticas)', pend:false,
+  entrega:'La usuaria aprueba y un agente rellena y envía la candidatura en formularios de empresa, con un supervisor que lo revisa antes de salir. En LinkedIn e Indeed, Horma la prepara y la envía la persona. El modo autónomo es opcional y revocable.',
+  nota:'<b>Es un tronco:</b> el envío automático no se recorta; la fase solo decide cuándo se construye. Esta página lo coloca en la Fase 2 (el PRD dice «2 o 3»).',
+  mods:[
+  { k:'tronco', t:'Navegador, relleno y supervisor', tema:'Agentes con herramientas, Playwright, seguridad', pasos:[
+    ['Navegador aislado','Playwright en red propia, sin ruta a la base de datos ni a la API, y perfil nuevo por envío. El ejecutor es un script, no un LLM.'],
+    ['Relleno del formulario','Devuelve un plan en JSON de esquema cerrado, con el origen de cada respuesta.'],
+    ['Supervisor','Reglas en código y denegación por defecto. Si falta un dato queda «pendiente de ti»; art. 9, salario y preguntas legales nunca se contestan solas.'],
+    ['Formularios ATS de empresa','Uno a uno, comprobando antes los términos de cada ATS. Un eval de ablación decide si el relleno es un agente LLM o son adaptadores por ATS.','tronco','d'],
+    ['Flujo con agentes','LangGraph si el profesor lo aprueba; si no, Python plano. Cada agente es una función independiente del orquestador.','tronco','d']
+  ]},
+  { k:'tronco', t:'LinkedIn, Indeed y modo autónomo', tema:'Agentes autónomos, AI Act, condiciones de uso', pasos:[
+    ['LinkedIn e Indeed','Horma prepara la candidatura y la envía siempre la persona. Sin automatizar sus portales.'],
+    ['Modo autónomo','Permiso único y revocable, aviso de cada envío, registro, pausa total y frenos técnicos. Solo dentro del rango elegido y donde esté permitido.']
+  ]}
+]},
+
+{ n:3, t:'Entrevista del perfil y privacidad', org:'Fase 3 del profesor (entrevista, privacidad, exportación y borrado)', pend:false,
+  entrega:'La usuaria puede exportar todos sus datos y borrar su cuenta sin que quede nada. Además, puede hacer una entrevista opcional de hasta 20 minutos que produce evidencias de su perfil que ella aprueba.',
+  nota:'<b>Al cerrar esta fase Horma puede abrirse a usuarias reales.</b> Si la entrevista se adelanta por haber holgura, la privacidad no se mueve: es la condición para abrir.',
+  mods:[
+  { k:'puerta', t:'Privacidad y RGPD', tema:'RGPD, AI Act, seguridad de datos', pasos:[
+    ['Exportar los datos','Todo lo que Horma guarda de la usuaria, en un formato que pueda llevarse.'],
+    ['Borrar la cuenta','Incluye ficheros, transcripciones, embeddings, caché y trazas de agentes. Hay una prueba de que no queda nada.'],
+    ['Consentimientos y mensaje claro','Qué se guarda y qué decide compartir la usuaria, dicho sin letra pequeña.']
+  ]},
+  { k:'rama', t:'Entrevista del perfil y evidencias', tema:'Agentes de voz, transcripción, AI Act', pasos:[
+    ['Consentimiento y transcripción','Habla solo la usuaria y Horma pregunta por escrito. Transcripción en la UE, sin análisis de emociones; el audio se borra tras transcribir, también en el proveedor.'],
+    ['Preguntas de hechos','Base común más preguntas adaptadas al sector y la trayectoria, con repreguntas. Sin psicotécnicos ni categorías especiales.'],
+    ['Extractor y verificador del art. 9','De la transcripción salen evidencias; el verificador rechaza ante la duda. Nada se guarda sin que la usuaria lo apruebe.'],
+    ['Gestión de evidencias','No se reescriben; se pueden ocultar o pedir su corrección, y el cambio queda registrado.'],
+    ['Perfil humano en el CV y en la compatibilidad','Apagado por defecto y redactado como logros. La compatibilidad usa 3 niveles sobre condiciones de trabajo, nunca sobre rasgos.']
+  ]}
+]},
+
+{ n:4, t:'Construcción avanzada y salida', org:'Por definir con el profesor · propuesta de esta página', pend:true,
+  entrega:'Horma está publicada, vigilada y con planes de pago. Incluye el entrenador de entrevistas y las extensiones que hayan entrado. Pasó las pruebas finales de calidad y seguridad y una prueba con cinco personas reales.',
+  nota:'<b>El profesor no ha dicho qué cubre.</b> Esta fase reúne lo más avanzado y lo que cierra el producto. Las ramas pueden subir a fases anteriores si hay holgura; los troncos de esta fase (suscripciones, calidad, publicación) no se recortan.',
+  mods:[
+  { k:'rama', t:'Entrenador de entrevistas', tema:'Agentes de voz, AI Act art. 50', pasos:[
+    ['Preparación por escrito por oferta','Simulacro personalizado. Las sugerencias se apoyan en su CV o perfil. Sin notas ni perfil de rendimiento; el historial, solo si ella lo pide y es borrable.'],
+    ['Voz de Horma','Con aviso de que es una IA (AI Act, art. 50). Solo se analiza la transcripción: nunca el tono, la emoción ni la fluidez.','rama','d'],
+    ['Minijuegos de habilidad','Miden una habilidad del puesto con resultado comprobable, nunca rasgos, y sin nota para empresas.','rama','d']
+  ]},
+  { k:'tronco', t:'Suscripciones y precios', tema:'APIs de LLM: coste y latencia, negocio', pasos:[
+    ['Coste real con uso intenso','Se mide con la tabla de métricas, tomando como referencia a la usuaria más intensiva.'],
+    ['Precios de los planes','Tienen que cubrir el uso intenso porque no hay topes de producto.'],
+    ['Stripe en modo de prueba','Webhooks con firma sobre el cuerpo en bruto, tabla de eventos procesados y respuesta rápida.']
+  ]},
+  { k:'tronco', t:'Calidad y seguridad finales', tema:'Evals, guardrails, red teaming', pasos:[
+    ['Evals completos en CI','Se fijan los umbrales numéricos, hoy «por fijar», con una clave aparte de presupuesto limitado.'],
+    ['Guardrails por capas','Entrada, salida y la aprobación de la usuaria como capa obligatoria antes de enviar.'],
+    ['Red teaming','Ofertas que intentan manipular a la IA, activar un envío o filtrar datos.'],
+    ['Revisión final','Revisión de líneas rojas sobre cada prompt y el flujo de aprobación; revisión de seguridad sobre el envío, el aislamiento y las trazas.'],
+    ['Prueba con cinco personas reales','Antes de publicar.']
+  ]},
+  { k:'tronco', t:'Publicar y vigilar', tema:'Despliegue, observabilidad', pasos:[
+    ['Despliegue','HTTPS, límites de tamaño y ritmo, cabeceras de seguridad, secretos distintos por entorno, contenedores sin root y puerto de la base de datos sin publicar.'],
+    ['Observabilidad','Errores y costes sin datos personales, con alertas.']
+  ]},
+  { k:'rama', t:'Extensiones', tema:'MCP, PWA, descubrimiento de fuentes', pasos:[
+    ['Agente buscador de fuentes','Propone portales nuevos; cada uno entra solo tras revisar condiciones de uso y sin datos de contacto.'],
+    ['Servidor MCP de Horma','Solo lectura, tres o cuatro herramientas y ninguna que envíe.','rama','d'],
+    ['Tiendas de apps','Sobre la PWA ya hecha; sin fecha.','rama','d']
+  ]},
+  { k:'tronco', t:'Cierre del proyecto', tema:'Case study y memoria del bootcamp', pasos:[
+    ['Demo','Con cuentas de prueba y datos inventados.'],
+    ['Case study y memoria','A partir de la bitácora de decisiones.'],
+    ['Documentación al día','El Cuaderno del proyecto refleja lo construido.']
+  ]}
+]}
+];
+
+var NOMBRE = {puerta:'Puerta', tronco:'Tronco', rama:'Rama'};
+var cards = '', out = '';
+FASES.forEach(function(f){
+  var np = 0;
+  f.mods.forEach(function(m){ np += m.pasos.length; });
+  cards += '<li class="'+(f.pend?'pend':'')+'"><a href="#fase-'+f.n+'"><span class="big">'+f.n+'</span><span class="nm">'+f.t+'</span><span class="org">'+f.org+'</span><span class="cnt">'+f.mods.length+' módulos · '+np+' pasos</span></a></li>';
+
+  out += '<section class="fase" id="fase-'+f.n+'"><div class="fase-head"><span class="num">'+f.n+'</span><h2>'+f.t+'</h2>'
+       + '<div class="tags"><span class="tag '+(f.pend?'k-decidir':'k-tronco')+'">'+(f.pend?'Por definir':'Fase del profesor')+'</span><p class="origen">'+f.org+'</p></div></div>'
+       + '<div class="entrega"><h4>Al terminar la fase</h4><p>'+f.entrega+'</p></div>'
+       + '<p class="nota">'+f.nota+'</p>'
+       + '<p class="cm-fila"><button type="button" class="cm-btn" data-t="fase-'+f.n+'" hidden>Comentar esta fase</button></p>';
+
+  f.mods.forEach(function(m, mi){
+    var id = f.n+'.'+(mi+1);
+    out += '<div class="modulo"><div class="modulo-head"><h3>'+m.t+'</h3><span class="tag k-'+m.k+'">'+NOMBRE[m.k]+'</span></div><p class="tema"><b>Tema del bootcamp:</b> '+m.tema+'</p><ol class="pasos">';
+    m.pasos.forEach(function(p, i){
+      var k = p[2] || m.k;
+      var tags = (k !== m.k ? '<span class="tag k-'+k+'">'+NOMBRE[k]+'</span>' : '') + (p[3] ? '<span class="tag k-decidir">Por decidir</span>' : '');
+      out += '<li><span class="n">'+id+'.'+(i+1)+'</span><div class="t"><h4>'+p[0]+'</h4>'+tags+'</div><p class="d">'+p[1]+'</p></li>';
+    });
+    out += '</ol></div>';
+  });
+  out += '</section>';
+});
+document.getElementById('cards').innerHTML = cards;
+document.getElementById('fases').innerHTML = out;
+
+/* Comentarios: solo la entrada (abre el cuadro de comentario de claude.ai). Los hilos los pinta claude.ai. */
+(async function () {
+  try {
+    var c = await (window.claude && window.claude.use ? window.claude.use("comments") : null);
+    if (!c) return;
+    document.getElementById("cm-nota").hidden = false;
+    var fl = document.createElement("button");
+    fl.type = "button"; fl.className = "cm-flota"; fl.textContent = "Comentar"; fl.hidden = true;
+    document.body.appendChild(fl);
+    var rango = null;
+    function ocultar() { fl.hidden = true; rango = null; }
+    function revisar() {
+      var s = window.getSelection();
+      if (!s || s.isCollapsed || !s.rangeCount || !s.toString().trim()) return ocultar();
+      var r = s.getRangeAt(0), m = document.querySelector(".wrap");
+      if (!m || !m.contains(r.commonAncestorContainer) || (r.commonAncestorContainer.parentElement && r.commonAncestorContainer.parentElement.closest(".cm-flota"))) return ocultar();
+      var b = r.getBoundingClientRect();
+      if (!b.width && !b.height) return ocultar();
+      rango = r.cloneRange(); fl.hidden = false;
+      var w = fl.offsetWidth || 90, x = Math.min(Math.max(8, b.left + b.width / 2 - w / 2), window.innerWidth - w - 8);
+      var y = b.top - 44; if (y < 8) y = b.bottom + 8;
+      fl.style.left = x + "px"; fl.style.top = y + "px";
+    }
+    document.addEventListener("mouseup", function () { setTimeout(revisar, 10); });
+    document.addEventListener("touchend", function () { setTimeout(revisar, 250); });
+    document.addEventListener("keyup", function (e) { if (e.shiftKey || e.key === "Escape") revisar(); });
+    document.addEventListener("scroll", ocultar, { passive: true });
+    fl.addEventListener("mousedown", function (e) { e.preventDefault(); });
+    fl.addEventListener("click", function () {
+      var r = rango; if (!r) return;
+      c.openComposer({ range: r }).then(function (res) { if (res && res.opened) ocultar(); }).catch(ocultar);
+    });
+    document.querySelectorAll(".cm-btn").forEach(function (b) {
+      b.hidden = false;
+      b.addEventListener("click", function () {
+        var el = document.getElementById(b.dataset.t) || document.querySelector(".wrap");
+        c.openComposer({ element: el }).catch(function () { b.hidden = true; });
+      });
+    });
+  } catch (e) {}
+})();
+</script>

@@ -93,7 +93,7 @@ cotidiana y ejemplo de este proyecto. En español.
   (rama `main`; primer push el 1-nov-2026, autorizado por Mar).
 - **Propuesta vigente:** `docs/propuesta-horma.md` (decisiones de Mar, arquitectura
   prevista, líneas rojas, fases y pendientes). Léela antes de cualquier paso del método.
-- **PRD (v1, 30-oct-2026):** requisitos con la estructura de clase (MA·S03) y la revisión del profesor incorporada. Está en el apartado 23 del documento «Horma jobs» del Cuaderno (fuente: `Workbook/web/workbook.html`); copia en `docs/prd-horma-v1.html`. El borrador anterior (29-oct, con los 19 comentarios del profesor) está archivado en `docs/archivo/`. **Artefactos de Horma:** son cuatro; qué es cada uno, en la tabla de `docs/relevo-proxima-sesion.md`. Léelos antes de publicar encima. Registro de cambios y estado: `docs/revision_profesor_30oct.md` y `docs/relevo-proxima-sesion.md` (léelos al empezar). Los umbrales numéricos siguen «por fijar». No uses páginas aparte del artefacto abiertas en pestaña nueva: dan error.
+- **PRD (v1, 30-oct-2026):** requisitos con la estructura de clase (MA·S03) y la revisión del profesor incorporada. Está en el apartado 23 del documento «Horma jobs» del Cuaderno (fuente: `Workbook/web/workbook.html`); copia en `docs/prd-horma-v1.html`. El borrador anterior (29-oct, con los 19 comentarios del profesor) está archivado en `docs/archivo/`. **Artefactos de Horma:** son seis; qué es cada uno, en la tabla de `docs/relevo-proxima-sesion.md`. Léelos antes de publicar encima. Registro de cambios y estado: `docs/revision_profesor_30oct.md` y `docs/relevo-proxima-sesion.md` (léelos al empezar). Los umbrales numéricos siguen «por fijar». No uses páginas aparte del artefacto abiertas en pestaña nueva: dan error.
 - **Arquitectura técnica:** `docs/analisis-tecnico.md` (procesos, contenedores, flujos y alternativas descartadas; lo marcado como propuesta se confirma en el paso 6) y sus diagramas en el Cuaderno.
 - **Multiagente y LangGraph (1-nov):** dos flujos con agentes (CV y cartas, y envío), orquestados por código; LangGraph solo en esos dos, **pendiente del profesor** (si dice que no, Python plano sin cambiar agentes ni flujos). El «subagente ATS» del PRD frente a `medir_ats` (código) también está pendiente de cerrar con él (pregunta 14 bis de `docs/preguntas-profesor.md`). Detalle en `docs/analisis-tecnico.md`, apartado 9; diagramas en el Cuaderno, Proyectos, «Horma v3».
 - **Tareas y decisiones pendientes:** `docs/tareas-pendientes.md`. Léelo al empezar
@@ -155,7 +155,7 @@ cotidiana y ejemplo de este proyecto. En español.
   autónomo solo si ella lo configura y solo donde esté permitido (en LinkedIn e Indeed,
   Horma prepara y envía siempre la persona).
 - Datos personales de usuarias: nunca en logs, ejemplos, tests ni mensajes de commit;
-  los datos de prueba son inventados.
+  los datos de prueba son inventados. Emails y datos de contacto de terceros (p. ej. el profesor) solo en `docs/privado/`, ignorada por git.
 
 ## Un agente NUNCA, en este repositorio
 

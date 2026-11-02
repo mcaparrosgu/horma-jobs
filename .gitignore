@@ -1,6 +1,9 @@
 # Documentos que no deben subirse nunca a GitHub (decisión de Mar, 27-oct-2026)
 docs/comparativa-ai-job-search/
 
+# Datos de terceras personas (emails, contactos): solo en este PC (Mar, 2-nov-2026)
+docs/privado/
+
 # Secretos y ajustes locales: nunca a GitHub
 .env
 .env.*
