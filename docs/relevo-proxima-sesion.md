@@ -2,7 +2,16 @@
 
 Léelo entero antes de tocar nada. Después, `docs/tareas-pendientes.md` (sección 0) y `docs/revision_profesor_30oct.md`.
 
-## Cambios del 3-nov
+## Cambios del 3-nov (noche): fase 0 = versión del profesor, pista A construida
+
+- **El profesor entregó «Horma: flujo agéntico en Claude Code»** (copia en `docs/flujo-agentico-claude-code.md`). Es lo que se construye en la fase 0: dos pistas, A (agentes, skills y comandos en `.claude/`) y B (web, pendiente), unidas por siete esquemas JSON.
+- **Hecho (pista A):** 13 agentes, 11 comandos, 8 skills (7 del profesor + `convertir-cv`), 7 esquemas, 6 scripts de código y evals deterministas. `python -I evals/correr_evals.py`: 17 de 17 en verde.
+- **No hecho:** pista B (`web/README.md` tiene el orden); pruebas de los agentes con LLM (no se han lanzado: coste y sin ofertas ni CV reales); `endpoints.json` vacío a propósito (sin fuentes calificadas); `pypdf` sin instalar (PDF no se lee aún); especificaciones por flujo (`specs/`).
+- **Pendiente de Mar:** pegar el bloque de `docs/ajustes-pendientes-settings.md` en `.claude/settings.json` (hook de verificación y permisos); el sistema me denegó escribirlo, con razón: es mi propia configuración.
+- **Preguntas nuevas para el profesor:** tope de 4 CV base frente a «sin topes»; cartas base (no aparecen en su versión); `medir-ats` frente a «subagente ATS».
+- Sigue valiendo lo de abajo (comentarios del 3-nov a «Horma por fases»).
+
+## Cambios del 3-nov (comentarios a «Horma por fases»)
 
 - **Comentarios del profesor en «Horma por fases»** (9 hilos, aplicados; artefacto en v4): sin RAG; la regla de los huecos avisa dónde se rellenó cada hueco; **Fase 2** = portal de empresas; **Fase 3** = aplicaciones automáticas + privacidad + entrevista + origen visible, diseños y PDF y editor; Fase 4 sin cambios.
 - **Consecuencia:** la Fase 1 acaba con CV y carta en pantalla y envío hecho por la usuaria (sin PDF, origen visible ni portal). El juez sigue comprobando el origen de cada frase desde la Fase 1 (línea roja). `medir_ats` cuenta sobre el texto y relee el PDF en la Fase 3.

@@ -1,0 +1,127 @@
+{
+  "cv": [
+    {
+      "caso": "ok",
+      "ok": true,
+      "esperado": null,
+      "obtenido": []
+    },
+    {
+      "caso": "cifra_inventada",
+      "ok": true,
+      "esperado": "cifra_no_esta_en_maestro",
+      "obtenido": [
+        "cifra_no_esta_en_maestro",
+        "origen_inexistente"
+      ]
+    },
+    {
+      "caso": "cargo_subido",
+      "ok": true,
+      "esperado": "encabezado_no_coincide_con_perfil",
+      "obtenido": [
+        "encabezado_no_coincide_con_perfil"
+      ]
+    },
+    {
+      "caso": "fecha_corrida",
+      "ok": true,
+      "esperado": "fecha_no_esta_en_maestro",
+      "obtenido": [
+        "encabezado_no_coincide_con_perfil",
+        "fecha_no_esta_en_maestro"
+      ]
+    },
+    {
+      "caso": "empresa_cambiada",
+      "ok": true,
+      "esperado": "encabezado_no_coincide_con_perfil",
+      "obtenido": [
+        "encabezado_no_coincide_con_perfil"
+      ]
+    },
+    {
+      "caso": "titulo_inflado",
+      "ok": true,
+      "esperado": "encabezado_no_coincide_con_perfil",
+      "obtenido": [
+        "encabezado_no_coincide_con_perfil"
+      ]
+    },
+    {
+      "caso": "frase_sin_origen",
+      "ok": true,
+      "esperado": "frase_sin_traza",
+      "obtenido": [
+        "frase_sin_traza"
+      ]
+    },
+    {
+      "caso": "origen_inventado",
+      "ok": true,
+      "esperado": "origen_inexistente",
+      "obtenido": [
+        "origen_inexistente"
+      ]
+    }
+  ],
+  "ats": [
+    {
+      "caso": "ats",
+      "ok": true,
+      "obtenido": {
+        "cobertura": 0.6,
+        "faltantes_sin_origen": [
+          "Power BI",
+          "Tableau"
+        ]
+      }
+    }
+  ],
+  "filtro": [
+    {
+      "caso": "filtro",
+      "ok": true,
+      "obtenido": [
+        [
+          "of-001",
+          10
+        ],
+        [
+          "of-002",
+          1
+        ]
+      ]
+    }
+  ],
+  "esquemas": [
+    {
+      "caso": "calificacion-fuente.json",
+      "ok": true
+    },
+    {
+      "caso": "candidatura.json",
+      "ok": true
+    },
+    {
+      "caso": "endpoints.json",
+      "ok": true
+    },
+    {
+      "caso": "match.json",
+      "ok": true
+    },
+    {
+      "caso": "oferta.json",
+      "ok": true
+    },
+    {
+      "caso": "perfil.json",
+      "ok": true
+    },
+    {
+      "caso": "preferencias.json",
+      "ok": true
+    }
+  ]
+}

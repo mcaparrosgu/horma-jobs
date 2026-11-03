@@ -1,0 +1,7 @@
+# Estado de la fase 1: nunca se versiona, salvo fixtures de prueba inventadas.
+# Aquí caen CV, perfiles y candidaturas de personas reales (datos personales: RGPD).
+*
+!.gitignore
+!README.md
+!fixtures/
+!fixtures/**

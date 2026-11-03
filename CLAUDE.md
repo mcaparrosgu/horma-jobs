@@ -86,11 +86,21 @@ cotidiana y ejemplo de este proyecto. En español.
   es una red social, 29-oct). Sin topes de ningún tipo para la usuaria (29-oct). En la
   entrevista del perfil habla solo la usuaria; la voz de Horma, solo en el entrenador de
   entrevistas, si hay tiempo antes del 24 de noviembre.
-- **Estado:** fase de definición. **Todavía no hay código ni comandos de build/test.**
-  **Ni la construcción ni la definición (pasos 1-8) empiezan hasta tener el ok del profesor**
-  (decisión de Mar, 27-oct-2026). Cuando exista el stack, añade aquí cómo se arranca, cómo se pasan los
-  tests (y uno solo) y la arquitectura real. Repositorio privado en GitHub: `mcaparrosgu/horma-jobs`
-  (rama `main`; primer push el 1-nov-2026, autorizado por Mar).
+- **Estado (3-nov-2026): fase 0 en construcción, pista A hecha.** El profesor dio su versión,
+  «Horma: flujo agéntico en Claude Code» (`docs/flujo-agentico-claude-code.md`), y Mar ordenó
+  construirla. **Es la versión vigente de construcción**; el PRD v1 y «Horma por fases» siguen como
+  referencia de producto y de fases. Dos pistas unidas por los esquemas JSON de
+  `.claude/skills/esquemas-horma/`: **A** = agentes, skills y comandos en `.claude/` (hecha, sin
+  LLM de pago en los tests); **B** = web FastAPI + PostgreSQL en `web/` (**pendiente**, sin ningún
+  LLM dentro). Repositorio privado en GitHub: `mcaparrosgu/horma-jobs` (rama `main`; push del
+  3-nov autorizado por Mar).
+- **Cómo se prueba:** `python -I evals/correr_evals.py` (todo lo determinista: verificador contra 7
+  errores sembrados, ATS, filtro duro, esquemas) o `python -I evals/correr_evals.py cv` (un set).
+  Solo biblioteca estándar de Python 3.14. Lo cualitativo lo corre `/evaluar`.
+- **Flujos** (`.claude/commands/`): `/ingestar-ofertas`, `/publicar-oferta`, `/calificar-fuentes`,
+  `/perfilar`, `/recomendar`, `/candidatura`, `/aprobar`, `/marcar-enviada`, `/respuesta`,
+  `/tablero`, `/evaluar`. Los agentes devuelven JSON y los comandos escriben los archivos; la
+  lectura la hace el comando (así el prompt se migra a la web sin cambiar una línea).
 - **Propuesta vigente:** `docs/propuesta-horma.md` (decisiones de Mar, arquitectura
   prevista, líneas rojas, fases y pendientes). Léela antes de cualquier paso del método.
 - **PRD (v1, 30-oct-2026):** requisitos con la estructura de clase (MA·S03) y la revisión del profesor incorporada. Está en el apartado 23 del documento «Horma jobs» del Cuaderno (fuente: `Workbook/web/workbook.html`); copia en `docs/prd-horma-v1.html`. El borrador anterior (29-oct, con los 19 comentarios del profesor) está archivado en `docs/archivo/`. **Artefactos de Horma:** son seis; qué es cada uno, en la tabla de `docs/relevo-proxima-sesion.md`. Léelos antes de publicar encima. Registro de cambios y estado: `docs/revision_profesor_30oct.md` y `docs/relevo-proxima-sesion.md` (léelos al empezar). Los umbrales numéricos siguen «por fijar». No uses páginas aparte del artefacto abiertas en pestaña nueva: dan error.
@@ -98,6 +108,9 @@ cotidiana y ejemplo de este proyecto. En español.
 - **Multiagente y LangGraph (1-nov):** dos flujos con agentes (CV y cartas, y envío), orquestados por código; LangGraph solo en esos dos, **pendiente del profesor** (si dice que no, Python plano sin cambiar agentes ni flujos). El «subagente ATS» del PRD frente a `medir_ats` (código) también está pendiente de cerrar con él (pregunta 14 bis de `docs/preguntas-profesor.md`). Detalle en `docs/analisis-tecnico.md`, apartado 9; diagramas en el Cuaderno, Proyectos, «Horma v3».
 - **Tareas y decisiones pendientes:** `docs/tareas-pendientes.md`. Léelo al empezar
   sesión (o usa `/hola`).
+- **Agentes del producto (3-nov):** los otros 13 de `.claude/agents/` (`extractor-oferta`, `juez-cv`,
+  `matcher`…) son piezas de Horma, no ayudantes de este repositorio: se invocan desde los comandos de
+  `.claude/commands/`, no a mano. Su prompt se migra a la web cuando pasen sus evals (documento del profesor).
 - **Agentes de este repositorio** (`.claude/agents/`): `copiloto` es la agente
   predeterminada (`.claude/settings.json`). `revisor-seguridad` y `auditor-lineas-rojas`
   son subagentes de solo lectura: **no avisan solos**; trabajan cuando la Copiloto los
@@ -112,8 +125,14 @@ cotidiana y ejemplo de este proyecto. En español.
   esto es flexible); la ingesta de ofertas es un **script propio con un dashboard en el
   frontend, sin n8n** (30-oct, revisión del profesor) y escribe en la API de Horma; las
   suscripciones pagan los costes.
+- **Versión del profesor (3-nov-2026), lo que cambia respecto a lo anterior:** hasta **4** CV base
+  (no 5); **la carta se redacta desde el CV base** (no hay cartas base); el **CV estético lo sube
+  la usuaria** y Horma no lo genera; el ajuste ATS es `medir-ats` (código) más el redactor, no un
+  subagente (la pregunta 14 bis sigue abierta con él); la **tabla de órdenes de construcción** es
+  la suya (pista A → migración → pista B). El «sin topes» de Mar choca con el tope de 4 CV base: se
+  construye con 4 y queda anotado como pregunta.
 - **Decisiones de Mar (30/31-oct-2026, tras la revisión del profesor):** (1) **CV base por
-  sector:** hasta 5 CV base y 2 cartas base, generados una vez del CV completo para ahorrar
+  sector:** hasta 5 CV base y 2 cartas base (**sustituido el 3-nov por la versión del profesor, ver arriba**), generados una vez del CV completo para ahorrar
   tokens; cada oferta se adapta desde el base que le toca y un subagente ATS lo ajusta a las
   palabras clave. (2) **Regla de los huecos:** Horma cambia qué se muestra y cómo se cuenta,
   nunca fechas, cargos, empresas ni titulaciones; lo poco relevante se condensa en una línea

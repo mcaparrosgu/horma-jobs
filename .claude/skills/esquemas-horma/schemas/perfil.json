@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "perfil",
+  "type": "object",
+  "required": ["usuaria_id", "experiencias", "formacion", "skills", "idiomas", "taxonomia", "preguntas_pendientes"],
+  "additionalProperties": false,
+  "$defs": {
+    "origen": {
+      "type": "object",
+      "required": ["archivo", "fragmento"],
+      "additionalProperties": false,
+      "properties": {"archivo": {"type": "string"}, "fragmento": {"type": "string"}, "linea": {"type": ["integer", "null"]}}
+    }
+  },
+  "properties": {
+    "usuaria_id": {"type": "string", "pattern": "^[A-Za-z0-9_-][A-Za-z0-9_.-]{0,79}$"},
+    "experiencias": {"type": "array", "items": {"type": "object", "required": ["cargo", "empresa", "inicio", "fin", "origen"], "additionalProperties": false,
+      "properties": {"cargo": {"type": "string"}, "empresa": {"type": "string"}, "inicio": {"type": "string"}, "fin": {"type": "string", "description": "Texto tal cual del CV; «actualidad» si sigue"}, "descripcion": {"type": "array", "items": {"type": "string"}}, "origen": {"$ref": "#/$defs/origen"}}}},
+    "formacion": {"type": "array", "items": {"type": "object", "required": ["titulo", "centro", "fin", "origen"], "additionalProperties": false,
+      "properties": {"titulo": {"type": "string"}, "centro": {"type": "string"}, "inicio": {"type": ["string", "null"]}, "fin": {"type": "string"}, "origen": {"$ref": "#/$defs/origen"}}}},
+    "skills": {"type": "array", "items": {"type": "object", "required": ["nombre", "origen"], "additionalProperties": false, "properties": {"nombre": {"type": "string"}, "origen": {"$ref": "#/$defs/origen"}}}},
+    "idiomas": {"type": "array", "items": {"type": "object", "required": ["idioma", "origen"], "additionalProperties": false, "properties": {"idioma": {"type": "string"}, "nivel": {"type": ["string", "null"]}, "origen": {"$ref": "#/$defs/origen"}}}},
+    "taxonomia": {"type": "object", "required": ["sectores", "familias", "nivel"], "additionalProperties": false,
+      "properties": {"sectores": {"type": "array", "items": {"type": "string"}}, "familias": {"type": "array", "items": {"type": "string"}}, "nivel": {"type": ["string", "null"]}, "stack": {"type": "array", "items": {"type": "string"}}}},
+    "preguntas_pendientes": {"type": "array", "items": {"type": "string"}, "description": "Todo dato ambiguo o ausente: se pregunta a la usuaria, nunca se inventa."}
+  }
+}

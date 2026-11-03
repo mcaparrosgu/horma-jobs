@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "match",
+  "type": "object",
+  "required": ["usuaria_id", "version_perfil", "fecha", "ofertas"],
+  "additionalProperties": false,
+  "properties": {
+    "usuaria_id": {"type": "string"},
+    "version_perfil": {"type": "string"},
+    "fecha": {"type": "string"},
+    "ofertas": {"type": "array", "items": {"type": "object", "required": ["oferta_id", "nota", "nivel_condiciones", "explicacion"], "additionalProperties": false,
+      "properties": {
+        "oferta_id": {"type": "string"},
+        "nota": {"type": "integer", "minimum": 0, "maximum": 100, "description": "Solo por experiencia y formación"},
+        "nivel_condiciones": {"enum": ["encaja", "parcial", "no"], "description": "Solo por condiciones de trabajo, nunca por rasgos personales"},
+        "explicacion": {"type": "string"},
+        "sin_sueldo": {"type": "boolean"},
+        "correccion": {"type": ["string", "null"]}
+      }}}
+  }
+}
