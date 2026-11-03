@@ -2,14 +2,15 @@
 
 Léelo entero antes de tocar nada. Después, `docs/tareas-pendientes.md` (sección 0) y `docs/revision_profesor_30oct.md`.
 
-## Cambios del 3-nov (noche): fase 0 = versión del profesor, pista A construida
+## Estado de la fase 0 (3-nov, noche): versión del profesor, pista A construida y probada en parte
 
-- **El profesor entregó «Horma: flujo agéntico en Claude Code»** (copia en `docs/flujo-agentico-claude-code.md`). Es lo que se construye en la fase 0: dos pistas, A (agentes, skills y comandos en `.claude/`) y B (web, pendiente), unidas por siete esquemas JSON.
-- **Hecho (pista A):** 13 agentes, 11 comandos, 8 skills (7 del profesor + `convertir-cv`), 7 esquemas, 6 scripts de código y evals deterministas. `python -I evals/correr_evals.py`: 17 de 17 en verde.
-- **No hecho:** pista B (`web/README.md` tiene el orden); pruebas de los agentes con LLM (no se han lanzado: coste y sin ofertas ni CV reales); `endpoints.json` vacío a propósito (sin fuentes calificadas); `pypdf` sin instalar (PDF no se lee aún); especificaciones por flujo (`specs/`).
-- **Pendiente de Mar:** pegar el bloque de `docs/ajustes-pendientes-settings.md` en `.claude/settings.json` (hook de verificación y permisos); el sistema me denegó escribirlo, con razón: es mi propia configuración.
-- **Preguntas nuevas para el profesor:** tope de 4 CV base frente a «sin topes»; cartas base (no aparecen en su versión); `medir-ats` frente a «subagente ATS».
-- Sigue valiendo lo de abajo (comentarios del 3-nov a «Horma por fases»).
+- **Qué se construye:** «Horma: flujo agéntico en Claude Code» del profesor (copia en `docs/flujo-agentico-claude-code.md`). Dos pistas unidas por **ocho** esquemas JSON: A = agentes, skills y comandos en `.claude/` (hecha); B = web FastAPI + PostgreSQL en `web/` (**pendiente**, orden en `web/README.md`). Sus indicaciones para la fase 0: construir, generar perfiles de prueba, probar agentes y skills desde la consola, «probar y probar».
+- **Hecho:** 13 agentes, 11 comandos, 8 skills (7 del profesor + `convertir-cv`), 8 esquemas (el 8.º, `clasificacion-respuesta`, lo añadimos), 7 scripts de Python (solo biblioteca estándar) y evals. `python -I evals/correr_evals.py`: **29 de 29** en verde. 3 CV y 2 ofertas inventados en `datos/fixtures/`.
+- **Probado con LLM real (un caso cada uno):** 11 de 13 agentes. Sin probar: `redactor-carta`, `juez-carta` (siguiente ronda) y `auditor-fuentes` (necesita leer webs reales). Detalle, aciertos y fallos: `docs/bitacora.md`, 3-nov noche 2 y 3.
+- **No hecho:** pista B; `endpoints.json` vacío a propósito (sin fuentes calificadas); `pypdf` sin instalar (no se leen PDF); especificaciones por flujo (`specs/`); umbral de cobertura ATS (se fija con corridas reales).
+- **Pendiente de Mar:** (1) pegar el bloque de `docs/ajustes-pendientes-settings.md` en `.claude/settings.json` (hook de verificación, permisos y bloqueo de lectura de `.env` y `docs/privado/`); el sistema me denegó escribirlo, con razón: es configuración de Claude Code. (2) Decidir si las preferencias deducidas del CV (puesto = último cargo, ciudad = residencia) quedan vacías hasta que la usuaria confirme (recomendado). (3) Si se añade un campo de horario a `preferencias`.
+- **Preguntas para el profesor:** tope de 4 CV base frente a «sin topes»; cartas base (no aparecen en su versión); `medir-ats` frente a «subagente ATS».
+- **Cambia respecto a lo anterior:** hasta 4 CV base (no 5), la carta sale del CV base (no hay cartas base) y el CV estético lo sube la usuaria.
 
 ## Cambios del 3-nov (comentarios a «Horma por fases»)
 
@@ -64,7 +65,7 @@ Horma tiene estos seis y ninguno más (el quinto, el índice de construcción, s
 
 ## Decisiones de Mar ya cerradas (30/31-oct)
 
-1. CV base por sector: hasta 5 CV base y 2 cartas base; subagente ATS ajusta a la oferta.
+1. CV base por sector: hasta 5 CV base y 2 cartas base; subagente ATS ajusta a la oferta. *(Sustituido el 3-nov por la versión del profesor: hasta 4 CV base, sin cartas base, `medir-ats` en código.)*
 2. Regla de los huecos: nunca se tocan fechas, cargos, empresas ni titulaciones; lo poco relevante se condensa; propone Horma, aprueba la usuaria.
 3. LinkedIn e Indeed: Horma prepara, envía siempre la persona.
 4. Envío automático = tronco.

@@ -5,7 +5,7 @@ La web (FastAPI por capas + PostgreSQL, worker, PWA) se construye **sin ningún 
 Orden previsto (documento del profesor, apartado «Pista B»):
 
 1. Terreno: carpetas, secretos fuera del código, Docker Compose (API, worker, PostgreSQL), CI con pytest y escaneo de secretos.
-2. Base de datos: tablas que traducen los siete esquemas de `esquemas-horma`, migraciones, roles de mínimo privilegio, seguridad por filas y su test «leer datos de otra usuaria falla».
+2. Base de datos: tablas que traducen los ocho esquemas de `esquemas-horma`, migraciones, roles de mínimo privilegio, seguridad por filas y su test «leer datos de otra usuaria falla».
 3. API por capas, Pydantic generado desde los esquemas, identidad (Google OAuth y email), JWT y CSRF.
 4. Importador `web/scripts/importar_datos.py` (lee `datos/` y lo carga como seed).
 5. Pantallas sobre el seed: tablero, ofertas recomendadas, perfil y preferencias, dashboard de ingesta, `POST /ofertas`.

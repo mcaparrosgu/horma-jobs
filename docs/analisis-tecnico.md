@@ -59,7 +59,7 @@ La oferta es **texto no fiable**: se trata como dato, nunca como instrucción (a
 **Quién lo ve:** puntuaciones, perfil humano y evidencias son privados de la usuaria (RLS). El rol de empresa no tiene acceso a ninguna de esas tablas: solo lee las candidaturas que la candidata envía. Cada tabla lleva su prueba de seguridad.
 
 ### 3.3 CV y carta (Cuaderno, «Horma v3», diagrama `cv-cartas`)
-**Punto de partida (30-oct):** de su CV completo, Horma genera una sola vez hasta 5 CV base (uno por sector) y hasta 2 cartas base; una herramienta de código (`medir_ats`) mide las palabras clave y el redactor ajusta el base a la oferta. Cada oferta parte del base que le toca, lo que ahorra tokens. Regla: Horma cambia qué se muestra y cómo se cuenta (lo poco relevante se condensa en una línea; puede mostrarse solo el año), nunca fechas, cargos, empresas ni titulaciones.
+**Punto de partida (30-oct; el 3-nov la versión del profesor lo cambia a hasta 4 CV base y sin cartas base, ver `docs/flujo-agentico-claude-code.md`):** de su CV completo, Horma genera una sola vez hasta 5 CV base (uno por sector) y hasta 2 cartas base; una herramienta de código (`medir_ats`) mide las palabras clave y el redactor ajusta el base a la oferta. Cada oferta parte del base que le toca, lo que ahorra tokens. Regla: Horma cambia qué se muestra y cómo se cuenta (lo poco relevante se condensa en una línea; puede mostrarse solo el año), nunca fechas, cargos, empresas ni titulaciones.
 
 Generar → evaluar → corregir, con un máximo de 2 intentos:
 - **Elegir evidencias** del perfil que encajan con la oferta. Las evidencias del perfil humano solo entran si la usuaria las **activó** (apagadas por defecto) y no las **ocultó**, y siempre redactadas como logros, nunca etiquetas.

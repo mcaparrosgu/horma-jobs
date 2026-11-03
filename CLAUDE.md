@@ -89,14 +89,16 @@ cotidiana y ejemplo de este proyecto. En español.
 - **Estado (3-nov-2026): fase 0 en construcción, pista A hecha.** El profesor dio su versión,
   «Horma: flujo agéntico en Claude Code» (`docs/flujo-agentico-claude-code.md`), y Mar ordenó
   construirla. **Es la versión vigente de construcción**; el PRD v1 y «Horma por fases» siguen como
-  referencia de producto y de fases. Dos pistas unidas por los esquemas JSON de
+  referencia de producto y de fases. Dos pistas unidas por los ocho esquemas JSON de
   `.claude/skills/esquemas-horma/`: **A** = agentes, skills y comandos en `.claude/` (hecha, sin
   LLM de pago en los tests); **B** = web FastAPI + PostgreSQL en `web/` (**pendiente**, sin ningún
   LLM dentro). Repositorio privado en GitHub: `mcaparrosgu/horma-jobs` (rama `main`; push del
   3-nov autorizado por Mar).
-- **Cómo se prueba:** `python -I evals/correr_evals.py` (todo lo determinista: verificador contra 7
-  errores sembrados, ATS, filtro duro, esquemas) o `python -I evals/correr_evals.py cv` (un set).
-  Solo biblioteca estándar de Python 3.14. Lo cualitativo lo corre `/evaluar`.
+- **Cómo se prueba:** `python -I evals/correr_evals.py` (todo lo determinista, 29 casos: verificador contra 7
+  errores sembrados, ATS, filtro duro, esquemas y fixtures con salidas reales de los agentes) o `python -I evals/correr_evals.py cv` (un set).
+  Solo biblioteca estándar de Python 3.14. Lo cualitativo lo corre `/evaluar`; 11 de los 13 agentes del
+  producto se han probado con un caso real cada uno (bitácora, 3-nov noche 2 y 3). Los subagentes solo
+  tienen `Read` y **no cargan skills solos**: reciben las rutas de los esquemas en su prompt.
 - **Flujos** (`.claude/commands/`): `/ingestar-ofertas`, `/publicar-oferta`, `/calificar-fuentes`,
   `/perfilar`, `/recomendar`, `/candidatura`, `/aprobar`, `/marcar-enviada`, `/respuesta`,
   `/tablero`, `/evaluar`. Los agentes devuelven JSON y los comandos escriben los archivos; la
