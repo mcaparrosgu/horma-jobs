@@ -29,5 +29,5 @@ description: Contrato de datos de Horma: los siete esquemas JSON que cruzan entr
 ```
 
 - Los cuatro archivos de una candidatura (`estado.json`, `traza.json`, `huecos.json`, `ats.json`) son las partes de `candidatura.json`. La carta tiene su propia traza: `traza-carta.json`.
-- Valida siempre la salida contra el esquema antes de escribirla; si no valida, una segunda vuelta y, si sigue mal, se anota el error y no se escribe.
+- Valida siempre la salida antes de escribirla: `python -I .claude/skills/esquemas-horma/scripts/validar.py <esquema> <archivo.json>` (subconjunto de JSON Schema, solo biblioteca estándar). Un subagente con solo `Read` **no carga skills solo**: el comando le pasa las rutas de los esquemas; si no valida, una segunda vuelta y, si sigue mal, se anota el error y no se escribe.
 - Un cambio de esquema es un cambio de contrato: se anota antes en `CHANGELOG.md`.

@@ -12,6 +12,7 @@ Actualizado el 2026-11-03 (el profesor comentó «Horma por fases» y se aplicar
 
 ### 0. Siguiente sesión (31-oct)
 **Prioridad: alta.** Detalle paso a paso en **`docs/relevo-proxima-sesion.md`**.
+- **Fase 0, indicaciones del profesor (3-nov):** (1) pasárselo a Claude y construir: hecho; (2) perfiles de prueba: 3 CV inventados en `datos/fixtures/perfiles/` (Ana y Leo con salida validada, falta repetir Rosa); (3) probar agentes y skills desde la consola: `extractor-perfil` probado, faltan los otros 12 agentes (orden en la bitácora del 3-nov, noche 2); (4) probar y probar.
 - **Fase 0 (3-nov noche): pista A construida; falta la pista B.** Versión del profesor en `docs/flujo-agentico-claude-code.md`. Pendiente: (1) Mar pega `docs/ajustes-pendientes-settings.md` en `.claude/settings.json` (hook y permisos); (2) probar los agentes con un LLM real sobre fixtures; (3) `/calificar-fuentes` y llenar `endpoints.json`; (4) decidir si se instala `pypdf` (PDF); (5) pista B en `web/` (orden en `web/README.md`); (6) specs por flujo en `specs/`; (7) preguntar al profesor: tope de 4 CV base frente a «sin topes», cartas base, «subagente ATS».
 - **Mirar las páginas (Mar):** abrir el Cuaderno, la página del profesor y «Horma por dentro». El Cuaderno no se ha visto renderizado. Probar también el índice nuevo de Proyectos y sus 3 enlaces externos.
 - **¿«Horma por dentro» es el artefacto «Horma explicada a un niño de 10 años»? (Mar):** no hay ninguno con ese título. Si es ese, esa tarea queda hecha: se actualizó el 1-nov (ya sin Caddy ni HTMX).

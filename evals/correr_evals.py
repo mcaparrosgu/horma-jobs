@@ -80,6 +80,18 @@ def eval_filtro():
     return [{"caso": "filtro", "ok": ok, "obtenido": [(g["id"], g["puntos_taxonomia"]) for g in got]}]
 
 
+def eval_fixtures():
+    """Las salidas reales de los agentes (fixtures de perfiles) validan contra su esquema."""
+    res = []
+    validar = SK / "esquemas-horma" / "scripts" / "validar.py"
+    for esquema, nombre in (("perfil", "perfil.json"), ("preferencias", "preferencias.json")):
+        for f in sorted((RAIZ / "datos" / "fixtures" / "perfiles").glob(f"*/{nombre}")):
+            r = correr(validar, esquema, f)
+            ok = json.loads(r.stdout)["ok"]
+            res.append({"caso": f"{f.parent.name}/{nombre}", "ok": ok, "obtenido": None if ok else json.loads(r.stdout)["errores"]})
+    return res
+
+
 def eval_esquemas():
     res = []
     for f in sorted((SK / "esquemas-horma" / "schemas").glob("*.json")):
@@ -91,7 +103,7 @@ def eval_esquemas():
     return res
 
 
-SETS = {"cv": eval_cv, "ats": eval_ats, "filtro": eval_filtro, "esquemas": eval_esquemas}
+SETS = {"cv": eval_cv, "ats": eval_ats, "filtro": eval_filtro, "esquemas": eval_esquemas, "fixtures": eval_fixtures}
 
 
 def main() -> int:

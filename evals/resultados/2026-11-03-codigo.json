@@ -123,5 +123,27 @@
       "caso": "preferencias.json",
       "ok": true
     }
+  ],
+  "fixtures": [
+    {
+      "caso": "ana-datos/perfil.json",
+      "ok": true,
+      "obtenido": null
+    },
+    {
+      "caso": "leo-diseno/perfil.json",
+      "ok": true,
+      "obtenido": null
+    },
+    {
+      "caso": "ana-datos/preferencias.json",
+      "ok": true,
+      "obtenido": null
+    },
+    {
+      "caso": "leo-diseno/preferencias.json",
+      "ok": true,
+      "obtenido": null
+    }
   ]
 }
