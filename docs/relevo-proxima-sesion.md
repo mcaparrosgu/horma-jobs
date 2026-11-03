@@ -2,6 +2,13 @@
 
 Léelo entero antes de tocar nada. Después, `docs/tareas-pendientes.md` (sección 0) y `docs/revision_profesor_30oct.md`.
 
+## Cambios del 3-nov
+
+- **Comentarios del profesor en «Horma por fases»** (9 hilos, aplicados; artefacto en v4): sin RAG; la regla de los huecos avisa dónde se rellenó cada hueco; **Fase 2** = portal de empresas; **Fase 3** = aplicaciones automáticas + privacidad + entrevista + origen visible, diseños y PDF y editor; Fase 4 sin cambios.
+- **Consecuencia:** la Fase 1 acaba con CV y carta en pantalla y envío hecho por la usuaria (sin PDF, origen visible ni portal). El juez sigue comprobando el origen de cada frase desde la Fase 1 (línea roja). `medir_ats` cuenta sobre el texto y relee el PDF en la Fase 3.
+- **«Aprobar y enviar» resuelto** sin preguntarle, con su propio PRD (US-004 «Fase 2 o 3»): pregunta 27 de `preguntas-profesor.md`. Queda por preguntarle solo qué cubre la Fase 4.
+- **Pendiente:** reformular la pregunta 4 (usa «RAG»); buscar «RAG» en PRD, `analisis-tecnico.md` y Cuaderno; pasar el aviso de huecos al PRD (US-002); los 9 hilos siguen abiertos.
+
 ## Cambios del 2-nov
 
 - **«Horma por fases»** (sexto artefacto): construcción en las 4 fases del profesor, con comentarios y enlazada desde su página. Fase 4 es propuesta nuestra. Pendiente: compartirlo con él (email en `docs/privado/contactos.md`, ignorado por git).

@@ -1,6 +1,6 @@
 # Tareas pendientes de Horma jobs
 
-Actualizado el 2026-11-02 («Horma por fases» publicado, falta compartirlo con el profesor; diagramas al día, sin Caddy ni HTMX; «subagente ATS» pendiente del profesor; artefactos ordenados; PRD v1 en el Cuaderno; ver `docs/relevo-proxima-sesion.md`). Antes: ideas de Michael Page, PRD como apartado 23. Orden = prioridad. Cada tarea lleva su siguiente acción y qué la bloquea.
+Actualizado el 2026-11-03 (el profesor comentó «Horma por fases» y se aplicaron sus 9 comentarios; ver bitácora del 3-nov). Antes, 2-nov («Horma por fases» publicado; diagramas al día, sin Caddy ni HTMX; «subagente ATS» pendiente del profesor; artefactos ordenados; PRD v1 en el Cuaderno; ver `docs/relevo-proxima-sesion.md`). Antes: ideas de Michael Page, PRD como apartado 23. Orden = prioridad. Cada tarea lleva su siguiente acción y qué la bloquea.
 
 ## Reglas permanentes (decididas por Mar)
 - **Construcción y definición: no empiezan hasta tener el ok del profesor** (27 oct: también los pasos 1-8). Mientras tanto, solo investigación y documentación de apoyo.
@@ -24,11 +24,14 @@ Actualizado el 2026-11-02 («Horma por fases» publicado, falta compartirlo con 
 - **Cada agente de Horma, una función independiente del framework (2-nov):** regla de diseño para el paso 6, para poder cambiar de orquestador sin rehacer nada.
 - **Skills apagadas (2-nov):** `paso-11` a `paso-18`, `paso-20`, `auditoria-diseno` y `design-taste-frontend` están en «off» en `~/.claude/settings.json` (copia en la carpeta temporal de la sesión). Reactivarlas si hacen falta. Pendiente: Mar ejecuta `/mcp disable n8n-mcp`, `semantic-scholar` y `google-sheets` en este proyecto.
 - **Contradicción por resolver (Mar, 2-nov):** `CLAUDE.md` del proyecto pide analogía y ejemplo siempre; el global dice analogía solo si aclara. Recomendación: que mande el global.
-- **Compartir con el profesor como comentarista (Mar, 2-nov):** «Horma por fases» (https://claude.ai/artifact/SSztJsDarsow9YaRju6aAR) y su página principal, desde *Share*. Su email, en `docs/privado/contactos.md` (ignorado por git). Después comprobar que le llegan los comentarios.
+- **«Horma por fases» (3-nov): comentarios del profesor aplicados** (v4 de https://claude.ai/artifact/SSztJsDarsow9YaRju6aAR). Sin RAG; la regla de los huecos avisa dónde se rellenó cada hueco; portal de empresas en Fase 2; aplicaciones automáticas, privacidad, entrevista y origen visible, PDF y editor en Fase 3. Los 9 hilos siguen abiertos (no activados para Claude): los resuelve Mar o él desde el artefacto.
+- **Reformular la pregunta 4 de `preguntas-profesor.md` (3-nov):** dice que la búsqueda híbrida es «RAG», y el profesor dijo «No vamos a hacer RAG». Quitar la palabra y preguntar solo si cuentan la BD vectorial y los agentes.
+- **Comprobar fuera de esta página que «sin RAG» no rompe nada:** el PRD, `analisis-tecnico.md` y el Cuaderno aún pueden nombrarlo. Buscar «RAG» y decidir caso a caso.
+- **Regla de los huecos con aviso (3-nov):** el profesor pidió que Horma avise de dónde rellenó cada hueco. Ya está en «Horma por fases»; falta pasarlo al PRD (US-002) y a `analisis-tecnico.md`.
 - **Compartir la página del profesor (Mar):** https://claude.ai/artifact/QYapVgfjiX7QgN7X1obrNd es privada; hay que compartirla con él desde *Share*. Qué artefacto es cada cosa: tabla en `docs/relevo-proxima-sesion.md`.
 - **Decisión pendiente de cerrar con el profesor: «subagente ATS» (Mar, 1-nov).** El PRD v1 dice «subagente ATS» y la arquitectura usa `medir_ats`, que es código, más el redactor que adapta. Pregunta 14 bis de `preguntas-profesor.md`: cómo define «agente» y si le vale esta opción. El PRD no se cambia hasta tener su respuesta. Las notas de Gemini no muestran que pidiera un gerente.
 - **Por confirmar (Mar):** ingesta como proceso aparte; agente de relleno LLM frente a adaptadores por ATS (lo decide el eval de ablación).
-- Pedir al profesor: qué cubre la Fase 4, si «aprobar y enviar» entra en la Fase 1 o en la 2 o 3, y el ok formal para empezar.
+- Pedir al profesor: qué cubre la Fase 4 y el ok formal para empezar. «Aprobar y enviar» ya está resuelto con sus comentarios del 3-nov (pregunta 27): la usuaria envía en la Fase 1, el portal en la 2 y el automático en la 3.
 - Actualizar las skills `paso-NN` o dejarlas como consulta (ya anotado en `CLAUDE.md`).
 
 ### 1. Reunión con el profesor

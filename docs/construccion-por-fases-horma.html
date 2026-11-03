@@ -132,7 +132,6 @@ noscript{display:block;margin-top:30px}
   <h2>Qué necesito del profesor</h2>
   <ol>
     <li><b>Qué cubre la Fase 4.</b> La propuesta de esta página reúne lo más avanzado: entrenador de entrevistas, suscripciones, calidad final, publicación y extensiones. Si tenía otra idea, se recoloca.</li>
-    <li><b>Dónde cae «aprobar y enviar».</b> El PRD dice «Fase 2 o 3» para las aplicaciones automáticas. Propuesta: el envío con aprobación manual, en la Fase 1; el envío automático con navegador, en la Fase 2.</li>
     <li><b>Ok formal para empezar</b> la definición y la construcción.</li>
     <li><b>LangGraph</b> en los dos flujos con agentes (CV y cartas, y envío). Si no lo aprueba, Python plano con los mismos agentes y flujos.</li>
     <li><b>«Subagente ATS».</b> El PRD lo nombra; la arquitectura mide el ATS con código y deja el ajuste al redactor. ¿Le vale como agente?</li>
@@ -158,8 +157,8 @@ noscript{display:block;margin-top:30px}
 /* Un paso: [título, descripción, tipo opcional (si difiere del módulo), 'd' si está por decidir] */
 var FASES = [
 { n:1, t:'Horma funciona de principio a fin', org:'Alcance de la Fase 1 del profesor', pend:false,
-  entrega:'Una usuaria de prueba sube su CV, ve ofertas recomendadas con el porqué, obtiene un CV y una carta con el origen de cada frase, aprueba y envía una candidatura, y la sigue en un tablero. Una empresa de prueba publica una oferta y recibe solo lo que la candidata envía.',
-  nota:'<b>Es la fase más grande.</b> Se construye por componentes en este orden: cimientos, ingesta, perfil, recomendación, CV y carta, portal de empresas, envío con aprobación y seguimiento.',
+  entrega:'Una usuaria de prueba sube su CV, ve ofertas recomendadas con el porqué, obtiene un CV y una carta en pantalla, los aprueba, los envía ella misma y sigue la candidatura en un tablero. El origen de cada frase ya se guarda y lo comprueba el juez; se le muestra a la usuaria en la Fase 3.',
+  nota:'<b>Es la fase más grande.</b> Se construye por componentes en este orden: cimientos, ingesta, perfil, recomendación, CV y carta, aprobación y seguimiento. El portal de empresas pasa a la Fase 2; el origen visible, el PDF y el editor, a la 3.',
   mods:[
   { k:'puerta', t:'Puertas antes de escribir código', tema:'Arquitectura de software (C4 y ADR), seguridad de APIs', pasos:[
     ['Ok formal del profesor','Sin él no empieza la definición ni la construcción.'],
@@ -191,7 +190,7 @@ var FASES = [
     ['Preferencias de ofertas','Rellenadas solo con datos del CV, sin deducir edad, nacionalidad ni categorías del art. 9, y editables. Puede añadir puestos nuevos para cambiar de carrera.'],
     ['Un perfil por persona','Con búsquedas guardadas.']
   ]},
-  { k:'tronco', t:'Recomendación de ofertas', tema:'Embeddings, búsqueda híbrida, RAG', pasos:[
+  { k:'tronco', t:'Recomendación de ofertas', tema:'Embeddings y búsqueda híbrida', pasos:[
     ['Filtros con casillas y filtro duro en SQL','País, contrato, remoto, idioma, nivel, sector y sueldo mínimo. Una oferta sin sueldo no se descarta: sale marcada.'],
     ['Búsqueda híbrida','Palabras clave y significado (pgvector), fusionadas con <i>Reciprocal Rank Fusion</i>.'],
     ['Puntuación por tandas','El LLM puntúa de 30 en 30 con caché por usuaria y oferta. Nota 0-100 solo de experiencia y formación; 3 niveles solo sobre condiciones de trabajo.'],
@@ -200,22 +199,14 @@ var FASES = [
   ]},
   { k:'tronco', t:'CV y carta', tema:'Agentes, patrón de reflexión, evals y LLM-as-judge', pasos:[
     ['CV base por sector y cartas base','Hasta 5 CV base y 2 cartas base, generados una vez del CV maestro para ahorrar tokens. Cada oferta se adapta desde el base que le toca.','tronco','d'],
-    ['Herramienta <code>medir_ats</code>','Código, no agente: vuelve a leer el PDF y cuenta palabras clave. Una palabra sin origen en el perfil no se inserta; se avisa a la usuaria.','tronco','d'],
+    ['Herramienta <code>medir_ats</code>','Código, no agente: cuenta las palabras clave de la oferta en el texto del CV; con el PDF (Fase 3) lo vuelve a leer. Una palabra sin origen en el perfil no se inserta; se avisa a la usuaria.','tronco','d'],
     ['Redactor y juez','Generar, evaluar y corregir, con un máximo de 2 intentos. El juez comprueba primero con código (fechas, cargos, empresas y titulaciones idénticos al CV maestro) y después con el LLM, que cita la fuente de cada frase.','tronco','d'],
-    ['Regla de los huecos','Se cambia qué se muestra y cómo se cuenta, nunca fechas, cargos, empresas ni titulaciones. Propone Horma y aprueba la usuaria (human in the loop).'],
-    ['Origen visible de cada frase','Cada frase enseña de qué dato sale. Sin origen no se escribe: se pregunta.'],
-    ['Diseños y PDF','Una columna y sin tablas, legibles por un ATS. PDF por defecto.'],
-    ['Editor y asistente de edición','La usuaria señala una frase y el asistente la reescribe con los mismos controles de trazabilidad; se muestra el cambio antes de aceptarlo.'],
+    ['Regla de los huecos','Se cambia qué se muestra y cómo se cuenta, nunca fechas, cargos, empresas ni titulaciones. Propone Horma y aprueba la usuaria (human in the loop). Avisa a la usuaria de dónde se rellenó cada hueco.'],
     ['Evals del CV','CV con errores sembrados (cifra inventada, cargo subido) y fechas idénticas al maestro en el 100 % de los casos.']
   ]},
-  { k:'tronco', t:'Portal de empresas', tema:'Seguridad de APIs, permisos y roles', pasos:[
-    ['Rol de empresa con permisos mínimos','Sin acceso a perfiles, puntuaciones ni evidencias.'],
-    ['Publicar ofertas','Entran por la misma ingesta. Sin perfil de empresa ni seguidores: Horma no es una red social.'],
-    ['Recibir candidaturas','La empresa solo recibe lo que la candidata envía: ni listas, ni puntuaciones, ni búsqueda de candidatas. Un test lo demuestra.']
-  ]},
-  { k:'tronco', t:'Envío con aprobación', tema:'Máquinas de estado, seguridad', pasos:[
+  { k:'tronco', t:'Aprobación de la candidatura', tema:'Máquinas de estado, seguridad', pasos:[
     ['Máquina de estados','Borrador, aprobada, enviando, enviada, fallida, pendiente de ti. Clave de idempotencia por candidatura; solo la dueña, con su JWT, puede aprobar.'],
-    ['Aprobar y enviar al portal de Horma','Primer envío real, sin navegador: la usuaria aprueba y la candidatura llega a la empresa.','tronco','d']
+    ['Aprobar y marcar como enviada','La usuaria aprueba, copia su CV y su carta y las envía ella; Horma registra el envío. Como en su reparto, el envío desde Horma llega con el portal (Fase 2) y el automático en la Fase 3.']
   ]},
   { k:'tronco', t:'Seguimiento', tema:'Webhooks, máquinas de estado', pasos:[
     ['Tablero de estados','Estado de cada candidatura.'],
@@ -224,10 +215,32 @@ var FASES = [
   ]}
 ]},
 
-{ n:2, t:'Aplicaciones automáticas', org:'Fase 2 o 3 del profesor (aplicaciones automáticas)', pend:false,
-  entrega:'La usuaria aprueba y un agente rellena y envía la candidatura en formularios de empresa, con un supervisor que lo revisa antes de salir. En LinkedIn e Indeed, Horma la prepara y la envía la persona. El modo autónomo es opcional y revocable.',
-  nota:'<b>Es un tronco:</b> el envío automático no se recorta; la fase solo decide cuándo se construye. Esta página lo coloca en la Fase 2 (el PRD dice «2 o 3»).',
+{ n:2, t:'Portal de empresas', org:'Fase 2 del profesor (portal de empresas)', pend:false,
+  entrega:'Una empresa de prueba publica una oferta y recibe solo lo que la candidata envía. La usuaria aprueba y su candidatura llega a la empresa desde Horma, sin navegador.',
+  nota:'<b>Es un tronco.</b> Con el portal, el envío con aprobación pasa de «lo envía ella» a «llega a la empresa desde Horma». Esta fase es corta; si hace falta, el profesor puede decir qué más entra.',
   mods:[
+  { k:'tronco', t:'Portal de empresas', tema:'Seguridad de APIs, permisos y roles', pasos:[
+    ['Rol de empresa con permisos mínimos','Sin acceso a perfiles, puntuaciones ni evidencias.'],
+    ['Publicar ofertas','Entran por la misma ingesta. Sin perfil de empresa ni seguidores: Horma no es una red social.'],
+    ['Recibir candidaturas','La empresa solo recibe lo que la candidata envía: ni listas, ni puntuaciones, ni búsqueda de candidatas. Un test lo demuestra.'],
+    ['Aprobar y enviar al portal de Horma','Primer envío real, sin navegador: la usuaria aprueba y la candidatura llega a la empresa.','tronco','d']
+  ]}
+]},
+
+{ n:3, t:'Aplicaciones automáticas, entrevista y privacidad', org:'Fase 3 del profesor (aplicaciones automáticas, entrevista, privacidad, exportación y borrado)', pend:false,
+  entrega:'La usuaria puede exportar todos sus datos y borrar su cuenta sin que quede nada. Ve de qué dato sale cada frase de su CV, lo edita y lo descarga en PDF. Un agente rellena y envía candidaturas en formularios de empresa, con un supervisor; en LinkedIn e Indeed, Horma la prepara y la envía la persona. Además, puede hacer una entrevista opcional de hasta 20 minutos que produce evidencias de su perfil que ella aprueba.',
+  nota:'<b>La privacidad es la condición para abrir Horma a usuarias reales</b> y no espera al resto de la fase. El envío automático es un tronco: no se recorta, solo se decide cuándo. Si la entrevista se adelanta por haber holgura, la privacidad no se mueve.',
+  mods:[
+  { k:'puerta', t:'Privacidad y RGPD', tema:'RGPD, AI Act, seguridad de datos', pasos:[
+    ['Exportar los datos','Todo lo que Horma guarda de la usuaria, en un formato que pueda llevarse.'],
+    ['Borrar la cuenta','Incluye ficheros, transcripciones, embeddings, caché y trazas de agentes. Hay una prueba de que no queda nada.'],
+    ['Consentimientos y mensaje claro','Qué se guarda y qué decide compartir la usuaria, dicho sin letra pequeña.']
+  ]},
+  { k:'tronco', t:'Presentación y edición del CV', tema:'Agentes, patrón de reflexión, evals', pasos:[
+    ['Origen visible de cada frase','Cada frase enseña de qué dato sale. Sin origen no se escribe: se pregunta.'],
+    ['Diseños y PDF','Una columna y sin tablas, legibles por un ATS. PDF por defecto.'],
+    ['Editor y asistente de edición','La usuaria señala una frase y el asistente la reescribe con los mismos controles de trazabilidad; se muestra el cambio antes de aceptarlo.']
+  ]},
   { k:'tronco', t:'Navegador, relleno y supervisor', tema:'Agentes con herramientas, Playwright, seguridad', pasos:[
     ['Navegador aislado','Playwright en red propia, sin ruta a la base de datos ni a la API, y perfil nuevo por envío. El ejecutor es un script, no un LLM.'],
     ['Relleno del formulario','Devuelve un plan en JSON de esquema cerrado, con el origen de cada respuesta.'],
@@ -238,17 +251,6 @@ var FASES = [
   { k:'tronco', t:'LinkedIn, Indeed y modo autónomo', tema:'Agentes autónomos, AI Act, condiciones de uso', pasos:[
     ['LinkedIn e Indeed','Horma prepara la candidatura y la envía siempre la persona. Sin automatizar sus portales.'],
     ['Modo autónomo','Permiso único y revocable, aviso de cada envío, registro, pausa total y frenos técnicos. Solo dentro del rango elegido y donde esté permitido.']
-  ]}
-]},
-
-{ n:3, t:'Entrevista del perfil y privacidad', org:'Fase 3 del profesor (entrevista, privacidad, exportación y borrado)', pend:false,
-  entrega:'La usuaria puede exportar todos sus datos y borrar su cuenta sin que quede nada. Además, puede hacer una entrevista opcional de hasta 20 minutos que produce evidencias de su perfil que ella aprueba.',
-  nota:'<b>Al cerrar esta fase Horma puede abrirse a usuarias reales.</b> Si la entrevista se adelanta por haber holgura, la privacidad no se mueve: es la condición para abrir.',
-  mods:[
-  { k:'puerta', t:'Privacidad y RGPD', tema:'RGPD, AI Act, seguridad de datos', pasos:[
-    ['Exportar los datos','Todo lo que Horma guarda de la usuaria, en un formato que pueda llevarse.'],
-    ['Borrar la cuenta','Incluye ficheros, transcripciones, embeddings, caché y trazas de agentes. Hay una prueba de que no queda nada.'],
-    ['Consentimientos y mensaje claro','Qué se guarda y qué decide compartir la usuaria, dicho sin letra pequeña.']
   ]},
   { k:'rama', t:'Entrevista del perfil y evidencias', tema:'Agentes de voz, transcripción, AI Act', pasos:[
     ['Consentimiento y transcripción','Habla solo la usuaria y Horma pregunta por escrito. Transcripción en la UE, sin análisis de emociones; el audio se borra tras transcribir, también en el proveedor.'],

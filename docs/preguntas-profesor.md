@@ -81,6 +81,15 @@
 25. **Pagos:** Stripe en modo de prueba durante el bootcamp. ¿Espera que los pagos funcionen de verdad o basta la demo?
 26. **Repositorio:** ya existe, `mcaparrosgu/horma-jobs`, privado (1-nov). ¿Debe ser público para la entrega?
 
+## G. Resueltas con sus comentarios (3-nov)
+
+27. ~~¿«Aprobar y enviar» entra en la Fase 1, 2 o 3? ¿Vale una Fase 1 sin PDF ni origen visible?~~ **Resuelta sin preguntarle (3-nov):** lo deducimos de lo que él ya fijó.
+    - Su PRD pone US-004 «Aprobar y enviar» en «Fase 2 o 3»; el 3-nov coloca las aplicaciones automáticas en la Fase 3 y el portal de empresas en la 2. Su Fase 1 no envía desde Horma.
+    - También mueve él a la Fase 3 el origen visible, los diseños y el PDF y el editor. Si lo quisiera en la 1, no lo habría movido.
+    - Resultado: en la Fase 1 la usuaria aprueba y envía ella misma, y el tablero lo registra; el portal da el envío desde Horma (Fase 2); el automático, en la 3. `medir_ats` cuenta palabras clave sobre el texto y relee el PDF cuando llegue (Fase 3).
+    - Se mantiene: el juez comprueba el origen de cada frase desde la Fase 1 (línea roja). Solo se retrasa mostrárselo.
+    - Si en la reunión dice otra cosa, se recoloca: es orden de trabajo, no alcance.
+
 ## Después de la reunión
 
 - Apuntar las respuestas aquí, debajo de cada punto.

@@ -129,3 +129,10 @@ Cuaderno de decisiones de Horma jobs en orden cronológico. Solo se añade al fi
 - POR QUÉ ESTA — Él habló en fases (1, 2 o 3, 3, 4) y necesita ver cuándo cae cada cosa y qué le falta decidir. Un artefacto aparte se comenta y se actualiza sin tocar el PRD.
 - QUÉ SE ROMPIÓ — Nada. Primera publicación sin comentarios; se añadieron en la versión 2. Los artefactos pasan a ser seis y la tabla del relevo ya lo dice.
 - QUÉ QUEDA PENDIENTE DE ENTENDER — Qué cubre la Fase 4 y si «aprobar y enviar» entra en la 1 o en la 2 (pregunta al profesor). Falta compartir los dos artefactos con él como comentarista (lo hace Mar desde *Share*). El email del profesor está solo en `docs/privado/` (ignorado por git).
+
+## 2026-11-03 · Comentarios del profesor en «Horma por fases»
+
+- DECISIÓN — Se aplican sus 9 comentarios: sin RAG (se quita del tema de recomendación; sigue la búsqueda híbrida); la regla de los huecos avisa a la usuaria de dónde se rellenó cada hueco; origen visible, diseños y PDF y editor pasan a la Fase 3; el portal de empresas, a la Fase 2; las aplicaciones automáticas, a la Fase 3 (con privacidad y entrevista); Fase 4 confirmada.
+- POR QUÉ ASÍ — Es su reparto. El origen de cada frase se sigue guardando y lo comprueba el juez en la Fase 1 (línea roja: nada sin origen); solo se retrasa mostrárselo a la usuaria.
+- QUÉ SE ROMPIÓ — Nada. Consecuencia: la Fase 1 acaba con CV y carta en pantalla y envío hecho por la usuaria (sin PDF ni portal); «Aprobar y marcar como enviada» sirve de puente. Se iba a preguntar al profesor, pero se resolvió con lo que él ya fijó (US-004 en «Fase 2 o 3», portal en la 2, PDF y origen visible en la 3): pregunta 27 de `preguntas-profesor.md`, resuelta. `medir_ats` cuenta sobre el texto y relee el PDF en la Fase 3.
+- QUÉ QUEDA PENDIENTE — Confirmar en la reunión, solo si hace falta. Los 9 hilos siguen abiertos en el artefacto: no están activados para Claude, solo Mar o él pueden resolverlos.
