@@ -1,6 +1,6 @@
 # Relevo para la próxima sesión (escrito el 31-oct-2026; actualizado el 1-nov-2026)
 
-Léelo entero antes de tocar nada. Después, `docs/tareas-pendientes.md` (sección 0) y `docs/revision_profesor_30oct.md`.
+Primero `docs/siguiente-sesion.md` (pendiente de Mar y plan de la siguiente sesión). Léelo entero antes de tocar nada. Después, `docs/tareas-pendientes.md` (sección 0) y `docs/revision_profesor_30oct.md`.
 
 ## Estado de la fase 0 (3-nov, noche): versión del profesor, pista A construida y probada en parte
 

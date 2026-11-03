@@ -131,3 +131,5 @@ Detalle de las del 27 oct en `docs/propuesta-horma.md`, apartado 4.
 - **2026-10-27:** `.claude/agents/copiloto.md` y `.claude/settings.json` (`"agent": "copiloto"`).
 - **2026-10-27:** subagentes `revisor-seguridad` y `auditor-lineas-rojas` creados (solo lectura: Read, Grep, Glob).
 - **2026-10-27:** `CLAUDE.md`, `docs/propuesta-horma.md`, esta lista y el Cuaderno puestos en coherencia.
+
+> Pendiente de Mar y plan de la siguiente sesión: `docs/siguiente-sesion.md`.

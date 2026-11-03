@@ -165,3 +165,9 @@ Cuaderno de decisiones de Horma jobs en orden cronológico. Solo se añade al fi
 - LO QUE FALLÓ (y se arregló) — (1) Los agentes inventaron su propia estructura al no tener la ruta de los esquemas (ver bitácora anterior). (2) Faltaba el esquema de `clasificador-respuesta`: lo detectó el propio agente; añadido como 8.º esquema `clasificacion-respuesta.json`. (3) `medir_ats` marcaba «Inglés B2 (se valora)» como palabra sin origen cuando el CV de Ana sí la tenía: el paréntesis rompía la coincidencia. Arreglado y cubierto con un eval con datos reales. (4) Inconsistencia de formato de `idioma` («es» frente a «español») y el stack de la taxonomía mezclaba idiomas: normalizados en el esquema y en la taxonomía.
 - DECISIONES DE DISEÑO PENDIENTES DE MAR — Las preferencias no tienen campo para el horario («horario de mañana», Rosa). El agente propone «puesto preferido = último cargo» y «ciudad = ciudad de residencia»: se marcan como pregunta, pero siguen apareciendo rellenos; ¿se dejan vacíos hasta que la usuaria confirme? El nivel («medio») lo calcula el clasificador por años de experiencia sin umbral definido en la taxonomía: criterio provisional.
 - EVALS DE CÓDIGO — 29 de 29 en verde (`python -I evals/correr_evals.py`), incluidas las salidas reales de los agentes como fixtures. Aviso: que 29 estén en verde mide los **scripts y esquemas**, no la calidad de los agentes; esa se mide con las pruebas de arriba, que son pocas (un caso por agente).
+
+## 2026-11-03 · noche 4: cierre de la fase 0 y relevo
+
+- **Hecho:** `docs/siguiente-sesion.md` con el pendiente de Mar (ajuste de settings, dos decisiones de producto, preguntas al profesor, pypdf, fuentes), el plan de la siguiente sesión y el mensaje de arranque. Enlazado desde `CLAUDE.md` y `docs/relevo-proxima-sesion.md`.
+- **No hecho:** pista B, `redactor-carta`, `juez-carta`, `auditor-fuentes`.
+- **Siguiente:** probar `redactor-carta` y `juez-carta`; ampliar casos de prueba.
