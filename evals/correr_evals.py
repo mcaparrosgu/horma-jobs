@@ -66,7 +66,19 @@ def eval_ats():
     exp = json.loads((d / "esperado.json").read_text(encoding="utf-8"))
     ok = (got["cobertura"] == exp["cobertura"] and got["faltantes_con_origen"] == exp["faltantes_con_origen"]
           and got["faltantes_sin_origen"] == exp["faltantes_sin_origen"] and len(got["no_medidos"]) == exp["no_medidos"])
-    return [{"caso": "ats", "ok": ok, "obtenido": {k: got[k] for k in ("cobertura", "faltantes_sin_origen")}}]
+    res = [{"caso": "ats", "ok": ok, "obtenido": {k: got[k] for k in ("cobertura", "faltantes_sin_origen")}}]
+    # Caso real: CV adaptado por el redactor para Ana; el inglés B2 está en su CV, cobertura completa.
+    ana = RAIZ / "datos" / "fixtures" / "perfiles" / "ana-datos"
+    cand = ana / "candidaturas" / "of-prueba-1"
+    if cand.exists():
+        with tempfile.TemporaryDirectory() as tmp:
+            salida = Path(tmp) / "ats.json"
+            correr(SK / "medir-ats" / "scripts" / "medir_ats.py", "--cv", cand / "cv.md",
+                   "--oferta", RAIZ / "datos/fixtures/ofertas/of-prueba-1.json", "--perfil", ana / "perfil.json", "--salida", salida)
+            real = json.loads(salida.read_text(encoding="utf-8"))
+        res.append({"caso": "ats real (Ana, of-prueba-1)", "ok": real["cobertura"] == 1.0 and not real["faltantes_sin_origen"],
+                    "obtenido": {k: real[k] for k in ("cobertura", "faltantes_sin_origen")}})
+    return res
 
 
 def eval_filtro():
@@ -89,6 +101,19 @@ def eval_fixtures():
             r = correr(validar, esquema, f)
             ok = json.loads(r.stdout)["ok"]
             res.append({"caso": f"{f.parent.name}/{nombre}", "ok": ok, "obtenido": None if ok else json.loads(r.stdout)["errores"]})
+    for f in sorted((RAIZ / "datos" / "fixtures" / "ofertas").glob("*.json")):
+        r = correr(validar, "oferta", f)
+        ok = json.loads(r.stdout)["ok"]
+        res.append({"caso": f"ofertas/{f.name}", "ok": ok, "obtenido": None if ok else json.loads(r.stdout)["errores"]})
+    # CV generados por agentes: el verificador de código los acepta.
+    ana = RAIZ / "datos" / "fixtures" / "perfiles" / "ana-datos"
+    verificar = SK / "verificar-trazabilidad" / "scripts" / "verificar.py"
+    for carpeta in sorted(list((ana / "cv-base").glob("*")) + list((ana / "candidaturas").glob("*"))):
+        r = correr(verificar, carpeta, "--maestro", ana / "cv.md", "--perfil", ana / "perfil.json")
+        res.append({"caso": f"verificar {carpeta.relative_to(ana)}", "ok": json.loads(r.stdout)["ok"]})
+    # Limitación documentada: el verificador NO caza un cargo inflado; eso es del juez (LLM).
+    r = correr(verificar, RAIZ / "evals" / "cv" / "juez", "--maestro", ana / "cv.md", "--perfil", ana / "perfil.json")
+    res.append({"caso": "verificar evals/cv/juez (pasa; el juez LLM debe cazar el inflado)", "ok": json.loads(r.stdout)["ok"]})
     return res
 
 

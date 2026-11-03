@@ -70,11 +70,20 @@
       "caso": "ats",
       "ok": true,
       "obtenido": {
-        "cobertura": 0.6,
+        "cobertura": 0.5,
         "faltantes_sin_origen": [
           "Power BI",
-          "Tableau"
+          "Tableau",
+          "Inglés B2"
         ]
+      }
+    },
+    {
+      "caso": "ats real (Ana, of-prueba-1)",
+      "ok": true,
+      "obtenido": {
+        "cobertura": 1.0,
+        "faltantes_sin_origen": []
       }
     }
   ],
@@ -101,6 +110,10 @@
     },
     {
       "caso": "candidatura.json",
+      "ok": true
+    },
+    {
+      "caso": "clasificacion-respuesta.json",
       "ok": true
     },
     {
@@ -144,6 +157,32 @@
       "caso": "leo-diseno/preferencias.json",
       "ok": true,
       "obtenido": null
+    },
+    {
+      "caso": "ofertas/of-prueba-1.json",
+      "ok": true,
+      "obtenido": null
+    },
+    {
+      "caso": "ofertas/of-prueba-2.json",
+      "ok": true,
+      "obtenido": null
+    },
+    {
+      "caso": "verificar candidaturas\\of-prueba-1",
+      "ok": true
+    },
+    {
+      "caso": "verificar cv-base\\administracion",
+      "ok": true
+    },
+    {
+      "caso": "verificar cv-base\\datos",
+      "ok": true
+    },
+    {
+      "caso": "verificar evals/cv/juez (pasa; el juez LLM debe cazar el inflado)",
+      "ok": true
     }
   ]
 }

@@ -5,7 +5,7 @@ description: Mide la cobertura de palabras clave de una oferta en un CV adaptado
 
 # medir-ats
 
-Es código, no juicio. El script extrae las palabras clave de `oferta.json` (`taxonomia.stack` y los `requisitos` de hasta 4 palabras) y cuenta cuáles aparecen en `cv.md`. Los requisitos más largos son frases libres: no se miden y salen en `no_medidos`.
+Es código, no juicio. El script extrae las palabras clave de `oferta.json` (`taxonomia.stack` y los `requisitos` de hasta 4 palabras) y cuenta cuáles aparecen en `cv.md`. Se quita el texto entre paréntesis («Inglés B2 (se valora)» → «Inglés B2»). Los requisitos más largos son frases libres: no se miden y salen en `no_medidos`.
 
 ## Uso
 

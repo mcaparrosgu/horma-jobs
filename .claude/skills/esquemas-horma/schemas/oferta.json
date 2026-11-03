@@ -15,7 +15,7 @@
     "pais": {"type": ["string", "null"], "description": "Código ISO de 2 letras si se deduce del texto"},
     "remoto": {"enum": ["presencial", "hibrido", "remoto", "no_indicado"]},
     "contrato": {"type": "string"},
-    "idioma": {"type": "string"},
+    "idioma": {"type": "string", "description": "Idioma de trabajo: nombre en español y minúsculas (español, inglés). Mismo formato que perfil.idiomas, para que el filtro duro case."},
     "nivel": {"enum": ["practicas", "junior", "medio", "senior", "direccion", "no_indicado"]},
     "requisitos": {"type": "array", "items": {"type": "string"}},
     "salario": {

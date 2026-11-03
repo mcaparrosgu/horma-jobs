@@ -1,6 +1,6 @@
 ---
 name: esquemas-horma
-description: Contrato de datos de Horma: los siete esquemas JSON que cruzan entre agentes y, después, entre agentes y web. Cárgala siempre que produzcas o leas oferta, perfil, preferencias, match, candidatura, calificación de fuente o endpoints.
+description: Contrato de datos de Horma: los ocho esquemas JSON que cruzan entre agentes y, después, entre agentes y web. Cárgala siempre que produzcas o leas oferta, perfil, preferencias, match, candidatura, calificación de fuente o endpoints.
 ---
 
 # esquemas-horma
@@ -16,6 +16,7 @@ description: Contrato de datos de Horma: los siete esquemas JSON que cruzan entr
 | Candidatura (estado + traza + huecos + ats) | `schemas/candidatura.json` | flujos D y E |
 | Calificación de fuente | `schemas/calificacion-fuente.json` | auditor-fuentes |
 | Endpoints | `schemas/endpoints.json` | el equipo; lo lee `/ingestar-ofertas` |
+| Clasificación de respuesta | `schemas/clasificacion-respuesta.json` | clasificador-respuesta |
 
 ## Reglas
 

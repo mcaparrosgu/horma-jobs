@@ -28,7 +28,7 @@ Versión inicial (3-nov-2026), **propuesta a revisar con las primeras ofertas re
 | `legal` | `asesoria juridica`, `cumplimiento normativo` |
 
 ## Stack
-Lista libre de tecnologías, herramientas o idiomas que el texto nombra expresamente, tal como se escriben en el texto (`Python`, `SQL`, `Power BI`). No se deduce nada que no esté escrito.
+Lista libre de **tecnologías y herramientas** que el texto nombra expresamente, tal como se escriben (`Python`, `SQL`, `Power BI`). **Los idiomas no van en el stack** (van en `idiomas`, con su nivel). No se deduce nada que no esté escrito.
 
 ## Reglas
 - Las etiquetas del postulante salen de sus experiencias y formación, nunca de rasgos personales.

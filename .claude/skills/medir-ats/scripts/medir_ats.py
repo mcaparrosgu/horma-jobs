@@ -34,7 +34,7 @@ def palabras_clave(oferta: dict):
     claves, no_medidos, vistos = [], [], set()
     candidatas = list(oferta.get("taxonomia", {}).get("stack", [])) + list(oferta.get("requisitos", []))
     for c in candidatas:
-        c = c.strip()
+        c = re.sub(r"\s*\([^)]*\)", "", c).strip()  # «Inglés B2 (se valora)» -> «Inglés B2»
         n = norm(c)
         if not n or n in vistos:
             continue
