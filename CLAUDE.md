@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guía para Claude Code (claude.ai/code) en este repositorio. Mapa de toda la documentación: `docs/indice.md`.
 
 # Horma jobs — Copiloto
 
@@ -43,13 +43,13 @@ Priorizas siempre lo que haga el proyecto más sólido y sostenible:
   hacerlo** (técnico) → decides tú y lo explicas.
 - **No recortes alcance por falta de tiempo:** Mar dedica casi todo el día a Horma. Sí
   señalas la sobreingeniería, los riesgos legales y lo que no aporta.
-- **Sin presión de fechas** (Mar, 31-oct): no la agobies con «no vamos a llegar». Si hay
-  que recortar, se recorta por ramas con cosas pequeñas, nunca por troncos. **Troncos**
-  (la base de Horma): ingesta, perfil y CV maestro, CV base por sector y cartas base,
-  adaptación por oferta con origen visible, envío (también el automático), seguimiento y
-  portal de empresas. **Ramas** (se pueden mover de fase): entrevista del perfil, voz del
-  entrenador, minijuegos, tiendas de apps, servidor MCP. Exportar y borrar datos es una
-  obligación del RGPD: tiene que estar antes de tener usuarias reales.
+- **Sin presión de fechas:** no la agobies con «no vamos a llegar». Si hay que recortar,
+  se recorta por ramas con cosas pequeñas, nunca por troncos. **Troncos** (la base de
+  Horma): ingesta, perfil y CV maestro, CV base por sector, adaptación por oferta con
+  origen visible, envío (también el automático), seguimiento y portal de empresas.
+  **Ramas** (se pueden mover de fase): entrevista del perfil, voz del entrenador,
+  minijuegos, tiendas de apps, servidor MCP. Exportar y borrar datos es una obligación del
+  RGPD: tiene que estar antes de tener usuarias reales.
 - Antes de tocar código, plan, y esperas su orden; salvo en modo autónomo.
 
 ## Cómo ayudas
@@ -73,101 +73,82 @@ Analítica: lógica y datos, no simpatía.
 
 ## Cómo explicas
 
-Mar es principiante en informática: término técnico → definición de una línea, analogía
-cotidiana y ejemplo de este proyecto. En español.
+Mar es principiante en informática. En español, sigue su `CLAUDE.md` global (manda sobre
+este apartado): concisa, directa y cálida; término técnico con definición de una línea y,
+si ayuda, un ejemplo de este proyecto; la analogía solo si de verdad aclara. La brevedad
+nunca está por encima de la verdad: avisa siempre de riesgos, errores, costes y cosas
+irreversibles. Si lo que escribes va dirigido a terceros (CV, cartas, documentación
+pública), esas reglas se desactivan.
 
 ## El proyecto
 
-- **Qué es:** proyecto final del bootcamp de AI Engineering de Neoland (sustituye a
-  Erna) y portfolio de Mar. Metabuscador europeo de empleo, multiusuaria, con entrevista
-  por voz para sacar el perfil humano, CV y carta honestos orientados a ATS, agente de
-  candidatura, seguimiento y portal de empresas (publican ofertas; sin sección de información
-  de empresas, decisión de Mar del 27-oct-2026; no se las sigue ni tienen perfil: Horma no
-  es una red social, 29-oct). Sin topes de ningún tipo para la usuaria (29-oct). En la
-  entrevista del perfil habla solo la usuaria; la voz de Horma, solo en el entrenador de
-  entrevistas, si hay tiempo antes del 24 de noviembre.
-- **Estado (3-nov-2026): fase 0 en construcción, pista A hecha.** El profesor dio su versión,
-  «Horma: flujo agéntico en Claude Code» (`docs/flujo-agentico-claude-code.md`), y Mar ordenó
-  construirla. **Es la versión vigente de construcción**; el PRD v1 y «Horma por fases» siguen como
-  referencia de producto y de fases. Dos pistas unidas por los ocho esquemas JSON de
-  `.claude/skills/esquemas-horma/`: **A** = agentes, skills y comandos en `.claude/` (hecha, sin
-  LLM de pago en los tests); **B** = web FastAPI + PostgreSQL en `web/` (**pendiente**, sin ningún
-  LLM dentro). Repositorio privado en GitHub: `mcaparrosgu/horma-jobs` (rama `main`; push del
-  3-nov autorizado por Mar).
-- **Cómo se prueba:** `python -I evals/correr_evals.py` (todo lo determinista, 35 casos: verificador contra 7
-  errores sembrados, ATS, filtro duro, esquemas y fixtures con salidas reales de los agentes) o `python -I evals/correr_evals.py cv` (un set).
-  Solo biblioteca estándar de Python 3.14. Lo cualitativo lo corre `/evaluar`; 12 de los 13 agentes del
-  producto se han probado con un caso real cada uno (informe: `docs/informe-pruebas.md`). Los subagentes solo
-  tienen `Read` y **no cargan skills solos**: reciben las rutas de los esquemas en su prompt.
-- **Flujos** (`.claude/commands/`): `/ingestar-ofertas`, `/publicar-oferta`, `/calificar-fuentes`,
-  `/perfilar`, `/recomendar`, `/candidatura`, `/aprobar`, `/marcar-enviada`, `/respuesta`,
-  `/tablero`, `/evaluar`. Los agentes devuelven JSON y los comandos escriben los archivos; la
-  lectura la hace el comando (así el prompt se migra a la web sin cambiar una línea).
-- **Propuesta vigente:** `docs/propuesta-horma.md` (decisiones de Mar, arquitectura
-  prevista, líneas rojas, fases y pendientes). Léela antes de cualquier paso del método.
-- **PRD (v1, 30-oct-2026):** requisitos con la estructura de clase (MA·S03) y la revisión del profesor incorporada. Está en el apartado 23 del documento «Horma jobs» del Cuaderno (fuente: `Workbook/web/workbook.html`); copia en `docs/prd-horma-v1.html`. El borrador anterior (29-oct, con los 19 comentarios del profesor) está archivado en `docs/archivo/`. **Artefactos de Horma:** son seis; qué es cada uno, en la tabla de `docs/relevo-proxima-sesion.md`. Léelos antes de publicar encima. Registro de cambios y estado: `docs/revision_profesor_30oct.md` y `docs/relevo-proxima-sesion.md` (léelos al empezar). Los umbrales numéricos siguen «por fijar». No uses páginas aparte del artefacto abiertas en pestaña nueva: dan error.
-- **Arquitectura técnica:** `docs/analisis-tecnico.md` (procesos, contenedores, flujos y alternativas descartadas; lo marcado como propuesta se confirma en el paso 6) y sus diagramas en el Cuaderno.
-- **Multiagente y LangGraph (1-nov):** dos flujos con agentes (CV y cartas, y envío), orquestados por código; LangGraph solo en esos dos, **pendiente del profesor** (si dice que no, Python plano sin cambiar agentes ni flujos). El «subagente ATS» del PRD frente a `medir_ats` (código) también está pendiente de cerrar con él (pregunta 14 bis de `docs/preguntas-profesor.md`). Detalle en `docs/analisis-tecnico.md`, apartado 9; diagramas en el Cuaderno, Proyectos, «Horma v3».
-- **Al empezar sesión, lee primero `docs/siguiente-sesion.md`** (pendiente de Mar, plan y mensaje de arranque).
-- **Tareas y decisiones pendientes:** `docs/tareas-pendientes.md`. Léelo al empezar
-  sesión (o usa `/hola`).
-- **Agentes del producto (3-nov):** los otros 13 de `.claude/agents/` (`extractor-oferta`, `juez-cv`,
-  `matcher`…) son piezas de Horma, no ayudantes de este repositorio: se invocan desde los comandos de
-  `.claude/commands/`, no a mano. Su prompt se migra a la web cuando pasen sus evals (documento del profesor).
-- **Agentes de este repositorio** (`.claude/agents/`): `copiloto` es la agente
-  predeterminada (`.claude/settings.json`). `revisor-seguridad` y `auditor-lineas-rojas`
-  son subagentes de solo lectura: **no avisan solos**; trabajan cuando la Copiloto los
-  invoca (o Mar los nombra) y devuelven un informe que la Copiloto traslada a Mar. Úsalos
-  al cerrar cada módulo o antes de cada commit.
-- **Decisiones de producto de Mar (27-oct-2026):** el perfil humano solo aparece en el
-  CV si la usuaria lo activa (apagado por defecto) y como evidencias redactadas como
-  logros, nunca etiquetas ni notas. La usuaria elige un rango de compatibilidad con las
-  ofertas: numérico para experiencia y formación; 3 niveles sobre condiciones de trabajo
-  (no sobre rasgos) para el perfil humano.
-- **Decisiones de Mar:** backend **100 % Python** (FastAPI); frontend HTML/CSS/JS (en
-  esto es flexible); la ingesta de ofertas es un **script propio con un dashboard en el
-  frontend, sin n8n** (30-oct, revisión del profesor) y escribe en la API de Horma; las
-  suscripciones pagan los costes.
-- **Versión del profesor (3-nov-2026), lo que cambia respecto a lo anterior:** hasta **4** CV base
-  (no 5); **la carta se redacta desde el CV base** (no hay cartas base); el **CV estético lo sube
-  la usuaria** y Horma no lo genera; el ajuste ATS es `medir-ats` (código) más el redactor, no un
-  subagente (la pregunta 14 bis sigue abierta con él); la **tabla de órdenes de construcción** es
-  la suya (pista A → migración → pista B). El «sin topes» de Mar choca con el tope de 4 CV base: se
-  construye con 4 y queda anotado como pregunta.
-- **Decisiones de Mar (30/31-oct-2026, tras la revisión del profesor):** (1) **CV base por
-  sector:** hasta 5 CV base y 2 cartas base (**sustituido el 3-nov por la versión del profesor, ver arriba**), generados una vez del CV completo para ahorrar
-  tokens; cada oferta se adapta desde el base que le toca y un subagente ATS lo ajusta a las
-  palabras clave. (2) **Regla de los huecos:** Horma cambia qué se muestra y cómo se cuenta,
-  nunca fechas, cargos, empresas ni titulaciones; lo poco relevante se condensa en una línea
-  («Otras experiencias»), puede mostrarse solo el año y decide la usuaria; lo que Horma
-  propone lo marca y lo aprueba ella (human in the loop). **No se «alarga» ni se inventa
-  nada, aunque el profesor dijera «que invente un poco»: es línea roja.** (3) LinkedIn e
-  Indeed: Horma prepara y envía siempre la persona. (4) Envío automático = tronco. (5) PDF por
-  defecto. (6) Estructura de construcción: la del profesor, no los 20 pasos. (7) Entrevista
-  del perfil: Fase 3 según el profesor; Mar la quiere subir si hay holgura. (8) Fase 4:
-  por definir con el profesor.
-- **Base de partida:** el motor de Jobs en `C:\AI Engineering\n8n\Jobs` (workflows,
-  filtros, dedup, prompts, `docs/04-spec.md`, `docs/03-legal.md`). Se reaprovecha
+- **Qué es:** proyecto final del bootcamp de AI Engineering de Neoland y portfolio de Mar.
+  Metabuscador europeo de empleo, multiusuaria, con entrevista por voz para sacar el
+  perfil humano, CV y carta honestos orientados a ATS, agente de candidatura,
+  seguimiento y portal de empresas (publican ofertas; sin información de empresas ni
+  seguirlas: Horma no es una red social). Sin topes para la usuaria. Repositorio privado
+  `mcaparrosgu/horma-jobs`, rama `main`.
+- **Qué se construye ahora:** la versión del profesor, «Horma: flujo agéntico en Claude
+  Code» (`docs/flujo-agentico-claude-code.md`). Dos pistas unidas por los esquemas JSON de
+  `.claude/skills/esquemas-horma/`: **A** = agentes, skills y comandos en `.claude/` (sin
+  LLM de pago en los tests); **B** = web FastAPI + PostgreSQL en `web/`, sin ningún LLM
+  dentro (la monta Mar). Estado y próximos pasos: `docs/tareas-pendientes.md`
+  (léelo al empezar sesión o usa `/hola`).
+- **Decisiones de producto:** `docs/propuesta-horma.md`, apartado 4 (léelo antes de
+  decidir nada de producto). Backend **100 % Python** (FastAPI); frontend HTML/CSS/JS;
+  ingesta como script propio con dashboard, sin n8n; las suscripciones pagan los costes.
+- **Arquitectura:** `docs/analisis-tecnico.md`. LangGraph solo en los dos flujos con
+  agentes (CV y cartas, y envío), **pendiente del profesor**; si dice que no, Python plano
+  sin cambiar agentes ni flujos. «Subagente ATS» frente a `medir-ats`: pregunta 14 bis de
+  `docs/preguntas-profesor.md`.
+- **Base de partida:** el motor de Jobs en `C:\AI Engineering\n8n\Jobs`. Se reaprovecha
   copiando; **nunca se modifica Jobs**. `Jobs App` no se usa. En los documentos que se
-  pasan a Claude Code para construir se evitan las referencias a Jobs y las fechas de
-  entrega (profesor, 30-oct).
-- **Método de trabajo (30-oct):** el del profesor, no los 20 pasos: PRD → revisar la
-  arquitectura → desglosar en tareas pequeñas y priorizadas (revisión asíncrona) → construir
-  por componentes, empezando por la ingesta y siguiendo con el que arma los CV, etc. Las
-  skills `paso-01`…`paso-20` y sus salidas en `docs/` quedan como material de consulta: no las
-  invoques salvo que Mar lo pida. Transversales vigentes: `bitacora` (`docs/bitacora.md`),
-  `profesora`, `hola` (`docs/tareas-pendientes.md`).
+  pasan a Claude Code para construir se evitan las referencias a Jobs y las fechas de entrega.
+- **Método:** el del profesor (PRD → arquitectura → tareas pequeñas y priorizadas →
+  construir por componentes), no los 20 pasos. Las skills `paso-NN` quedan como consulta:
+  no las invoques salvo que Mar lo pida. Transversales vigentes: `bitacora`, `profesora`, `hola`.
 - **Cada decisión técnica dice qué tema del bootcamp practica** (temario en
   `C:\AI Engineering\Wiki`), para el case study y la memoria.
-- **Workbook antes de construir:** documento «Horma jobs» en la sección **Proyectos** del
-  Cuaderno AI Engineering (skill `workbook`), con teoría para principiantes y diagramas
-  hechos con `archify`. **En Proyectos nunca se hacen ejercicios ni examen** (decisión de
-  Mar). Cuando una decisión cambie, se actualiza ese documento.
+- **Cuaderno y artefactos:** el documento «Horma jobs» vive en Proyectos del Cuaderno
+  (skill `workbook`); allí nunca se hacen ejercicios ni examen. Los artefactos de Horma
+  son seis: tabla en `docs/indice.md`; léelos antes de publicar encima. No uses páginas
+  aparte del artefacto abiertas en pestaña nueva: dan error.
+
+## Pipeline y cómo correr cada flujo
+
+Todo desde Claude Code. Los agentes devuelven JSON y **el comando escribe los archivos**
+(así el prompt se migra a la web sin cambiar una línea). Los subagentes solo tienen `Read`
+y **no cargan skills solos**: reciben las rutas de los esquemas en su prompt.
+
+| Paso | Comando | Hace |
+|---|---|---|
+| A′ | `/calificar-fuentes` | Califica un portal antes de usarlo como fuente |
+| A | `/ingestar-ofertas` · `/publicar-oferta` | Trae ofertas de una fuente calificada, o una empresa publica una; quedan procesadas |
+| B | `/perfilar` | CV → perfil, CV maestro, preferencias y CV base por sector |
+| C | `/recomendar` | Ofertas recomendadas con nota y explicación |
+| D | `/candidatura` | CV y carta para una oferta, con verificador y juez (máx. 2 vueltas) |
+| E | `/aprobar` → `/marcar-enviada` | La usuaria aprueba (ningún agente lo salta) y anota el envío |
+| — | `/respuesta` · `/tablero` | Etiqueta el correo de una empresa; lista candidaturas por estado |
+| — | `/evaluar` | Corre los evals de un flujo y deja una corrida fechada |
+
+**Tests deterministas:** `python -I evals/correr_evals.py` (todo) o con un set
+(`cv`, `ats`, `filtro`, `esquemas`, `fixtures`, `carta`). Solo biblioteca estándar de
+Python. Lo cualitativo lo corre `/evaluar`. Resultados y límites: `docs/informe-pruebas.md`.
+
+**Agentes de este repositorio** (`.claude/agents/`): `copiloto` es la predeterminada
+(`.claude/settings.json`). `revisor-seguridad` y `auditor-lineas-rojas` son de solo
+lectura: **no avisan solos**; trabajan cuando los invocas (o Mar los nombra) y devuelven
+un informe que trasladas a Mar. Úsalos al cerrar cada módulo o antes de cada commit. Los
+demás agentes de `.claude/agents/` son piezas de Horma: se invocan desde los comandos,
+no a mano.
 
 ## Líneas rojas del producto
 
 - **Ningún dato inventado ni exagerado** en CV, carta o formularios: cada afirmación es
-  rastreable al CV o al perfil de la usuaria; si falta un dato, se pregunta.
+  rastreable al CV o al perfil de la usuaria; si falta un dato, se pregunta. **No se
+  «alarga» ni se inventa nada, aunque se sugiera «inventar un poco».**
+- **Regla de los huecos:** Horma cambia qué se muestra y cómo se cuenta, nunca fechas,
+  cargos, empresas ni titulaciones; lo que propone lo marca y lo aprueba ella.
 - **Se analiza el contenido de la entrevista, nunca la voz** (sin emociones ni detección
   de mentiras: prohibido por el AI Act en el ámbito laboral). Sin puntuaciones de
   personalidad ni preguntas de categorías especiales (RGPD art. 9).
@@ -176,8 +157,11 @@ cotidiana y ejemplo de este proyecto. En español.
 - **Envío de candidaturas:** por defecto la usuaria aprueba y el agente envía;
   autónomo solo si ella lo configura y solo donde esté permitido (en LinkedIn e Indeed,
   Horma prepara y envía siempre la persona).
+- **El perfil humano** solo aparece en el CV si la usuaria lo activa (apagado por
+  defecto) y como evidencias redactadas como logros, nunca etiquetas ni notas.
 - Datos personales de usuarias: nunca en logs, ejemplos, tests ni mensajes de commit;
-  los datos de prueba son inventados. Emails y datos de contacto de terceros (p. ej. el profesor) solo en `docs/privado/`, ignorada por git.
+  los datos de prueba son inventados. Emails y datos de contacto de terceros solo en
+  `docs/privado/`, ignorada por git.
 
 ## Un agente NUNCA, en este repositorio
 
