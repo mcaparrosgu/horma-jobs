@@ -6,7 +6,7 @@ Actualizado el 2026-11-04 (con las instrucciones nuevas del profesor). Única fu
 - **Fase 0, versión del profesor** (`docs/flujo-agentico-claude-code.md`): **pista A hecha** (agentes, skills, comandos, esquemas, scripts y evals en `.claude/` y `evals/`); **pista B** (web **Next.js** + PostgreSQL en `web/`; FastAPI se quitó el 4-nov) **pendiente: la monta Mar**.
 - **Instrucciones nuevas del profesor (4-nov):** (1) **dashboard** para ver el flujo agéntico (pipelines o workflows); (2) **observabilidad** en cada componente; (3) construir **primero** la web de **ingesta de ofertas** y la de **candidatos** (se escribe «candidatos», no «postulantes»); (4) web con **Next.js**, sin FastAPI; (5) probar y pasar los tests **a mano**. Dudas que quedan: preguntas 29 y 30 de `docs/preguntas-profesor.md`.
 - **Pruebas:** resultados, fallos y límites en `docs/informe-pruebas.md`.
-- **Repositorio:** `mcaparrosgu/horma-jobs`, rama `main`, hasta el commit `70345b8` en local; el push se hace al cerrar este cambio.
+- **Repositorio:** `mcaparrosgu/horma-jobs`, rama `main`, hasta el commit `722560a` (subido el 2026-11-04). El repo `workbook` (Cuaderno y página del profesor) va aparte.
 
 ## Reglas permanentes (Mar)
 - En la sección Proyectos del Cuaderno nunca se hacen ejercicios ni examen.
