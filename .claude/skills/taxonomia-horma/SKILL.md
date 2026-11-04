@@ -1,6 +1,6 @@
 ---
 name: taxonomia-horma
-description: Taxonomía común de sectores, familias de puesto y niveles. La usan igual los clasificadores de ofertas y de postulantes: es lo que hace posible el match. Cárgala al clasificar.
+description: Taxonomía común de sectores, familias de puesto y niveles. La usan igual los clasificadores de ofertas y de candidatos: es lo que hace posible el match. Cárgala al clasificar.
 ---
 
 # taxonomia-horma
@@ -31,5 +31,5 @@ Versión inicial (3-nov-2026), **propuesta a revisar con las primeras ofertas re
 Lista libre de **tecnologías y herramientas** que el texto nombra expresamente, tal como se escriben (`Python`, `SQL`, `Power BI`). **Los idiomas no van en el stack** (van en `idiomas`, con su nivel). No se deduce nada que no esté escrito.
 
 ## Reglas
-- Las etiquetas del postulante salen de sus experiencias y formación, nunca de rasgos personales.
-- Ofertas y postulantes usan **exactamente la misma lista**, o el pre-orden por taxonomía no funciona.
+- Las etiquetas del candidato salen de sus experiencias y formación, nunca de rasgos personales.
+- Ofertas y candidatos usan **exactamente la misma lista**, o el pre-orden por taxonomía no funciona.

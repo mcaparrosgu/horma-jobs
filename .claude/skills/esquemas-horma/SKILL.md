@@ -10,7 +10,7 @@ description: Contrato de datos de Horma: los ocho esquemas JSON que cruzan entre
 | Esquema | Archivo | Lo produce |
 |---|---|---|
 | Oferta | `schemas/oferta.json` | extractor-oferta, auditor-oferta, clasificador-oferta |
-| Perfil | `schemas/perfil.json` | extractor-perfil, clasificador-postulante |
+| Perfil | `schemas/perfil.json` | extractor-perfil, clasificador-candidato |
 | Preferencias | `schemas/preferencias.json` | extractor-perfil; la usuaria las edita |
 | Match | `schemas/match.json` | matcher |
 | Candidatura (estado + traza + huecos + ats) | `schemas/candidatura.json` | flujos D y E |

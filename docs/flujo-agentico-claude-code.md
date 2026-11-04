@@ -1,5 +1,7 @@
 # Horma: flujo agéntico en Claude Code (versión del profesor, fase 0)
 
+> **Cambios posteriores del profesor (4-nov-2026), no están en el texto de abajo:** (1) la web se hace con **Next.js** y se quita FastAPI (donde el texto dice FastAPI, Pydantic o pytest en la pista B, léase Next.js, tipos TypeScript y sus pruebas; el worker y la cola quedan por decidir); (2) un **dashboard** para ver el flujo agéntico (pipelines o workflows); (3) **observabilidad** en cada componente; (4) construir **primero** la web de **ingesta de ofertas** y de **candidatos** (él escribe «postulantes»; en Horma se dice «candidatos»). Recomienda probar y pasar los tests a mano. Estado y decisiones: `docs/tareas-pendientes.md`.
+
 > Fuente: documento del profesor, 3-nov-2026, descargado en HTML. Texto extraído tal cual (los diagramas aparecen como texto corrido; las pestañas «Source» repiten el bloque en bruto y en Markdown). Es **la versión que se construye en la fase 0**. Decisiones de Mar frente al documento: ver `docs/bitacora.md`, 3-nov (noche).
 
 Horma: flujo agéntico en Claude Code
@@ -111,13 +113,13 @@ agente clasificador-oferta + skill taxonomia-horma
 Agente + skill
 oferta.json → sector, familia de puesto, nivel, stack
 
-Análisis de los postulantes
+Análisis de los candidatos
 /perfilar + agente extractor-perfil
 Comando + agente
 CV(s) → perfil.json con origen por dato
 
-Clasificar/Categorización (postulantes)
-agente clasificador-postulante + skill taxonomia-horma
+Clasificar/Categorización (candidatos)
+agente clasificador-candidato + skill taxonomia-horma
 Agente + skill
 perfil.json → las mismas etiquetas que las ofertas
 
@@ -141,7 +143,7 @@ agentes redactor-carta y juez-carta
 Agentes
 cv-base + oferta.json → carta.md + traza.json
 
-Match de postulante y ofertas
+Match de candidato y ofertas
 /recomendar + skill buscar-ofertas + agente matcher
 Comando + skill con script + agente
 perfil + preferencias → matches/<fecha>.json con nota y explicación
@@ -181,7 +183,7 @@ horma/
 │ │ ├── auditor-oferta.md
 │ │ ├── clasificador-oferta.md
 │ │ ├── extractor-perfil.md
-│ │ ├── clasificador-postulante.md
+│ │ ├── clasificador-candidato.md
 │ │ ├── generador-cv-base.md
 │ │ ├── matcher.md
 │ │ ├── redactor-cv.md
@@ -250,7 +252,7 @@ extractor-perfil unifica los CV en cv-maestro.md y perfil.json. Cada dato lleva 
 
 Las preferencias (preferencias.json) salen solo del CV: puestos, ciudad, idiomas, sector. Sin edad, nacionalidad ni categorías del art. 9. Son editables y admiten puestos nuevos para cambiar de carrera.
 
-clasificador-postulante aplica la misma taxonomia-horma que las ofertas.
+clasificador-candidato aplica la misma taxonomia-horma que las ofertas.
 
 generador-cv-base produce, una sola vez, hasta 4 CV base por sector o familia de puesto, todos compatibles con ATS, en cv-base/. Cada uno lleva su traza.json hacia el maestro.
 
@@ -320,7 +322,7 @@ extractor-oferta, auditor-oferta, clasificador-oferta
 id, fuente, url, fecha, titulo, empresa, ubicacion, remoto, contrato, idioma, nivel, requisitos[], salario {publicado, min, max, moneda}, taxonomia {sector, familia, stack[]}, auditoria {fantasma, fraude, empresa_validada, instrucciones_embebidas[]}
 
 perfil.json
-extractor-perfil, clasificador-postulante
+extractor-perfil, clasificador-candidato
 usuaria_id, experiencias[], formacion[], skills[], idiomas[], taxonomia, preguntas_pendientes[]; cada entrada con origen
 
 preferencias.json
@@ -673,7 +675,7 @@ Mismos fixtures, mismos umbrales
 Orden sugerido, por lo que la web necesita primero y por riesgo:
 extractor-oferta, auditor-oferta, clasificador-oferta: sin bucle, y la web pasa a tener ofertas vivas.
 
-extractor-perfil y clasificador-postulante.
+extractor-perfil y clasificador-candidato.
 
 matcher, con el filtro duro de buscar-ofertas pasado a SQL.
 

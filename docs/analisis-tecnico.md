@@ -11,8 +11,8 @@ Horma no es «una API». Son **cuatro tipos de proceso** con responsabilidades y
 
 | Proceso | Qué hace | Estado |
 |---|---|---|
-| **API síncrona** (FastAPI) | Responde a la web y a los webhooks en milisegundos: autentica, valida y lee o escribe en la base de datos | Decidido: backend 100 % Python con FastAPI (`propuesta-horma.md`, ap. 4) |
-| **Worker** (Python, mismo código base) | Ejecuta lo lento o incierto: extracción y embeddings de ofertas, agentes (apartado 9) y evals | Propuesta |
+| **API síncrona** (Next.js, rutas de API) | Responde a la web y a los webhooks en milisegundos: autentica, valida y lee o escribe en la base de datos | Cambio del profesor (4-nov): Next.js sustituye a FastAPI. Sustituye la decisión de Mar del 28-oct (backend 100 % Python); los agentes, scripts y evals de la pista A siguen en Python (`propuesta-horma.md`, ap. 4) |
+| **Worker** (dónde y en qué lenguaje corre con Next.js: por decidir) | Ejecuta lo lento o incierto: extracción y embeddings de ofertas, agentes (apartado 9) y evals | Propuesta |
 | **Script de ingesta** (propio, con dashboard) | Trae ofertas de las fuentes y las manda por `POST /ofertas`, la única ruta por la que escribe. Sustituye a n8n. **Proceso aparte** (mismo repositorio e imagen, tercer comando de arranque: `api`, `worker`, `ingesta`), sin credenciales de la base de datos; el botón «lanzar ahora» del dashboard deja una petición en la API que el proceso recoge | Decidido (30-oct); proceso aparte: propuesta recomendada (1-nov) |
 | **Navegador aislado** (Playwright) | Rellena formularios ATS sin acceso a la base de datos ni a la red interna | Propuesta (Playwright, decidido para el agente de envío) |
 
@@ -22,9 +22,9 @@ Horma no es «una API». Son **cuatro tipos de proceso** con responsabilidades y
 
 | Componente | Tecnología | Por qué | Tema del bootcamp | Estado |
 |---|---|---|---|---|
-| Web | HTML, CSS y JavaScript planos, PWA, servida por FastAPI. Sin HTMX | Un solo código base; sin React ni librerías extra | HTML, CSS, JavaScript | Sin HTMX: decidido por Mar (1-nov). HTML, CSS y JS planos: propuesta (es flexible en el frontend). PWA primero: decidido (27-oct) |
+| Web | Next.js (React, TypeScript), PWA. Sin HTMX | Instrucción del profesor (4-nov); web y API en un solo código base | HTML, CSS, JavaScript; Next.js | Next.js: instrucción del profesor (4-nov), sustituye a «HTML, CSS y JS planos» y a «sin React». Sin HTMX: decidido por Mar (1-nov). PWA primero: decidido (27-oct) |
 | Proxy inverso | ~~Caddy~~ Quitado en el borrador del 1-nov: TLS, límites de tamaño y ritmo y cabeceras de seguridad pasan al alojamiento o a la propia API (ver nota al final del apartado 8) | Una pieza menos | Docker, seguridad de APIs | Sin Caddy: decidido por Mar (1-nov). Quién asume cada función: paso 6 |
-| API | FastAPI por capas: routers → servicios → repositorios | Los routers validan con Pydantic y no saben de negocio; solo los repositorios hablan SQL | FastAPI por capas (TaskFlow) | Decidido (FastAPI); capas: propuesta |
+| API | Rutas de API de Next.js por capas: rutas → servicios → repositorios | Las rutas validan los datos de entrada (con una librería de esquemas, por elegir) y no saben de negocio; solo los repositorios hablan SQL | FastAPI por capas (TaskFlow), adaptado | Next.js: instrucción del profesor (4-nov); capas: propuesta |
 | Identidad | Google OAuth 2.0 + JWT | Alta sin contraseñas propias | Seguridad de APIs (OAuth, JWT) | Decidido: entrada por Google o por email; el mecanismo, propuesta |
 | Base de datos | PostgreSQL + pgvector | Datos relacionales y vectores en un solo sitio | SQL; embeddings y bases vectoriales | Decidido (propuesta 1 y 5 elegidas por Mar) |
 | Cola de tareas | Tabla en PostgreSQL con `FOR UPDATE SKIP LOCKED` | Una pieza menos que Redis | Patrones de acceso y modelado de datos | Propuesta (Redis descartado, 27-oct) |
@@ -110,7 +110,7 @@ Stripe, el servicio de transcripción (por elegir) y el correo reenviado llaman 
 | Playwright como servidor MCP | Descartada por Mar (27-oct, bitácora) | Más control al ejecutar código propio y no el modelo |
 | Tres agentes independientes en el envío | Descartada por Mar (27-oct, bitácora); el supervisor único lo decidió Mar el 29-oct | Un supervisor único es más simple |
 | Microservicios | Propuesta de no hacerlos | No hay equipos ni escalado independiente que lo justifiquen |
-| React | Propuesta de no usarlo | HTML, CSS y JS planos servidos por FastAPI: un solo código base (Mar es flexible en el frontend) |
+| React | Era propuesta de no usarlo; **sustituida el 4-nov** | Next.js lo incluye: así lo pide el profesor |
 | HTMX y Caddy | Quitados por Mar (1-nov) | Menos piezas; sus funciones se reasignan (nota al final del apartado 8) |
 | LangGraph en todo el sistema | Descartado (1-nov) | Sobra en ingesta, recomendación y herramientas de código. Se mantiene solo en CV y cartas y en envío (pendiente del profesor) |
 | Gerente LLM | Descartado por Mar (1-nov) | Los pasos son fijos y los decide un `if`; costaría 2-3 veces más tokens y es difícil de evaluar |

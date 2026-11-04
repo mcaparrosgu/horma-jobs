@@ -40,7 +40,7 @@
 
 ## D. Arquitectura y stack
 
-12. **Stack:** FastAPI + PostgreSQL/pgvector + HTML, CSS y JS planos, instalable como PWA (sin HTMX ni Caddy, Mar, 1-nov). Sin React. ¿Le parece bien?
+12. ~~**Stack:** FastAPI + PostgreSQL/pgvector + HTML, CSS y JS planos, PWA. Sin React.~~ **Resuelta por él (4-nov):** Next.js, sin FastAPI. Sigue abierto en 29.
 13. ~~n8n en la ingesta~~ **Resuelta (30-oct):** sin n8n; la ingesta es un script propio en Python con un dashboard. Número conservado para no alterar las referencias.
 14. **¿Framework de agentes o SDK directo?** ¿Espera LangGraph (u otro framework) o basta con el SDK del LLM y function calling?
     - Propuesta (1-nov): SDK directo en el resto, y LangGraph solo en dos flujos: CV y cartas (bucle redactor-juez con tope de 2 y pausa para que la usuaria apruebe) y envío (pausa para aprobar). Orquestación en código, sin LangChain. Si prefiere Python plano, los agentes y los flujos no cambian.
@@ -89,6 +89,11 @@
     - Resultado: en la Fase 1 la usuaria aprueba y envía ella misma, y el tablero lo registra; el portal da el envío desde Horma (Fase 2); el automático, en la 3. `medir_ats` cuenta palabras clave sobre el texto y relee el PDF cuando llegue (Fase 3).
     - Se mantiene: el juez comprueba el origen de cada frase desde la Fase 1 (línea roja). Solo se retrasa mostrárselo.
     - Si en la reunión dice otra cosa, se recoloca: es orden de trabajo, no alcance.
+
+28. **Diseños y PDF del CV:** en la Fase 3 aparecen «diseños y PDF», pero hemos decidido que el CV estético lo sube la usuaria. ¿Horma genera diseños propios o solo un PDF limpio para ATS? (Por decidir: no lo hemos resuelto nosotras.)
+
+29. **Next.js y lo que ya existe en Python (4-nov):** al quitar FastAPI, ¿el worker, la cola y los scripts de la pista B pasan también a TypeScript, o pueden seguir en Python junto a Next.js? ¿Qué usamos para validar datos y qué para el dashboard y la observabilidad (por ejemplo, tabla propia o una herramienta)? Propuesta: la pista A no cambia; solo la web.
+30. **Orden de la web (4-nov):** ¿confirma que primero va la web de ingesta de ofertas y de candidatos, con su dashboard, y luego el resto (recomendación, candidatura, envío, seguimiento, portal)? Entendemos que sí.
 
 ## Después de la reunión
 

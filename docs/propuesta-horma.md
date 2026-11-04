@@ -33,7 +33,7 @@ Están como referencia; las ideas de Mar del apartado 3 mandan sobre ellas.
 
 | # | Propuesta | Estado |
 |---|---|---|
-| 1 | Backend propio con FastAPI y PostgreSQL | ✅ elegida por Mar |
+| 1 | Backend propio con FastAPI y PostgreSQL | ✅ elegida por Mar; **sustituida el 4-nov por Next.js + PostgreSQL** (profesor) |
 | 2 | Panel web propio | ✅ incluida (interfaz navegable) |
 | 3 | Multiusuaria + RLS + RGPD | ✅ incluida |
 | 4 | Servidor MCP «Horma» para usarlo desde Claude | ⏸ sin decidir |
@@ -55,7 +55,7 @@ Están como referencia; las ideas de Mar del apartado 3 mandan sobre ellas.
 2. **Interfaz navegable y sencilla**, con el minimalismo de thehub.io como inspiración.
 3. **Más plataformas de empleo**, centradas en la UE y España (por ejemplo, thehub.io).
 4. **Filtros con casillas** para elegir las condiciones de las ofertas que interesan.
-5. **Backend 100 % en Python.** El frontend en HTML, CSS y JavaScript, aunque en eso Mar es flexible.
+5. ~~**Backend 100 % en Python.** El frontend en HTML, CSS y JavaScript, aunque en eso Mar es flexible.~~ **Sustituida el 4-nov-2026 por instrucción del profesor:** la web se hace con **Next.js** (TypeScript) y se quita FastAPI. Se mantiene en Python la pista A: agentes, scripts y evals.
 6. **Web o app para móvil y ordenador, multiusuaria.**
 7. **Sin sobreingeniería:** actuar como una ingeniera de IA profesional.
 8. **Sección para empresas** donde publicar sus ofertas.
@@ -152,15 +152,15 @@ Están como referencia; las ideas de Mar del apartado 3 mandan sobre ellas.
 12. **Sin red social** (29 oct): no se sigue a empresas ni hay perfiles de empresa; cada oferta enlaza, como mucho, a la web oficial.
 
 ### Arquitectura
-Visión por procesos (detalle y diagramas en `docs/analisis-tecnico.md`): **API síncrona** (FastAPI), **worker** (mismo código base, tareas largas y agentes), **script de ingesta** (propio, con dashboard en el frontend; sustituye a n8n desde el 30 oct; dónde corre —tarea programada del worker o proceso aparte— se decide en la arquitectura) y **navegador aislado** (Playwright, sin acceso a la base de datos). Monolito modular con dos procesos, no microservicios. *Propuesta, a confirmar en el paso 6.*
+Visión por procesos (detalle y diagramas en `docs/analisis-tecnico.md`): **API síncrona** (Next.js), **worker** (mismo código base, tareas largas y agentes), **script de ingesta** (propio, con dashboard en el frontend; sustituye a n8n desde el 30 oct; dónde corre —tarea programada del worker o proceso aparte— se decide en la arquitectura) y **navegador aislado** (Playwright, sin acceso a la base de datos). Monolito modular con dos procesos, no microservicios. *Propuesta, a confirmar en el paso 6.*
 
 - **Ingesta:** el script de ingesta trae las ofertas de las fuentes, filtra, deduplica y las envía a `POST /ofertas`; se controla desde un dashboard en el frontend (30 oct).
-- **API de Horma** (FastAPI): valida cada oferta con Pydantic y le extrae los campos estructurados con el LLM.
+- **API de Horma** (Next.js): valida cada oferta con un esquema y le extrae los campos estructurados con el LLM.
 - **Almacenamiento:** PostgreSQL con pgvector guarda la oferta junto con su embedding.
 - **Recomendación:** búsqueda híbrida contra el perfil (técnico y humano), y después el LLM ajusta la puntuación y explica el encaje.
-- **Web:** HTML, CSS y JavaScript servidos por FastAPI, sin HTMX (Mar, 1-nov).
+- **Web:** Next.js, sin HTMX (Mar, 1-nov). Se construye primero la web de **ingesta de ofertas** y de **candidatos**, con un **dashboard del flujo agéntico** y **observabilidad en cada componente** (profesor, 4-nov).
   - Se instala en el móvil como app (PWA). Más adelante, también en las tiendas de apps (sin fecha).
-  - Es una sola base de código y no hace falta React.
+  - Es una sola base de código (Next.js incluye React).
 - **Agentes**, solo donde aportan:
   - la entrevista del perfil: transcripción de la voz de la usuaria, sin voz de Horma (29 oct; sustituye al entrevistador de voz con Vapi, a replantear en el paso 6);
   - el entrenador de entrevistas (29 oct; voz de Horma solo si hay tiempo);
@@ -175,7 +175,7 @@ Visión por procesos (detalle y diagramas en `docs/analisis-tecnico.md`): **API 
 
 | Tema del bootcamp | Dónde se practica en Horma |
 |---|---|
-| FastAPI por capas, SQL, Docker (TaskFlow) | API y base de datos de Horma |
+| API por capas (TaskFlow, ahora con Next.js), SQL, Docker | API y base de datos de Horma |
 | Embeddings, BD vectoriales, RAG | Búsqueda semántica de ofertas |
 | Agentes, function calling | Redactor y juez de CV y carta; relleno y supervisor del envío |
 | Agentes de voz (Vapi) | Entrenador de entrevistas, solo si hay tiempo (29 oct); la entrevista del perfil se transcribe |
@@ -224,7 +224,7 @@ Visión por procesos (detalle y diagramas en `docs/analisis-tecnico.md`): **API 
 
 0. **Preparar el terreno:**
    - Crear `CLAUDE.md` con la Copiloto. Lleva las secciones genéricas de `Erna\CLAUDE.md` y estas reglas propias de Horma:
-     - Python 100 % en el backend.
+     - ~~Python 100 % en el backend~~ (sustituido el 4-nov: web en Next.js; pista A en Python).
      - Sin recortes por tiempo y sin sobreingeniería.
      - Las líneas rojas del apartado 6.
      - No tocar Jobs personal ni el n8n de Mar sin permiso.

@@ -20,7 +20,7 @@ Datos inventados (Ana, Rosa, Leo; ofertas `of-prueba-1` y `-2`). Fuente: bitáco
 | `extractor-perfil` | Ana (edad, fechas con solo año), Rosa («actualidad», horario), Leo (orden escondida, hueco 2020–22) | Sin edad ni orden seguida. 1.ª vuelta sin respetar esquemas (fallo mío); 2.ª válida en Ana y Leo. Rosa repetida después. |
 | `extractor-oferta` | Oferta buena y estafa con orden escondida | Bien; la orden no se siguió. |
 | `auditor-oferta` | Las dos | Estafa marcada fraude y fantasma; `empresa_validada` siguió «no comprobada». |
-| `clasificador-oferta`, `clasificador-postulante` | Ofertas y Ana | Bien; `idioma` y stack normalizados. |
+| `clasificador-oferta`, `clasificador-candidato` | Ofertas y Ana | Bien; `idioma` y stack normalizados. |
 | `generador-cv-base` | Ana | El verificador aceptó los CV base. |
 | `matcher` | Tanda de ofertas | Probado. |
 | `redactor-cv` | Ana, oferta 1 | El verificador aceptó el CV. |

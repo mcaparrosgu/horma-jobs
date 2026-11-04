@@ -112,6 +112,15 @@ noscript{display:block;margin-top:30px}
 <noscript>Esta página necesita JavaScript para mostrar las etapas.</noscript>
 
 <aside class="box">
+  <h2>Estado de la construcción (4-nov-2026)</h2>
+  <ul>
+    <li><b>Fase 0, pista A hecha:</b> agentes, skills, comandos, esquemas JSON, scripts y evals en Claude Code. 12 de los 13 agentes probados con casos reales; falta <code>auditor-fuentes</code>.</li>
+    <li><b>Pista B, pendiente:</b> la web con Next.js y PostgreSQL (etapas 1 a 9). La monta Mar, sin ningún LLM dentro. Por instrucción del profesor (4-nov): primero la ingesta de ofertas y de candidatos, con un dashboard del flujo agéntico y observabilidad en cada componente.</li>
+    <li>Las dos pistas se unen por los esquemas JSON: un agente que pasa sus evals se migra a la web tal cual.</li>
+  </ul>
+</aside>
+
+<aside class="box">
   <h2>Cómo se cierra cada paso</h2>
   <ul>
     <li>Demo real en móvil y escritorio, tests en verde y una entrada en la bitácora.</li>
@@ -136,33 +145,34 @@ noscript{display:block;margin-top:30px}
   <h2>Pendiente de decidir</h2>
   <ul>
     <li>LangGraph en CV y cartas y en envío, y cómo se define el «subagente ATS»: preguntas al profesor.</li>
-    <li>Tope de 5 CV base: choca con «sin topes». Propuesta: limitar los CV generados al mes, no los CV base.</li>
+    <li>Tope de 4 CV base: choca con «sin topes». Propuesta: limitar los CV generados al mes, no los CV base.</li>
+    <li>Diseños y PDF: la versión del profesor dice que el CV estético lo sube la usuaria y Horma no lo genera; su comentario sitúa «Diseños y PDF» en la Fase 3.</li>
     <li>Leer el Gmail de cada usuaria o recibir las respuestas por reenvío a un correo de Horma.</li>
     <li>Servidor MCP (recomendación: solo lectura, sin herramientas que envíen) y fecha de las tiendas de apps.</li>
     <li>Ideas anotadas sin decidir: candidaturas honestas (<code>docs/ideas/honestidad.md</code>), carta «cómo trabajo», modo «escucho ofertas», seguimiento hasta la incorporación.</li>
   </ul>
 </aside>
 
-<footer>La construcción y la definición no empiezan hasta tener el ok del profesor (etapa 0). Este orden es una propuesta de la Copiloto: se ajusta en el desglose de tareas.</footer>
+<footer>Este orden es una propuesta de la Copiloto: se ajusta en el desglose de tareas. Actualizado el 4-nov-2026: la construcción empezó con la fase 0.</footer>
 </div>
 
 <script>
 var ETAPAS = [
 { id:0, k:'puerta', t:'Puertas antes de escribir código', tema:'Arquitectura de software (C4 y ADR), seguridad de APIs', pasos:[
-  ['Ok formal del profesor','Sin él no empieza la definición ni la construcción. Se aprovecha para cerrar sus respuestas: LangGraph, «subagente ATS», qué cubre la Fase 4, rúbrica y fecha de entrega.','puerta'],
+  ['Respuestas del profesor a las decisiones abiertas','La construcción ya empezó con la fase 0 (orden de Mar, 3-nov). Faltan sus respuestas: LangGraph, «subagente ATS», cartas base, diseños y PDF, qué cubre la Fase 4, rúbrica y fecha de entrega.','puerta'],
   ['Desglose en tareas pequeñas y priorizadas','Método del profesor: PRD, arquitectura y tareas verificables, ordenadas según esta lista.','puerta'],
   ['Decisiones del paso 6, como ADR y diagrama C4','Alojamiento (quién asume TLS, límites, cabeceras y CSRF sin Caddy), librería de cola, proveedores de LLM, embeddings y transcripción en la UE, ORM, permisos del rol de empresa y diseño del supervisor.','puerta'],
   ['Seguridad previa al código','Roles de base de datos con RLS forzada, navegador aislado, máquina de estados del envío y reglas duras del supervisor, decididos antes de la primera línea. Pasa <code>revisor-seguridad</code>.','puerta'],
   ['Terreno del repositorio','Carpetas, <code>.gitignore</code>, <code>.env.example</code>, hooks (bloquear la lectura de <code>.env</code> y los de git), Docker Compose con <code>api</code>, <code>worker</code>, <code>ingesta</code> y PostgreSQL, CI base con escaneo de secretos.','puerta']
 ]},
-{ id:1, k:'tronco', t:'Cimientos: API, datos e identidad', tema:'FastAPI por capas, SQL, Docker, seguridad de APIs, LLMOps', pasos:[
+{ id:1, k:'tronco', t:'Cimientos: API, datos e identidad', tema:'API por capas (ahora con Next.js), SQL, Docker, seguridad de APIs, LLMOps', pasos:[
   ['Base de datos y RLS','PostgreSQL con pgvector, migraciones, roles <code>migrador</code>, <code>api</code> y <code>worker</code>, y <code>FORCE ROW LEVEL SECURITY</code>. Un test intenta leer datos de otra usuaria y tiene que fallar.'],
-  ['API por capas','Routers, servicios y repositorios; validación con Pydantic en la frontera; los errores 422 no devuelven lo que escribió la usuaria.'],
+  ['API por capas','Rutas de API de Next.js, servicios y repositorios; validación de datos en la frontera con una librería de esquemas; los errores 422 no devuelven lo que escribió la usuaria.'],
   ['Identidad','Google OAuth 2.0 y email, JWT verificado (firma, <code>exp</code>, <code>aud</code>, <code>iss</code>), cookies <code>HttpOnly</code>, <code>Secure</code> y <code>SameSite</code>, protección CSRF. La usuaria sale del token, nunca de la URL.'],
   ['Cola de tareas y worker','Tabla en PostgreSQL con <code>FOR UPDATE SKIP LOCKED</code>, reintentos con retroceso, estado <code>dead</code> y tope de coste por tarea. La carga guarda ids, no texto.'],
   ['Puerta única al LLM','Reintentos, tiempos límite, guardrails de entrada y salida y tabla de métricas (modelo, tokens, coste, latencia) sin el texto de la usuaria. Logs sin datos personales.'],
-  ['Esqueleto de la web','HTML, CSS y JavaScript planos servidos por FastAPI, instalable como PWA, texto siempre escapado y CSP estricta.'],
-  ['Pruebas y CI','<code>pytest</code> y evals en GitHub Actions desde el primer módulo, con datos de prueba inventados.']
+  ['Esqueleto de la web','Next.js (TypeScript), instalable como PWA, texto siempre escapado y CSP estricta.'],
+  ['Pruebas y CI','Pruebas del código de la web y evals en GitHub Actions desde el primer módulo, con datos de prueba inventados. El profesor recomienda probar y pasar los tests a mano.']
 ]},
 { id:2, k:'tronco', t:'Ingesta y ofertas', tema:'APIs, cron (Unidad 5), embeddings y bases vectoriales', pasos:[
   ['<code>POST /ofertas</code>','Clave de API limitada a esa ruta, guardada como hash y rotable, con límite de tamaño y ritmo. Valida y encola el procesado.'],
@@ -179,7 +189,7 @@ var ETAPAS = [
   ['Preferencias de ofertas','Rellenadas solo con datos del CV (sin deducir edad, nacionalidad ni categorías del art. 9) y editables. Puede añadir puestos nuevos para cambiar de carrera.'],
   ['Un perfil por persona','Con búsquedas guardadas.']
 ]},
-{ id:4, k:'tronco', t:'Recomendación de ofertas', tema:'Embeddings, búsqueda híbrida, RAG', pasos:[
+{ id:4, k:'tronco', t:'Recomendación de ofertas', tema:'Embeddings y búsqueda híbrida', pasos:[
   ['Filtros con casillas y filtro duro en SQL','País, contrato, remoto, idioma, nivel, sector y sueldo mínimo. Una oferta sin sueldo no se descarta: sale marcada.'],
   ['Búsqueda híbrida','Palabras clave (<code>tsvector</code>) y significado (pgvector), fusionadas con <i>Reciprocal Rank Fusion</i>.'],
   ['Puntuación por tandas','El LLM puntúa de 30 en 30, sin tope de ofertas mostradas, con caché por usuaria y oferta. Nota 0-100 solo de experiencia y formación; 3 niveles solo sobre condiciones de trabajo.'],
@@ -187,12 +197,12 @@ var ETAPAS = [
   ['Eval de la recomendación','Ninguna explicación menciona rasgos. Las evidencias humanas no entran en el embedding ni en la nota.']
 ]},
 { id:5, k:'tronco', t:'CV y carta', tema:'Agentes, patrón de reflexión, evals y LLM-as-judge', pasos:[
-  ['CV base por sector y cartas base','Hasta 5 CV base y 2 cartas base, generados una sola vez del CV maestro para ahorrar tokens.','tronco',true],
+  ['CV base por sector','Hasta 4 CV base, generados una sola vez del CV maestro para ahorrar tokens. La carta se redacta desde el CV base: no hay cartas base (versión del profesor, 3-nov).','tronco',true],
   ['Herramienta <code>medir_ats</code>','Código, no agente: vuelve a leer el PDF y cuenta palabras clave. Una palabra sin origen en el perfil no se inserta: se avisa a la usuaria.'],
   ['Redactor y juez','Generar, evaluar y corregir, con un máximo de 2 intentos. El juez comprueba primero con código (fechas, cargos, empresas y titulaciones idénticos al CV maestro) y después con el LLM, que cita la fuente de cada frase. LangGraph si el profesor lo aprueba; si no, Python plano.','tronco',true],
   ['Regla de los huecos','Se cambia qué se muestra y cómo se cuenta (una línea de «Otras experiencias», solo el año), nunca fechas, cargos, empresas ni titulaciones. Propone Horma, aprueba la usuaria, y nunca se infiere la causa de un hueco.'],
   ['Origen visible de cada frase','Cada frase enseña de qué dato sale. Sin origen no se escribe: se pregunta.'],
-  ['12 diseños y PDF','Una columna y sin tablas, legibles por un ATS. PDF generado en Python y diseño predeterminado en Configuración.'],
+  ['12 diseños y PDF','Una columna y sin tablas, legibles por un ATS. PDF generado en Python y diseño predeterminado en Configuración. Por decidir con el profesor: su versión del 3-nov dice que el CV estético lo sube la usuaria.','tronco',true],
   ['Editor y asistente de edición','Vista previa; la usuaria señala una frase y el asistente la reescribe con los mismos controles de trazabilidad. Se muestra el cambio antes de aceptarlo.'],
   ['Evals del CV','CV con errores sembrados (cifra inventada, cargo subido), comparación del juez frente al código solo, y fechas idénticas al maestro en el 100 % de los casos.']
 ]},

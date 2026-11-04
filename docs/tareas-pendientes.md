@@ -1,11 +1,12 @@
 # Estado y tareas pendientes de Horma jobs
 
-Actualizado el 2026-11-04. Única fuente de estado y próximos pasos (mapa de documentos: `docs/indice.md`). Orden = prioridad.
+Actualizado el 2026-11-04 (con las instrucciones nuevas del profesor). Única fuente de estado y próximos pasos (mapa de documentos: `docs/indice.md`). Orden = prioridad.
 
 ## Estado en tres líneas
-- **Fase 0, versión del profesor** (`docs/flujo-agentico-claude-code.md`): **pista A hecha** (agentes, skills, comandos, esquemas, scripts y evals en `.claude/` y `evals/`); **pista B** (web FastAPI + PostgreSQL en `web/`) **pendiente: la monta Mar**.
+- **Fase 0, versión del profesor** (`docs/flujo-agentico-claude-code.md`): **pista A hecha** (agentes, skills, comandos, esquemas, scripts y evals en `.claude/` y `evals/`); **pista B** (web **Next.js** + PostgreSQL en `web/`; FastAPI se quitó el 4-nov) **pendiente: la monta Mar**.
+- **Instrucciones nuevas del profesor (4-nov):** (1) **dashboard** para ver el flujo agéntico (pipelines o workflows); (2) **observabilidad** en cada componente; (3) construir **primero** la web de **ingesta de ofertas** y la de **candidatos** (se escribe «candidatos», no «postulantes»); (4) web con **Next.js**, sin FastAPI; (5) probar y pasar los tests **a mano**. Dudas que quedan: preguntas 29 y 30 de `docs/preguntas-profesor.md`.
 - **Pruebas:** resultados, fallos y límites en `docs/informe-pruebas.md`.
-- **Repositorio:** `mcaparrosgu/horma-jobs`, rama `main`, hasta el commit `db0ddba`.
+- **Repositorio:** `mcaparrosgu/horma-jobs`, rama `main`, hasta el commit `70345b8` en local; el push se hace al cerrar este cambio.
 
 ## Reglas permanentes (Mar)
 - En la sección Proyectos del Cuaderno nunca se hacen ejercicios ni examen.
@@ -22,7 +23,7 @@ Actualizado el 2026-11-04. Única fuente de estado y próximos pasos (mapa de do
 - **Calificar fuentes:** ok para que `/calificar-fuentes` lea condiciones de uso y `robots.txt` de EURES, Adzuna, Arbeitnow, The Hub e InfoJobs. Las claves de API van en `.env`, que no se lee.
 - **Artefactos:** compartir con el profesor su página y «Horma por fases» desde *Share* (su email, solo en `docs/privado/contactos.md`); abrir el Cuaderno (nunca se ha visto renderizado); decidir si el Cuaderno deja de ser «cualquiera con el enlace»; borrar `Rz3…` cuando el profesor haya visto la página nueva (irreversible; al borrarlo, quitarlo de `ARTEFACTOS_HORMA`); limpiar los artefactos ajenos a Horma (con la lista delante).
 - **Entorno:** `/mcp disable` de `n8n-mcp`, `semantic-scholar` y `google-sheets` en este proyecto; reactivar si hacen falta las skills apagadas (`paso-11` a `paso-18`, `paso-20`, `auditoria-diseno`, `design-taste-frontend`).
-- **Pista B:** instalar Docker, PostgreSQL y FastAPI son costes de mantenimiento; se pregunta uno a uno.
+- **Pista B:** instalar Docker, PostgreSQL y Next.js (Node) son costes de mantenimiento; se pregunta uno a uno. Decisión tomada con Mar (4-nov): Next.js solo para la web; los scripts, agentes y evals de la pista A se quedan en Python.
 
 ## 2. Para el profesor (guion completo: `docs/preguntas-profesor.md`)
 1. Tope de 4 CV base frente a «sin topes»: ¿por qué 4? Propuesta: limitar CV generados al mes.
@@ -32,7 +33,7 @@ Actualizado el 2026-11-04. Única fuente de estado y próximos pasos (mapa de do
 5. Enseñarle lo hecho (informe de pruebas y bitácora del 3 y 4-nov).
 
 ## 3. Plan de la Copiloto (siguiente sesión)
-1. Pasar los comentarios del profesor a los artefactos y verificar que estén aplicados (ver sección 5).
+1. Si el profesor responde a 29 y 30, adaptar la pista B al orden: ingesta de ofertas y de candidatos con dashboard y observabilidad, luego el resto de la web. Los artefactos ya reflejan Next.js y este orden (sección 5).
 2. Ampliar casos de prueba de los 12 agentes probados: ofertas raras o sin salario, perfiles sin experiencia o con huecos largos, más errores sembrados para el juez.
 3. Recortar las preguntas pendientes de `extractor-perfil` (máximo 5, solo las que cambian el resultado).
 4. Aplicar las decisiones de Mar de la sección 1 en prompts y esquemas; crear el esquema de la salida de `juez-carta`.
@@ -67,4 +68,6 @@ Actualizado el 2026-11-04. Única fuente de estado y próximos pasos (mapa de do
 - Pulido final: revisar con Mar cómo queda todo junto.
 
 ## 5. Artefactos pendientes de actualizar
-Los comentarios del profesor y el estado de la fase 0 llevan a: Cuaderno personal, «Horma por fases», «Construcción de Horma», «Horma por dentro» (solo si cambia) y la página del profesor. Tabla y reglas en `docs/indice.md`.
+Actualizados el 4-nov con Next.js, «candidatos» y el orden de la web (ingesta y candidatos primero): Cuaderno personal, «Horma por fases», «Construcción de Horma», «Horma por dentro» y la página del profesor. Tabla y reglas en `docs/indice.md`.
+
+**Pendiente:** el PRD (`docs/prd-horma-v1.html`, RES-01) aún dice «backend 100 % Python (FastAPI)». No se toca hasta que el profesor responda a las preguntas 29 y 30, porque el PRD es su documento de partida.

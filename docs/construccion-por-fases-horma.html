@@ -110,7 +110,7 @@ noscript{display:block;margin-top:30px}
 <header>
   <div class="eyebrow">Horma jobs · construcción por fases</div>
   <h1>Horma por fases</h1>
-  <p class="lead">La construcción de Horma ordenada en las cuatro fases que marcó el profesor. Las fases ordenan el trabajo; no recortan nada del alcance. Cada módulo indica si es base de Horma (tronco), si completa el producto y puede cambiar de fase (rama), o si es una condición que hay que cumplir antes de seguir (puerta).</p>
+  <p class="lead">La construcción de Horma ordenada en las fases que marcó el profesor (la 0, de agentes, y las 1 a 4 de la web). Las fases ordenan el trabajo; no recortan nada del alcance. Cada módulo indica si es base de Horma (tronco), si completa el producto y puede cambiar de fase (rama), o si es una condición que hay que cumplir antes de seguir (puerta).</p>
   <div class="legend">
     <span><span class="tag k-puerta">Puerta</span> se cumple antes de seguir</span>
     <span><span class="tag k-tronco">Tronco</span> base de Horma, no se recorta</span>
@@ -120,7 +120,7 @@ noscript{display:block;margin-top:30px}
 </header>
 
 <nav class="fases" aria-label="Fases">
-  <h2>Las cuatro fases</h2>
+  <h2>Las fases</h2>
   <ul class="cards" id="cards"></ul>
 </nav>
 
@@ -132,10 +132,11 @@ noscript{display:block;margin-top:30px}
   <h2>Qué necesito del profesor</h2>
   <ol>
     <li><b>Qué cubre la Fase 4.</b> La propuesta de esta página reúne lo más avanzado: entrenador de entrevistas, suscripciones, calidad final, publicación y extensiones. Si tenía otra idea, se recoloca.</li>
-    <li><b>Ok formal para empezar</b> la definición y la construcción.</li>
+    <li><b>Cartas base.</b> En su versión no existen: la carta se redacta desde el CV base. ¿Confirmado?</li>
     <li><b>LangGraph</b> en los dos flujos con agentes (CV y cartas, y envío). Si no lo aprueba, Python plano con los mismos agentes y flujos.</li>
     <li><b>«Subagente ATS».</b> El PRD lo nombra; la arquitectura mide el ATS con código y deja el ajuste al redactor. ¿Le vale como agente?</li>
-    <li><b>Tope de 5 CV base.</b> Choca con «sin topes de producto». Propuesta: limitar los CV generados al mes, no los CV base.</li>
+    <li><b>Tope de 4 CV base.</b> Choca con «sin topes de producto». Propuesta: limitar los CV generados al mes, no los CV base.</li>
+    <li><b>Diseños y PDF.</b> Su versión del 3-nov dice que el CV estético lo sube la usuaria y Horma no lo genera; su comentario sitúa «Diseños y PDF» en la Fase 3. ¿Cuál vale?</li>
   </ol>
 </aside>
 
@@ -150,31 +151,48 @@ noscript{display:block;margin-top:30px}
   </ul>
 </aside>
 
-<footer>Este orden es una propuesta y se afina en el desglose de tareas. Lo marcado como «Por decidir» no está cerrado.</footer>
+<footer>Este orden es una propuesta y se afina en el desglose de tareas. Lo marcado como «Por decidir» no está cerrado. Actualizado el 4-nov-2026 con la fase 0.</footer>
 </div>
 
 <script>
 /* Un paso: [título, descripción, tipo opcional (si difiere del módulo), 'd' si está por decidir] */
 var FASES = [
+{ n:0, t:'Agentes y pruebas desde Claude Code', org:'Fase 0 del profesor (versión «flujo agéntico en Claude Code», 3-nov)', pend:false,
+  entrega:'Los agentes, skills y comandos funcionan desde la consola de Claude Code sobre perfiles y ofertas de prueba inventados, con evals que pasan. La web (pista B) se monta aparte, sin ningún LLM dentro, y las dos pistas se unen por los esquemas JSON.',
+  nota:'<b>Estado a 4-nov:</b> la pista A está hecha y subida al repositorio (13 agentes, 11 comandos, 8 skills y 8 esquemas). 12 de los 13 agentes se probaron con un caso real; falta <code>auditor-fuentes</code>. Los evals de código pasan. La pista B está pendiente: la monta Mar.',
+  mods:[
+  { k:'tronco', t:'Pista A: agentes, skills y comandos', tema:'Agentes, skills y comandos de Claude Code; salida estructurada; evals y LLM como juez', pasos:[
+    ['Agentes y comandos','Subagentes en prosa y comandos que son los puntos de entrada de los flujos. Los agentes devuelven JSON y el comando escribe los archivos.'],
+    ['Esquemas y scripts','Ocho esquemas JSON que unen las dos pistas, y scripts en Python sin dependencias: verificar trazabilidad, medir ATS, filtro duro e ingesta.'],
+    ['Pruebas','Evals de código en verde y agentes probados con casos reales: trampas escondidas en CV, ofertas y correos, y errores sembrados que el juez detecta. Quedan más casos por ampliar.'],
+    ['Lo que falta de la pista A','Probar <code>auditor-fuentes</code> con fuentes reales, el flujo del CV de principio a fin y calificar fuentes para llenar el registro de endpoints.','tronco','d']
+  ]},
+  { k:'tronco', t:'Pista B: la web', tema:'Next.js, PostgreSQL', pasos:[
+    ['Web Next.js y PostgreSQL','Sin ningún LLM dentro. FastAPI se quitó el 4-nov por instrucción del profesor. Pendiente: la monta Mar.','tronco','d'],
+    ['Primero: ingesta de ofertas y de candidatos','Por instrucción del profesor (4-nov), lo primero que se construye en la web son las pantallas de ingesta de ofertas y de candidatos. Después, el resto de las Fases 1 a 3.','tronco','d'],
+    ['Dashboard del flujo agéntico y observabilidad','Un dashboard para ver los pipelines o workflows y observabilidad en cada componente (qué entra, qué sale, errores, tiempo, coste).','tronco','d'],
+    ['Migración de los agentes','Cuando un agente pasa sus evals, su prompt se migra a la web tal cual; el contrato son los esquemas JSON.']
+  ]}
+]},
 { n:1, t:'Horma funciona de principio a fin', org:'Alcance de la Fase 1 del profesor', pend:false,
   entrega:'Una usuaria de prueba sube su CV, ve ofertas recomendadas con el porqué, obtiene un CV y una carta en pantalla, los aprueba, los envía ella misma y sigue la candidatura en un tablero. El origen de cada frase ya se guarda y lo comprueba el juez; se le muestra a la usuaria en la Fase 3.',
   nota:'<b>Es la fase más grande.</b> Se construye por componentes en este orden: cimientos, ingesta, perfil, recomendación, CV y carta, aprobación y seguimiento. El portal de empresas pasa a la Fase 2; el origen visible, el PDF y el editor, a la 3.',
   mods:[
   { k:'puerta', t:'Puertas antes de escribir código', tema:'Arquitectura de software (C4 y ADR), seguridad de APIs', pasos:[
-    ['Ok formal del profesor','Sin él no empieza la definición ni la construcción.'],
+    ['Respuestas del profesor a las decisiones abiertas','La construcción ya empezó con la fase 0 (orden de Mar, 3-nov). Faltan sus respuestas a las preguntas de abajo.'],
     ['Desglose en tareas pequeñas y priorizadas','Método del profesor: PRD, revisión de la arquitectura y tareas verificables, ordenadas según esta página.'],
     ['Decisiones de arquitectura','Alojamiento, librería de cola, proveedores de LLM, embeddings y transcripción en la UE, ORM y permisos del rol de empresa, registradas como ADR con su diagrama C4.'],
     ['Seguridad previa al código','Roles de base de datos con seguridad por filas forzada, navegador aislado, máquina de estados del envío y reglas del supervisor, decididos antes de la primera línea.'],
     ['Terreno del repositorio','Carpetas, secretos fuera del código, Docker Compose con API, worker, ingesta y PostgreSQL, y CI base con escaneo de secretos.']
   ]},
-  { k:'tronco', t:'Cimientos: API, datos e identidad', tema:'FastAPI por capas, SQL, Docker, seguridad de APIs, LLMOps', pasos:[
+  { k:'tronco', t:'Cimientos: API, datos e identidad', tema:'API por capas (ahora con Next.js), SQL, Docker, seguridad de APIs, LLMOps', pasos:[
     ['Base de datos y seguridad por filas','PostgreSQL con pgvector, migraciones y roles de mínimo privilegio. Un test intenta leer datos de otra usuaria y tiene que fallar.'],
-    ['API por capas','Routers, servicios y repositorios. Validación con Pydantic en la frontera; los errores no devuelven lo que escribió la usuaria.'],
+    ['API por capas','Rutas de API de Next.js, servicios y repositorios. Validación de datos en la frontera con una librería de esquemas; los errores no devuelven lo que escribió la usuaria.'],
     ['Identidad','Google OAuth 2.0 y email, JWT verificado, cookies seguras y protección CSRF. La usuaria sale del token, nunca de la URL.'],
     ['Cola de tareas y worker','Tabla en PostgreSQL con reintentos con retroceso y tope de coste por tarea. La carga guarda ids, no texto.'],
     ['Puerta única al LLM','Reintentos, tiempos límite, guardrails de entrada y salida y tabla de métricas (modelo, tokens, coste, latencia) sin el texto de la usuaria.'],
-    ['Esqueleto de la web','HTML, CSS y JavaScript planos servidos por FastAPI, instalable como PWA, texto siempre escapado y CSP estricta.'],
-    ['Pruebas y CI','<code>pytest</code> y evals en GitHub Actions desde el primer módulo.']
+    ['Esqueleto de la web','Next.js (TypeScript), instalable como PWA, texto siempre escapado y CSP estricta.'],
+    ['Pruebas y CI','Pruebas del código de la web y evals en GitHub Actions desde el primer módulo. El profesor recomienda probar y pasar los tests a mano.']
   ]},
   { k:'tronco', t:'Ingesta y ofertas', tema:'APIs, cron, embeddings y bases vectoriales', pasos:[
     ['Ruta <code>POST /ofertas</code>','Clave de API limitada a esa ruta, guardada como hash y rotable, con límite de tamaño y ritmo. Valida y encola el procesado.'],
@@ -198,7 +216,7 @@ var FASES = [
     ['Eval de la recomendación','Ninguna explicación menciona rasgos personales.']
   ]},
   { k:'tronco', t:'CV y carta', tema:'Agentes, patrón de reflexión, evals y LLM-as-judge', pasos:[
-    ['CV base por sector y cartas base','Hasta 5 CV base y 2 cartas base, generados una vez del CV maestro para ahorrar tokens. Cada oferta se adapta desde el base que le toca.','tronco','d'],
+    ['CV base por sector','Hasta 4 CV base, generados una vez del CV maestro para ahorrar tokens. La carta se redacta desde el CV base: no hay cartas base (versión del profesor, 3-nov). Cada oferta se adapta desde el base que le toca.','tronco','d'],
     ['Herramienta <code>medir_ats</code>','Código, no agente: cuenta las palabras clave de la oferta en el texto del CV; con el PDF (Fase 3) lo vuelve a leer. Una palabra sin origen en el perfil no se inserta; se avisa a la usuaria.','tronco','d'],
     ['Redactor y juez','Generar, evaluar y corregir, con un máximo de 2 intentos. El juez comprueba primero con código (fechas, cargos, empresas y titulaciones idénticos al CV maestro) y después con el LLM, que cita la fuente de cada frase.','tronco','d'],
     ['Regla de los huecos','Se cambia qué se muestra y cómo se cuenta, nunca fechas, cargos, empresas ni titulaciones. Propone Horma y aprueba la usuaria (human in the loop). Avisa a la usuaria de dónde se rellenó cada hueco.'],

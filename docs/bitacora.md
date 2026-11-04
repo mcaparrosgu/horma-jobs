@@ -187,3 +187,17 @@ Cuaderno de decisiones de Horma jobs en orden cronológico. Solo se añade al fi
 - QUÉ SE ROMPIÓ — El redactor trataba como hechos sus suposiciones sobre lo que Ana quiere («me interesa porque…», «quiero seguir…»). Al pedir «dos fuentes en la traza» unió dos fragmentos con « / » y el script lo rechazó: se pidió una entrada de traza por fuente. Yo puse mal dos números de línea en el fixture de la v3; los cazó el juez.
 - POR QUÉ IMPORTA — Confirma la división de trabajo: el código comprueba que el fragmento existe; solo el juez comprueba que lo sostiene.
 - QUÉ QUEDA PENDIENTE — La v3 dejó de preguntar por el horario híbrido. No hay esquema para la salida de `juez-carta`. Un perfil y una oferta son pocos casos.
+
+## 2026-11-04 (3) · Documentación reorganizada y artefactos al día
+
+- QUÉ SE HIZO — Una sola fuente de estado (`docs/tareas-pendientes.md`), índice (`docs/indice.md`), `CLAUDE.md` corto con la tabla de comandos y sin conteos. Borrados los documentos de relevo y decisiones pendientes (el historial queda en git). Propuesta con 4 CV base y sin cartas base. Cinco artefactos actualizados (fase 0, versión del profesor, sin RAG, sin «ok formal»).
+- QUÉ SE ROMPIÓ — Nada grave. Las publicaciones se rechazaban si no se había visto la versión viva; se resolvió leyendo el diff, sin forzar. La página del profesor seguía con «En definición»: estaba fija en el generador.
+- ALTERNATIVAS DESCARTADAS — Tocar los hilos de comentarios anclados a texto: se dejaron intactos.
+- QUÉ QUEDA PENDIENTE — Los 9 hilos del profesor en «Por fases» siguen abiertos. Contradicción sin decidir: CV estético subido por la usuaria frente a «diseños y PDF» (pregunta 28). Tres decisiones de Mar: bloque de settings, versionar `evals/resultados/`, horario híbrido.
+
+## 2026-11-04 (4) · Instrucciones nuevas del profesor: Next.js, candidatos y orden de la web
+
+- QUÉ SE HIZO — El profesor pide: dashboard del flujo agéntico, observabilidad en cada componente, construir primero la web de ingesta de ofertas y de candidatos, y Next.js en lugar de FastAPI; recomienda probar y pasar los tests a mano. Documentado en `tareas-pendientes.md`, `propuesta-horma.md` (la decisión «backend 100 % Python» queda sustituida, con su porqué), `analisis-tecnico.md`, `web/README.md`, `CLAUDE.md`, la nota al inicio de su documento y los cinco artefactos. «Postulante» pasa a «candidato» en agentes, skills, comandos y documentos (agente `clasificador-candidato`); las entradas anteriores de esta bitácora conservan la palabra antigua.
+- DECISIÓN DE MAR — Next.js solo para la web; scripts, agentes y evals de la pista A siguen en Python. Alternativa descartada: reescribirlo todo en TypeScript (se rehace lo ya probado y se pierden los 35 evals).
+- QUÉ SE ROMPIÓ — Nada: los 35 evals siguen en verde tras el renombrado.
+- QUÉ QUEDA PENDIENTE — Preguntas 29 y 30 al profesor (worker y scripts con Next.js; orden de la web). El PRD (RES-01) aún dice «FastAPI» y no se toca hasta su respuesta. Sin decidir: librería de validación, observabilidad (tabla propia o herramienta) y dónde corre el worker.

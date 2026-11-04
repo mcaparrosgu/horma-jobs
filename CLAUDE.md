@@ -91,11 +91,12 @@ pública), esas reglas se desactivan.
 - **Qué se construye ahora:** la versión del profesor, «Horma: flujo agéntico en Claude
   Code» (`docs/flujo-agentico-claude-code.md`). Dos pistas unidas por los esquemas JSON de
   `.claude/skills/esquemas-horma/`: **A** = agentes, skills y comandos en `.claude/` (sin
-  LLM de pago en los tests); **B** = web FastAPI + PostgreSQL en `web/`, sin ningún LLM
-  dentro (la monta Mar). Estado y próximos pasos: `docs/tareas-pendientes.md`
+  LLM de pago en los tests); **B** = web Next.js + PostgreSQL en `web/`, sin ningún LLM
+  dentro (la monta Mar; primero ingesta y candidatos, con dashboard y observabilidad). Estado y próximos pasos: `docs/tareas-pendientes.md`
   (léelo al empezar sesión o usa `/hola`).
 - **Decisiones de producto:** `docs/propuesta-horma.md`, apartado 4 (léelo antes de
-  decidir nada de producto). Backend **100 % Python** (FastAPI); frontend HTML/CSS/JS;
+  decidir nada de producto). Web en **Next.js** (TypeScript, instrucción del profesor del 4-nov; sustituye a FastAPI);
+  agentes, scripts y evals de la pista A siguen en Python;
   ingesta como script propio con dashboard, sin n8n; las suscripciones pagan los costes.
 - **Arquitectura:** `docs/analisis-tecnico.md`. LangGraph solo en los dos flujos con
   agentes (CV y cartas, y envío), **pendiente del profesor**; si dice que no, Python plano
