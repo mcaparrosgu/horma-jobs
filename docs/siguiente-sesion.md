@@ -46,9 +46,9 @@ Y, si no lo has hecho: **compartir con él** la página https://claude.ai/artifa
 
 ## 3. Estado en tres líneas
 
-- **Hecho:** pista A (agentes, skills, comandos, esquemas, scripts y evals). 12 de 13 agentes probados con LLM real y datos inventados; 33 evals de código. Informe: `docs/informe-pruebas.md`.
+- **Hecho:** pista A (agentes, skills, comandos, esquemas, scripts y evals). 12 de 13 agentes probados con LLM real y datos inventados; 35 evals de código. Informe: `docs/informe-pruebas.md`.
 - **No hecho:** pista B (web), `auditor-fuentes` sin probar, `settings.json` sin ajustar, `endpoints.json` vacío.
-- **Riesgo conocido:** 33 evals en verde miden scripts y esquemas, no la calidad de los agentes. Un caso por agente es poco para fiarse.
+- **Riesgo conocido:** 35 evals en verde miden scripts y esquemas, no la calidad de los agentes. Un caso por agente es poco para fiarse.
 
 ## 4. Mensaje para pegar al abrir la sesión
 

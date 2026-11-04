@@ -147,6 +147,10 @@ def eval_carta():
     o = v("redactor")
     tipos = {e["tipo"] for e in o["errores"]}
     res.append({"caso": "carta del redactor (v1) rechazada: frase pegada y cierre sin traza", "ok": tipos == {"frase_de_traza_no_esta_en_cv", "frase_sin_traza"}, "obtenido": sorted(tipos)})
+    o = v("redactor-v2")
+    res.append({"caso": "carta del redactor (v2) pasa el código (el juez LLM la rechaza por intención inventada)", "ok": o["ok"], "obtenido": None if o["ok"] else o["errores"]})
+    o = v("redactor-v3")
+    res.append({"caso": "carta del redactor (v3, prompt actual) pasa el código", "ok": o["ok"], "obtenido": None if o["ok"] else o["errores"]})
     return res
 
 

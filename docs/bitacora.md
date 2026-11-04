@@ -180,3 +180,10 @@ Cuaderno de decisiones de Horma jobs en orden cronológico. Solo se añade al fi
 - ALTERNATIVAS DESCARTADAS — Dejar el verificador estricto y obligar al redactor a poner traza al saludo: absurdo, el saludo no afirma nada.
 - QUÉ QUEDA PENDIENTE — La v2 ya no devuelve `preguntas_pendientes` (la v1 preguntaba el horario); su primera traza cita un fragmento que no sostiene la frase y falta pasarla por `juez-carta`. `auditor-fuentes` sin probar. Pista B: Mar prefiere montarla ella.
 - QUÉ NO ENTENDÍ (Mar) — pendiente de que lo rellene Mar.
+
+## 2026-11-04 (2) · Cartas: el juez caza lo que el código no ve
+
+- QUÉ SE HIZO — La carta v2 del redactor (que pasaba el verificador) se pasó por `juez-carta`: `corregir`, 3 problemas. Se corrigió el prompt (motivos e intenciones a `preguntas_pendientes`) y se repitió: v3 aprobada por el juez y por el verificador.
+- QUÉ SE ROMPIÓ — El redactor trataba como hechos sus suposiciones sobre lo que Ana quiere («me interesa porque…», «quiero seguir…»). Al pedir «dos fuentes en la traza» unió dos fragmentos con « / » y el script lo rechazó: se pidió una entrada de traza por fuente. Yo puse mal dos números de línea en el fixture de la v3; los cazó el juez.
+- POR QUÉ IMPORTA — Confirma la división de trabajo: el código comprueba que el fragmento existe; solo el juez comprueba que lo sostiene.
+- QUÉ QUEDA PENDIENTE — La v3 dejó de preguntar por el horario híbrido. No hay esquema para la salida de `juez-carta`. Un perfil y una oferta son pocos casos.
