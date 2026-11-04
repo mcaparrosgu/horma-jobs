@@ -171,3 +171,12 @@ Cuaderno de decisiones de Horma jobs en orden cronológico. Solo se añade al fi
 - **Hecho:** `docs/siguiente-sesion.md` con el pendiente de Mar (ajuste de settings, dos decisiones de producto, preguntas al profesor, pypdf, fuentes), el plan de la siguiente sesión y el mensaje de arranque. Enlazado desde `CLAUDE.md` y `docs/relevo-proxima-sesion.md`.
 - **No hecho:** pista B, `redactor-carta`, `juez-carta`, `auditor-fuentes`.
 - **Siguiente:** probar `redactor-carta` y `juez-carta`; ampliar casos de prueba.
+
+## 2026-11-04 · Fase 0: pruebas de `redactor-carta` y `juez-carta`, 12 de 13 agentes probados
+
+- QUÉ SE HIZO — Carta sembrada con 7 errores (cifra, equipo, máster, clichés, hijos, dos promesas) para `juez-carta`, y carta de Ana para `oferta-1` con `redactor-carta`. Informe global de pruebas en `docs/informe-pruebas.md`.
+- RESULTADO — `juez-carta` cazó los 7 sin falsos positivos. La carta del redactor era honesta, pero el verificador la rechazó.
+- QUÉ SE ROMPIÓ — (1) `verificar.py --carta` pedía traza al saludo y la firma: ahora los ignora. (2) El redactor pegaba frases y dejaba el cierre sin traza: prompt corregido; la v2 pasa el verificador. Evals de carta añadidos (33 en verde). Los escribí después del arreglo del verificador, no antes.
+- ALTERNATIVAS DESCARTADAS — Dejar el verificador estricto y obligar al redactor a poner traza al saludo: absurdo, el saludo no afirma nada.
+- QUÉ QUEDA PENDIENTE — La v2 ya no devuelve `preguntas_pendientes` (la v1 preguntaba el horario); su primera traza cita un fragmento que no sostiene la frase y falta pasarla por `juez-carta`. `auditor-fuentes` sin probar. Pista B: Mar prefiere montarla ella.
+- QUÉ NO ENTENDÍ (Mar) — pendiente de que lo rellene Mar.

@@ -94,10 +94,10 @@ cotidiana y ejemplo de este proyecto. En español.
   LLM de pago en los tests); **B** = web FastAPI + PostgreSQL en `web/` (**pendiente**, sin ningún
   LLM dentro). Repositorio privado en GitHub: `mcaparrosgu/horma-jobs` (rama `main`; push del
   3-nov autorizado por Mar).
-- **Cómo se prueba:** `python -I evals/correr_evals.py` (todo lo determinista, 29 casos: verificador contra 7
+- **Cómo se prueba:** `python -I evals/correr_evals.py` (todo lo determinista, 33 casos: verificador contra 7
   errores sembrados, ATS, filtro duro, esquemas y fixtures con salidas reales de los agentes) o `python -I evals/correr_evals.py cv` (un set).
-  Solo biblioteca estándar de Python 3.14. Lo cualitativo lo corre `/evaluar`; 11 de los 13 agentes del
-  producto se han probado con un caso real cada uno (bitácora, 3-nov noche 2 y 3). Los subagentes solo
+  Solo biblioteca estándar de Python 3.14. Lo cualitativo lo corre `/evaluar`; 12 de los 13 agentes del
+  producto se han probado con un caso real cada uno (informe: `docs/informe-pruebas.md`). Los subagentes solo
   tienen `Read` y **no cargan skills solos**: reciben las rutas de los esquemas en su prompt.
 - **Flujos** (`.claude/commands/`): `/ingestar-ofertas`, `/publicar-oferta`, `/calificar-fuentes`,
   `/perfilar`, `/recomendar`, `/candidatura`, `/aprobar`, `/marcar-enviada`, `/respuesta`,

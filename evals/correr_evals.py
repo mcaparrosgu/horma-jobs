@@ -128,7 +128,29 @@ def eval_esquemas():
     return res
 
 
-SETS = {"cv": eval_cv, "ats": eval_ats, "filtro": eval_filtro, "esquemas": eval_esquemas, "fixtures": eval_fixtures}
+def eval_carta():
+    """Cartas: el verificador acepta la limpia, rechaza la sembrada (cifra 40 %) y rechaza
+    la primera carta del redactor (fallo conocido que corrige el prompt). Saludo y firma no piden traza."""
+    res = []
+    ana = RAIZ / "datos" / "fixtures" / "perfiles" / "ana-datos"
+    verificar = SK / "verificar-trazabilidad" / "scripts" / "verificar.py"
+    def v(carpeta):
+        r = correr(verificar, RAIZ / "evals" / "carta" / carpeta, "--carta", "--maestro", ana / "cv.md", "--perfil", ana / "perfil.json")
+        return json.loads(r.stdout)
+    o = v("limpia")
+    res.append({"caso": "carta limpia pasa (saludo y firma sin traza)", "ok": o["ok"], "obtenido": None if o["ok"] else o["errores"]})
+    o = v("sembrada")
+    tipos = {e["tipo"] for e in o["errores"]}
+    res.append({"caso": "carta sembrada: cifra 40 % rechazada", "ok": "cifra_no_esta_en_maestro" in tipos, "obtenido": sorted(tipos)})
+    saludos = [e for e in o["errores"] if e["tipo"] == "frase_sin_traza" and e["detalle"].startswith(("Hola equipo", "Un saludo", "Ana Prueba"))]
+    res.append({"caso": "carta sembrada: saludo, despedida y firma no se reclaman", "ok": not saludos, "obtenido": saludos or None})
+    o = v("redactor")
+    tipos = {e["tipo"] for e in o["errores"]}
+    res.append({"caso": "carta del redactor (v1) rechazada: frase pegada y cierre sin traza", "ok": tipos == {"frase_de_traza_no_esta_en_cv", "frase_sin_traza"}, "obtenido": sorted(tipos)})
+    return res
+
+
+SETS = {"cv": eval_cv, "ats": eval_ats, "filtro": eval_filtro, "esquemas": eval_esquemas, "fixtures": eval_fixtures, "carta": eval_carta}
 
 
 def main() -> int:

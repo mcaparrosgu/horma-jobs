@@ -14,7 +14,8 @@ Comprueba:
      coinciden palabra por palabra con perfil.json (cargos, empresas, titulaciones, fechas).
   4. Traza: cada fragmento de origen existe de verdad en el maestro, y cada línea de cv.md
      (salvo títulos «#» y «##») tiene una frase en traza.json.
-Con --carta verifica carta.md y traza-carta.json (fechas, cifras y traza; sin encabezados).
+Con --carta verifica carta.md y traza-carta.json (fechas, cifras y traza; sin encabezados;
+el saludo, la despedida y la firma no necesitan traza).
 Limitación conocida: comprueba que el fragmento citado existe en el maestro, no que sostenga la
 frase («participé» citado, «lideré» escrito): eso lo cubre el juez con LLM.
 Salida: JSON en stdout. Código de salida 0 si todo va bien, 1 si hay errores.
@@ -51,10 +52,31 @@ def numeros(texto: str) -> set:
     return {re.sub(r"\s+", "", m) for m in NUM_RE.findall(sin_marcas)}
 
 
-def lineas_con_contenido(cv: str):
-    for linea in cv.splitlines():
+def lineas_protocolo(cv: str) -> set:
+    """Saludo, despedida y firma de una carta: protocolo, no afirmaciones. Devuelve sus índices.
+
+    Saludo = primera línea no vacía si acaba en «:» o «,» y es corta (< 80 caracteres).
+    Despedida y firma = las dos últimas líneas no vacías, si la penúltima acaba en «,» y es corta.
+    """
+    lineas = cv.splitlines()
+    idx = [i for i, l in enumerate(lineas) if l.strip()]
+    saltar = set()
+    if idx:
+        primera = lineas[idx[0]].strip()
+        if primera[-1] in ":," and len(primera) < 80:
+            saltar.add(idx[0])
+    if len(idx) >= 3:
+        pen, ult = lineas[idx[-2]].strip(), lineas[idx[-1]].strip()
+        if pen.endswith(",") and len(pen) < 40 and len(ult) < 60:
+            saltar.update((idx[-2], idx[-1]))
+    return saltar
+
+
+def lineas_con_contenido(cv: str, carta: bool = False):
+    protocolo = lineas_protocolo(cv) if carta else set()
+    for i, linea in enumerate(cv.splitlines()):
         s = linea.strip()
-        if not s or s.startswith("# ") or s.startswith("## "):
+        if not s or s.startswith("# ") or s.startswith("## ") or i in protocolo:
             continue
         if s.startswith("### "):
             continue  # los encabezados se verifican contra perfil.json
@@ -120,7 +142,7 @@ def verificar(carpeta: Path, maestro_ruta: Path, perfil_ruta: Path, carta: bool 
             errores.append({"tipo": "origen_inexistente", "detalle": f"traza[{i}]: {frag[:80]!r}"})
         if norm(frase) not in norm(cv):
             errores.append({"tipo": "frase_de_traza_no_esta_en_cv", "detalle": f"traza[{i}]: {frase[:80]!r}"})
-    for linea in lineas_con_contenido(cv):
+    for linea in lineas_con_contenido(cv, carta):
         ln = norm(linea)
         if not any(f and (f in ln or ln in f) for f in frases):
             errores.append({"tipo": "frase_sin_traza", "detalle": linea[:100]})

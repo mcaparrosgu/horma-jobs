@@ -36,8 +36,8 @@ Y, si no lo has hecho: **compartir con él** la página https://claude.ai/artifa
 
 ## 2. Plan mío para la siguiente sesión (sin tocar nada de lo tuyo)
 
-1. **Probar `redactor-carta` y `juez-carta`** (los únicos agentes del flujo D sin probar), con una carta con errores sembrados que el código no vea.
-2. **Ampliar los casos de prueba** de los 11 agentes ya probados: hoy hay uno por agente. Más ofertas (una con requisitos raros, otra sin salario), más perfiles (sin experiencia, con huecos largos) y más errores sembrados para el juez.
+1. ~~Probar `redactor-carta` y `juez-carta`~~ **Hecho el 4-nov** (`docs/informe-pruebas.md`). Queda: pasar la carta v2 por `juez-carta` (traza floja) y recuperar las `preguntas_pendientes` que el redactor dejó de hacer.
+2. **Ampliar los casos de prueba** de los 12 agentes ya probados: hoy hay uno por agente. Más ofertas (una con requisitos raros, otra sin salario), más perfiles (sin experiencia, con huecos largos) y más errores sembrados para el juez.
 3. **Recortar las preguntas pendientes** de `extractor-perfil` (una lista de 10 en Ana): máximo 5 y solo las que cambian el resultado.
 4. **Aplicar tus dos decisiones** de la parte B en el prompt y los esquemas.
 5. **Flujo D de principio a fin** sobre Ana y la oferta 1: redactor, verificador, juez, ATS, carta, con un error sembrado, y medir cuántas vueltas hacen falta.
@@ -46,9 +46,9 @@ Y, si no lo has hecho: **compartir con él** la página https://claude.ai/artifa
 
 ## 3. Estado en tres líneas
 
-- **Hecho:** pista A (agentes, skills, comandos, esquemas, scripts y evals). 11 de 13 agentes probados con LLM real y datos inventados. Todo en `main` hasta el commit `3d73861`.
-- **No hecho:** pista B (web), `redactor-carta` y `juez-carta` sin probar, `auditor-fuentes` sin probar, `settings.json` sin ajustar, `endpoints.json` vacío.
-- **Riesgo conocido:** 29 evals en verde miden scripts y esquemas, no la calidad de los agentes. Un caso por agente es poco para fiarse.
+- **Hecho:** pista A (agentes, skills, comandos, esquemas, scripts y evals). 12 de 13 agentes probados con LLM real y datos inventados; 33 evals de código. Informe: `docs/informe-pruebas.md`.
+- **No hecho:** pista B (web), `auditor-fuentes` sin probar, `settings.json` sin ajustar, `endpoints.json` vacío.
+- **Riesgo conocido:** 33 evals en verde miden scripts y esquemas, no la calidad de los agentes. Un caso por agente es poco para fiarse.
 
 ## 4. Mensaje para pegar al abrir la sesión
 
