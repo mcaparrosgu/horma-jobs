@@ -325,3 +325,9 @@ Cuaderno de decisiones de Horma jobs en orden cronológico. Solo se añade al fi
 - **Validar:** un comando `verificar` compara `datos/` con las tablas y el dashboard enseña lo mismo.
 
 **Efecto en el plan.** El plan de 6 días se reordena: primero ingesta real y `verificar` (días 1 a 3), luego dashboard y observabilidad. Con esto el plan queda más ajustado; si falta tiempo, los flujos C a E de la pista A pasan a casos mínimos antes que recortar la ingesta o el dashboard. La descarga real convierte en obligatorio el punto de seguridad (b) (direcciones internas): revisión específica antes de darla por buena.
+
+## 5-nov-2026 · «Ejecuciones» en vez de «corridas» y el flujo agéntico en el Cuaderno
+
+**Vocabulario.** «Corrida» es un término de Argentina; en el proyecto se dice **«ejecución»**. Cambiado en la web (`/ejecuciones`, menú y títulos), en la base de datos (migración `004`: la tabla pasa a `ejecuciones_ingesta` y `ofertas.corrida_id` a `ejecucion_id`), en los comandos y skills y en los documentos vigentes. No se tocan: las entradas históricas de esta bitácora, el documento del profesor (es su texto), los resultados de evals ya generados ni la migración `001`. `npm test` (34), `tsc`, `lint` y `build` en verde; `/ejecuciones` responde 200 y `/corridas`, 404.
+
+**Bitácora del Cuaderno.** Faltaba el flujo agéntico. El apartado 25 incluye ahora «El flujo agéntico, flujo a flujo» (diagrama y tabla de los seis flujos con sus agentes y decisiones) y «Cómo se trabaja en cada paso» (plan, construir, tests, prueba a mano, revisores, documentar). Regla desde hoy: cada proceso de construcción nuevo entra en ese apartado.

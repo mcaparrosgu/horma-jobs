@@ -10,7 +10,7 @@ Uso:
 - filtro:   buscar.py sobre evals/recomendacion/filtro/ contra su esperado.
 - esquemas: los JSON de .claude/skills/esquemas-horma/schemas/ son JSON válido.
 Lo cualitativo (juez con LLM, extractores, matcher) lo corre el comando /evaluar.
-Escribe una corrida fechada en evals/resultados/ y devuelve 1 si algo falla.
+Escribe una ejecución fechada en evals/resultados/ y devuelve 1 si algo falla.
 """
 import datetime
 import json

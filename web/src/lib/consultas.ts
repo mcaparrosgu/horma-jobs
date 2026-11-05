@@ -46,5 +46,5 @@ export const SQL_OPCIONES = `
   ORDER BY 1, 2`;
 export const SQL_FUENTES = `SELECT nombre, url, parametros, cabeceras, clave_env, clave_en, clave_nombre, mapeo_campos, activa
                             FROM fuentes ORDER BY nombre`;
-export const SQL_CORRIDAS = `SELECT id, fuente, inicio, fin, entraron, descartadas, errores
-                             FROM corridas_ingesta ORDER BY inicio DESC LIMIT 50`;
+export const SQL_EJECUCIONES = `SELECT id, fuente, inicio, fin, entraron, descartadas, errores
+                             FROM ejecuciones_ingesta ORDER BY inicio DESC LIMIT 50`;

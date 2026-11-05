@@ -7,7 +7,7 @@ description: Registro de endpoints de búsqueda de ofertas y script que los lee.
 
 Código determinista que trae texto; no decide nada con IA.
 
-- `endpoints.json`: registro de fuentes (esquema `schemas/endpoints.json` de `esquemas-horma`). **Empieza vacío a propósito**: no se han calificado aún EURES, Adzuna, Arbeitnow, The Hub ni InfoJobs (primera corrida de `/calificar-fuentes`), y no se escriben URL de memoria.
+- `endpoints.json`: registro de fuentes (esquema `schemas/endpoints.json` de `esquemas-horma`). **Empieza vacío a propósito**: no se han calificado aún EURES, Adzuna, Arbeitnow, The Hub ni InfoJobs (primera ejecución de `/calificar-fuentes`), y no se escriben URL de memoria.
 - `scripts/ingestar.py <fuente> [--limite N] [--dry-run]`: llama al endpoint con `urllib`, solo https, y deja cada oferta en `datos/ofertas/raw/<fuente>-<id>.md`.
 
 ## Reglas

@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Horma · ingesta",
-  description: "Ofertas, fuentes y corridas de ingesta de Horma",
+  description: "Ofertas, fuentes y ejecuciones de ingesta de Horma",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -29,7 +29,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <span className="font-semibold">Horma · ingesta</span>
           <Link href="/ofertas">Ofertas</Link>
           <Link href="/fuentes">Fuentes</Link>
-          <Link href="/corridas">Corridas</Link>
+          <Link href="/ejecuciones">Ejecuciones</Link>
           <Link href="/candidatos">Candidatas</Link>
         </nav>
         <main className="mx-auto w-full max-w-6xl flex-1 p-6">{children}</main>

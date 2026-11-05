@@ -130,7 +130,7 @@ y **no cargan skills solos**: reciben las rutas de los esquemas en su prompt.
 | D | `/candidatura` | CV y carta para una oferta, con verificador y juez (máx. 2 vueltas) |
 | E | `/aprobar` → `/marcar-enviada` | La usuaria aprueba (ningún agente lo salta) y anota el envío |
 | — | `/respuesta` · `/tablero` | Etiqueta el correo de una empresa; lista candidaturas por estado |
-| — | `/evaluar` | Corre los evals de un flujo y deja una corrida fechada |
+| — | `/evaluar` | Corre los evals de un flujo y deja una ejecución fechada |
 
 **Tests deterministas:** `python -I evals/correr_evals.py` (todo) o con un set
 (`cv`, `ats`, `filtro`, `esquemas`, `fixtures`, `carta`). Solo biblioteca estándar de

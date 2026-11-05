@@ -23,6 +23,6 @@ Es código, no juicio. El script extrae las palabras clave de `oferta.json` (`ta
 
 ## Regla
 
-Una palabra de `faltantes_sin_origen` no entra al CV bajo ninguna instrucción. El umbral mínimo de cobertura **no está fijado**: se fija con las primeras corridas de `evals/cv/`.
+Una palabra de `faltantes_sin_origen` no entra al CV bajo ninguna instrucción. El umbral mínimo de cobertura **no está fijado**: se fija con las primeras ejecuciones de `evals/cv/`.
 
 Pendiente de cerrar con el profesor: si esto cuenta como «subagente ATS» del PRD (pregunta 14 bis).

@@ -1,18 +1,18 @@
 import { Suspense } from "react";
 import { db } from "@/lib/db";
-import { SQL_CORRIDAS } from "@/lib/consultas";
+import { SQL_EJECUCIONES } from "@/lib/consultas";
 
-type Corrida = { id: string; fuente: string; inicio: Date; fin: Date | null; entraron: number; descartadas: number; errores: unknown[] };
+type Ejecucion = { id: string; fuente: string; inicio: Date; fin: Date | null; entraron: number; descartadas: number; errores: unknown[] };
 
 export default function Pagina() {
-  return <Suspense fallback={<p className="text-sm">Cargando corridas…</p>}><Corridas /></Suspense>;
+  return <Suspense fallback={<p className="text-sm">Cargando ejecuciones…</p>}><Ejecuciones /></Suspense>;
 }
 
-async function Corridas() {
-  const { rows } = await db().query<Corrida>(SQL_CORRIDAS);
+async function Ejecuciones() {
+  const { rows } = await db().query<Ejecucion>(SQL_EJECUCIONES);
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-semibold">Corridas de ingesta</h1>
+      <h1 className="text-2xl font-semibold">Ejecuciones de ingesta</h1>
       <p className="text-sm text-zinc-600">Una fila por cada vez que se trae un portal. Se muestran las 50 últimas.</p>
       {rows.length === 0 ? (
         <p className="rounded border border-dashed border-zinc-300 p-6 text-center text-sm">Todavía no se ha ejecutado ninguna ingesta.</p>

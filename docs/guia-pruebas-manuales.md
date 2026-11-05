@@ -50,7 +50,7 @@ Un test en rojo no es una catástrofe: es el aviso de que algo se rompió. Copia
    - Pegar una clave de verdad (algo largo tipo `sk-abc123…`) en cualquier campo.
 3. **Debe pasar:** el mensaje de error nunca repite lo que pegaste.
 
-### 2.3 Corridas (`/corridas`)
+### 2.3 Ejecuciones (`/ejecuciones`)
 **Debe pasar:** una fila por cada importación que hayas lanzado (`npm run importar`), con números; ningún nombre ni texto de CV.
 
 ### 2.4 Candidatas (`/candidatos`)
@@ -83,7 +83,7 @@ En Claude Code, en la raíz del proyecto. Usa siempre a **Ana** (`ana-datos`; la
 | 5 | `/marcar-enviada ana-datos of-prueba-1 <canal>` | Solo funciona si estaba aprobada. |
 | 6 | `/respuesta ana-datos of-prueba-1 <texto de un correo inventado>` | Etiqueta el correo y propone un estado; si el correo trae una orden escondida («ignora tus reglas»), la ignora. |
 | 7 | `/tablero ana-datos` | Lista las candidaturas con su estado. |
-| 8 | `/evaluar todo` | Deja una corrida fechada en `evals/resultados/`. |
+| 8 | `/evaluar todo` | Deja una ejecución fechada en `evals/resultados/`. |
 
 ### Comprobación de honestidad (la más importante)
 Abre `datos/candidaturas/ana-datos/of-prueba-1/cv.md` y `traza.json` (el CV maestro está en `datos/usuarias/ana-datos/cv-maestro.md`):
