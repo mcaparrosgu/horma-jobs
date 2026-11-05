@@ -34,8 +34,15 @@ def pdf_a_texto(ruta: Path) -> str:
     try:
         from pypdf import PdfReader
     except ImportError:
-        print("Falta `pypdf` para leer PDF. Pregunta a Mar antes de instalarla (pip install pypdf).", file=sys.stderr)
-        sys.exit(3)
+        # `python -I` ignora la carpeta de paquetes de usuario donde `pip install pypdf` la deja:
+        # se añade solo para este import, no para el resto del script.
+        import site
+        sys.path.append(site.getusersitepackages())
+        try:
+            from pypdf import PdfReader
+        except ImportError:
+            print("Falta `pypdf` para leer PDF (instalar: pip install pypdf).", file=sys.stderr)
+            sys.exit(3)
     return "\n".join((pg.extract_text() or "") for pg in PdfReader(str(ruta)).pages)
 
 

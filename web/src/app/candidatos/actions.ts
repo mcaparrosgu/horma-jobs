@@ -17,6 +17,7 @@ export async function guardarPreferencias(_previo: EstadoPrefs, f: FormData): Pr
     idiomas: t(f, "idiomas"), sectores: t(f, "sectores"), niveles: t(f, "niveles"), sueldo_min: t(f, "sueldo_min"),
     rango_min: t(f, "rango_min"), rango_max: t(f, "rango_max"),
     remoto: f.getAll("remoto").filter((v): v is string => typeof v === "string"),
+    horario: f.getAll("horario").filter((v): v is string => typeof v === "string"),
   };
   if (!ID_USUARIA.test(id)) return { ok: false, errores: ["usuaria no válida"], enviado };
 

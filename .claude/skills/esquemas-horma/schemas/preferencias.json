@@ -14,6 +14,7 @@
     "idiomas": {"type": "array", "items": {"type": "string"}},
     "sectores": {"type": "array", "items": {"type": "string"}},
     "niveles": {"type": "array", "items": {"type": "string"}},
+    "horario": {"type": "array", "items": {"enum": ["manana", "tarde", "noche", "flexible"]}},
     "sueldo_min": {"type": ["number", "null"]},
     "rango_compatibilidad": {"type": "array", "items": {"type": "integer", "minimum": 0, "maximum": 100}, "minItems": 2, "maxItems": 2}
   }

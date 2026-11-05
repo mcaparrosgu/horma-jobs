@@ -17,7 +17,7 @@ type Perfil = {
 };
 type Prefs = {
   puestos: string[]; ciudades: string[]; paises: string[]; remoto: string[]; contrato: string[]; idiomas: string[];
-  sectores: string[]; niveles: string[]; sueldo_min: string | null; rango_compatibilidad: number[];
+  sectores: string[]; niveles: string[]; horario: string[]; sueldo_min: string | null; rango_compatibilidad: number[];
 };
 
 // Todo el texto sale como texto de React (escapado); nunca como HTML.
@@ -48,7 +48,7 @@ async function Candidata({ params }: { params: PageProps<"/candidatos/[id]">["pa
     puestos: (pref?.puestos ?? []).join(", "), ciudades: (pref?.ciudades ?? []).join(", "), paises: (pref?.paises ?? []).join(", "),
     contrato: (pref?.contrato ?? []).join(", "), idiomas: (pref?.idiomas ?? []).join(", "), sectores: (pref?.sectores ?? []).join(", "),
     niveles: (pref?.niveles ?? []).join(", "), sueldo_min: pref?.sueldo_min ?? "", rango_min: String(rango[0]), rango_max: String(rango[1]),
-    remoto: pref?.remoto ?? [],
+    remoto: pref?.remoto ?? [], horario: pref?.horario ?? [],
   };
   const t = perfil.taxonomia;
   const clasificacion = [...(t.sectores ?? []), ...(t.familias ?? []), t.nivel, ...(t.stack ?? [])].filter(Boolean).join(" · ");

@@ -25,7 +25,7 @@ test("el perfil rellena instrucciones_embebidas si falta", () => {
 test("las preferencias toman el id de la carpeta, no del JSON", () => {
   const p = paramsPreferencias("ana-datos", leer("perfiles", "ana-datos", "preferencias.json"));
   assert.equal(p[0], "ana-datos");
-  assert.equal(p.length, 11);
+  assert.equal(p.length, 12);
 });
 
 test("detalleSeguro descarta claves fuera de la lista y valores que no son números", () => {

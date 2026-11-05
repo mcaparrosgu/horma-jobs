@@ -72,3 +72,12 @@ test("línea roja: nada lee candidatas fuera de la lista blanca, ni las ordena p
   const rutas = archivos.map((a) => a.ruta.replaceAll("\\", "/")).filter((r) => r.includes("/app/"));
   assert.ok(!rutas.some((r) => /\/(empresa|empresas|portal|reclut\w*|ranking)\b/i.test(r)), "hay una ruta de empresas o de ranking");
 });
+
+test("horario: solo valores permitidos, sin duplicados, y es opcional", () => {
+  const r = validarPreferencias({ ...base, horario: ["manana", "manana", "x'--", "noche"] });
+  assert.ok(r.ok);
+  if (r.ok) assert.deepEqual(r.prefs.horario, ["manana", "noche"]);
+  const sin = validarPreferencias({ ...base });
+  assert.ok(sin.ok);
+  if (sin.ok) assert.deepEqual(sin.prefs.horario, []);
+});

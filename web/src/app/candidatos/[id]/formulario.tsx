@@ -4,7 +4,7 @@ import { guardarPreferencias, type EstadoPrefs } from "../actions";
 
 export type ValoresPrefs = {
   puestos: string; ciudades: string; paises: string; contrato: string; idiomas: string; sectores: string; niveles: string;
-  sueldo_min: string; rango_min: string; rango_max: string; remoto: string[];
+  sueldo_min: string; rango_min: string; rango_max: string; remoto: string[]; horario: string[];
 };
 
 const caja = "w-full rounded border border-zinc-300 bg-white px-2 py-1 text-sm";
@@ -40,6 +40,12 @@ export default function FormularioPrefs({ id, valores: inicial }: { id: string; 
         <legend className="mb-1">Modalidad</legend>
         {["presencial", "hibrido", "remoto"].map((m) => (
           <label key={m} className="flex items-center gap-1"><input type="checkbox" name="remoto" value={m} defaultChecked={v.remoto.includes(m)} /> {m}</label>
+        ))}
+      </fieldset>
+      <fieldset className="flex flex-wrap gap-4 text-sm">
+        <legend className="mb-1">Horario preferido <span className="text-xs text-zinc-600">(Horma lo compara solo si la oferta indica horario)</span></legend>
+        {[["manana", "mañana"], ["tarde", "tarde"], ["noche", "noche"], ["flexible", "flexible"]].map(([valor, texto]) => (
+          <label key={valor} className="flex items-center gap-1"><input type="checkbox" name="horario" value={valor} defaultChecked={v.horario.includes(valor)} /> {texto}</label>
         ))}
       </fieldset>
       {estado.errores.length > 0 && (

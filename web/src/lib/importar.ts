@@ -52,19 +52,19 @@ export function paramsPerfil(p: Json, cvTexto: string | null = null): unknown[] 
 
 export const sqlPreferencias = (forzar: boolean) => `
   INSERT INTO preferencias (usuaria_id, puestos, ciudades, paises, remoto, contrato, idiomas,
-                            sectores, niveles, sueldo_min, rango_compatibilidad)
-  VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+                            sectores, niveles, horario, sueldo_min, rango_compatibilidad)
+  VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
   ON CONFLICT (usuaria_id) ${forzar ? `DO UPDATE SET
     puestos=EXCLUDED.puestos, ciudades=EXCLUDED.ciudades, paises=EXCLUDED.paises,
     remoto=EXCLUDED.remoto, contrato=EXCLUDED.contrato, idiomas=EXCLUDED.idiomas,
-    sectores=EXCLUDED.sectores, niveles=EXCLUDED.niveles, sueldo_min=EXCLUDED.sueldo_min,
+    sectores=EXCLUDED.sectores, niveles=EXCLUDED.niveles, horario=EXCLUDED.horario, sueldo_min=EXCLUDED.sueldo_min,
     rango_compatibilidad=EXCLUDED.rango_compatibilidad, actualizado_en=now()` : "DO NOTHING"}`;
 
 /** preferencias.json no trae el id de la usuaria: viene del nombre de su carpeta. */
 export function paramsPreferencias(usuariaId: string, p: Json): unknown[] {
   return [
     usuariaId, p.puestos ?? [], p.ciudades ?? [], p.paises ?? [], p.remoto ?? [], p.contrato ?? [],
-    p.idiomas ?? [], p.sectores ?? [], p.niveles ?? [], p.sueldo_min ?? null, p.rango_compatibilidad,
+    p.idiomas ?? [], p.sectores ?? [], p.niveles ?? [], p.horario ?? [], p.sueldo_min ?? null, p.rango_compatibilidad,
   ];
 }
 

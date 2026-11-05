@@ -5,10 +5,11 @@ import { validar } from "./esquemas.ts";
 
 export const ID_USUARIA = /^[A-Za-z0-9_-][A-Za-z0-9_.-]{0,79}$/;
 export const REMOTOS_PREF = ["presencial", "hibrido", "remoto"] as const;
+export const HORARIOS_PREF = ["manana", "tarde", "noche", "flexible"] as const;
 
 export type Preferencias = {
   puestos: string[]; ciudades: string[]; paises: string[]; remoto: string[]; contrato: string[];
-  idiomas: string[]; sectores: string[]; niveles: string[]; sueldo_min: number | null;
+  idiomas: string[]; sectores: string[]; niveles: string[]; horario: string[]; sueldo_min: number | null;
   rango_compatibilidad: [number, number];
 };
 
@@ -25,7 +26,7 @@ export function listaDeTexto(texto: unknown): string[] {
 
 export type EntradaPreferencias = {
   puestos?: string; ciudades?: string; paises?: string; contrato?: string; idiomas?: string; sectores?: string; niveles?: string;
-  remoto?: string[]; sueldo_min?: string; rango_min?: string; rango_max?: string;
+  remoto?: string[]; horario?: string[]; sueldo_min?: string; rango_min?: string; rango_max?: string;
 };
 
 export type ResultadoPreferencias = { ok: true; prefs: Preferencias } | { ok: false; errores: string[] };
@@ -50,11 +51,12 @@ export function validarPreferencias(e: EntradaPreferencias): ResultadoPreferenci
   const paises = listaDeTexto(e.paises).map((p) => p.toUpperCase());
   if (paises.some((p) => !/^[A-Z]{2}$/.test(p))) errores.push("países: códigos de 2 letras (ES, FR…)");
   const remoto = (e.remoto ?? []).filter((r) => (REMOTOS_PREF as readonly string[]).includes(r));
+  const horario = (e.horario ?? []).filter((h) => (HORARIOS_PREF as readonly string[]).includes(h));
   if (errores.length) return { ok: false, errores };
 
   const prefs: Preferencias = {
     puestos: listaDeTexto(e.puestos), ciudades: listaDeTexto(e.ciudades), paises,
-    remoto: [...new Set(remoto)], contrato: listaDeTexto(e.contrato), idiomas: listaDeTexto(e.idiomas),
+    remoto: [...new Set(remoto)], horario: [...new Set(horario)], contrato: listaDeTexto(e.contrato), idiomas: listaDeTexto(e.idiomas),
     sectores: listaDeTexto(e.sectores), niveles: listaDeTexto(e.niveles),
     sueldo_min: typeof sueldo === "number" ? sueldo : null,
     rango_compatibilidad: [min as number, max as number],
@@ -71,5 +73,5 @@ export const SQL_PERFIL = `
   SELECT experiencias, formacion, skills, idiomas, taxonomia, preguntas_pendientes, cv_texto
   FROM perfiles WHERE usuaria_id = $1`;
 export const SQL_PREFERENCIAS = `
-  SELECT puestos, ciudades, paises, remoto, contrato, idiomas, sectores, niveles, sueldo_min, rango_compatibilidad
+  SELECT puestos, ciudades, paises, remoto, contrato, idiomas, sectores, niveles, horario, sueldo_min, rango_compatibilidad
   FROM preferencias WHERE usuaria_id = $1`;

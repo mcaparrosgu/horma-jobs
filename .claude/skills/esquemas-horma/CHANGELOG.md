@@ -2,6 +2,10 @@
 
 Un cambio de esquema es un cambio de contrato entre agentes y web. Se anota aquí antes de tocarlo.
 
+## 0.2 · 2026-11-05
+
+- `preferencias.horario` (opcional): lista de `manana`, `tarde`, `noche`, `flexible`. Decisión de Mar (5-nov): la usuaria dice «solo mañanas» y el matcher lo compara con el horario de la oferta solo si la oferta lo dice. No se deduce del CV. Opcional para que los archivos anteriores sigan validando; en la base de datos, migración `005`.
+
 ## 0.1 · 2026-11-03
 
 - Versión inicial a partir del documento del profesor «Horma: flujo agéntico en Claude Code».
