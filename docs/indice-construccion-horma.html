@@ -115,7 +115,7 @@ noscript{display:block;margin-top:30px}
   <h2>Estado de la construcción (4-nov-2026)</h2>
   <ul>
     <li><b>Fase 0, pista A hecha:</b> agentes, skills, comandos, esquemas JSON, scripts y evals en Claude Code. 12 de los 13 agentes probados con casos reales; falta <code>auditor-fuentes</code>.</li>
-    <li><b>Pista B, pendiente:</b> la web con Next.js y PostgreSQL (etapas 1 a 9). La monta Mar, sin ningún LLM dentro. Por instrucción del profesor (4-nov): primero la ingesta de ofertas y de candidatos, con un dashboard del flujo agéntico y observabilidad en cada componente.</li>
+    <li><b>Pista B, pendiente:</b> la web con Next.js y PostgreSQL (etapas 1 a 9). La monta Mar, sin ningún LLM dentro. Por instrucción del profesor (4-nov): primero la ingesta de ofertas y de candidatos, con un dashboard del flujo agéntico y observabilidad en cada componente. Nuevo (5-nov, profesor): el pipeline de ingesta toma las ofertas de las APIs como antes, la web se construye como dashboard y hay que validar que los datos se guardan en la base.</li>
     <li>Las dos pistas se unen por los esquemas JSON: un agente que pasa sus evals se migra a la web tal cual.</li>
   </ul>
 </aside>
@@ -178,7 +178,8 @@ var ETAPAS = [
   ['<code>POST /ofertas</code>','Clave de API limitada a esa ruta, guardada como hash y rotable, con límite de tamaño y ritmo. Valida y encola el procesado.'],
   ['Script de ingesta','Proceso aparte, sin credenciales de la base de datos. Reaprovecha por copia las fuentes, filtros y deduplicación de Jobs, que nunca se modifica.'],
   ['Procesado de la oferta','El worker extrae los campos con el LLM y calcula el embedding. La oferta es texto no fiable. Eval de extracción (F1 por campo).'],
-  ['Dashboard de ingesta','En el frontend: lanzar ahora, ver fuentes y errores. El botón deja una petición en la API; no toca la base de datos.'],
+  ['Dashboard de ingesta','En el frontend: lanzar ahora, ver fuentes y errores. El botón deja una petición en la API; no toca la base de datos. La web es un dashboard: muestra y pide, no ejecuta (profesor, 5-nov).'],
+  ['Validar que se guarda','Comando que compara lo descargado con las tablas (conteos, ofertas sin validar, huérfanos); el dashboard muestra lo mismo. Se pasa tras cada ingesta (profesor, 5-nov).'],
   ['Fuentes de la UE y España','EURES, Adzuna, Arbeitnow, The Hub, InfoJobs y los listados públicos de ATS (Greenhouse, Lever, Ashby, Workable), tras revisar sus condiciones de uso y <code>robots.txt</code>. Nunca LinkedIn ni Indeed.'],
   ['Agente buscador de fuentes','Propone portales nuevos; cada uno entra solo tras revisar condiciones y sin datos de contacto.','rama'],
   ['Transparencia de las ofertas','Salario publicado o no, salario mínimo y frase para pedirlo, con la nota legal sobre la Directiva 2023/970. Detector de ofertas fantasma.']

@@ -4,7 +4,7 @@ Actualizado el 2026-11-05 (pista B en marcha: pasos 1 y 2 hechos). Única fuente
 
 ## Estado en tres líneas
 - **Fase 0, versión del profesor** (`docs/flujo-agentico-claude-code.md`): **pista A hecha** (agentes, skills, comandos, esquemas, scripts y evals en `.claude/` y `evals/`); **pista B** (web **Next.js** + PostgreSQL en `web/`; FastAPI se quitó el 4-nov) **en marcha: pasos 1 a 5 hechos el 5-nov, sigue el paso 6** (ver «Pista B: por dónde seguir»).
-- **Instrucciones nuevas del profesor (4-nov):** (1) **dashboard** para ver el flujo agéntico (pipelines o workflows); (2) **observabilidad** en cada componente; (3) construir **primero** la web de **ingesta de ofertas** y la de **candidatos** (se escribe «candidatos», no «postulantes»); (4) web con **Next.js**, sin FastAPI; (5) probar y pasar los tests **a mano**. Dudas que quedan: preguntas 29 y 30 de `docs/preguntas-profesor.md`.
+- **Instrucciones nuevas del profesor (4-nov):** (1) **dashboard** para ver el flujo agéntico (pipelines o workflows); (2) **observabilidad** en cada componente; (3) construir **primero** la web de **ingesta de ofertas** y la de **candidatos** (se escribe «candidatos», no «postulantes»); (4) web con **Next.js**, sin FastAPI; (5) probar y pasar los tests **a mano**. **Nuevas (5-nov):** (6) el **pipeline de ingesta toma las ofertas de las APIs**, como hacía antes (en Jobs con n8n; en Horma, script propio); (7) seguir construyendo la web **como un dashboard**; (8) **validar que los datos se guardan en la base de datos**. Dudas que quedan: preguntas 29, 30 y 31 de `docs/preguntas-profesor.md`.
 - **Pruebas:** resultados, fallos y límites en `docs/informe-pruebas.md`.
 - **Repositorio:** `mcaparrosgu/horma-jobs`, rama `main`, al día con `git log` (último push: 2026-11-05, pista B pasos 1 y 2). El repo `workbook` (Cuaderno y página del profesor) va aparte.
 
@@ -14,19 +14,24 @@ Actualizado el 2026-11-05 (pista B en marcha: pasos 1 y 2 hechos). Única fuente
 - Cerrar frentes antes de abrir otros.
 - Sin presión de fechas: si hay que recortar, ramas pequeñas, nunca troncos.
 
-## 0. Plan de 6 días (decidido con Mar el 5-nov): el flujo agéntico funcionando
-**Meta:** pista A corrida de punta a punta (flujos A→E con Ana y la oferta 1) y pasos 6-8 de la web, probado a mano con `docs/guia-pruebas-manuales.md`. Meta puesta por Mar; si algo no cabe, se recorta por ramas (ampliar casos de prueba), nunca por troncos.
+## 0. Plan de 6 días (Mar, 5-nov; reordenado con las instrucciones nuevas del profesor)
+**Meta:** el flujo agéntico funcionando de punta a punta en 6 días como máximo, y probado a mano con `docs/guia-pruebas-manuales.md`. Si algo no cabe, se recorta por ramas (casos de prueba extra), nunca por troncos.
+
+**Cómo encajan las tres instrucciones nuevas (decisiones técnicas de la Copiloto):**
+- **Pipeline de ingesta desde APIs.** La primera mitad ya existe (`fuentes-ofertas/scripts/ingestar.py` descarga, los agentes procesan, el importador guarda), pero `endpoints.json` está vacío: faltan fuentes calificadas. Es el **primer trabajo**. Sigue sin n8n (decisión del profesor del 30-oct); se pregunta si «como antes» cambia eso (pregunta 31). Cadena: **descargar (script) → procesar (agentes, en Claude Code) → validar (esquemas) → guardar (importador) → registrar la corrida**.
+- **Web como dashboard.** La portada pasa a ser un dashboard: estado de cada pipeline (A a E), ingesta (corridas, ofertas por fuente, errores) y datos guardados. El dashboard **muestra y pide; no ejecuta**: «Lanzar ingesta» deja una petición y un proceso aparte la recoge (así la web, sin login, no lanza programas). Esa tabla de peticiones es un cambio de base de datos: se avisa antes de crearla.
+- **Validar que los datos se guardan.** Un comando `npm run verificar` compara lo que hay en `datos/` con lo que hay en las tablas (conteos, ofertas sin validar, huérfanos) y la misma comprobación aparece en el dashboard. Se pasa tras cada ingesta.
 
 | Día | Qué | Hecho cuando |
 |---|---|---|
-| 1 | Decisiones aplicadas: `pypdf`; campo `horario` en `preferencias` (esquema compartido, pista A y B); preferencias deducidas vacías; evals en git; `/calificar-fuentes` de las 5 fuentes | `python -I evals/correr_evals.py` y `npm test` en verde |
-| 2 | `/perfilar` con un PDF inventado; `/ingestar-ofertas` con una fuente calificada; casos raros (oferta sin salario, perfil sin experiencia) | Salidas válidas contra esquema, sin datos inventados |
-| 3 | Flujos C y D completos sobre Ana + error sembrado; esquema de salida de `juez-carta` | Máximo 2 vueltas; verificador y juez aceptan |
-| 4 | Paso 6: dashboard del flujo agéntico (qué corrió, cuándo, con qué resultado) | Se ve cada pipeline de A a E con su último estado |
-| 5 | Paso 7: observabilidad en cada pieza y `/salud`; flujo E probado (`/aprobar`, `/marcar-enviada`, `/respuesta`, `/tablero`) | Un fallo provocado deja un apunte en `eventos` |
-| 6 | Paso 8: `revisor-seguridad` y `auditor-lineas-rojas`; Mar pasa la guía a mano; informe de pruebas, bitácora, Cuaderno y página del profesor | Guía sin fallos graves; commit y push |
+| 1 | Decisiones aplicadas (`pypdf`, campo `horario`, preferencias vacías, evals en git) y **`/calificar-fuentes` de las 5 fuentes**; `endpoints.json` con las aptas | Evals y tests en verde; al menos 2 fuentes aptas |
+| 2 | **Ingesta real:** `ingestar.py` con una fuente apta → `/ingestar-ofertas` → importador → base de datos | Ofertas reales (públicas) procesadas y guardadas |
+| 3 | `npm run verificar`; ingesta repetible sin duplicar; errores de red con códigos fijos en la corrida; **revisión de seguridad específica de la descarga** (el punto SSRF (b) pasa a ser obligatorio) | `verificar` sin discrepancias tras dos corridas |
+| 4 | **Paso 6: dashboard** (portada con pipelines, ingesta y datos guardados) | Se ve cada pipeline con su último estado y las cifras cuadran con la base |
+| 5 | **Paso 7:** observabilidad en cada pieza y `/salud`; flujos C, D y E de la pista A sobre Ana (con error sembrado) | Un fallo provocado deja su apunte; candidatura en 2 vueltas como máximo |
+| 6 | **Paso 8:** los dos revisores; Mar pasa la guía a mano; informe de pruebas y documentación | Sin fallos graves; commit y push |
 
-**Riesgos:** (1) `auditor-fuentes` nunca se ha probado con webs reales: puede tomar un día extra el día 1; (2) el dashboard necesita datos de la pista A en la base: el importador de `traza.json` y de las corridas puede ser lo más largo del día 4; (3) cada flujo con IA real es lento y gasta uso; (4) sin colchón: un día perdido se recupera quitando casos extra del día 2.
+**Riesgos:** (1) sin colchón, y las instrucciones nuevas añaden trabajo real (descarga, calificación de fuentes, `verificar`); si falta tiempo, los flujos C-E de la pista A pasan a casos mínimos, no el dashboard ni la ingesta; (2) `auditor-fuentes` nunca se ha probado con webs reales y puede ocupar el día 1 entero; (3) algunas APIs exigen clave (Adzuna, InfoJobs): sin clave en `.env` esa fuente no corre, y yo no leo `.env`; (4) la descarga abre la puerta a direcciones internas: sin revisión específica no se da por buena.
 
 **Decisiones de Mar (5-nov):** preferencias deducidas vacías hasta confirmar; sí al campo de horario; sí a instalar `pypdf`; sí a versionar `evals/resultados/*.json` (datos inventados); sí a calificar EURES, Adzuna, Arbeitnow, The Hub e InfoJobs; compartir la página del profesor con él desde *Share*; **`settings.json` «más adelante»** (hook y bloqueo de `.env` siguen sin activar durante las pruebas).
 
@@ -59,7 +64,7 @@ Actualizado el 2026-11-05 (pista B en marcha: pasos 1 y 2 hechos). Única fuente
 
 - **Paso 5 (5-nov):** web de candidatas. Migración `003` (`perfiles.cv_texto`) y el importador guarda el texto del `cv.md` (sin `--forzar` solo lo rellena si estaba vacío). Páginas `/candidatos` (lista) y `/candidatos/[id]` (perfil con «de dónde sale» en cada dato, CV original desplegable, preguntas pendientes y formulario de preferencias validado con `preferencias.json`). Código en `web/src/app/candidatos/` y `web/src/lib/preferencias.ts`. `npm test` = 34 pruebas en verde; `tsc`, `lint` y `build` sin errores; probado a mano en el navegador. Revisado por `revisor-seguridad` y `auditor-lineas-rojas`, con sus arreglos aplicados. El perfil se muestra solo para leer: editar cargos o fechas necesita su propio diseño (regla de los huecos). **Sin login: cualquiera que llegue a la web edita cualquier perfil; no se expone fuera de este ordenador.**
 
-**Siguiente: paso 6 — dashboard del flujo agéntico.** Después: 7 observabilidad en cada componente y página `/salud` · 8 `revisor-seguridad` y `auditor-lineas-rojas` antes del commit. (Antes figuraba aquí «6 dashboard del flujo agéntico») · 7 observabilidad en cada componente y página `/salud` · 8 `revisor-seguridad` y `auditor-lineas-rojas` antes del commit. Cada paso termina con comprobaciones a mano. Fuera de esta entrega: login, cola y worker, puerta al LLM, PWA, tablero.
+**Siguiente (reordenado el 5-nov): primero la ingesta real desde las APIs y `verificar` (días 1 a 3 del plan), y después el paso 6 — dashboard del flujo agéntico.** Después: 7 observabilidad en cada componente y página `/salud` · 8 `revisor-seguridad` y `auditor-lineas-rojas` antes del commit. (Antes figuraba aquí «6 dashboard del flujo agéntico») · 7 observabilidad en cada componente y página `/salud` · 8 `revisor-seguridad` y `auditor-lineas-rojas` antes del commit. Cada paso termina con comprobaciones a mano. Fuera de esta entrega: login, cola y worker, puerta al LLM, PWA, tablero.
 
 **Pendiente de seguridad de la pista B** (de las revisiones de `revisor-seguridad` y `auditor-lineas-rojas`). Las letras sirven para encontrar cada punto en la bitácora. Están ordenados por cuándo hay que atenderlos.
 

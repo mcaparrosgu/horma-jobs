@@ -155,6 +155,7 @@ Están como referencia; las ideas de Mar del apartado 3 mandan sobre ellas.
 Visión por procesos (detalle y diagramas en `docs/analisis-tecnico.md`): **API síncrona** (Next.js), **worker** (mismo código base, tareas largas y agentes), **script de ingesta** (propio, con dashboard en el frontend; sustituye a n8n desde el 30 oct; dónde corre —tarea programada del worker o proceso aparte— se decide en la arquitectura) y **navegador aislado** (Playwright, sin acceso a la base de datos). Monolito modular con dos procesos, no microservicios. *Propuesta, a confirmar en el paso 6.*
 
 - **Ingesta:** el script de ingesta trae las ofertas de las fuentes, filtra, deduplica y las envía a `POST /ofertas`; se controla desde un dashboard en el frontend (30 oct).
+  - **5-nov (profesor):** el pipeline toma las ofertas de las APIs como lo hacía antes y la web se construye como dashboard; hay que validar que los datos se guardan en la base. Se mantiene el script propio sin n8n; el dashboard muestra y pide, no ejecuta. Pregunta 31 al profesor.
 - **API de Horma** (Next.js): valida cada oferta con un esquema y le extrae los campos estructurados con el LLM.
 - **Almacenamiento:** PostgreSQL con pgvector guarda la oferta junto con su embedding.
 - **Recomendación:** búsqueda híbrida contra el perfil (técnico y humano), y después el LLM ajusta la puntuación y explica el encaje.

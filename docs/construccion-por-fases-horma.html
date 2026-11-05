@@ -169,7 +169,7 @@ var FASES = [
   ]},
   { k:'tronco', t:'Pista B: la web', tema:'Next.js, PostgreSQL', pasos:[
     ['Web Next.js y PostgreSQL','Sin ningún LLM dentro. FastAPI se quitó el 4-nov por instrucción del profesor. Pendiente: la monta Mar.','tronco','d'],
-    ['Primero: ingesta de ofertas y de candidatos','Por instrucción del profesor (4-nov), lo primero que se construye en la web son las pantallas de ingesta de ofertas y de candidatos. Después, el resto de las Fases 1 a 3.','tronco','d'],
+    ['Primero: ingesta de ofertas y de candidatos','Por instrucción del profesor (4-nov), lo primero que se construye en la web son las pantallas de ingesta de ofertas y de candidatos. Después, el resto de las Fases 1 a 3. Nuevo (5-nov, profesor): el pipeline de ingesta toma las ofertas de las APIs como antes, la web se construye como dashboard y hay que validar que los datos se guardan en la base.','tronco','d'],
     ['Dashboard del flujo agéntico y observabilidad','Un dashboard para ver los pipelines o workflows y observabilidad en cada componente (qué entra, qué sale, errores, tiempo, coste).','tronco','d'],
     ['Migración de los agentes','Cuando un agente pasa sus evals, su prompt se migra a la web tal cual; el contrato son los esquemas JSON.']
   ]}
@@ -199,6 +199,7 @@ var FASES = [
     ['Script de ingesta','Proceso aparte, sin credenciales de la base de datos. Lo controla un dashboard en el frontend, sin n8n.'],
     ['Procesado de la oferta','El worker extrae los campos con el LLM y calcula el embedding. La oferta es texto no fiable. Eval de extracción por campo.'],
     ['Dashboard de ingesta','Lanzar ahora, ver fuentes y errores. El botón deja una petición en la API; no toca la base de datos.'],
+    ['Validar que se guarda','Comando que compara lo descargado con las tablas; el dashboard muestra lo mismo. Se pasa tras cada ingesta (profesor, 5-nov).'],
     ['Fuentes de la UE y España','EURES, Adzuna, Arbeitnow, The Hub, InfoJobs y los listados públicos de ATS, tras revisar condiciones de uso y <code>robots.txt</code>. Nunca LinkedIn ni Indeed.'],
     ['Transparencia de las ofertas','Salario publicado o no, salario mínimo y frase para pedirlo, y detector de ofertas fantasma.']
   ]},

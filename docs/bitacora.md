@@ -314,3 +314,14 @@ Cuaderno de decisiones de Horma jobs en orden cronológico. Solo se añade al fi
 **Nuevo.** `docs/guia-pruebas-manuales.md`: guía para que Mar pruebe a mano, como pidió el profesor. Nadie la ha ejecutado todavía; los fallos que salgan se anotan en su tabla.
 
 **Riesgo.** Sin colchón: si un día se pierde, se recortan los casos extra del día 2, nunca un tronco.
+
+## 5-nov-2026 · Instrucciones nuevas del profesor: ingesta desde APIs, web como dashboard, validar la base
+
+**Qué pidió.** (1) Que el pipeline de ingesta tome las ofertas de las APIs, como lo hacía antes; (2) seguir construyendo la web como un dashboard; (3) validar que los datos se guardan en la base de datos. Se suman a las del 4-nov (dashboard del flujo, observabilidad, ingesta y candidatos primero, Next.js, probar a mano).
+
+**Cómo lo integré.**
+- **Ingesta:** ya existía la mitad (`ingestar.py` descarga, los agentes procesan, el importador guarda) pero `endpoints.json` está vacío: sin fuentes calificadas no hay nada que traer. Pasa a ser el primer trabajo (`/calificar-fuentes`). «Como antes» lo leo como la misma lógica de Jobs con script propio, **sin n8n** (decidido por él el 30-oct); lo pregunto (31).
+- **Dashboard:** la portada pasa a mostrar el estado de cada pipeline, la ingesta y los datos guardados. **Muestra y pide, no ejecuta**: sin login, una web que lance programas sería un riesgo. «Lanzar ingesta» dejará una petición y un proceso aparte la recogerá (esa tabla es un cambio de base de datos: se avisará antes).
+- **Validar:** un comando `verificar` compara `datos/` con las tablas y el dashboard enseña lo mismo.
+
+**Efecto en el plan.** El plan de 6 días se reordena: primero ingesta real y `verificar` (días 1 a 3), luego dashboard y observabilidad. Con esto el plan queda más ajustado; si falta tiempo, los flujos C a E de la pista A pasan a casos mínimos antes que recortar la ingesta o el dashboard. La descarga real convierte en obligatorio el punto de seguridad (b) (direcciones internas): revisión específica antes de darla por buena.

@@ -92,7 +92,7 @@ pública), esas reglas se desactivan.
   Code» (`docs/flujo-agentico-claude-code.md`). Dos pistas unidas por los esquemas JSON de
   `.claude/skills/esquemas-horma/`: **A** = agentes, skills y comandos en `.claude/` (sin
   LLM de pago en los tests); **B** = web Next.js + PostgreSQL en `web/`, sin ningún LLM
-  dentro (la monta Mar; primero ingesta y candidatos, con dashboard y observabilidad). Estado y próximos pasos: `docs/tareas-pendientes.md`
+  dentro (la monta Mar; primero la ingesta desde las APIs y los candidatos, la web como dashboard con observabilidad, y comprobar que los datos se guardan en la base). Estado y próximos pasos: `docs/tareas-pendientes.md`
   (léelo al empezar sesión o usa `/hola`).
 - **Decisiones de producto:** `docs/propuesta-horma.md`, apartado 4 (léelo antes de
   decidir nada de producto). Web en **Next.js** (TypeScript, instrucción del profesor del 4-nov; sustituye a FastAPI);

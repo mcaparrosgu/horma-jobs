@@ -95,6 +95,10 @@
 29. **Next.js y lo que ya existe en Python (4-nov):** al quitar FastAPI, ¿el worker, la cola y los scripts de la pista B pasan también a TypeScript, o pueden seguir en Python junto a Next.js? ¿Qué usamos para validar datos y qué para el dashboard y la observabilidad (por ejemplo, tabla propia o una herramienta)? Propuesta: la pista A no cambia; solo la web.
 30. **Orden de la web (4-nov):** ¿confirma que primero va la web de ingesta de ofertas y de candidatos, con su dashboard, y luego el resto (recomendación, candidatura, envío, seguimiento, portal)? Entendemos que sí.
 
+31. **Ingesta desde las APIs «como antes» (5-nov):** pidió que el pipeline tome las ofertas de las APIs como lo hacía antes. Entendemos que es la misma lógica de Jobs (fuentes, filtros, deduplicación) como **script propio**, sin n8n (30-oct), y que la web es un **dashboard** que muestra las corridas y los datos guardados. ¿Es así, o quiere n8n otra vez? ¿La descarga y la base de datos en TypeScript o el script sigue en Python (ligada a la 29)?
+    - Propuesta: script en Python (ya existe `ingestar.py`), el dashboard solo muestra y pide, y un comando `verificar` comprueba que lo descargado está en la base.
+    - Por qué: reaprovechar lo hecho, una herramienta menos que mantener y una web sin permiso para lanzar programas.
+
 ## Después de la reunión
 
 - Apuntar las respuestas aquí, debajo de cada punto.
