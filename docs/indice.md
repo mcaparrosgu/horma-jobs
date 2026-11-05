@@ -17,6 +17,7 @@ Una sola fuente de verdad para cada cosa. Si algo cambia, se cambia donde dice �
 | Guía de pruebas a mano (Mar) | `docs/guia-pruebas-manuales.md` |
 | Ideas aún sin decidir (candidaturas honestas) | `docs/ideas/honestidad.md` |
 | Investigación de fuentes de ofertas, costes y Jobs/n8n/Apify | `docs/investigacion-fuentes-y-costes.md` |
+| Consulta al profesor sobre fuentes de ofertas, permisos y agentes de búsqueda | `docs/consulta-profesor-fuentes-de-ofertas.md` |
 | Lista de fuentes de empleo en tres tramos (artefacto, copia en repo) | `docs/fuentes-de-empleo.html` · https://claude.ai/artifact/UZwu3kcqdCWEzxRUNnA79X |
 | Términos técnicos | `docs/glosario.md` |
 | PRD v1 | Apartado 23 del documento «Horma jobs» del Cuaderno; copia en `docs/prd-horma-v1.html` |

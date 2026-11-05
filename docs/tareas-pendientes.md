@@ -41,6 +41,8 @@ Actualizado el 2026-11-05 (pista B en marcha: pasos 1 y 2 hechos). Única fuente
 5. **Cierre:** tests, evals, `revisor-seguridad` sobre los cambios, bitácora, commit por archivo. Criterio: al menos 2 fuentes aptas.
 **No entra el día 1:** descargar ofertas (día 2), scraping y Apify (aparcados).
 
+**Resultado del día 1 (5-nov):** pasos 1 y 3 hechos; las seis fuentes calificadas salen **no aptas**, así que no se cumple «al menos 2 aptas». Se reorganiza, a falta del profesor (6-nov): calificar Careerjet, Jooble, Greenhouse, Lever, JobTech, Työmarkkinatori y BOE; ingesta real con las aptas y el campo «licencia de origen»; «añadir oferta por enlace»; agente descubridor de empresas con ATS. Detalle y preguntas: `docs/consulta-profesor-fuentes-de-ofertas.md` (pregunta 32 de `preguntas-profesor.md`).
+
 **Decisiones de Mar (5-nov):** preferencias deducidas vacías hasta confirmar; sí al campo de horario; sí a instalar `pypdf`; sí a versionar `evals/resultados/*.json` (datos inventados); sí a calificar EURES, Adzuna, Arbeitnow, The Hub e InfoJobs; compartir la página del profesor con él desde *Share*; **`settings.json` «más adelante»** (hook y bloqueo de `.env` siguen sin activar durante las pruebas).
 
 ## 1. Pendiente de Mar (no lo decide la Copiloto)

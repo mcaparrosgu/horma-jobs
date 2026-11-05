@@ -99,6 +99,9 @@
     - Propuesta: script en Python (ya existe `ingestar.py`), el dashboard solo muestra y pide, y un comando `verificar` comprueba que lo descargado está en la base.
     - Por qué: reaprovechar lo hecho, una herramienta menos que mantener y una web sin permiso para lanzar programas.
 
+32. **Fuentes de ofertas y permisos (5-nov):** calificamos Arbeitnow, EURES, Adzuna, The Hub, InfoJobs y Personio: ninguna sale apta (uso personal o no comercial, acuerdo escrito, o sin poder leer sus condiciones). Proponemos un metabuscador por capas con «licencia de origen» (ATS públicos de empresas, programas de socios como Careerjet y Jooble, datos abiertos como JobTech y BOE, ofertas que trae la usuaria, y permisos a los grandes) y un agente que descubra empresas y ATS sin copiar contenido. ¿Lo valida? Documento con el detalle y seis preguntas: `docs/consulta-profesor-fuentes-de-ofertas.md`.
+    - Por qué: cambiar la herramienta (subagentes, scraper propio) no cambia el permiso: las condiciones de cada portal mandan.
+
 ## Después de la reunión
 
 - Apuntar las respuestas aquí, debajo de cada punto.

@@ -359,4 +359,6 @@ Cuaderno de decisiones de Horma jobs en orden cronológico. Solo se añade al fi
 
 **Consecuencia.** El criterio del día 1 («al menos 2 fuentes aptas») no se cumple. Lo que sí queda es un registro honesto con el motivo de cada una. Ningún dato de terceros se descarga.
 
+**Qué se propuso a continuación.** Mar preguntó si un subagente o un scraper propio lo arreglaban. No: cambia la herramienta, no el permiso (las condiciones de cada portal mandan; el TJUE C-30/14 permite limitar por contrato). Propuesta por capas con licencia de origen y un agente que descubra empresas y ATS sin copiar contenido. Todo en `docs/consulta-profesor-fuentes-de-ofertas.md` para comentarlo con el profesor (pregunta 32).
+
 **Límites de esta calificación.** El agente leyó las páginas a través de un resumen automático, no siempre literal; hay que verificar las cláusulas citadas antes de decidir.
