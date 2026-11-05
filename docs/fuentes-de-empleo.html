@@ -76,7 +76,7 @@ footer{font-size:13px;color:var(--muted);max-width:75ch}
   <div class="tabla"><table>
     <thead><tr><th>Fuente</th><th>Zona</th><th>Cómo se accede</th><th>Condiciones y límites</th><th>Estado</th></tr></thead>
     <tbody>
-    <tr><td>Arbeitnow<small>arbeitnow.com/blog/job-board-api</small></td><td class="pais">Alemania, UE, remoto</td><td>API pública JSON, sin autenticación</td><td>Es la que más claramente se ofrece como API abierta. Límites y licencia: leer su página antes de usar.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>Arbeitnow<small>arbeitnow.com/blog/job-board-api</small></td><td class="pais">Alemania, UE, remoto</td><td>API pública JSON, sin autenticación</td><td>Casi todo son ofertas de Alemania, en parte desde ATS como Greenhouse: poca cobertura en España. Es la que más claramente se ofrece como API abierta. Límites y licencia: leer su página antes de usar.</td><td><span class="chip warn">Solo terceros</span></td></tr>
     <tr><td>JobTech (Arbetsförmedlingen)<small>Servicio público de empleo de Suecia</small></td><td class="pais">Suecia</td><td>API abierta del servicio público</td><td>Datos abiertos oficiales. Falta confirmar licencia y límites en su documentación.</td><td><span class="chip warn">Solo terceros</span></td></tr>
     <tr><td>APIs públicas de empresas (ATS)<small>Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Recruitee, Personio, Teamtailor</small></td><td class="pais">Cualquier país</td><td>Una URL por empresa, con su identificador. Sin clave. Greenhouse y Lever documentadas; Ashby y Workable con URLs que cambian según la fuente.</td><td>Solo ofrecen las ofertas de <b>esa</b> empresa: hace falta una lista de empresas. Personio y Recruitee son habituales en empresas europeas. Endpoints no documentados pueden cambiar.</td><td><span class="chip warn">Solo terceros</span></td></tr>
     <tr><td>Jobicy<small>feed remoto</small></td><td class="pais">Remoto</td><td>API JSON sin clave</td><td>Exige citar la fuente y enlazar a la oferta original. Una comprobación por hora como máximo, según un tercero.</td><td><span class="chip warn">Solo terceros</span></td></tr>
@@ -85,6 +85,28 @@ footer{font-size:13px;color:var(--muted);max-width:75ch}
     </tbody>
   </table></div>
   <div class="aviso"><b>Incompatibles con un metabuscador (según terceros):</b> Remotive y Himalayas prohíben pasar sus ofertas a otros agregadores; We Work Remotely restringe servicios que compitan con él y pide que la candidatura se haga en su web. Se descartan hasta leer sus términos y, si procede, pedirles permiso.</div>
+</section>
+
+<section class="tramo">
+  <div class="tramo-cab">
+    <h2>Cómo conectar los ATS (portales de empleo de las propias empresas)</h2>
+    <p>Un ATS es el programa con el que una empresa gestiona sus ofertas y candidaturas. Muchos publican las ofertas en una URL abierta por empresa: no hay clave, pero hace falta saber el identificador de cada empresa (sale de la URL de su página de empleo). Funciona en español e inglés, porque es la empresa la que escribe la oferta.</p>
+  </div>
+  <div class="tabla"><table>
+    <thead><tr><th>ATS</th><th>Cómo se accede</th><th>Notas</th><th>Estado</th></tr></thead>
+    <tbody>
+    <tr><td>Greenhouse</td><td><code>boards-api.greenhouse.io/v1/boards/{empresa}/jobs</code></td><td>Sin clave. <code>?content=true</code> añade la descripción. Pensado para que terceros monten bolsas de empleo.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>Lever</td><td><code>api.lever.co/v0/postings/{empresa}?mode=json</code></td><td>Sin clave. Hay variante europea <code>api.eu.lever.co</code>.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>Ashby</td><td><code>api.ashbyhq.com/posting-api/job-board/{empresa}</code></td><td>Sin clave. Las ofertas «no listadas» no salen y no deben mostrarse.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>SmartRecruiters</td><td><code>api.smartrecruiters.com/v1/companies/{id}/postings?limit=100&amp;offset=0</code></td><td>Sin clave, paginado. Con un identificador erróneo devuelve lista vacía, no error.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>Personio</td><td><code>{empresa}.jobs.personio.de/xml?language=en</code></td><td>Feed XML sin credenciales (lo dice su centro de ayuda). Por defecto en alemán; <code>language=en</code> lo pone en inglés. Sin sueldo. Muy usado en empresas europeas.</td><td><span class="chip ok">Comprobado</span></td></tr>
+    <tr><td>Workable</td><td><code>apply.workable.com/api/v1/widget/accounts/{empresa}</code></td><td>Sin clave. Las fuentes dan dos rutas distintas: probar cuál funciona hoy.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>Recruitee, Teamtailor</td><td>Páginas <code>{empresa}.recruitee.com</code> y <code>{empresa}.teamtailor.com</code></td><td>Devuelven ofertas publicadas sin credenciales según una prueba de terceros; rutas exactas por verificar en su documentación.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>Bizneo, Factorial, Sesame, Talent Clue</td><td>Los ATS más usados por pymes españolas</td><td>No he encontrado ninguna API pública de ofertas. Lo que sí hay son las páginas de empleo de cada empresa (más difíciles de leer).</td><td><span class="chip bad">Sin confirmar</span></td></tr>
+    <tr><td>SAP SuccessFactors, Workday</td><td>Usados por grandes empresas del IBEX 35</td><td>Sin API pública de ofertas confirmada. Si hace falta una gran empresa concreta, habría que mirar su página.</td><td><span class="chip bad">Sin confirmar</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="aviso"><b>El problema real de los ATS no es la API, es la lista de empresas.</b> No he encontrado una lista de qué empresas españolas usan cada ATS. Opciones: (a) empezar con una lista pequeña que mantengamos a mano; (b) dejar que las empresas que se registren en Horma nos den su identificador; (c) comprobar, al añadir una empresa, a qué ATS pertenece. Recomiendo (a) y (b): son baratas y legales.</div>
 </section>
 
 <section class="tramo">
@@ -98,8 +120,8 @@ footer{font-size:13px;color:var(--muted);max-width:75ch}
     <tr><td>Adzuna<small>developer.adzuna.com</small></td><td class="pais">Varios países europeos (España por confirmar)</td><td>Registro; clave gratis al momento, sin datos de pago</td><td>Sus términos dicen que el plan gratis es para evaluar y que los límites se ven en tu cuenta. Cifras de blogs: 250 al día o 1.000 al mes; no coinciden.</td><td><span class="chip ok">Comprobado</span> <span class="chip warn">límites no</span></td></tr>
     <tr><td>InfoJobs<small>developer.infojobs.net</small></td><td class="pais">España</td><td>Cuenta de desarrollador y credenciales en su web</td><td>Devuelve 20 resultados por consulta. Sus condiciones de API y límites no aparecen en las búsquedas: hay que leerlas dentro del portal. Es la fuente más importante para España.</td><td><span class="chip warn">Solo terceros</span></td></tr>
     <tr><td>Reed<small>reed.co.uk/developers</small></td><td class="pais">Reino Unido</td><td>Formulario en su página oficial; clave gratis según terceros</td><td>Autenticación básica con la clave. 100 resultados por página. No documenta límite de peticiones (no quiere decir que no haya).</td><td><span class="chip ok">Comprobado</span> <span class="chip warn">gratuidad no</span></td></tr>
-    <tr><td>Jooble<small>agregador</small></td><td class="pais">Europa y más</td><td>Solicitud de clave de API</td><td>No he podido confirmar condiciones ni límites. Ojo: es un competidor directo.</td><td><span class="chip bad">Sin confirmar</span></td></tr>
-    <tr><td>Careerjet<small>agregador</small></td><td class="pais">Europa y más</td><td>Programa de socios</td><td>No he podido confirmar condiciones ni si admite un metabuscador.</td><td><span class="chip bad">Sin confirmar</span></td></tr>
+    <tr><td>Jooble<small>agregador</small></td><td class="pais">Europa y más</td><td>Formulario de solicitud; clave gratis, concedida por proyecto tras una revisión corta</td><td>Cubre más de 60 países; devuelve descripciones recortadas. Condiciones sin leer. Ojo: es un competidor directo.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>Careerjet<small>agregador</small></td><td class="pais">Europa y más</td><td>Programa de socios; las fuentes discrepan sobre si pide clave</td><td>Más de 90 países, API documentada y gratuita según terceros. No se sabe si admite un metabuscador.</td><td><span class="chip warn">Solo terceros</span></td></tr>
     <tr><td>NAV (servicio público noruego)</td><td class="pais">Noruega</td><td>Token pedido por correo</td><td>Datos públicos. Sin confirmar si merece el esfuerzo para Horma.</td><td><span class="chip warn">Solo terceros</span></td></tr>
     <tr><td>France Travail<small>servicio público francés</small></td><td class="pais">Francia</td><td>Registro OAuth en su portal de desarrolladores</td><td>Licencia y condiciones poco claras en lo que encontré.</td><td><span class="chip warn">Solo terceros</span></td></tr>
     <tr><td>Bundesagentur für Arbeit (Jobsuche)</td><td class="pais">Alemania</td><td>No hay API oficial; existe un punto de acceso no oficial</td><td>No oficial significa que puede cambiar o cerrarse sin avisar.</td><td><span class="chip warn">Solo terceros</span></td></tr>
@@ -110,8 +132,8 @@ footer{font-size:13px;color:var(--muted);max-width:75ch}
 
 <section class="tramo">
   <div class="tramo-cab">
-    <h2>3. Acceso difícil: solo con scraping o actores de Apify</h2>
-    <p>No hay API pública. Un actor de Apify es un programa de terceros que lee la web por ti y cobra por resultado. Es la vía de excepción: coste variable, riesgo legal y rotura cuando el portal cambia. Indeed y LinkedIn quedan fuera, por indicación del profesor.</p>
+    <h2>3. Acceso difícil (scraping o Apify): aparcado de momento</h2>
+    <p><b>Decisión de Mar (5-nov): no se hace scraping por ahora.</b> Se deja la lista como referencia por si más adelante se reconsidera, con el profesor. No hay API pública. Un actor de Apify es un programa de terceros que lee la web por ti y cobra por resultado. Es la vía de excepción: coste variable, riesgo legal y rotura cuando el portal cambia. Indeed y LinkedIn quedan fuera, por indicación del profesor.</p>
   </div>
   <div class="tabla"><table>
     <thead><tr><th>Portal</th><th>Zona</th><th>Actores en Apify</th><th>Coste orientativo</th><th>Estado</th></tr></thead>
@@ -145,7 +167,7 @@ footer{font-size:13px;color:var(--muted);max-width:75ch}
   <div class="cols">
     <div><h3>Calificar primero</h3><ul><li>Arbeitnow, EURES, Adzuna, The Hub e InfoJobs (ya autorizadas por Mar).</li><li>Después, 2 o 3 APIs públicas de empleo (JobTech, France Travail).</li></ul></div>
     <div><h3>Verificar en la fuente</h3><ul><li>Términos y límites de InfoJobs y Adzuna dentro de sus portales.</li><li>Endpoints exactos de cada ATS en su documentación.</li><li>Si Jooble y Careerjet admiten un metabuscador.</li></ul></div>
-    <div><h3>Lo que falta por investigar</h3><ul><li>Italia, Países Bajos, Polonia, Portugal, Dinamarca y Finlandia: no salió nada fiable.</li><li>Infoempleo, Jobatus y Trabajos.com.</li><li>Cómo encontrar empresas con ATS público en España.</li></ul></div>
+    <div><h3>Lo que falta por investigar</h3><ul><li>Italia, Países Bajos, Polonia, Portugal, Dinamarca y Finlandia: no salió nada fiable.</li><li>Infoempleo, Jobatus y Trabajos.com.</li><li>Una lista de empresas españolas con su ATS (ver aviso de los ATS).</li><li>Findwork, The Muse y JSearch: no salió nada.</li></ul></div>
   </div>
 </section>
 

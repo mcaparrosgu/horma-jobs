@@ -331,3 +331,16 @@ Cuaderno de decisiones de Horma jobs en orden cronológico. Solo se añade al fi
 **Vocabulario.** «Corrida» es un término de Argentina; en el proyecto se dice **«ejecución»**. Cambiado en la web (`/ejecuciones`, menú y títulos), en la base de datos (migración `004`: la tabla pasa a `ejecuciones_ingesta` y `ofertas.corrida_id` a `ejecucion_id`), en los comandos y skills y en los documentos vigentes. No se tocan: las entradas históricas de esta bitácora, el documento del profesor (es su texto), los resultados de evals ya generados ni la migración `001`. `npm test` (34), `tsc`, `lint` y `build` en verde; `/ejecuciones` responde 200 y `/corridas`, 404.
 
 **Bitácora del Cuaderno.** Faltaba el flujo agéntico. El apartado 25 incluye ahora «El flujo agéntico, flujo a flujo» (diagrama y tabla de los seis flujos con sus agentes y decisiones) y «Cómo se trabaja en cada paso» (plan, construir, tests, prueba a mano, revisores, documentar). Regla desde hoy: cada proceso de construcción nuevo entra en ese apartado.
+
+## 5-nov-2026 · Investigación de fuentes de empleo (el metabuscador)
+
+**Motivación de Mar.** Horma es un metabuscador: la usuaria no debe ir de web en web ni de app en app; todas las ofertas llegan a un solo sitio. Es lo que nos diferencia. Anotada en `propuesta-horma.md` (apartado 4) y en `CLAUDE.md`.
+
+**Qué se hizo.** Investigación web de fuentes de España y Europa, en `docs/fuentes-de-empleo.html` (artefacto con copia en el repositorio), en tres tramos: acceso fácil sin clave, API con clave fácil de conseguir y scraping/Apify. Cada dato lleva su estado: comprobado, solo de terceros o sin confirmar. Segunda ronda: ATS (Greenhouse, Lever, Ashby, SmartRecruiters, Personio, Workable, Recruitee, Teamtailor) con la URL de acceso de cada uno.
+
+**Decisiones.**
+- **Scraping y Apify aparcados** (Mar, 5-nov). La lista queda como referencia.
+- Remotive, Himalayas y We Work Remotely, descartados hasta leer sus términos: según terceros prohíben pasar ofertas a otros agregadores.
+- Los ATS no piden clave; el problema es **qué empresas** usar. Propuesta: lista pequeña a mano y que cada empresa registrada en Horma aporte su identificador.
+
+**Lo que no se sabe.** Casi todo viene de terceros. Sin API pública confirmada: Bizneo, Factorial, Sesame, Talent Clue, EURES, Empléate y BOE. Sin investigar: Italia, Países Bajos, Polonia, Portugal, Dinamarca y Finlandia. Ninguna fuente se usa sin pasar por `/calificar-fuentes`.
