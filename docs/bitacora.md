@@ -304,3 +304,13 @@ Cuaderno de decisiones de Horma jobs en orden cronológico. Solo se añade al fi
 **Qué.** Nuevo apartado 25 «Bitácora: cómo se ha construido Horma» en el documento «Horma jobs» del Cuaderno (y en la página del profesor, regenerada): decisiones y descartes, pista A, giro a Next.js, pasos 1 a 5 de la pista B, fallos, un diagrama («Lo que ya funciona») y lo que falta. Está escrito para quien no ha seguido la obra. Esta `docs/bitacora.md` sigue siendo la fuente larga; el apartado es el resumen legible.
 
 **Mantenimiento.** Al cerrar cada paso de la pista B hay que actualizar el apartado 25 (lo hecho y «Lo que falta») además de `docs/tareas-pendientes.md`. Diagramas: ahora 9.
+
+## 5-nov-2026 · Plan de 6 días y decisiones de Mar
+
+**Qué.** Mar fijó una meta: el flujo agéntico funcionando de punta a punta en 6 días como máximo (pista A corrida con Ana y la oferta 1, más los pasos 6 a 8 de la web). Plan día a día en `docs/tareas-pendientes.md`, sección 0, y en el apartado 25 del Cuaderno.
+
+**Decisiones (todas con la recomendación de la Copiloto, salvo una).** Preferencias deducidas vacías hasta confirmar; campo de horario; instalar `pypdf`; versionar `evals/resultados/`; calificar las cinco fuentes; compartir la página del profesor. **`settings.json`: «más adelante»**, así que el hook y el bloqueo de `.env` siguen sin activar durante las pruebas (riesgo aceptado por Mar).
+
+**Nuevo.** `docs/guia-pruebas-manuales.md`: guía para que Mar pruebe a mano, como pidió el profesor. Nadie la ha ejecutado todavía; los fallos que salgan se anotan en su tabla.
+
+**Riesgo.** Sin colchón: si un día se pierde, se recortan los casos extra del día 2, nunca un tronco.
