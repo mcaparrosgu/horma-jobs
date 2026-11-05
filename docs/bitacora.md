@@ -344,3 +344,19 @@ Cuaderno de decisiones de Horma jobs en orden cronológico. Solo se añade al fi
 - Los ATS no piden clave; el problema es **qué empresas** usar. Propuesta: lista pequeña a mano y que cada empresa registrada en Horma aporte su identificador.
 
 **Lo que no se sabe.** Casi todo viene de terceros. Sin API pública confirmada: Bizneo, Factorial, Sesame, Talent Clue, EURES, Empléate y BOE. Sin investigar: Italia, Países Bajos, Polonia, Portugal, Dinamarca y Finlandia. Ninguna fuente se usa sin pasar por `/calificar-fuentes`.
+
+## 5-nov-2026 · Día 1: calificación de las seis primeras fuentes (ninguna apta)
+
+**Hecho.** Campo `horario` (esquema 0.2, migración `005`, web, agentes y tests: 35 de 35 en la web y 35 evals); `pypdf` instalado y visible con `python -I`; preferencias deducidas vacías; el profesor como fuente de verdad en `CLAUDE.md`. `/calificar-fuentes` sobre Arbeitnow, EURES, Adzuna, The Hub, InfoJobs y Personio (ATS de prueba), con `auditor-fuentes`. Resultado en `datos/fuentes/calificacion.json` (ignorado por git; este apunte es el registro).
+
+**Resultado: las seis, `apta = false`.** Ninguna prohíbe expresamente el acceso automático por API, pero todas limitan el uso a fines personales o no comerciales, exigen acuerdo escrito o no se han podido leer:
+- **Arbeitnow:** API sin clave con enlace de vuelta, pero sus términos dicen uso personal y no comercial. Horma cobrará suscripción.
+- **Adzuna:** la clave gratuita es para evaluar; un metabuscador necesita acuerdo escrito.
+- **The Hub:** solo uso personal; sin API; sin España.
+- **EURES:** ni permite ni prohíbe; sin API oficial; reutilización citando a ELA.
+- **InfoJobs:** API con credenciales, pero condiciones sin leer (bloqueo a bots, error 456) y robots.txt que bloquea los listados.
+- **Personio:** feed sin leer (errores 403 y 429): sin base para decidir.
+
+**Consecuencia.** El criterio del día 1 («al menos 2 fuentes aptas») no se cumple. Lo que sí queda es un registro honesto con el motivo de cada una. Ningún dato de terceros se descarga.
+
+**Límites de esta calificación.** El agente leyó las páginas a través de un resumen automático, no siempre literal; hay que verificar las cláusulas citadas antes de decidir.
