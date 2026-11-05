@@ -38,10 +38,13 @@ import { sqlPerfil, sqlPreferencias, errorSeguro, registrarEvento } from "./impo
 import { problemaClave } from "./clave.ts";
 
 test("A: perfil y preferencias no se pisan salvo con --forzar", () => {
-  for (const f of [sqlPerfil, sqlPreferencias]) {
-    assert.match(f(false), /DO NOTHING/);
-    assert.match(f(true), /DO UPDATE/);
-  }
+  assert.match(sqlPreferencias(false), /DO NOTHING/);
+  assert.match(sqlPreferencias(true), /DO UPDATE/);
+  assert.match(sqlPerfil(true), /DO UPDATE SET\s+cv_texto=EXCLUDED.cv_texto,\s+experiencias/);
+  // Sin --forzar, el perfil solo rellena cv_texto si estaba vacío y no toca nada más.
+  const suave = sqlPerfil(false);
+  assert.match(suave, /DO UPDATE SET cv_texto=EXCLUDED.cv_texto WHERE perfiles.cv_texto IS NULL/);
+  assert.ok(!/experiencias=EXCLUDED/.test(suave));
 });
 
 test("B: errorSeguro no devuelve el mensaje de Postgres (puede traer el valor)", () => {

@@ -47,6 +47,27 @@ function motivoRechazo(ruta: string, tipo: "archivo" | "carpeta"): string | null
   return null;
 }
 
+/** Texto de cv.md (el que citan los «origen» del perfil), o null si falta o no se debe leer. */
+function leerCv(carpeta: string): string | null {
+  const ruta = join(carpeta, "cv.md");
+  if (!existsSync(ruta)) return null;
+  const m = motivoRechazo(ruta, "archivo");
+  if (m) {
+    console.log(`aviso     ${relative(RAIZ, ruta)}: no se importa (${m})`);
+    return null;
+  }
+  const texto = readFileSync(ruta, "utf8");
+  if (texto.includes("\u0000")) { // Postgres no admite el carácter NUL en un texto
+    console.log(`aviso     ${relative(RAIZ, ruta)}: contiene caracteres nulos, no se importa`);
+    return null;
+  }
+  if (texto.length > 200_000) { // tope de la columna cv_texto (migración 003)
+    console.log(`aviso     ${relative(RAIZ, ruta)}: supera 200000 caracteres, no se importa`);
+    return null;
+  }
+  return texto;
+}
+
 const db = new pg.Client({ host: "127.0.0.1", port: 5433, user: "horma", database: "horma", password });
 await db.connect();
 
@@ -146,7 +167,7 @@ try {
         perfil, "perfil",
         async (p) => {
           await db.query(SQL_USUARIA, [u]);
-          return (await db.query(sqlPerfil(forzar), paramsPerfil(p))).rowCount ?? 0;
+          return (await db.query(sqlPerfil(forzar), paramsPerfil(p, leerCv(carpeta)))).rowCount ?? 0;
         },
         (p) => (p.usuaria_id !== u ? "usuaria_id no coincide con el nombre de la carpeta" : null),
       );

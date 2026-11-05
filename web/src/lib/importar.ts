@@ -32,18 +32,21 @@ export const SQL_USUARIA = `INSERT INTO usuarias (id) VALUES ($1) ON CONFLICT (i
 // Solo con --forzar se sobrescriben con lo que haya en disco (hallazgo A del revisor).
 export const sqlPerfil = (forzar: boolean) => `
   INSERT INTO perfiles (usuaria_id, experiencias, formacion, skills, idiomas, taxonomia,
-                        preguntas_pendientes, instrucciones_embebidas)
-  VALUES ($1,$2::jsonb,$3::jsonb,$4::jsonb,$5::jsonb,$6::jsonb,$7::jsonb,$8::jsonb)
+                        preguntas_pendientes, instrucciones_embebidas, cv_texto)
+  VALUES ($1,$2::jsonb,$3::jsonb,$4::jsonb,$5::jsonb,$6::jsonb,$7::jsonb,$8::jsonb,$9)
   ON CONFLICT (usuaria_id) ${forzar ? `DO UPDATE SET
+    cv_texto=EXCLUDED.cv_texto,
     experiencias=EXCLUDED.experiencias, formacion=EXCLUDED.formacion, skills=EXCLUDED.skills,
     idiomas=EXCLUDED.idiomas, taxonomia=EXCLUDED.taxonomia,
     preguntas_pendientes=EXCLUDED.preguntas_pendientes,
-    instrucciones_embebidas=EXCLUDED.instrucciones_embebidas, actualizado_en=now()` : "DO NOTHING"}`;
+    instrucciones_embebidas=EXCLUDED.instrucciones_embebidas, actualizado_en=now()`
+    // Sin --forzar solo se rellena el texto del CV si aún no lo había: nunca se pisa lo que ella editó.
+    : `DO UPDATE SET cv_texto=EXCLUDED.cv_texto WHERE perfiles.cv_texto IS NULL AND EXCLUDED.cv_texto IS NOT NULL`}`;
 
-export function paramsPerfil(p: Json): unknown[] {
+export function paramsPerfil(p: Json, cvTexto: string | null = null): unknown[] {
   return [
     p.usuaria_id, j(p.experiencias), j(p.formacion), j(p.skills), j(p.idiomas), j(p.taxonomia),
-    j(p.preguntas_pendientes), j(p.instrucciones_embebidas ?? []),
+    j(p.preguntas_pendientes), j(p.instrucciones_embebidas ?? []), cvTexto,
   ];
 }
 
@@ -70,8 +73,8 @@ export function paramsPreferencias(usuariaId: string, p: Json): unknown[] {
 export const CLAVES_DETALLE = ["archivos", "importadas", "omitidas", "rechazadas"] as const;
 
 // Componentes y acciones permitidos: cada uno nuevo se añade aquí, a propósito (hallazgo C).
-export const COMPONENTES = ["importador", "web-ingesta"] as const;
-export const ACCIONES = ["importar-datos", "guardar-fuente"] as const;
+export const COMPONENTES = ["importador", "web-ingesta", "web-candidatos"] as const;
+export const ACCIONES = ["importar-datos", "guardar-fuente", "guardar-preferencias"] as const;
 
 export type EventoEntrada = {
   componente: (typeof COMPONENTES)[number];

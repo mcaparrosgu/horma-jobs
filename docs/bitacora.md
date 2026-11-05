@@ -278,3 +278,29 @@ Cuaderno de decisiones de Horma jobs en orden cronológico. Solo se añade al fi
 **Qué queda.** SSRF real al descargar; login, cabeceras de seguridad y rol `horma_app` antes de abrir la web a nadie; ofertas sin clasificar (sector y familia vacíos). Siguiente: paso 5, tras decidir (k).
 
 **Decisión de Mar (5-nov), punto (k):** se importa de dónde sale cada dato del perfil (su `origen` y los `traza.json`). *Por qué:* sin origen visible no hay honestidad comprobable. Es lo primero del paso 5.
+
+## 2026-11-05 · Pista B, paso 5: web de candidatas
+
+**Qué hicimos.** Dos páginas nuevas: **Candidatas** (lista) y el **perfil de cada una**, con el origen de cada dato a la vista («de dónde sale»: archivo, línea y fragmento del CV), el CV original desplegable, las preguntas que Horma necesita que conteste y un formulario para editar sus preferencias de búsqueda. El perfil se muestra solo para leer.
+
+**Una corrección sobre la decisión (k).** Al mirar los datos vi que el `origen` ya se guardaba dentro del perfil; solo faltaba el texto del CV. Bastó una columna nueva (`cv_texto`, migración 003). El importador la rellena sin pisar nada: si el perfil ya existía, solo completa el texto del CV cuando estaba vacío.
+
+**Qué decidimos y por qué.**
+- **Editar solo preferencias, no el perfil.** Cambiar cargos o fechas choca con la regla de los huecos (Horma nunca cambia fechas ni cargos sin que ella lo apruebe) y merece su propio diseño.
+- **Sin edad, nacionalidad ni categorías especiales:** el formulario no tiene esos campos y el esquema prohíbe cualquier campo extra (RGPD art. 9).
+- **Las empresas no ven nada:** no existe ruta de empresas. Una prueba falla si un archivo nuevo lee perfiles o preferencias fuera de una lista blanca, ordena por una nota o crea una ruta de empresas o ranking.
+- La clasificación del perfil (sectores, familias, stack) se rotula «sugerida por Horma (no sale del CV)», porque no tiene origen en el CV.
+
+**Qué cazaron los revisores.** Un texto falso en la interfaz (decía que cada persona ve solo lo suyo, y sin login cualquiera ve todo): corregido. Un fallo mío: la clasificación nunca se mostraba por leer `sector` y no `sectores`. La prueba de empresas era demasiado débil: reescrita. Países sin validar como código de 2 letras, CV de más de 200000 caracteres o con carácter nulo: ahora se avisa y se omite.
+
+**Cómo lo comprobamos.** `npm test` = 34 pruebas, `tsc`, `lint` y `build` sin errores. En el navegador: ids raros dan «404», un rango 90–10 se rechaza conservando lo escrito, un guardado válido deja su apunte en `eventos`. Dejé las preferencias de Ana como estaban.
+
+**Fallos míos.** (1) El servidor de desarrollo del paso 4 seguía vivo con el código viejo, sin `-H 127.0.0.1`; mis primeras pruebas fueron contra él y por eso no se guardó un apunte. Lo paré por su PID y repetí todo. (2) Una prueba antigua exigía `DO NOTHING` y hubo que actualizarla.
+
+**Qué queda.** Login (id desde la sesión, id opaco, comprobar que existe el perfil), incluir `cv_texto` en exportar y borrar, topes en el esquema compartido y el import de `traza.json`. Siguiente: paso 6, dashboard del flujo agéntico.
+
+## 5-nov-2026 · Bitácora en el Cuaderno
+
+**Qué.** Nuevo apartado 25 «Bitácora: cómo se ha construido Horma» en el documento «Horma jobs» del Cuaderno (y en la página del profesor, regenerada): decisiones y descartes, pista A, giro a Next.js, pasos 1 a 5 de la pista B, fallos, un diagrama («Lo que ya funciona») y lo que falta. Está escrito para quien no ha seguido la obra. Esta `docs/bitacora.md` sigue siendo la fuente larga; el apartado es el resumen legible.
+
+**Mantenimiento.** Al cerrar cada paso de la pista B hay que actualizar el apartado 25 (lo hecho y «Lo que falta») además de `docs/tareas-pendientes.md`. Diagramas: ahora 9.

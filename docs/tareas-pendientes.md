@@ -3,7 +3,7 @@
 Actualizado el 2026-11-05 (pista B en marcha: pasos 1 y 2 hechos). Única fuente de estado y próximos pasos (mapa de documentos: `docs/indice.md`). Orden = prioridad.
 
 ## Estado en tres líneas
-- **Fase 0, versión del profesor** (`docs/flujo-agentico-claude-code.md`): **pista A hecha** (agentes, skills, comandos, esquemas, scripts y evals en `.claude/` y `evals/`); **pista B** (web **Next.js** + PostgreSQL en `web/`; FastAPI se quitó el 4-nov) **en marcha: pasos 1 a 4 hechos el 5-nov, sigue el paso 5** (ver «Pista B: por dónde seguir»).
+- **Fase 0, versión del profesor** (`docs/flujo-agentico-claude-code.md`): **pista A hecha** (agentes, skills, comandos, esquemas, scripts y evals en `.claude/` y `evals/`); **pista B** (web **Next.js** + PostgreSQL en `web/`; FastAPI se quitó el 4-nov) **en marcha: pasos 1 a 5 hechos el 5-nov, sigue el paso 6** (ver «Pista B: por dónde seguir»).
 - **Instrucciones nuevas del profesor (4-nov):** (1) **dashboard** para ver el flujo agéntico (pipelines o workflows); (2) **observabilidad** en cada componente; (3) construir **primero** la web de **ingesta de ofertas** y la de **candidatos** (se escribe «candidatos», no «postulantes»); (4) web con **Next.js**, sin FastAPI; (5) probar y pasar los tests **a mano**. Dudas que quedan: preguntas 29 y 30 de `docs/preguntas-profesor.md`.
 - **Pruebas:** resultados, fallos y límites en `docs/informe-pruebas.md`.
 - **Repositorio:** `mcaparrosgu/horma-jobs`, rama `main`, al día con `git log` (último push: 2026-11-05, pista B pasos 1 y 2). El repo `workbook` (Cuaderno y página del profesor) va aparte.
@@ -41,7 +41,9 @@ Actualizado el 2026-11-05 (pista B en marcha: pasos 1 y 2 hechos). Única fuente
 
 - **Paso 4 (5-nov):** web de ingesta en `web/src/app/`: `/ofertas` (filtros y auditoría visible), `/fuentes` (tabla y formulario de alta o edición) y `/corridas` (resumen por corrida). Validación de fuentes en `web/src/lib/fuentes.ts`; consultas en `consultas.ts`. `npm test` = 27 pruebas en verde; `tsc`, `lint` y `build` sin errores; formulario probado a mano en el navegador. Revisado por `revisor-seguridad` y arreglados sus puntos 1-8 (servidor solo en 127.0.0.1; `clave_env` solo `FUENTE_*`; sin claves en cabeceras, parámetros, mapeo ni ruta de la URL; URLs internas y puertos raros rechazados). Las ofertas de prueba tienen la taxonomía vacía: sector y familia no tienen qué filtrar hasta clasificar ofertas. **Sin login: las acciones de `/fuentes` escriben sin autenticación, así que no se expone la web fuera de este ordenador.**
 
-**Siguiente: paso 5 — web de candidatos**, que arranca importando el origen de cada dato (decisión (k), ver abajo). Después: 6 dashboard del flujo agéntico · 7 observabilidad en cada componente y página `/salud` · 8 `revisor-seguridad` y `auditor-lineas-rojas` antes del commit. Cada paso termina con comprobaciones a mano. Fuera de esta entrega: login, cola y worker, puerta al LLM, PWA, tablero.
+- **Paso 5 (5-nov):** web de candidatas. Migración `003` (`perfiles.cv_texto`) y el importador guarda el texto del `cv.md` (sin `--forzar` solo lo rellena si estaba vacío). Páginas `/candidatos` (lista) y `/candidatos/[id]` (perfil con «de dónde sale» en cada dato, CV original desplegable, preguntas pendientes y formulario de preferencias validado con `preferencias.json`). Código en `web/src/app/candidatos/` y `web/src/lib/preferencias.ts`. `npm test` = 34 pruebas en verde; `tsc`, `lint` y `build` sin errores; probado a mano en el navegador. Revisado por `revisor-seguridad` y `auditor-lineas-rojas`, con sus arreglos aplicados. El perfil se muestra solo para leer: editar cargos o fechas necesita su propio diseño (regla de los huecos). **Sin login: cualquiera que llegue a la web edita cualquier perfil; no se expone fuera de este ordenador.**
+
+**Siguiente: paso 6 — dashboard del flujo agéntico.** Después: 7 observabilidad en cada componente y página `/salud` · 8 `revisor-seguridad` y `auditor-lineas-rojas` antes del commit. (Antes figuraba aquí «6 dashboard del flujo agéntico») · 7 observabilidad en cada componente y página `/salud` · 8 `revisor-seguridad` y `auditor-lineas-rojas` antes del commit. Cada paso termina con comprobaciones a mano. Fuera de esta entrega: login, cola y worker, puerta al LLM, PWA, tablero.
 
 **Pendiente de seguridad de la pista B** (de las revisiones de `revisor-seguridad` y `auditor-lineas-rojas`). Las letras sirven para encontrar cada punto en la bitácora. Están ordenados por cuándo hay que atenderlos.
 
@@ -50,9 +52,14 @@ Actualizado el 2026-11-05 (pista B en marcha: pasos 1 y 2 hechos). Única fuente
 - **Antes de abrir la web a otra persona:** login (y comprobar la sesión dentro de cada acción, no solo en un middleware); cabeceras de seguridad (CSP, `frame-ancestors 'none'`); rol `horma_app` (ver abajo). La detección de claves en las fuentes es una ayuda, no una garantía: la defensa real es que la clave solo vive en una variable `FUENTE_*`.
 - Quien escriba `corridas_ingesta.errores` debe guardar códigos o frases fijas, no mensajes de red (la página los corta a 200 caracteres).
 
-*En el paso 5 (web de candidatos):*
-- **(k) DECIDIDO (5-nov, Mar): sí se importa de dónde sale cada dato.** Cada dato del perfil dice «de aquí lo saqué» (su `origen`), apuntando a un fragmento del `cv.md`. Hoy ese texto y los archivos `traza.json` no se importan; el primer trabajo del paso 5 es ampliar el importador (y, si hace falta, una migración `003`) para guardarlos, y que la web enseñe el origen junto a cada dato. *Por qué:* sin origen visible no hay honestidad comprobable (línea roja del producto).
-- **Comprobar que las empresas no ven nada de los candidatos**, como exige la línea roja del AI Act. Hoy es una intención; en el paso 5 habrá rutas reales que comprobar.
+*Paso 5 — hecho:* (k) el `origen` ya vivía dentro de las columnas jsonb; ahora también se guarda el texto del CV y la web lo enseña. Las empresas no ven nada: no existe ninguna ruta de empresas y una prueba (`preferencias.test.ts`) vigila que ningún archivo nuevo lea perfiles o preferencias fuera de una lista blanca, ni ordene por una nota.
+*Pendiente que sale del paso 5:*
+- **Al llegar el login:** el id de usuaria sale de la sesión y no del campo oculto del formulario; id opaco (UUID) y no un nombre en la URL; la acción de preferencias debe comprobar además que la usuaria tiene perfil; y la lista `/candidatos` desaparece o queda solo para administración.
+- **Exportar y borrar datos (RGPD) debe incluir `perfiles.cv_texto`** (borrar la usuaria ya lo elimina por `ON DELETE CASCADE`).
+- **Topes en el esquema compartido `preferencias.json`** (`maxItems`/`maxLength`): hoy los pone el código de la web; añadirlos al esquema afecta a la pista A, así que se avisa antes.
+- **`traza.json` y los CV por oferta** no se importan todavía; llegan con la web de candidaturas.
+- Las páginas «no encontradas» devuelven código HTTP 200 (Next envía la página por trozos); no afecta hoy.
+- Los CV reales nunca van a git: `datos/.gitignore` ya ignora todo salvo `fixtures/`.
 
 *Antes de tener usuarias reales:*
 - **(c) Un usuario de base de datos con menos poder.** Ahora la web y los scripts se conectan como `horma`, que puede hacerlo todo, incluido borrar. Hay que crear un rol `horma_app` que solo pueda leer y escribir en las tablas que necesita, y dejar `horma` solo para migrar. Es el «mínimo privilegio»: que un fallo no pueda hacer más daño del imprescindible.

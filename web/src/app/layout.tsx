@@ -30,6 +30,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Link href="/ofertas">Ofertas</Link>
           <Link href="/fuentes">Fuentes</Link>
           <Link href="/corridas">Corridas</Link>
+          <Link href="/candidatos">Candidatas</Link>
         </nav>
         <main className="mx-auto w-full max-w-6xl flex-1 p-6">{children}</main>
       </body>
