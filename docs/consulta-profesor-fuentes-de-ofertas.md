@@ -93,3 +93,7 @@ Regla común: el agente **descubre y clasifica**; no copia en masa contenido de 
 ## 9. Actualización (5-nov, noche): BOE y JobTech verificadas
 
 Ya hay **dos fuentes aptas con condiciones**: el BOE (empleo público en España; reutilización comercial permitida con atribución, API sin clave que exige la cabecera `Accept`, sección II.B = código `2B`) y JobTech de Suecia (CC0, acceso público, sin clave). Ambas respondieron a una consulta de prueba. Restricciones: el BOE publica resoluciones, no ofertas con formato propio (se filtran convocatorias y se descartan listas de aprobados, que llevan nombres); JobTech trae campos de contacto que no se guardan. Con esto la pregunta 1 queda respondida en parte: se puede empezar con menos volumen, pero con permiso. Faltan: límites de peticiones de ambas y cláusulas por revisar a mano.
+
+## 10. Decisión de Mar (5-nov, noche)
+
+Mar prefiere **una demostración con pocas fuentes, pero limpias, y ampliar después**. Es lo que se construirá primero (JobTech, BOE y ofertas de empresas), con la ampliación de fuentes en paralelo. Esto responde a la pregunta 5 desde nuestro lado; seguimos queriendo su opinión sobre el resto.

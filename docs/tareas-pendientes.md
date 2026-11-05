@@ -1,12 +1,46 @@
 # Estado y tareas pendientes de Horma jobs
 
-Actualizado el 2026-11-05 (pista B en marcha: pasos 1 y 2 hechos). Única fuente de estado y próximos pasos (mapa de documentos: `docs/indice.md`). Orden = prioridad.
+Actualizado el 2026-11-05 por la noche (día 1 del plan de 6 días hecho; ver «Retomar mañana»). Única fuente de estado y próximos pasos (mapa de documentos: `docs/indice.md`). Orden = prioridad.
 
 ## Estado en tres líneas
 - **Fase 0, versión del profesor** (`docs/flujo-agentico-claude-code.md`): **pista A hecha** (agentes, skills, comandos, esquemas, scripts y evals en `.claude/` y `evals/`); **pista B** (web **Next.js** + PostgreSQL en `web/`; FastAPI se quitó el 4-nov) **en marcha: pasos 1 a 5 hechos el 5-nov, sigue el paso 6** (ver «Pista B: por dónde seguir»).
 - **Instrucciones nuevas del profesor (4-nov):** (1) **dashboard** para ver el flujo agéntico (pipelines o workflows); (2) **observabilidad** en cada componente; (3) construir **primero** la web de **ingesta de ofertas** y la de **candidatos** (se escribe «candidatos», no «postulantes»); (4) web con **Next.js**, sin FastAPI; (5) probar y pasar los tests **a mano**. **Nuevas (5-nov):** (6) el **pipeline de ingesta toma las ofertas de las APIs**, como hacía antes (en Jobs con n8n; en Horma, script propio); (7) seguir construyendo la web **como un dashboard**; (8) **validar que los datos se guardan en la base de datos**. Dudas que quedan: preguntas 29, 30 y 31 de `docs/preguntas-profesor.md`.
 - **Pruebas:** resultados, fallos y límites en `docs/informe-pruebas.md`.
 - **Repositorio:** `mcaparrosgu/horma-jobs`, rama `main`, al día con `git log` (último push: 2026-11-05, pista B pasos 1 y 2). El repo `workbook` (Cuaderno y página del profesor) va aparte.
+
+## Retomar mañana (6-nov): empieza aquí
+
+**Dónde estamos.** El día 1 del plan está hecho: `pypdf` instalado, campo `horario` en esquema, base de datos, web y agentes (migración `005`; 35 tests de la web y 35 evals en verde), preferencias deducidas vacías, y 12 fuentes calificadas con `/calificar-fuentes` (registro en `datos/fuentes/calificacion.json`, ignorado por git; resumen en `docs/bitacora.md`). Dos son **aptas con condiciones**: **BOE** (empleo público, España) y **JobTech** (Suecia, CC0). Las otras diez salieron no aptas (Arbeitnow, EURES, Adzuna, The Hub, InfoJobs, Personio, Careerjet, Jooble, Greenhouse, Lever). `endpoints.json` tiene JobTech con `activa: false`; el BOE necesita un adaptador porque su respuesta va anidada. Último push: `0675eb5`; los cambios de este cierre (documentación) pueden estar sin subir: mira `git status`.
+
+**Decisión de Mar (5-nov, noche): demostración con pocas fuentes, pero limpias; después se amplía.** Mañana se **construye** con las fuentes aptas (JobTech y BOE) y las ofertas que publiquen empresas, y la búsqueda de más fuentes corre en paralelo, sin bloquear la construcción. Mar no está satisfecha con el volumen todavía: la ampliación es el segundo paso, no se descarta. Todo lo que ya sabemos y las ideas están en `docs/consulta-profesor-fuentes-de-ofertas.md` y `docs/fuentes-de-empleo.html`. Para la ampliación (después de la demostración), lo que **no** se ha probado, de más rápido a más lento:
+1. **Careerjet:** crear la cuenta de publicador (Mar, con sus datos) y leer dentro los términos de caché, atribución y enlace. Es el programa pensado para mostrar sus ofertas.
+2. **Leer a mano** el aviso legal del BOE (una página) para dar la fuente por verificada.
+3. **Más datos abiertos del sector público:** datos abiertos del SEPE y de las comunidades autónomas (Aragón publica un CSV de empleo público), Työmarkkinatori de Finlandia (su documentación oficial no se pudo leer), Jobnet de Dinamarca, France Travail, Bundesagentur. Habría que calificar cada uno.
+4. **Empresas con ATS, empresa por empresa:** el agente descubridor de empresas con Greenhouse, Lever, Personio, Workable, Ashby o Recruitee (sin API para quien las lea de forma masiva, pero las páginas de empleo de cada empresa son suyas). Personio: releer su ayuda cuando se libere el límite.
+5. **Empresas que publican en Horma** (`/publicar-oferta`), **ofertas que trae la usuaria** (enlace o alertas reenviadas) y **datos estructurados `JobPosting`** (hay conjuntos abiertos, Web Data Commons; falta ver su licencia y la de Common Crawl).
+6. **Acuerdos:** formularios o correos a Adzuna, Arbeitnow, EURES (helpdesk), InfoJobs y a `opendata@arbetsformedlingen.se` (límites de JobTech). Mar prefiere no depender de correos por el tiempo.
+7. **Países sin investigar:** Italia, Polonia, Portugal, Países Bajos (solo datos agregados).
+8. **Profesor:** pregunta 32 en `docs/preguntas-profesor.md` con el detalle y seis preguntas; sirve para decidir si basta una demostración con las fuentes aptas más las publicadas por empresas.
+
+**Seguridad: arreglos antes de activar ninguna fuente** (revisión del día 1; ninguna alta). Aplicar con orden de Mar, con sus tests:
+- **M1:** `ingestar.py` no comprueba a qué IP se conecta (SSRF): resolver el nombre y rechazar IP no públicas, puertos distintos de 443, usuario en la URL y nombres sin punto (≈25 líneas, 1 test).
+- **M2:** limitar `clave_env` a `FUENTE_[A-Z0-9_]+` y exigir `clave_nombre` si la clave va por parámetro (3 líneas).
+- **B1:** quitar de `sys.path` la carpeta de usuario tras importar `pypdf` y no añadirla si no existe (2 líneas; corregir el comentario).
+- **B2 a B5:** comparar el puerto en las redirecciones, reloj total de lectura, hash corto en el nombre de archivo y captura de errores de red, y limitar `--salida`.
+- **M3:** las preferencias se editan sin login: mantener la web solo en local hasta construir el login.
+- **B6:** nota bajo el formulario («no escribas salud, religión, afiliación…»); listas cerradas más adelante.
+
+**Mañana: tareas de construir (en este orden; Mar da la orden al empezar):**
+1. **Seguridad de la descarga:** M1 (IP y puertos), M2 (variable `FUENTE_*`), B1 (`sys.path`), B2 (puerto en redirecciones), con tests. Sin esto no se activa ninguna fuente.
+2. **Activar JobTech** y primera ingesta real de unos 20 anuncios (`ingestar.py`), sin guardar campos de contacto.
+3. **`/ingestar-ofertas`** con los agentes (`extractor-oferta`, `auditor-oferta`, `clasificador-oferta`) y el **importador** a la base de datos.
+4. **`npm run verificar`:** que lo descargado coincide con lo guardado; ingesta repetible sin duplicar.
+5. **Campo «licencia de origen»** en cada oferta (empresa, socio, abierto, usuaria), con su migración y la web enseñando siempre el enlace a la original.
+6. **BOE:** adaptador para su respuesta anidada; solo convocatorias de la sección `2B`, descartando listas de aprobados (nombres de personas); atribución «Fuente de los datos: Agencia Estatal Boletín Oficial del Estado» con enlace y fecha.
+7. **Después:** dashboard y observabilidad (días 4 y 5 del plan), y la ampliación de fuentes (lista de arriba).
+Mar prueba el resultado con `docs/guia-pruebas-manuales.md` al acabar cada bloque.
+
+**Ya no hace falta:** que Mar cree claves de Adzuna e InfoJobs (ninguna salió apta).
 
 ## Reglas permanentes (Mar)
 - En la sección Proyectos del Cuaderno nunca se hacen ejercicios ni examen.
@@ -41,7 +75,7 @@ Actualizado el 2026-11-05 (pista B en marcha: pasos 1 y 2 hechos). Única fuente
 5. **Cierre:** tests, evals, `revisor-seguridad` sobre los cambios, bitácora, commit por archivo. Criterio: al menos 2 fuentes aptas.
 **No entra el día 1:** descargar ofertas (día 2), scraping y Apify (aparcados).
 
-**Resultado del día 1 (5-nov):** pasos 1, 3 y 4 hechos. Primera ronda: seis fuentes no aptas. Segunda ronda: Careerjet, Jooble, Greenhouse y Lever no aptas; **BOE y JobTech aptas con condiciones** (criterio de «2 aptas» cumplido). `endpoints.json` tiene JobTech con `activa: false`; BOE necesita adaptador. Se reorganiza, a falta del profesor (6-nov): calificar Careerjet, Jooble, Greenhouse, Lever, JobTech, Työmarkkinatori y BOE; ingesta real con las aptas y el campo «licencia de origen»; «añadir oferta por enlace»; agente descubridor de empresas con ATS. Detalle y preguntas: `docs/consulta-profesor-fuentes-de-ofertas.md` (pregunta 32 de `preguntas-profesor.md`).
+**Resultado del día 1 (5-nov):** pasos 1, 3 y 4 hechos. Primera ronda: seis fuentes no aptas. Segunda ronda: Careerjet, Jooble, Greenhouse y Lever no aptas; **BOE y JobTech aptas con condiciones** (criterio de «2 aptas» cumplido). `endpoints.json` tiene JobTech con `activa: false`; BOE necesita adaptador. Pendiente tras el profesor (6-nov): ingesta real con las aptas y el campo «licencia de origen»; «añadir oferta por enlace»; agente descubridor de empresas con ATS. Detalle y preguntas: `docs/consulta-profesor-fuentes-de-ofertas.md` (pregunta 32 de `preguntas-profesor.md`).
 
 **Decisiones de Mar (5-nov):** preferencias deducidas vacías hasta confirmar; sí al campo de horario; sí a instalar `pypdf`; sí a versionar `evals/resultados/*.json` (datos inventados); sí a calificar EURES, Adzuna, Arbeitnow, The Hub e InfoJobs; compartir la página del profesor con él desde *Share*; **`settings.json` «más adelante»** (hook y bloqueo de `.env` siguen sin activar durante las pruebas).
 

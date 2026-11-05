@@ -387,3 +387,17 @@ Cuaderno de decisiones de Horma jobs en orden cronológico. Solo se añade al fi
 - Citas del aviso legal obtenidas por un agente de lectura web: leer a mano la página antes de producción.
 
 **Hecho.** Fila de JobTech en `endpoints.json` con `activa: false` (se activa en el día 2, tras la orden de Mar y antes de la revisión de seguridad de la descarga). Calificaciones validadas contra el esquema.
+
+## 5-nov-2026 · Revisión de seguridad del día 1 y cierre de la jornada
+
+**Revisión** (`revisor-seguridad`, solo lectura): sin hallazgos altos ni secretos escritos a mano; `datos/fuentes/calificacion.json` está fuera de git. Tres medias: **M1** `ingestar.py` no comprueba a qué IP se conecta (SSRF); **M2** acepta cualquier variable de entorno como clave y la enviaría al host de la fuente; **M3** las preferencias se editan sin login (ya documentado). Bajas: la carpeta de usuario se queda en `sys.path` tras importar `pypdf` y el comentario decía lo contrario (B1); detalles de redirecciones, tiempos, nombres de archivo y rutas de `--salida` (B2 a B5); texto libre en las preferencias podría llevar categorías del art. 9 (B6). Bien: `horario` validado en esquema, TypeScript y base de datos; consultas parametrizadas; registros sin datos personales.
+
+**Decisión.** M1, M2 y B1 se arreglan antes de activar ninguna fuente; el resto, cuando toque. Pendiente de la orden de Mar para el día 2.
+
+**Corrección de una estimación.** Calculé 4 a 6 horas para el día 1 y se hizo en una sesión: conté tiempos de trabajo humano y de espera, y los agentes trabajan en paralelo. Las próximas estimaciones se darán como rango y se ajustarán con lo medido hoy.
+
+**Cierre.** Mar no está satisfecha con las fuentes (solo BOE y JobTech aptas, una de ellas de Suecia). Mañana se buscan más soluciones; el punto de partida está en «Retomar mañana» de `docs/tareas-pendientes.md`.
+
+## 5-nov-2026 · Decisión de Mar: demostración con pocas fuentes limpias
+
+Mar elige construir primero una demostración con pocas fuentes que pasen la calificación (JobTech y BOE) y las ofertas que publiquen empresas, y ampliar después. Por qué: calidad y permiso antes que volumen; no depender de respuestas ajenas para avanzar. Efecto: mañana empieza la construcción (seguridad de la descarga, activar JobTech, ingesta real, verificar, licencia de origen, adaptador del BOE) y la búsqueda de más fuentes corre en paralelo. Detalle en «Retomar mañana» de `docs/tareas-pendientes.md`.

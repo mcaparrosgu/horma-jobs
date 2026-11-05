@@ -89,6 +89,25 @@ footer{font-size:13px;color:var(--muted);max-width:75ch}
 
 <section class="tramo">
   <div class="tramo-cab">
+    <h2>Resultado de la calificación (5-nov)</h2>
+    <p>Doce fuentes pasaron por <code>/calificar-fuentes</code> (condiciones de uso, robots.txt y una prueba de lectura). Dos son aptas con condiciones.</p>
+  </div>
+  <div class="tabla"><table>
+    <thead><tr><th>Fuente</th><th>Resultado</th><th>Motivo principal</th></tr></thead>
+    <tbody>
+    <tr><td>BOE (datos abiertos)</td><td><span class="chip ok">Apta con condiciones</span></td><td>Reutilización comercial permitida con atribución y enlace; API sin clave (cabecera Accept). Solo convocatorias de empleo público; adaptador pendiente.</td></tr>
+    <tr><td>JobTech (Suecia)</td><td><span class="chip ok">Apta con condiciones</span></td><td>Licencia CC0, acceso público. Solo Suecia; límites sin confirmar; no se guardan contactos.</td></tr>
+    <tr><td>Greenhouse</td><td><span class="chip warn">No apta (con matices)</span></td><td>API pública, nada la prohíbe, sin autorización expresa; el texto es de cada empresa.</td></tr>
+    <tr><td>Careerjet</td><td><span class="chip warn">Pendiente de cuenta</span></td><td>Programa para mostrar sus ofertas; los términos están dentro de la cuenta de publicador.</td></tr>
+    <tr><td>EURES, InfoJobs, Personio</td><td><span class="chip warn">No apta (no claro)</span></td><td>Sin permiso expreso o condiciones sin poder leer.</td></tr>
+    <tr><td>Arbeitnow, Adzuna, The Hub</td><td><span class="chip bad">No apta</span></td><td>Uso personal o no comercial, o acuerdo escrito.</td></tr>
+    <tr><td>Jooble, Lever</td><td><span class="chip bad">No apta</span></td><td>Prohíben bots o distribuir a terceros; sin licencia.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="tramo">
+  <div class="tramo-cab">
     <h2>Cómo conectar los ATS (portales de empleo de las propias empresas)</h2>
     <p>Un ATS es el programa con el que una empresa gestiona sus ofertas y candidaturas. Muchos publican las ofertas en una URL abierta por empresa: no hay clave, pero hace falta saber el identificador de cada empresa (sale de la URL de su página de empleo). Funciona en español e inglés, porque es la empresa la que escribe la oferta.</p>
   </div>
