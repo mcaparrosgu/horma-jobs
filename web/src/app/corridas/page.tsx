@@ -1,0 +1,43 @@
+import { Suspense } from "react";
+import { db } from "@/lib/db";
+import { SQL_CORRIDAS } from "@/lib/consultas";
+
+type Corrida = { id: string; fuente: string; inicio: Date; fin: Date | null; entraron: number; descartadas: number; errores: unknown[] };
+
+export default function Pagina() {
+  return <Suspense fallback={<p className="text-sm">Cargando corridas…</p>}><Corridas /></Suspense>;
+}
+
+async function Corridas() {
+  const { rows } = await db().query<Corrida>(SQL_CORRIDAS);
+  return (
+    <div className="space-y-4">
+      <h1 className="text-2xl font-semibold">Corridas de ingesta</h1>
+      <p className="text-sm text-zinc-600">Una fila por cada vez que se trae un portal. Se muestran las 50 últimas.</p>
+      {rows.length === 0 ? (
+        <p className="rounded border border-dashed border-zinc-300 p-6 text-center text-sm">Todavía no se ha ejecutado ninguna ingesta.</p>
+      ) : (
+        <table className="w-full border-collapse bg-white text-left text-sm">
+          <thead>
+            <tr className="border-b border-zinc-300">
+              <th className="p-2">Fuente</th><th className="p-2">Inicio</th><th className="p-2">Duración</th>
+              <th className="p-2">Entraron</th><th className="p-2">Descartadas</th><th className="p-2">Errores</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((c) => (
+              <tr key={c.id} className="border-b border-zinc-200 align-top">
+                <td className="p-2">{c.fuente}</td>
+                <td className="p-2">{c.inicio.toISOString().replace("T", " ").slice(0, 16)}</td>
+                <td className="p-2">{c.fin ? `${Math.round((c.fin.getTime() - c.inicio.getTime()) / 1000)} s` : "sin terminar"}</td>
+                <td className="p-2">{c.entraron}</td>
+                <td className="p-2">{c.descartadas}</td>
+                <td className="p-2">{c.errores.length === 0 ? "ninguno" : c.errores.map((e, i) => <div key={i}>{String(e).slice(0, 200)}</div>)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+  );
+}

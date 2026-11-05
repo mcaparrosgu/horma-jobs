@@ -70,8 +70,8 @@ export function paramsPreferencias(usuariaId: string, p: Json): unknown[] {
 export const CLAVES_DETALLE = ["archivos", "importadas", "omitidas", "rechazadas"] as const;
 
 // Componentes y acciones permitidos: cada uno nuevo se añade aquí, a propósito (hallazgo C).
-export const COMPONENTES = ["importador"] as const;
-export const ACCIONES = ["importar-datos"] as const;
+export const COMPONENTES = ["importador", "web-ingesta"] as const;
+export const ACCIONES = ["importar-datos", "guardar-fuente"] as const;
 
 export type EventoEntrada = {
   componente: (typeof COMPONENTES)[number];

@@ -258,3 +258,23 @@ Cuaderno de decisiones de Horma jobs en orden cronológico. Solo se añade al fi
 - POR QUÉ ESTA — Son arreglos baratos (unas 60 líneas) que evitan pérdida de datos y fugas de datos personales antes de que existan usuarias reales.
 - QUÉ SE ROMPIÓ — Nada nuevo. Comprobado contra la base real: edición de Ana (`sueldo_min=1`) sobrevive a un importado normal y se restaura con `--forzar`; perfil roto → sus preferencias omitidas y 0 filas nuevas; fecha inválida → «código 22007» sin el valor; archivo de 1,1 MB → rechazado; contraseña corta → no arranca; `npm test` = 17 en verde, `tsc`, `lint` y `build` sin errores. **No pude probar el rechazo de enlaces simbólicos:** Windows exige permisos de administrador para crearlos; el código usa `lstatSync(...).isSymbolicLink()`, sin prueba práctica.
 - QUÉ QUEDA PENDIENTE — E: ids de usuaria opacos (UUID) al llegar el login. En la web (pasos 4-5): nunca `dangerouslySetInnerHTML` con texto de ofertas o CVs (los textos se guardan sin sanear a propósito). Al validar `endpoints.json`, los mensajes de ajv podrían incluir claves del dato: revisarlos. Rol `horma_app` (ya anotado).
+
+## 2026-11-05 · Pista B, paso 4: web de ingesta
+
+**Qué hicimos.** Tres páginas en la web (`web/`): **Ofertas** (lista con filtros por país, nivel, modalidad, sector y familia, y la auditoría de cada oferta a la vista: posible fantasma, posible fraude, empresa validada, sueldo publicado), **Fuentes** (tabla de portales y un formulario para añadir o editar) y **Corridas** (una fila por cada ingesta, con lo que entró, lo descartado y los errores). Hoy Corridas está vacía porque aún no hay descarga real.
+
+**Cómo funciona.** Cada página es un componente de servidor que consulta la base con parámetros (`$1`, `$2`…), así que lo que escribe quien filtra nunca se mezcla con el SQL. El formulario de fuentes es una *server action*: una función que se ejecuta en el servidor al enviar el formulario. Antes de guardar, `validarFuente` comprueba la fuente contra `endpoints.json` y con reglas extra; si falla, devuelve los errores sin repetir el valor sospechoso y conserva lo que ella había escrito.
+
+**Qué decidimos y por qué.**
+- **La clave nunca se escribe en una fuente.** Solo el nombre de una variable que empiece por `FUENTE_` (p. ej. `FUENTE_ADZUNA_KEY`). *Por qué:* lo propuso el revisor: si valiera cualquier variable, una fuente podría pedir `HORMA_DB_PASSWORD` y, el día de la descarga, enviarla a un tercero.
+- **Direcciones internas fuera ya, aunque no se descargue nada.** Se rechazan `localhost`, IP privadas, puertos distintos de 443 y hosts sin punto. *Por qué:* es barato y evita guardar hoy una trampa para mañana. La comprobación definitiva (tras resolver el DNS) queda para la descarga.
+- **El servidor solo escucha en 127.0.0.1.** *Por qué:* sin login, cualquiera en tu wifi podría haber editado fuentes.
+- Sin API aparte: páginas y acciones de Next.js. Practica: Next.js (servidor y cliente), seguridad web.
+
+**Cómo lo comprobamos.** `npm test` = 27 pruebas, `tsc`, `lint` y `build` sin errores. En el navegador: una cabecera con una clave falsa fue rechazada sin repetirla y el formulario conservó lo escrito; una fuente correcta se guardó y dejó su apunte en `eventos`. Borré después esa fuente de prueba.
+
+**Fallos míos.** (1) Next 16 con `cacheComponents` no admite `dynamic = "force-dynamic"`: las páginas se envuelven en `Suspense`. (2) React vaciaba el formulario tras un error; ahora se devuelve lo escrito (menos los campos que parecían claves). (3) Un comando mío para parar el servidor mataba todos los procesos `node`; el sistema lo bloqueó y no se ejecutó.
+
+**Qué queda.** SSRF real al descargar; login, cabeceras de seguridad y rol `horma_app` antes de abrir la web a nadie; ofertas sin clasificar (sector y familia vacíos). Siguiente: paso 5, tras decidir (k).
+
+**Decisión de Mar (5-nov), punto (k):** se importa de dónde sale cada dato del perfil (su `origen` y los `traza.json`). *Por qué:* sin origen visible no hay honestidad comprobable. Es lo primero del paso 5.
