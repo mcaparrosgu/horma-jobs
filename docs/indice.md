@@ -27,7 +27,7 @@ Una sola fuente de verdad para cada cosa. Si algo cambia, se cambia donde dice �
 
 ## Artefactos de Horma
 
-Son seis y ninguno más. **Antes de publicar sobre uno, se lee** (`Artifact read`); se regenera siempre desde su fuente. Si cambia o se borra uno, se actualiza `ARTEFACTOS_HORMA` en `workbook.html` y se republica el Cuaderno personal.
+Son siete y ninguno más. **Antes de publicar sobre uno, se lee** (`Artifact read`); se regenera siempre desde su fuente. Si cambia o se borra uno, se actualiza `ARTEFACTOS_HORMA` en `workbook.html` y se republica el Cuaderno personal.
 
 | Artefacto | Para qué | Quién | Fuente |
 |---|---|---|---|
@@ -36,6 +36,7 @@ Son seis y ninguno más. **Antes de publicar sobre uno, se lee** (`Artifact read
 | [Horma por dentro](https://claude.ai/artifact/QBkk83ZVbjHC97kNq1y9xH) | Guía privada con chat de dudas (`sample` y `db`: repetirlas si se cambian) | Mar | `docs/horma-por-dentro.html` |
 | [Construcción de Horma](https://claude.ai/artifact/BiiqfZdu3C3F2M32Myggeb) | Pasos para construir Horma completa (troncos y ramas) | Mar | `docs/indice-construccion-horma.html` |
 | [Horma por fases](https://claude.ai/artifact/SSztJsDarsow9YaRju6aAR) | Las 4 fases del profesor, con sus comentarios | Profesor | `docs/construccion-por-fases-horma.html` |
+| [Pruebas de Horma a mano](https://claude.ai/artifact/AeDdEVZyd7y4xi4mHe7nYY) | Lista paso a paso con casillas, notas e informe de fallos (usa `db`; privada) | Mar | `docs/pruebas-horma.html` (contenido: `docs/guia-pruebas-manuales.md`) |
 | [Archivo 29-oct](https://claude.ai/artifact/Rz3LtzSVM8yeGkMYks9SQs) | Temporal, con los 19 hilos; no se toca | Nadie | `docs/archivo/horma-jobs-borrador-29oct.html` |
 
 Diagramas: `Workbook\web\proyectos\horma\*.json` y `horma-v3\` (skill `archify`).
