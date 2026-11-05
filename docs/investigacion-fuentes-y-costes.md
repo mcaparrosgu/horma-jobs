@@ -2,6 +2,8 @@
 
 > Es la Parte C del cuaderno de ideas del 27-oct. Lo demás (ideas de Mar, valoración y respuestas) está recogido en `docs/propuesta-horma.md`, apartado 4, y se retiró de aquí el 4-nov (sigue en el historial de git). Las referencias a «punto N» son a la numeración de aquel cuaderno. **Datos de precios y condiciones: verificar antes de usarlos.**
 
+> **5-nov-2026, motivación y lista ampliada.** Horma es un metabuscador: la usuaria no debe ir de web en web ni de app en app. Para eso, investigación amplia de fuentes de España y Europa en `docs/fuentes-de-empleo.html` (tres tramos: acceso fácil, API con clave, Apify/scraping), con cada dato marcado como comprobado, solo de terceros o sin confirmar. Aviso: Remotive, Himalayas y We Work Remotely prohíben, según terceros, pasar sus ofertas a otros agregadores; hay que leer sus términos.
+
 ## Parte C — Investigación
 
 ### Punto 2 · El «circo» de la búsqueda de empleo

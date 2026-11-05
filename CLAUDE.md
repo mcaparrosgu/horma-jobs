@@ -83,7 +83,7 @@ pública), esas reglas se desactivan.
 ## El proyecto
 
 - **Qué es:** proyecto final del bootcamp de AI Engineering de Neoland y portfolio de Mar.
-  Metabuscador europeo de empleo, multiusuaria, con entrevista por voz para sacar el
+  Metabuscador europeo de empleo (su razón de ser: que la usuaria no tenga que ir de web en web ni de app en app; cuantas más fuentes legales y fiables, más nos diferenciamos; lista en `docs/fuentes-de-empleo.html`), multiusuaria, con entrevista por voz para sacar el
   perfil humano, CV y carta honestos orientados a ATS, agente de candidatura,
   seguimiento y portal de empresas (publican ofertas; sin información de empresas ni
   seguirlas: Horma no es una red social). Sin topes para la usuaria. Repositorio privado

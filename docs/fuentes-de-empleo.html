@@ -1,0 +1,153 @@
+<title>Fuentes de empleo de Horma</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Concepto: informe de investigación en tres tramos de dificultad (fácil, con clave, difícil); cada fila lleva su estado de verificación. */
+:root{
+  --bg:#f5f6f8; --surface:#ffffff; --fg:#1a2130; --muted:#58627a; --line:#d9dde6;
+  --accent:#0f5f73; --accent-soft:#dcedf1;
+  --ok:#17663a; --ok-bg:#dff1e6; --warn:#8a5a00; --warn-bg:#faebc8; --bad:#9b2231; --bad-bg:#f8dde0;
+  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12161f; --surface:#1a202c; --fg:#e6e9f0; --muted:#98a2b8; --line:#2b3345;
+  --accent:#6cc3d6; --accent-soft:#183843;
+  --ok:#7fd9a2; --ok-bg:#173826; --warn:#f0c46a; --warn-bg:#3f3216; --bad:#f19aa5; --bad-bg:#43191f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12161f; --surface:#1a202c; --fg:#e6e9f0; --muted:#98a2b8; --line:#2b3345;
+  --accent:#6cc3d6; --accent-soft:#183843;
+  --ok:#7fd9a2; --ok-bg:#173826; --warn:#f0c46a; --warn-bg:#3f3216; --bad:#f19aa5; --bad-bg:#43191f; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.55;
+  padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:36px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.15;margin:0}
+h1{font-size:clamp(28px,5vw,42px)}
+h2{font-size:24px}
+p{margin:0}
+a{color:var(--accent)}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.lead{max-width:68ch;color:var(--muted)}
+.motivo{background:var(--accent-soft);border-radius:6px;padding:16px 20px;max-width:75ch}
+.motivo b{font-family:var(--f-display)}
+.leyenda{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13px;color:var(--muted)}
+.tramo{display:flex;flex-direction:column;gap:14px}
+.tramo-cab{display:flex;flex-direction:column;gap:6px}
+.tramo-cab p{max-width:75ch;color:var(--muted)}
+.tabla{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:14px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600;min-width:150px}
+td small{display:block;color:var(--muted);font-weight:400;margin-top:2px}
+.pais{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:4px;white-space:nowrap}
+.ok{background:var(--ok-bg);color:var(--ok)}
+.warn{background:var(--warn-bg);color:var(--warn)}
+.bad{background:var(--bad-bg);color:var(--bad)}
+.aviso{border-left:4px solid var(--warn);background:var(--warn-bg);color:var(--fg);padding:12px 16px;border-radius:0 6px 6px 0;max-width:80ch}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.cols>div{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;min-width:0;display:flex;flex-direction:column;gap:8px}
+ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+footer{font-size:13px;color:var(--muted);max-width:75ch}
+</style>
+
+<main>
+<header style="display:flex;flex-direction:column;gap:14px">
+  <h1>Fuentes de empleo de Horma</h1>
+  <p class="lead">Portales, APIs y feeds de España y Europa ordenados por lo fácil que es conectarlos. Investigación del 5-nov-2026, hecha con búsquedas web. Cada fila dice qué está comprobado y qué no.</p>
+  <div class="motivo"><b>Por qué existe esta lista.</b> Horma es un metabuscador: la persona no tiene que ir de web en web ni de app en app, porque todas las ofertas llegan a un solo sitio. Cuantas más fuentes buenas, más nos diferenciamos.</div>
+  <div class="leyenda">
+    <span><span class="chip ok">Comprobado</span> en documentación oficial o varias fuentes coincidentes</span>
+    <span><span class="chip warn">Solo terceros</span> lo dicen blogs o vendedores de scrapers</span>
+    <span><span class="chip bad">Sin confirmar</span> no se ha encontrado nada fiable</span>
+  </div>
+</header>
+
+<div class="aviso"><b>Antes de usar cualquiera:</b> pasa por <code>/calificar-fuentes</code> (condiciones de uso y robots.txt). Los metabuscadores como Horma <i>agregan</i> ofertas de otros, y varios portales lo prohíben expresamente en sus términos (ver abajo). Ninguna fila de esta página autoriza por sí sola a descargar nada.</div>
+
+<section class="tramo">
+  <div class="tramo-cab">
+    <h2>1. Acceso fácil: sin clave y sin registro</h2>
+    <p>Se descargan con una petición normal. Son las primeras que conectaría: coste cero y poco que mantener.</p>
+  </div>
+  <div class="tabla"><table>
+    <thead><tr><th>Fuente</th><th>Zona</th><th>Cómo se accede</th><th>Condiciones y límites</th><th>Estado</th></tr></thead>
+    <tbody>
+    <tr><td>Arbeitnow<small>arbeitnow.com/blog/job-board-api</small></td><td class="pais">Alemania, UE, remoto</td><td>API pública JSON, sin autenticación</td><td>Es la que más claramente se ofrece como API abierta. Límites y licencia: leer su página antes de usar.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>JobTech (Arbetsförmedlingen)<small>Servicio público de empleo de Suecia</small></td><td class="pais">Suecia</td><td>API abierta del servicio público</td><td>Datos abiertos oficiales. Falta confirmar licencia y límites en su documentación.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>APIs públicas de empresas (ATS)<small>Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Recruitee, Personio, Teamtailor</small></td><td class="pais">Cualquier país</td><td>Una URL por empresa, con su identificador. Sin clave. Greenhouse y Lever documentadas; Ashby y Workable con URLs que cambian según la fuente.</td><td>Solo ofrecen las ofertas de <b>esa</b> empresa: hace falta una lista de empresas. Personio y Recruitee son habituales en empresas europeas. Endpoints no documentados pueden cambiar.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>Jobicy<small>feed remoto</small></td><td class="pais">Remoto</td><td>API JSON sin clave</td><td>Exige citar la fuente y enlazar a la oferta original. Una comprobación por hora como máximo, según un tercero.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>RemoteOK<small>remoteok.com</small></td><td class="pais">Remoto</td><td>API JSON; el primer elemento es un aviso legal, no una oferta</td><td>Exige enlace directo a RemoteOK y nombrarlo como fuente.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>Get on Board<small>tecnología, España y Latinoamérica</small></td><td class="pais">España, LatAm</td><td>Contribuyó ofertas en Jobs (n8n)</td><td>No he encontrado su documentación pública ni sus términos en esta ronda.</td><td><span class="chip bad">Sin confirmar</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="aviso"><b>Incompatibles con un metabuscador (según terceros):</b> Remotive y Himalayas prohíben pasar sus ofertas a otros agregadores; We Work Remotely restringe servicios que compitan con él y pide que la candidatura se haga en su web. Se descartan hasta leer sus términos y, si procede, pedirles permiso.</div>
+</section>
+
+<section class="tramo">
+  <div class="tramo-cab">
+    <h2>2. APIs que piden clave, fáciles de conseguir</h2>
+    <p>Hay que registrarse. La clave va solo en <code>.env</code>, nunca en el código. Mar crea las cuentas; yo no toco credenciales.</p>
+  </div>
+  <div class="tabla"><table>
+    <thead><tr><th>Fuente</th><th>Zona</th><th>Cómo se consigue la clave</th><th>Condiciones y límites</th><th>Estado</th></tr></thead>
+    <tbody>
+    <tr><td>Adzuna<small>developer.adzuna.com</small></td><td class="pais">Varios países europeos (España por confirmar)</td><td>Registro; clave gratis al momento, sin datos de pago</td><td>Sus términos dicen que el plan gratis es para evaluar y que los límites se ven en tu cuenta. Cifras de blogs: 250 al día o 1.000 al mes; no coinciden.</td><td><span class="chip ok">Comprobado</span> <span class="chip warn">límites no</span></td></tr>
+    <tr><td>InfoJobs<small>developer.infojobs.net</small></td><td class="pais">España</td><td>Cuenta de desarrollador y credenciales en su web</td><td>Devuelve 20 resultados por consulta. Sus condiciones de API y límites no aparecen en las búsquedas: hay que leerlas dentro del portal. Es la fuente más importante para España.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>Reed<small>reed.co.uk/developers</small></td><td class="pais">Reino Unido</td><td>Formulario en su página oficial; clave gratis según terceros</td><td>Autenticación básica con la clave. 100 resultados por página. No documenta límite de peticiones (no quiere decir que no haya).</td><td><span class="chip ok">Comprobado</span> <span class="chip warn">gratuidad no</span></td></tr>
+    <tr><td>Jooble<small>agregador</small></td><td class="pais">Europa y más</td><td>Solicitud de clave de API</td><td>No he podido confirmar condiciones ni límites. Ojo: es un competidor directo.</td><td><span class="chip bad">Sin confirmar</span></td></tr>
+    <tr><td>Careerjet<small>agregador</small></td><td class="pais">Europa y más</td><td>Programa de socios</td><td>No he podido confirmar condiciones ni si admite un metabuscador.</td><td><span class="chip bad">Sin confirmar</span></td></tr>
+    <tr><td>NAV (servicio público noruego)</td><td class="pais">Noruega</td><td>Token pedido por correo</td><td>Datos públicos. Sin confirmar si merece el esfuerzo para Horma.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>France Travail<small>servicio público francés</small></td><td class="pais">Francia</td><td>Registro OAuth en su portal de desarrolladores</td><td>Licencia y condiciones poco claras en lo que encontré.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>Bundesagentur für Arbeit (Jobsuche)</td><td class="pais">Alemania</td><td>No hay API oficial; existe un punto de acceso no oficial</td><td>No oficial significa que puede cambiar o cerrarse sin avisar.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="aviso"><b>Sin API pública confirmada:</b> EURES (el portal europeo, solo hay scrapers de terceros), Empléate del SEPE (SEPE publica datos abiertos, pero estadísticas, no ofertas), BOE de empleo público (no he confirmado una API de convocatorias). Se pueden pedir por los canales oficiales de datos abiertos; es una vía lenta pero limpia.</div>
+</section>
+
+<section class="tramo">
+  <div class="tramo-cab">
+    <h2>3. Acceso difícil: solo con scraping o actores de Apify</h2>
+    <p>No hay API pública. Un actor de Apify es un programa de terceros que lee la web por ti y cobra por resultado. Es la vía de excepción: coste variable, riesgo legal y rotura cuando el portal cambia. Indeed y LinkedIn quedan fuera, por indicación del profesor.</p>
+  </div>
+  <div class="tabla"><table>
+    <thead><tr><th>Portal</th><th>Zona</th><th>Actores en Apify</th><th>Coste orientativo</th><th>Estado</th></tr></thead>
+    <tbody>
+    <tr><td>InfoJobs (si su API no sirve)</td><td class="pais">España</td><td>Varios</td><td>No comprobado</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>Tecnoempleo<small>informática y telecom</small></td><td class="pais">España</td><td>Varios</td><td>No comprobado</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>Infoempleo, Jobatus, Trabajos.com</td><td class="pais">España</td><td>No se han encontrado en esta ronda</td><td>—</td><td><span class="chip bad">Sin confirmar</span></td></tr>
+    <tr><td>EURES</td><td class="pais">Europa</td><td>Varios</td><td>No comprobado</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>Welcome to the Jungle</td><td class="pais">Francia y Europa</td><td>Varios</td><td>Desde 0,50 a 3,00 $ por 1.000 resultados, según actor</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>StepStone (y Totaljobs, IrishJobs)</td><td class="pais">Alemania, Reino Unido, Irlanda</td><td>Varios; uno cubre el grupo StepStone</td><td>Un precio visto de 20 $ por 1.000 sin saber de qué actor</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>Xing</td><td class="pais">Países de habla alemana</td><td>Uno con precio visible</td><td>Desde 3,99 $ por 1.000</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>Jobs.ch y Jobup.ch</td><td class="pais">Suiza</td><td>Varios</td><td>No comprobado</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>Kimeta</td><td class="pais">Alemania</td><td>Uno</td><td>Desde 2,00 $ por 1.000</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>Agregadores europeos de varias fuentes</td><td class="pais">Europa</td><td>Actores que agrupan 14 a 50 portales</td><td>No comprobado</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="aviso"><b>Riesgo legal:</b> las condiciones de cada portal pueden prohibir la extracción automática, aunque los datos sean públicos. Que existan actores en Apify no es permiso. Cada portal necesita su calificación, y hay que verificar la sentencia del TJUE C-30/14 sobre bases de datos con un abogado antes de lanzar nada con usuarias reales.</div>
+</section>
+
+<section class="tramo">
+  <h2>Lo que no sirve como fuente</h2>
+  <div class="cols">
+    <div><h3>Programas de feeds</h3><p>Talent.com, Jobrapido y Jora aceptan feeds <i>de publicadores</i> para repartir ofertas, y Talent.com lo vende como programa de monetización. Son canales de salida, no una fuente para nosotras.</p></div>
+    <div><h3>Indeed y LinkedIn</h3><p>Descartados por el profesor. En ambos, Horma prepara y la persona envía.</p></div>
+    <div><h3>Portales de búsqueda sin pasar por ellos</h3><p>Jooble y Jobatus agrupan cientos de webs. Reutilizar su contenido es meter ofertas de segunda mano y heredar sus condiciones.</p></div>
+  </div>
+</section>
+
+<section class="tramo">
+  <h2>Siguiente paso propuesto</h2>
+  <div class="cols">
+    <div><h3>Calificar primero</h3><ul><li>Arbeitnow, EURES, Adzuna, The Hub e InfoJobs (ya autorizadas por Mar).</li><li>Después, 2 o 3 APIs públicas de empleo (JobTech, France Travail).</li></ul></div>
+    <div><h3>Verificar en la fuente</h3><ul><li>Términos y límites de InfoJobs y Adzuna dentro de sus portales.</li><li>Endpoints exactos de cada ATS en su documentación.</li><li>Si Jooble y Careerjet admiten un metabuscador.</li></ul></div>
+    <div><h3>Lo que falta por investigar</h3><ul><li>Italia, Países Bajos, Polonia, Portugal, Dinamarca y Finlandia: no salió nada fiable.</li><li>Infoempleo, Jobatus y Trabajos.com.</li><li>Cómo encontrar empresas con ATS público en España.</li></ul></div>
+  </div>
+</section>
+
+<footer>Fuentes: documentación oficial de Adzuna y Reed; páginas de Apify; guías y blogs de terceros sobre APIs de empleo (DEV Community, Cavuno, JobsPipe); datos.gob.es y BOE. Las cifras de coste son de listados de Apify y cambian. Lo no comprobado se ha dejado marcado, no rellenado.</footer>
+</main>

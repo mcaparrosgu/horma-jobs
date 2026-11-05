@@ -80,6 +80,7 @@ Están como referencia; las ideas de Mar del apartado 3 mandan sobre ellas.
 |---|---|
 | Erna | Horma la sustituye como proyecto final; Erna queda aparcada |
 | n8n (30 oct) | **Fuera.** La ingesta es un script propio, controlado desde un dashboard en el frontend, que escribe por `POST /ofertas`. ~~27 oct: n8n sigue con la ingesta con los workflows de Jobs~~ |
+| Motivación: metabuscador (5 nov) | **Que la gente evite ir de web en web y de app en app: todas las ofertas se unen en Horma.** Es lo que nos diferencia, y por eso se investigan muchas fuentes (solo España y Europa de momento), en tres tramos: acceso fácil, API con clave fácil de conseguir y acceso difícil vía Apify o scraping. Lista y estado de cada una: `docs/fuentes-de-empleo.html` |
 | Empresas | Publican ofertas y **solo ven lo que la candidata decide compartir**. Horma nunca ordena ni puntúa candidatas para ellas |
 | Horma no es una red social (29 oct) | **No se sigue a las empresas y no hay perfiles de empresa.** Solo publican ofertas y, como mucho, Horma enlaza a su web oficial. Sin seguidores, contactos ni muro: Horma se distancia de LinkedIn y similares |
 | Envío de candidaturas | Por defecto, la usuaria aprueba en Horma y el agente envía. **Se puede configurar como autónomo.** Rellena siempre con datos del CV y del perfil: **jamás inventa ni exagera** |
