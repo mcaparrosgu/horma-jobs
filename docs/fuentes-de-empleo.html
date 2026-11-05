@@ -102,10 +102,13 @@ footer{font-size:13px;color:var(--muted);max-width:75ch}
     <tr><td>Personio</td><td><code>{empresa}.jobs.personio.de/xml?language=en</code></td><td>Feed XML sin credenciales (lo dice su centro de ayuda). Por defecto en alemán; <code>language=en</code> lo pone en inglés. Sin sueldo. Muy usado en empresas europeas.</td><td><span class="chip ok">Comprobado</span></td></tr>
     <tr><td>Workable</td><td><code>apply.workable.com/api/v1/widget/accounts/{empresa}</code></td><td>Sin clave. Las fuentes dan dos rutas distintas: probar cuál funciona hoy.</td><td><span class="chip warn">Solo terceros</span></td></tr>
     <tr><td>Recruitee, Teamtailor</td><td>Páginas <code>{empresa}.recruitee.com</code> y <code>{empresa}.teamtailor.com</code></td><td>Devuelven ofertas publicadas sin credenciales según una prueba de terceros; rutas exactas por verificar en su documentación.</td><td><span class="chip warn">Solo terceros</span></td></tr>
-    <tr><td>Bizneo, Factorial, Sesame, Talent Clue</td><td>Los ATS más usados por pymes españolas</td><td>No he encontrado ninguna API pública de ofertas. Lo que sí hay son las páginas de empleo de cada empresa (más difíciles de leer).</td><td><span class="chip bad">Sin confirmar</span></td></tr>
-    <tr><td>SAP SuccessFactors, Workday</td><td>Usados por grandes empresas del IBEX 35</td><td>Sin API pública de ofertas confirmada. Si hace falta una gran empresa concreta, habría que mirar su página.</td><td><span class="chip bad">Sin confirmar</span></td></tr>
+    <tr><td>Bizneo</td><td>ATS español para pymes</td><td>Dice tener integraciones con más de 30 programas, pero no he encontrado documentación de una API ni de un feed de ofertas.</td><td><span class="chip bad">Sin confirmar</span></td></tr>
+    <tr><td>Factorial</td><td>Módulo de selección para pymes</td><td>Publica las ofertas hacia otros portales (por ejemplo InfoJobs). Sin API pública de ofertas encontrada.</td><td><span class="chip bad">Sin confirmar</span></td></tr>
+    <tr><td>Sesame HR</td><td>Publicación en LinkedIn, Indeed e InfoJobs</td><td>Según su centro de ayuda, publica hacia fuera. Es una integración de salida, no una API para leer ofertas.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>Talent Clue, Hiring Room</td><td>ATS usados por pymes españolas</td><td>Talent Clue: nada encontrado. Hiring Room: una ficha dice que no tiene API y otra habla de integraciones con portales.</td><td><span class="chip bad">Sin confirmar</span></td></tr>
     </tbody>
   </table></div>
+  <div class="aviso"><b>Lo que descubre esta ronda:</b> los ATS españoles <i>envían</i> sus ofertas a InfoJobs, Indeed y LinkedIn en lugar de abrirlas. Para cubrir las pymes españolas el camino práctico es InfoJobs y los agregadores con API (Adzuna, Jooble, Careerjet), no conectar cada ATS uno a uno.</div>
   <div class="aviso"><b>El problema real de los ATS no es la API, es la lista de empresas.</b> No he encontrado una lista de qué empresas españolas usan cada ATS. Opciones: (a) empezar con una lista pequeña que mantengamos a mano; (b) dejar que las empresas que se registren en Horma nos den su identificador; (c) comprobar, al añadir una empresa, a qué ATS pertenece. Recomiendo (a) y (b): son baratas y legales.</div>
 </section>
 
@@ -128,6 +131,45 @@ footer{font-size:13px;color:var(--muted);max-width:75ch}
     </tbody>
   </table></div>
   <div class="aviso"><b>Sin API pública confirmada:</b> EURES (el portal europeo, solo hay scrapers de terceros), Empléate del SEPE (SEPE publica datos abiertos, pero estadísticas, no ofertas), BOE de empleo público (no he confirmado una API de convocatorias). Se pueden pedir por los canales oficiales de datos abiertos; es una vía lenta pero limpia.</div>
+</section>
+
+<section class="tramo">
+  <div class="tramo-cab">
+    <h2>Otras APIs en inglés y servicios públicos de Europa</h2>
+    <p>Segunda ronda del 5-nov. Cubre las bolsas en inglés (remoto y tecnología) y los países que faltaban.</p>
+  </div>
+  <div class="tabla"><table>
+    <thead><tr><th>Fuente</th><th>Zona</th><th>Acceso</th><th>Condiciones y límites</th><th>Estado</th></tr></thead>
+    <tbody>
+    <tr><td>Findwork<small>findwork.dev</small></td><td class="pais">Remoto y tecnología</td><td>Clave con registro; cabecera <code>Authorization: Token {clave}</code></td><td>Plan gratis de 500 llamadas al mes según un catálogo, o con cupo diario según otro. Sin límite por segundo publicado.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>The Muse<small>themuse.com/developers/api/v2</small></td><td class="pais">Sobre todo EE. UU.</td><td>Clave en el parámetro <code>api_key</code></td><td>500 peticiones por hora sin clave y 3.600 con ella. Para más volumen, escribir a api@themuse.com. No he visto filtro por Europa.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>JSearch (RapidAPI)</td><td class="pais">Global</td><td>Clave de RapidAPI</td><td>Reúne ofertas de Google for Jobs. Plan gratis pequeño y de tope duro; cifras sin confirmar. Sus condiciones de reutilización: sin leer.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>TheirStack</td><td class="pais">Global</td><td>Clave con registro</td><td>Gratis: 200 créditos de API al mes y 5 páginas de 25 resultados. El plan gratis pasa a de pago para siempre tras el primer pago.</td><td><span class="chip ok">Comprobado</span></td></tr>
+    <tr><td>Työmarkkinatori<small>servicio público de Finlandia</small></td><td class="pais">Finlandia</td><td>API de búsqueda de anuncios con documentación técnica oficial; sin clave según terceros</td><td>La documentación existe, pero solo he podido leer la introducción.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>Jobnet<small>servicio público de Dinamarca</small></td><td class="pais">Dinamarca</td><td>Punto de acceso no documentado, sin credenciales según terceros</td><td>No oficial: puede cambiar sin aviso.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>EURES<small>portal europeo de empleo</small></td><td class="pais">Europa</td><td>Hay un punto de búsqueda público documentado por la comunidad, no por la Comisión</td><td>Según un tercero, el portal limita su uso a fines personales y con enlace de vuelta. Contacto oficial para pedir acceso: EMPL-EURES-INTEROP@ec.europa.eu.</td><td><span class="chip warn">Solo terceros</span></td></tr>
+    <tr><td>werk.nl (UWV)</td><td class="pais">Países Bajos</td><td>No hay API de todas las ofertas</td><td>Solo conjuntos de datos agregados mensuales (licencia CC-BY): sirven para estadísticas, no para ofertas.</td><td><span class="chip ok">Comprobado</span></td></tr>
+    <tr><td>ANPAL, praca.gov.pl, IEFP<small>Italia, Polonia, Portugal</small></td><td class="pais">Italia, Polonia, Portugal</td><td>No he encontrado API ni datos abiertos de ofertas</td><td>Habría que buscar en cada idioma y en data.europa.eu.</td><td><span class="chip bad">Sin confirmar</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="tramo">
+  <div class="tramo-cab">
+    <h2>Cómo se llama a cada API con clave</h2>
+    <p>Formas de petición según terceros; hay que contrastarlas con la documentación al registrarse.</p>
+  </div>
+  <div class="tabla"><table>
+    <thead><tr><th>API</th><th>Petición</th><th>Dónde va la clave</th></tr></thead>
+    <tbody>
+    <tr><td>Jooble</td><td><code>POST https://jooble.org/api/{clave}</code> con JSON (<code>keywords</code>, <code>location</code>, <code>radius</code>)</td><td>En la dirección. La pides con el formulario de su página de API y llega por correo.</td></tr>
+    <tr><td>Careerjet</td><td><code>GET https://search.api.careerjet.net/v4/query</code> con <code>locale_code=es_ES</code></td><td>Autenticación básica: la clave como usuario y la contraseña vacía. Las bibliotecas antiguas usaban un identificador de afiliado (<code>affid</code>).</td></tr>
+    <tr><td>Reed</td><td><code>GET https://www.reed.co.uk/api/1.0/search</code></td><td>Autenticación básica: clave como usuario, contraseña vacía (documentado por Reed).</td></tr>
+    <tr><td>Adzuna</td><td><code>GET https://api.adzuna.com/v1/api/jobs/{país}/search/{página}</code></td><td>Parámetros <code>app_id</code> y <code>app_key</code>. Ruta citada de memoria: por verificar.</td></tr>
+    <tr><td>The Muse</td><td><code>GET https://www.themuse.com/api/public/jobs</code></td><td>Parámetro <code>api_key</code>. Ruta citada de memoria: por verificar.</td></tr>
+    <tr><td>Findwork</td><td><code>GET https://findwork.dev/api/jobs/</code></td><td>Cabecera <code>Authorization: Token {clave}</code>. Ruta citada de memoria: por verificar.</td></tr>
+    </tbody>
+  </table></div>
 </section>
 
 <section class="tramo">
@@ -167,7 +209,7 @@ footer{font-size:13px;color:var(--muted);max-width:75ch}
   <div class="cols">
     <div><h3>Calificar primero</h3><ul><li>Arbeitnow, EURES, Adzuna, The Hub e InfoJobs (ya autorizadas por Mar).</li><li>Después, 2 o 3 APIs públicas de empleo (JobTech, France Travail).</li></ul></div>
     <div><h3>Verificar en la fuente</h3><ul><li>Términos y límites de InfoJobs y Adzuna dentro de sus portales.</li><li>Endpoints exactos de cada ATS en su documentación.</li><li>Si Jooble y Careerjet admiten un metabuscador.</li></ul></div>
-    <div><h3>Lo que falta por investigar</h3><ul><li>Italia, Países Bajos, Polonia, Portugal, Dinamarca y Finlandia: no salió nada fiable.</li><li>Infoempleo, Jobatus y Trabajos.com.</li><li>Una lista de empresas españolas con su ATS (ver aviso de los ATS).</li><li>Findwork, The Muse y JSearch: no salió nada.</li></ul></div>
+    <div><h3>Lo que falta por investigar</h3><ul><li>Italia, Polonia y Portugal: sin resultados; probar en su idioma y en data.europa.eu.</li><li>Leer la documentación oficial de Finlandia y de EURES.</li><li>Infoempleo, Jobatus y Trabajos.com.</li><li>Una lista de empresas españolas con su ATS (ver aviso de los ATS).</li><li><b>Idea por verificar:</b> muchas empresas marcan sus ofertas con el formato estándar <code>JobPosting</code> (para Google for Jobs). Existen conjuntos abiertos de esas marcas (Web Data Commons), pero no he mirado el aspecto legal.</li></ul></div>
   </div>
 </section>
 

@@ -80,6 +80,15 @@ nunca está por encima de la verdad: avisa siempre de riesgos, errores, costes y
 irreversibles. Si lo que escribes va dirigido a terceros (CV, cartas, documentación
 pública), esas reglas se desactivan.
 
+## Fuente de verdad: el profesor
+
+Las indicaciones, instrucciones y documentos que Mar pasa **en nombre del profesor** son la
+**fuente de verdad** del proyecto: mandan sobre cualquier decisión anterior de este
+repositorio, incluidas las de la Copiloto. Si chocan con algo ya escrito, se aplica lo del
+profesor, se corrige lo vigente y se anota en la bitácora; si no está claro cómo encajan,
+se pregunta a Mar. Lo vigente está en `docs/flujo-agentico-claude-code.md` y en
+`docs/tareas-pendientes.md`.
+
 ## El proyecto
 
 - **Qué es:** proyecto final del bootcamp de AI Engineering de Neoland y portfolio de Mar.

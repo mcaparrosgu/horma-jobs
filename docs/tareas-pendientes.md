@@ -33,6 +33,14 @@ Actualizado el 2026-11-05 (pista B en marcha: pasos 1 y 2 hechos). Única fuente
 
 **Riesgos:** (1) sin colchón, y las instrucciones nuevas añaden trabajo real (descarga, calificación de fuentes, `verificar`); si falta tiempo, los flujos C-E de la pista A pasan a casos mínimos, no el dashboard ni la ingesta; (2) `auditor-fuentes` nunca se ha probado con webs reales y puede ocupar el día 1 entero; (3) algunas APIs exigen clave (Adzuna, InfoJobs): sin clave en `.env` esa fuente no corre, y yo no leo `.env`; (4) la descarga abre la puerta a direcciones internas: sin revisión específica no se da por buena.
 
+**Plan detallado del día 1** (lista de fuentes: `docs/fuentes-de-empleo.html`; espera la orden de Mar):
+1. **Preparar (1 h):** `pypdf`; campo `horario` en el esquema compartido de `preferencias` (se avisa antes: toca pista A, web, migración y tests); preferencias deducidas vacías; `evals/resultados/*.json` a git. Tests y evals en verde.
+2. **Mar crea las claves** de Adzuna e InfoJobs (y, si quiere ampliar, Jooble y Careerjet) y las pone en `.env`. La Copiloto no lo lee.
+3. **`/calificar-fuentes` (2 a 3 h):** Arbeitnow, EURES, Adzuna, The Hub e InfoJobs (autorizadas) y, si Mar lo aprueba, un ATS abierto (Personio o Greenhouse) con 3 a 5 empresas europeas como prueba. Cada una: condiciones de uso, robots.txt, qué permiten y si sirven a un metabuscador.
+4. **`endpoints.json`:** solo las aptas, con su clave leída de `.env` por nombre. Las demás quedan anotadas con el motivo.
+5. **Cierre:** tests, evals, `revisor-seguridad` sobre los cambios, bitácora, commit por archivo. Criterio: al menos 2 fuentes aptas.
+**No entra el día 1:** descargar ofertas (día 2), scraping y Apify (aparcados).
+
 **Decisiones de Mar (5-nov):** preferencias deducidas vacías hasta confirmar; sí al campo de horario; sí a instalar `pypdf`; sí a versionar `evals/resultados/*.json` (datos inventados); sí a calificar EURES, Adzuna, Arbeitnow, The Hub e InfoJobs; compartir la página del profesor con él desde *Share*; **`settings.json` «más adelante»** (hook y bloqueo de `.env` siguen sin activar durante las pruebas).
 
 ## 1. Pendiente de Mar (no lo decide la Copiloto)
