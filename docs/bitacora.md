@@ -225,3 +225,25 @@ Cuaderno de decisiones de Horma jobs en orden cronológico. Solo se añade al fi
 - POR QUÉ ESTA — Las demás observaciones dependen de código que aún no existe (rutas, login), así que se pasan a tareas en vez de construir defensas a ciegas.
 - QUÉ SE ROMPIÓ — El revisor creyó que `001` no estaba aplicada (ya lo estaba), así que la corrección fue una migración nueva y no editar la antigua.
 - QUÉ QUEDA PENDIENTE — Seis puntos de seguridad en `docs/tareas-pendientes.md` (sección Pista B). Siguiente: paso 3, importador de `datos/`.
+
+## 2026-11-05 · Pista B, paso 3: importador de datos
+
+- QUÉ SE DECIDIÓ — `web/scripts/importar-datos.ts` (`npm run importar`) carga ofertas, perfiles y preferencias de `datos/fixtures/` (o de `--dir`). Cada archivo se valida con `validar()` y se guarda con `INSERT … ON CONFLICT` en su propia transacción; lo que no valida se rechaza y el comando sale con código 1. La lógica pura vive en `web/src/lib/importar.ts` (probada con `npm test`: 13 en verde). Cada corrida escribe un evento vía `registrarEvento`, que solo admite cuatro claves numéricas.
+- ALTERNATIVAS DESCARTADAS — Un `.mjs` suelto (habría duplicado el validador en TypeScript). Crear la usuaria de Rosa sin perfil (fila vacía sin utilidad). Leer por defecto toda `datos/` (contiene datos reales ignorados por git; cargarlos es decisión de Mar).
+- POR QUÉ ESTA — Reutiliza el único contrato (`esquemas-horma`) y la frontera valida antes de la base de datos. Aprendido: `pg` convierte los arrays de JS en arrays de Postgres, así que las columnas jsonb se pasan como texto JSON; `preferencias.json` no trae `usuaria_id`, se toma de la carpeta.
+- QUÉ SE ROMPIÓ — `tsc` rechazó un tipo mío (`Promise<void>` frente a lo que devuelve `query`); corregido. Verificado: dos importaciones seguidas dejan 2 ofertas, 2 usuarias, 2 perfiles y 2 preferencias sin duplicar; una oferta con `edad_minima` se rechaza y no entra; `eventos` solo lleva contadores.
+- QUÉ QUEDA PENDIENTE — Las ofertas de prueba tienen la taxonomía vacía (sector/familia/stack nulos). Node avisa de que falta `"type": "module"` en `package.json` (solo rendimiento; no se toca sin comprobar `next.config.ts`). Paso 4: web de ingesta.
+
+## 2026-11-05 · Pista B, paso 3: arreglos tras la revisión de seguridad
+
+- QUÉ SE DECIDIÓ — `revisor-seguridad` no encontró nada bloqueante; arreglamos 6 puntos (A, B, C, D, G, H) en `importar-datos.ts`, `importar.ts` y el nuevo `clave.ts`. En cristiano:
+  - **A · No pisar lo que edite la usuaria.** Perfiles y preferencias, si ya existen, se dejan como están («sin cambios»). `npm run importar -- --forzar` los sobrescribe. Las ofertas sí se actualizan (nadie las edita a mano). *Por qué:* cuando la web deje editar el perfil, un importado rutinario no puede borrar su trabajo.
+  - **B · Errores sin el valor.** Postgres a veces repite el dato que falló dentro del mensaje (p. ej. una fecha rara). Ahora solo se imprime el código del error (`22007`) y el nombre de la restricción. *Por qué:* en el paso 5 ese dato podría ser personal.
+  - **C · `registrarEvento` más cerrada.** Solo admite los componentes y acciones de una lista (hoy: `importador` / `importar-datos`), la duración se redondea a un entero ≥ 0, y si el script se cae a medias deja un evento de error. *Por qué:* los tipos de TypeScript no existen al ejecutar, así que la lista se vuelve a comprobar en ejecución.
+  - **D · Rutas y archivos.** `--dir` sin valor da un mensaje claro; se rechazan enlaces simbólicos (atajos que apuntan fuera de la carpeta) y archivos de más de 1 MB.
+  - **G · Contraseña.** `migrar` e `importar` se niegan a arrancar con `cambia-esto` o con menos de 16 caracteres (`src/lib/clave.ts`).
+  - **H · Sin perfil, sin preferencias.** Si `perfil.json` se rechaza, sus preferencias se omiten y no se crea la usuaria a medias.
+- ALTERNATIVAS DESCARTADAS — F (el `.gitignore` de `datos/`): el revisor solo miró el de la raíz; `datos/.gitignore` ya ignora todo salvo `fixtures/`. E (id de usuaria opaco) y el rol `horma_app` no son código de hoy: pasan a tareas.
+- POR QUÉ ESTA — Son arreglos baratos (unas 60 líneas) que evitan pérdida de datos y fugas de datos personales antes de que existan usuarias reales.
+- QUÉ SE ROMPIÓ — Nada nuevo. Comprobado contra la base real: edición de Ana (`sueldo_min=1`) sobrevive a un importado normal y se restaura con `--forzar`; perfil roto → sus preferencias omitidas y 0 filas nuevas; fecha inválida → «código 22007» sin el valor; archivo de 1,1 MB → rechazado; contraseña corta → no arranca; `npm test` = 17 en verde, `tsc`, `lint` y `build` sin errores. **No pude probar el rechazo de enlaces simbólicos:** Windows exige permisos de administrador para crearlos; el código usa `lstatSync(...).isSymbolicLink()`, sin prueba práctica.
+- QUÉ QUEDA PENDIENTE — E: ids de usuaria opacos (UUID) al llegar el login. En la web (pasos 4-5): nunca `dangerouslySetInnerHTML` con texto de ofertas o CVs (los textos se guardan sin sanear a propósito). Al validar `endpoints.json`, los mensajes de ajv podrían incluir claves del dato: revisarlos. Rol `horma_app` (ya anotado).

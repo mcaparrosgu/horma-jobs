@@ -3,10 +3,12 @@
 import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import pg from "pg";
+import { problemaClave } from "../src/lib/clave.ts";
 
 const password = process.env.HORMA_DB_PASSWORD;
-if (!password) {
-  console.error("Falta HORMA_DB_PASSWORD (usa `npm run migrar`, que carga web/.env).");
+const problema = problemaClave(password);
+if (problema) {
+  console.error(problema);
   process.exit(1);
 }
 
