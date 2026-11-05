@@ -1,0 +1,36 @@
+{
+  "esquemas": [
+    {
+      "caso": "calificacion-fuente.json",
+      "ok": true
+    },
+    {
+      "caso": "candidatura.json",
+      "ok": true
+    },
+    {
+      "caso": "clasificacion-respuesta.json",
+      "ok": true
+    },
+    {
+      "caso": "endpoints.json",
+      "ok": true
+    },
+    {
+      "caso": "match.json",
+      "ok": true
+    },
+    {
+      "caso": "oferta.json",
+      "ok": true
+    },
+    {
+      "caso": "perfil.json",
+      "ok": true
+    },
+    {
+      "caso": "preferencias.json",
+      "ok": true
+    }
+  ]
+}

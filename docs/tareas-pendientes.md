@@ -14,6 +14,22 @@ Actualizado el 2026-11-05 (pista B en marcha: pasos 1 y 2 hechos). Única fuente
 - Cerrar frentes antes de abrir otros.
 - Sin presión de fechas: si hay que recortar, ramas pequeñas, nunca troncos.
 
+## 0. Plan de 6 días (decidido con Mar el 5-nov): el flujo agéntico funcionando
+**Meta:** pista A corrida de punta a punta (flujos A→E con Ana y la oferta 1) y pasos 6-8 de la web, probado a mano con `docs/guia-pruebas-manuales.md`. Meta puesta por Mar; si algo no cabe, se recorta por ramas (ampliar casos de prueba), nunca por troncos.
+
+| Día | Qué | Hecho cuando |
+|---|---|---|
+| 1 | Decisiones aplicadas: `pypdf`; campo `horario` en `preferencias` (esquema compartido, pista A y B); preferencias deducidas vacías; evals en git; `/calificar-fuentes` de las 5 fuentes | `python -I evals/correr_evals.py` y `npm test` en verde |
+| 2 | `/perfilar` con un PDF inventado; `/ingestar-ofertas` con una fuente calificada; casos raros (oferta sin salario, perfil sin experiencia) | Salidas válidas contra esquema, sin datos inventados |
+| 3 | Flujos C y D completos sobre Ana + error sembrado; esquema de salida de `juez-carta` | Máximo 2 vueltas; verificador y juez aceptan |
+| 4 | Paso 6: dashboard del flujo agéntico (qué corrió, cuándo, con qué resultado) | Se ve cada pipeline de A a E con su último estado |
+| 5 | Paso 7: observabilidad en cada pieza y `/salud`; flujo E probado (`/aprobar`, `/marcar-enviada`, `/respuesta`, `/tablero`) | Un fallo provocado deja un apunte en `eventos` |
+| 6 | Paso 8: `revisor-seguridad` y `auditor-lineas-rojas`; Mar pasa la guía a mano; informe de pruebas, bitácora, Cuaderno y página del profesor | Guía sin fallos graves; commit y push |
+
+**Riesgos:** (1) `auditor-fuentes` nunca se ha probado con webs reales: puede tomar un día extra el día 1; (2) el dashboard necesita datos de la pista A en la base: el importador de `traza.json` y de las corridas puede ser lo más largo del día 4; (3) cada flujo con IA real es lento y gasta uso; (4) sin colchón: un día perdido se recupera quitando casos extra del día 2.
+
+**Decisiones de Mar (5-nov):** preferencias deducidas vacías hasta confirmar; sí al campo de horario; sí a instalar `pypdf`; sí a versionar `evals/resultados/*.json` (datos inventados); sí a calificar EURES, Adzuna, Arbeitnow, The Hub e InfoJobs; compartir la página del profesor con él desde *Share*; **`settings.json` «más adelante»** (hook y bloqueo de `.env` siguen sin activar durante las pruebas).
+
 ## 1. Pendiente de Mar (no lo decide la Copiloto)
 - **`settings.json`:** pegar el bloque de `docs/ajustes-pendientes-settings.md` (hook del verificador, permisos y bloqueo de lectura de `.env` y `docs/privado/`). Riesgo: el permiso sobre `.claude/skills/*` es amplio, aunque los scripts son del repositorio.
 - **Preferencias deducidas del CV** (puesto = último cargo, ciudad = residencia): ¿vacías hasta que la usuaria confirme? Recomendado: sí.

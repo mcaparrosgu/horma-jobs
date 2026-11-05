@@ -14,6 +14,7 @@ Una sola fuente de verdad para cada cosa. Si algo cambia, se cambia donde dice �
 | **Pruebas** (evals, agentes con LLM real, fallos, pendiente) | `docs/informe-pruebas.md` |
 | Preguntas para el profesor | `docs/preguntas-profesor.md` |
 | Cuaderno de decisiones y fallos (solo se añade) | `docs/bitacora.md` |
+| Guía de pruebas a mano (Mar) | `docs/guia-pruebas-manuales.md` |
 | Ideas aún sin decidir (candidaturas honestas) | `docs/ideas/honestidad.md` |
 | Investigación de fuentes de ofertas, costes y Jobs/n8n/Apify | `docs/investigacion-fuentes-y-costes.md` |
 | Términos técnicos | `docs/glosario.md` |
