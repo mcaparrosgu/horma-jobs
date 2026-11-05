@@ -228,11 +228,22 @@ Cuaderno de decisiones de Horma jobs en orden cronológico. Solo se añade al fi
 
 ## 2026-11-05 · Pista B, paso 3: importador de datos
 
-- QUÉ SE DECIDIÓ — `web/scripts/importar-datos.ts` (`npm run importar`) carga ofertas, perfiles y preferencias de `datos/fixtures/` (o de `--dir`). Cada archivo se valida con `validar()` y se guarda con `INSERT … ON CONFLICT` en su propia transacción; lo que no valida se rechaza y el comando sale con código 1. La lógica pura vive en `web/src/lib/importar.ts` (probada con `npm test`: 13 en verde). Cada corrida escribe un evento vía `registrarEvento`, que solo admite cuatro claves numéricas.
-- ALTERNATIVAS DESCARTADAS — Un `.mjs` suelto (habría duplicado el validador en TypeScript). Crear la usuaria de Rosa sin perfil (fila vacía sin utilidad). Leer por defecto toda `datos/` (contiene datos reales ignorados por git; cargarlos es decisión de Mar).
-- POR QUÉ ESTA — Reutiliza el único contrato (`esquemas-horma`) y la frontera valida antes de la base de datos. Aprendido: `pg` convierte los arrays de JS en arrays de Postgres, así que las columnas jsonb se pasan como texto JSON; `preferencias.json` no trae `usuaria_id`, se toma de la carpeta.
-- QUÉ SE ROMPIÓ — `tsc` rechazó un tipo mío (`Promise<void>` frente a lo que devuelve `query`); corregido. Verificado: dos importaciones seguidas dejan 2 ofertas, 2 usuarias, 2 perfiles y 2 preferencias sin duplicar; una oferta con `edad_minima` se rechaza y no entra; `eventos` solo lleva contadores.
-- QUÉ QUEDA PENDIENTE — Las ofertas de prueba tienen la taxonomía vacía (sector/familia/stack nulos). Node avisa de que falta `"type": "module"` en `package.json` (solo rendimiento; no se toca sin comprobar `next.config.ts`). Paso 4: web de ingesta.
+**Qué hicimos.** Construimos el «importador»: un programa pequeño que coge los archivos de ejemplo de la carpeta `datos/fixtures/` (dos ofertas y dos perfiles de personas inventadas, Ana y Leo, con sus preferencias) y los guarda en la base de datos. Se ejecuta con `npm run importar`. Sirve para dos cosas: tener datos con los que probar la web y comprobar que todo el recorrido (archivo, comprobación, base de datos) funciona de punta a punta.
+
+**Cómo funciona, paso a paso.** Para cada archivo, primero lo comprueba contra el esquema (la «plantilla» que dice qué campos son obligatorios y cuáles están prohibidos). Si no cumple, lo rechaza y lo dice; no llega a tocar la base de datos. Si cumple, lo guarda. Guardar es «repetible»: si ejecutas el importador dos veces, no se duplica nada, porque cada fila tiene un identificador y, si ya existe, se actualiza en vez de crear otra (en SQL eso se llama `ON CONFLICT`). Cada archivo se guarda dentro de una «transacción», que es como un todo o nada: o entra completo o no entra nada, así que nunca queda un perfil a medias. Al terminar, el importador anota un apunte en la tabla `eventos` («se importaron 6 archivos, 0 rechazados») que solo contiene números, nunca nombres ni textos de CV.
+
+**Qué decidimos y por qué.**
+- El importador está escrito en TypeScript, como el validador, para reutilizar la misma comprobación. Así hay un solo contrato para los agentes y para la web, y no dos copias que se acaben desajustando.
+- Por defecto solo lee `datos/fixtures/`. El resto de `datos/` es para datos reales, que git ignora; cargarlos sería decisión tuya.
+- Rosa (`rosa-enfermeria`) se salta con un aviso, porque todavía no tiene `perfil.json`. No inventamos una fila vacía.
+- Las columnas de la base que guardan estructuras enteras (jsonb) reciben el contenido convertido a texto; si no, la librería `pg` convierte las listas de JavaScript en listas de Postgres y falla.
+- El archivo `preferencias.json` no dice de quién es: el dueño se toma del nombre de la carpeta.
+
+**Cómo lo comprobamos.** Ejecutamos el importador dos veces seguidas y la base quedó con 2 ofertas, 2 usuarias, 2 perfiles y 2 preferencias, sin duplicados. Probamos también una oferta con un campo prohibido (`edad_minima`): se rechazó y no entró. Y `npm test` pasó (más abajo, tras la revisión de seguridad, quedó en 17 pruebas).
+
+**Un fallo mío.** El comprobador de tipos (`tsc`) rechazó un tipo que escribí mal. Lo corregí y desde entonces `tsc`, `lint` y `build` pasan sin errores.
+
+**Qué queda por hacer.** Las ofertas de prueba traen sector, familia y tecnologías vacíos, así que la web del paso 4 no tendrá nada que filtrar hasta que haya ofertas clasificadas. Node avisa de que a `package.json` le falta `"type": "module"`; solo afecta al rendimiento y no lo tocamos sin comprobar antes `next.config.ts`. Siguiente: el paso 4, la web de ingesta.
 
 ## 2026-11-05 · Pista B, paso 3: arreglos tras la revisión de seguridad
 
