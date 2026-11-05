@@ -1,6 +1,6 @@
-# web/ — Pista B (pendiente)
+# web/ — Pista B (en marcha)
 
-La web (**Next.js** + PostgreSQL, PWA) se construye **sin ningún LLM dentro** y en paralelo a la pista A (`.claude/`). **Todavía no está construida**. Desde el 4-nov-2026 el profesor sustituye FastAPI por Next.js; los agentes, scripts y evals de la pista A siguen en Python.
+La web (**Next.js** + PostgreSQL, PWA) se construye **sin ningún LLM dentro** y en paralelo a la pista A (`.claude/`). **En construcción** (estado en `docs/tareas-pendientes.md`, sección «Pista B»). Desde el 4-nov-2026 el profesor sustituye FastAPI por Next.js; los agentes, scripts y evals de la pista A siguen en Python.
 
 **Primero** (instrucción del profesor, 4-nov): la web de **ingesta de ofertas** y la de **candidatos**, con un **dashboard** para ver el flujo agéntico (pipelines o workflows) y **observabilidad en cada componente**. Después, el resto de la web. Las pruebas se hacen y se pasan a mano.
 
@@ -16,3 +16,14 @@ Orden previsto (documento del profesor, apartado «Pista B», pendiente de adapt
 8. PWA, texto escapado y CSP estricta.
 
 Instalar dependencias o servicios (Docker, PostgreSQL, Next.js) se decide antes con Mar: qué son, cuánto cuestan y qué mantenimiento añaden.
+
+## Cómo arrancar
+```
+cd web
+cp .env.example .env     # pon una contraseña propia en HORMA_DB_PASSWORD
+docker compose up -d       # base de datos horma-db (puerto 5433)
+npm install
+npm run migrar           # aplica db/migraciones/
+npm test                 # pruebas del validador
+npm run dev               # la web en http://localhost:3000
+```
