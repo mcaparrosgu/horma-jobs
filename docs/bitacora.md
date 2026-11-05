@@ -374,3 +374,16 @@ Cuaderno de decisiones de Horma jobs en orden cronológico. Solo se añade al fi
 - **Jooble:** sus términos prohíben bots y copiar para republicar, y el plan gratuito tiene un tope de 500 peticiones de por vida por clave.
 
 **Qué significa.** Las fuentes con base más sólida son los datos abiertos del sector público (BOE y JobTech) y, con matices, las APIs de ATS leídas empresa a empresa. Las comerciales (Jooble, Lever) quedan descartadas sin permiso. Todo se verificó a través de un resumen automático: las cláusulas citadas hay que comprobarlas a mano antes de cargar datos.
+
+## 5-nov-2026 · Verificación de BOE y JobTech: dos fuentes aptas
+
+**Resultado.** Las dos pasan a `apta = true`, con condiciones. Primera vez que se cumple el criterio del día 1 («al menos 2 aptas»).
+- **BOE (datos abiertos):** el aviso legal permite reutilizar «para fines comerciales y no comerciales» con atribución y enlace («Fuente de los datos: Agencia Estatal Boletín Oficial del Estado»; si se transforma, «Basado en datos de…»), sin desnaturalizar el sentido ni sugerir carácter oficial. API sin clave: hay que mandar la cabecera `Accept` (el error 400 del agente venía de ahí). Una consulta de prueba devolvió 200. La sección II.B es el código `2B`; el 4-nov traía 27 elementos. `robots.txt` completo leído: sin Disallow sobre la API. La documentación técnica no da límites: una consulta al día.
+- **JobTech (Suecia):** CC0 y acceso público confirmados en la fuente oficial. Una consulta de prueba sin clave devolvió 200 (687 anuncios con «developer»). Límites sin verificar; los campos de contacto no se guardan.
+
+**Límites que quedan.**
+- BOE no son ofertas con formato de Horma: son resoluciones y convocatorias. Hay que quedarse con las convocatorias y descartar listas de aprobados (llevan nombres de personas). Su estructura anidada necesita un adaptador propio en la ingesta: no entra en `endpoints.json` todavía.
+- JobTech solo cubre Suecia; sirve como fuente real para la demostración.
+- Citas del aviso legal obtenidas por un agente de lectura web: leer a mano la página antes de producción.
+
+**Hecho.** Fila de JobTech en `endpoints.json` con `activa: false` (se activa en el día 2, tras la orden de Mar y antes de la revisión de seguridad de la descarga). Calificaciones validadas contra el esquema.

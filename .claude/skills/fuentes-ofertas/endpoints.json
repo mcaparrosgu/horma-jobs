@@ -1,3 +1,29 @@
 {
-  "fuentes": []
+  "fuentes": [
+    {
+      "nombre": "JobTech Suecia (Platsbanken)",
+      "url": "https://jobsearch.api.jobtechdev.se/search",
+      "metodo": "GET",
+      "parametros": {
+        "q": "developer",
+        "limit": "20"
+      },
+      "cabeceras": {
+        "Accept": "application/json"
+      },
+      "clave_env": null,
+      "clave_en": null,
+      "clave_nombre": null,
+      "mapeo_campos": {
+        "lista": "hits",
+        "id": "id",
+        "titulo": "headline",
+        "empresa": "employer.name",
+        "url": "webpage_url",
+        "descripcion": "description.text",
+        "fecha": "publication_date"
+      },
+      "activa": false
+    }
+  ]
 }
