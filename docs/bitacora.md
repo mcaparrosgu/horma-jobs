@@ -362,3 +362,15 @@ Cuaderno de decisiones de Horma jobs en orden cronológico. Solo se añade al fi
 **Qué se propuso a continuación.** Mar preguntó si un subagente o un scraper propio lo arreglaban. No: cambia la herramienta, no el permiso (las condiciones de cada portal mandan; el TJUE C-30/14 permite limitar por contrato). Propuesta por capas con licencia de origen y un agente que descubra empresas y ATS sin copiar contenido. Todo en `docs/consulta-profesor-fuentes-de-ofertas.md` para comentarlo con el profesor (pregunta 32).
 
 **Límites de esta calificación.** El agente leyó las páginas a través de un resumen automático, no siempre literal; hay que verificar las cláusulas citadas antes de decidir.
+
+## 5-nov-2026 · Segunda calificación: Careerjet, Jooble, Greenhouse, Lever, JobTech y BOE
+
+**Resultado: las seis `apta = false` por ahora, pero con diferencias claras.** Registro en `datos/fuentes/calificacion.json` (ignorado por git; 12 fuentes en total).
+- **BOE (datos abiertos):** la más prometedora para España. Su aviso legal permite reutilizar para fines **comerciales y no comerciales**, con copia y modificación, citando la fuente con enlace a boe.es, sin desnaturalizar el sentido ni sugerir que es oficial. API sin clave. Falta: leer la documentación técnica y la licencia tipo (27-jun-2024), comprobar que el sumario permite aislar la sección II.B (oposiciones y concursos) y leer el `robots.txt` completo (bloquea rutas de texto por identificador: usar el enlace, no descargar el texto).
+- **JobTech (Suecia):** licencia **CC0** confirmada en la fuente oficial, acceso público. Falta: los términos y límites de la API (`jobtechdev.se` no responde desde esta red). Solo cubre Suecia.
+- **Careerjet:** su programa de socios es justo para mostrar sus ofertas, pero los términos están dentro de la cuenta de publicador. Obliga a reenviar la IP y el navegador de la usuaria en cada llamada.
+- **Greenhouse:** API pública sin autenticación; nada prohíbe leerla ni mostrar un resumen con enlace; sin licencia expresa; el texto de la oferta es de cada empresa.
+- **Lever:** pensada para el sitio de empleo del cliente; sus términos (dirigidos a clientes) no permiten distribuir a terceros; sin licencia visible.
+- **Jooble:** sus términos prohíben bots y copiar para republicar, y el plan gratuito tiene un tope de 500 peticiones de por vida por clave.
+
+**Qué significa.** Las fuentes con base más sólida son los datos abiertos del sector público (BOE y JobTech) y, con matices, las APIs de ATS leídas empresa a empresa. Las comerciales (Jooble, Lever) quedan descartadas sin permiso. Todo se verificó a través de un resumen automático: las cláusulas citadas hay que comprobarlas a mano antes de cargar datos.

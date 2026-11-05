@@ -21,6 +21,21 @@ Horma es un metabuscador de empleo europeo: la persona no debe ir de web en web 
 
 Ninguna prohíbe expresamente la API. Todas limitan el uso a fines personales o no comerciales, piden acuerdo escrito o no se pudieron leer. Limitación: el agente leyó las páginas a través de un resumen automático, no siempre literal; las cláusulas citadas hay que verificarlas a mano antes de decidir.
 
+### 2 bis. Segunda ronda (5-nov, tarde): Careerjet, Jooble, Greenhouse, Lever, JobTech y BOE
+
+Las seis siguen `apta = false` hasta verificar, pero con diferencias:
+
+| Fuente | Estado | Lo más relevante |
+|---|---|---|
+| **BOE (datos abiertos)** | Candidata fuerte | El aviso legal permite reutilizar «para fines comerciales y no comerciales», con copia y modificación, citando la fuente con enlace; prohíbe desnaturalizar el sentido y sugerir carácter oficial. API sin clave. Falta leer la licencia tipo (27-jun-2024), el esquema del sumario (sección II.B, oposiciones y concursos) y el `robots.txt` completo |
+| **JobTech (Suecia)** | Candidata fuerte | Licencia CC0 y acceso público confirmados en la fuente oficial. Faltan los términos y límites de la API. Solo Suecia |
+| **Careerjet** | Pendiente de cuenta | Programa para mostrar sus ofertas; los términos están dentro de la cuenta de publicador; obliga a reenviar IP y navegador de la usuaria |
+| **Greenhouse** | Con matices | API pública sin autenticación; sin prohibición ni autorización para agregadores; el texto de cada oferta es de la empresa |
+| **Lever** | Descartada sin permiso | Términos para clientes: no distribuir a terceros; sin licencia visible |
+| **Jooble** | Descartada sin permiso | Prohíbe bots y copiar para republicar; 500 peticiones de por vida por clave |
+
+Conclusión: la capa de datos abiertos (BOE y JobTech) es hoy la base más sólida; los ATS valen empresa por empresa; los portales comerciales necesitan permiso escrito. Hallazgo para la pregunta 1: empezar con menos volumen pero con permiso es viable (BOE para empleo público en España; JobTech para Suecia), y el resto crece con empresas que se registran. Limitación: todo se leyó a través de un resumen automático; cláusulas por verificar a mano.
+
 ## 3. Por qué cambiar la herramienta no resuelve el problema
 
 La pregunta no es cómo se descargan las ofertas, sino si hay permiso para guardarlas y mostrarlas en un producto de pago. Un subagente con LLM o un scraper propio entran por la misma puerta que los términos de uso y el `robots.txt`. Además, un subagente cuesta tokens y puede recibir instrucciones escondidas en una oferta.
