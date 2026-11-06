@@ -7,7 +7,7 @@ Línea base: web 127 tests · evals 41 · build ok (ninguna ruta estática) · c
 | B0 | hecho | autonomo/2026-11-06 | 22:54–23:05 | 127/41 (línea base) | — |
 | B1 | hecho | auto/b1-cuenta-rgpd | 23:05–23:16 | 136/41 | aplazado a B5 (con B2) |
 | B2 | hecho | auto/b2-seguimiento | 23:16–23:27 | 139/41 | auditor-lineas-rojas pendiente de lanzar |
-| B3 | pendiente | — | — | — | — |
+| B3 | hecho | auto/b3-empresas-i | 23:27–00:00 | 154/41 | revisor-seguridad + auditor-lineas-rojas sobre B3+B4 juntos (pendiente de lanzar hasta cerrar B4) |
 | B4 | pendiente | — | — | — | — |
 | B5 | pendiente | — | — | — | — |
 
@@ -17,6 +17,10 @@ Línea base: web 127 tests · evals 41 · build ok (ninguna ruta estática) · c
 - **B1, cambiar contraseña en cuenta solo-Google:** no se ofrece (no hay hash que verificar); la página lo explica en una frase. Decisión técnica, reversible si Mar prefiere otra cosa.
 - **B2, mismo bloqueo por rol para los estados nuevos que para aprobada/enviada:** aunque el importador nunca intenta escribir `entrevista`/`rechazada`/`sin_respuesta`/`descartada` (su UPDATE solo corre en `borrador`/`pendiente_de_ti`), añadí el mismo `current_user = 'horma_web'` que ya protegía `aprobada`/`enviada`: defensa en la base, no solo en el código de hoy.
 - **B2, «Portada: contadores propios por estado»:** lo interpreté como la cabecera de `/seguimiento` (no la portada `/`, que es solo de administración y a la que la usuaria no llega). Es la lectura más simple; si Mar quería los contadores en otro sitio, se mueve fácil.
+- **B3, identidad de empresa totalmente aparte:** tablas, cookie y módulo de sesión propios (`sesion-empresa.ts`), nunca comparten código con `sesion.ts`. Más código duplicado (login, bloqueo de intentos) que reutilizarlo, pero es justo lo que pide el plan («identidad aparte») y lo que hace imposible que una sesión cruce de mundo.
+- **B3, moderación con disparador en la base, no solo en el código:** igual que `candidaturas_transicion` (B2), `ofertas_moderacion` repite la regla «nace pendiente_de_revision» y las transiciones permitidas dentro de la base. Coherente con el estilo ya usado en el proyecto (defensa en profundidad) y encontré con `docker exec` que sí hace falta: si confiara solo en el código, un fallo futuro podría publicar sin revisión.
+- **B3, url de una oferta de empresa:** no hay página original externa; la columna `url` exige `http(s)` (migración 002, `revisor-seguridad`), así que apunta a `/ofertas` de la propia web en vez de un texto descriptivo. Funciona, pero el texto del enlace («Ver oferta original») queda un poco raro para una oferta que nace en Horma; cosmético, no lo toco ahora.
+- **B3, editar tras aprobar vuelve a revisión:** decisión propia (el plan no lo detalla): si se deja editar una oferta ya aprobada sin pasar otra vez por moderación, una empresa podría publicar algo inocuo y cambiarlo después. «Cerrar» no pasa por revisión (solo reduce exposición, nunca la aumenta).
 
 ## Preguntas para Mar (opciones, recomendada marcada)
 (ninguna todavía — se repasa en el cierre, B5)
@@ -27,9 +31,10 @@ Línea base: web 127 tests · evals 41 · build ok (ninguna ruta estática) · c
 ## Migraciones aplicadas (número, qué hace, rollback)
 - **016_borrar_cuenta_propia.sql:** función `borrar_cuenta_propia(id)` para que `horma_web` pueda borrar su propia cuenta sin `GRANT DELETE`; nunca borra una cuenta `admin`. Rollback: `REVOKE EXECUTE ON FUNCTION borrar_cuenta_propia(text) FROM horma_web; DROP FUNCTION borrar_cuenta_propia(text);`
 - **017_seguimiento.sql:** `CREATE OR REPLACE FUNCTION candidaturas_transicion()` con los pares nuevos (ver bitácora). Rollback: recrear la función con el cuerpo de la migración 015 (solo `borrador→aprobada`, `aprobada→enviada` y el vaivén `borrador/pendiente_de_ti`).
+- **018_empresas.sql:** tablas `empresas`, `cuentas_empresa`, `sesiones_empresa`; columnas `ofertas.descripcion`, `ofertas.estado_publicacion` (por defecto `aprobada`), `ofertas.empresa_id`; disparador `ofertas_moderacion`. Rollback en la cabecera del archivo.
 
 ## Siguiente paso exacto
-Empezar B3 (portal de empresas I: identidad, publicar, moderación).
+Empezar B4 (portal de empresas II: enviar y bandeja). Al cerrarlo, lanzar `revisor-seguridad` + `auditor-lineas-rojas` sobre el diff conjunto de B3+B4 (según el plan).
 
 ## Revisores
 - **auditor-lineas-rojas sobre B1+B2 (tras B2, según el plan): sin hallazgos.** Cumplen todas las líneas rojas. Único punto no bloqueante: la nota libre de «Registrar respuesta» (seguimiento) confía en el aviso de la UI para que la usuaria no escriba datos de un tercero; el auditor propone, si se quiere reforzar más adelante, una confirmación suave en el cliente si el texto parece un nombre o un correo. No es línea roja incumplida (la nota es de la propia usuaria, sobre su propio proceso, protegida por el mismo borrado/exportación RGPD); lo dejo anotado para Mar, no lo construyo ahora (no estaba en el plan de esta noche).
