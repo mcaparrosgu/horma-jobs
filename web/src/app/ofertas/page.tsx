@@ -8,6 +8,7 @@ type Fila = {
   salario: { publicado: boolean; min: number | null; max: number | null; moneda: string | null; periodo?: string | null };
   stack: string[];
   licencia: string | null; atribucion: string | null;
+  avisos: { tipo: string; texto: string }[];
   auditoria: {
     fantasma?: { sospechosa?: boolean; motivos?: string[] };
     fraude?: { sospechosa?: boolean; motivos?: string[] };
@@ -107,6 +108,14 @@ async function Ofertas({ searchParams }: { searchParams: PageProps<"/ofertas">["
                 <Insignia mala={!o.salario.publicado} texto={o.salario.publicado ? "sueldo publicado" : "sin sueldo"} detalle={a.transparencia?.frase_para_pedirlo ?? undefined} />
                 {frases.length > 0 && <Insignia mala texto={`${frases.length} instrucción(es) oculta(s) ignorada(s)`} detalle="Texto de la oferta dirigido a un agente; se guarda pero no se sigue." />}
               </div>
+              {o.avisos.length > 0 && (
+                // Solo informan a la usuaria: no entran en la nota, el filtro ni lo que ve una empresa (regla de lineas-rojas).
+                <ul className="mt-2 space-y-1">
+                  {o.avisos.map((av, i) => (
+                    <li key={i} className="rounded bg-amber-50 px-2 py-1 text-xs text-amber-900">Aviso: {av.texto}</li>
+                  ))}
+                </ul>
+              )}
               <p className="mt-2 text-xs text-zinc-600">
                 Origen: {o.fuente} · licencia: {o.licencia ? (LICENCIAS[o.licencia] ?? o.licencia) : "no indicada"}
                 {o.atribucion && ` · ${o.atribucion}`}

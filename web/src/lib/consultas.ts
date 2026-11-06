@@ -32,7 +32,7 @@ export function sqlOfertas(f: FiltrosOfertas): { sql: string; params: unknown[] 
   const { where, params } = construirFiltro(f);
   return {
     sql: `SELECT id, fuente, url, fecha, titulo, empresa, ubicacion, pais, remoto, nivel, sector, familia,
-                 salario, stack, auditoria, licencia, atribucion
+                 salario, stack, auditoria, licencia, atribucion, avisos
           FROM ofertas ${where} ORDER BY fecha DESC NULLS LAST, creada_en DESC LIMIT ${LIMITE_OFERTAS}`,
     params,
   };
