@@ -76,3 +76,9 @@ test("no rechaza parámetros legítimos como keywords o fechas", () => {
   const ok = validarFuente({ ...buena(), parametros: { keywords: "datos", desde: "2026-11-05T00:00:00Z", author: "x" } });
   assert.ok(ok.ok);
 });
+
+test("LinkedIn e Indeed no se admiten como fuente (regla del producto)", () => {
+  for (const url of ["https://www.linkedin.com/jobs", "https://linkedin.com/jobs", "https://es.indeed.com/api", "https://indeed.com./x", "https://uk.indeed.co.uk/x"]) {
+    assert.ok(errores({ ...buena(), url }).length > 0, url);
+  }
+});

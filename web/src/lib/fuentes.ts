@@ -53,6 +53,12 @@ function revisaMapa(mapa: Record<string, string>, quien: string, nombreSecreto: 
   }
 }
 
+// Mismo criterio que PROHIBIDAS en ingestar.py: el dominio y sus subdominios, y cualquier «indeed.»
+export function hostProhibido(host: string): boolean {
+  const h = host.toLowerCase().replace(/\.$/, "");
+  return ["linkedin.com", "indeed.com"].some((d) => h === d || h.endsWith("." + d)) || h.includes("indeed.");
+}
+
 /** Comprueba una fuente que viene de un formulario. Devuelve errores en llano, sin repetir valores. */
 export function validarFuente(entrada: unknown): ResultadoFuente {
   const errores: string[] = [];
@@ -69,6 +75,7 @@ export function validarFuente(entrada: unknown): ResultadoFuente {
     if (u) {
       if (u.protocol !== "https:") errores.push("url: solo https");
       if (f.url.length > 2000) errores.push("url: demasiado larga");
+      if (hostProhibido(u.hostname)) errores.push("url: LinkedIn e Indeed no son fuente de ofertas (regla del producto)");
       if (u.port && u.port !== "443") errores.push("url: solo el puerto 443");
       if (hostInterno(u.hostname)) errores.push("url: no se admiten direcciones internas (localhost, IP privadas, sin punto)");
       if (u.pathname.split("/").some((s) => s && pareceCredencial(s))) errores.push("url: un tramo de la ruta parece una credencial; la clave va en clave_env");

@@ -371,6 +371,8 @@ def main() -> int:
         return 2
 
     params, cabeceras = dict(fuente["parametros"]), dict(fuente["cabeceras"])
+    for prohibida in [k for k in cabeceras if k.lower() in ("host", "content-length")]:
+        del cabeceras[prohibida]  # el Host lo fija la conexión comprobada, no la fuente
     cabeceras.setdefault("User-Agent", "Horma/0.1 (+ingesta de ofertas)")
     if fuente.get("clave_env"):
         if not CLAVE_ENV.fullmatch(fuente["clave_env"]):
@@ -458,6 +460,8 @@ def main() -> int:
                "licencia": origen[0], "atribucion": origen[1]}
         cabecera = "".join(f"{k}: {json.dumps(v, ensure_ascii=False)}\n" for k, v in cab.items())
         titulo, empresa, desc = sin_contacto(titulo), sin_contacto(empresa), sin_contacto(desc)
+        # Tope de longitud: una fuente hostil no puede encarecer los agentes con un título gigante.
+        titulo, empresa = _una_linea(titulo, 400), _una_linea(empresa, 200)
         cuerpo = f"---\n{cabecera}---\n\n# {titulo}\n\nEmpresa: {empresa}\n\n{desc}\n"
         nombre = nombre_archivo(fuente["nombre"], id_)
         (salida / nombre).write_text(cuerpo, encoding="utf-8")
