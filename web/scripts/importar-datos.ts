@@ -62,22 +62,25 @@ function motivoRechazo(ruta: string, tipo: "archivo" | "carpeta"): string | null
   return null;
 }
 
+/** Ruta relativa para la consola: el nombre de la carpeta de una usuaria (su id) se oculta. */
+const rutaCorta = (ruta: string) => relative(RAIZ, ruta).replace(/^perfiles[\\/][^\\/]+/, "perfiles/(usuaria)");
+
 /** Texto de cv.md (el que citan los «origen» del perfil), o null si falta o no se debe leer. */
 function leerCv(carpeta: string): string | null {
   const ruta = join(carpeta, "cv.md");
   if (!existsSync(ruta)) return null;
   const m = motivoRechazo(ruta, "archivo");
   if (m) {
-    console.log(`aviso     ${relative(RAIZ, ruta)}: no se importa (${m})`);
+    console.log(`aviso     ${rutaCorta(ruta)}: no se importa (${m})`);
     return null;
   }
   const texto = readFileSync(ruta, "utf8");
   if (texto.includes("\u0000")) { // Postgres no admite el carácter NUL en un texto
-    console.log(`aviso     ${relative(RAIZ, ruta)}: contiene caracteres nulos, no se importa`);
+    console.log(`aviso     ${rutaCorta(ruta)}: contiene caracteres nulos, no se importa`);
     return null;
   }
   if (texto.length > 200_000) { // tope de la columna cv_texto (migración 003)
-    console.log(`aviso     ${relative(RAIZ, ruta)}: supera 200000 caracteres, no se importa`);
+    console.log(`aviso     ${rutaCorta(ruta)}: supera 200000 caracteres, no se importa`);
     return null;
   }
   return texto;
@@ -131,7 +134,7 @@ async function importar(
   comprobar?: (dato: any) => string | null, // eslint-disable-line @typescript-eslint/no-explicit-any
 ): Promise<boolean> {
   cuenta.archivos++;
-  const nombre = relative(RAIZ, archivo);
+  const nombre = rutaCorta(archivo);
   const motivo = motivoRechazo(archivo, "archivo");
   if (motivo) {
     cuenta.rechazadas++;
@@ -201,19 +204,21 @@ try {
     cuenta.omitidas++;
     console.log(`omitida   perfiles: ${mp}`);
   } else if (!SOLO_OFERTAS && existsSync(dirPerfiles)) {
+    let nPerfil = 0;
     for (const u of readdirSync(dirPerfiles).sort()) {
+      const etiqueta = `perfil nº ${++nPerfil}`; // el id de la usuaria no va a la consola ni a los logs
       const carpeta = join(dirPerfiles, u);
       const m = motivoRechazo(carpeta, "carpeta");
       if (m) {
         cuenta.omitidas++;
-        console.log(`omitida   perfiles/${u}: ${m}`);
+        console.log(`omitida   ${etiqueta}: ${m}`);
         continue;
       }
       const perfil = join(carpeta, "perfil.json");
       const prefs = join(carpeta, "preferencias.json");
       if (!existsSync(perfil)) {
         cuenta.omitidas++;
-        console.log(`omitida   perfiles/${u}: aún no tiene perfil.json`);
+        console.log(`omitida   ${etiqueta}: aún no tiene perfil.json`);
         continue;
       }
       const perfilOk = await importar(
@@ -228,7 +233,7 @@ try {
       if (!perfilOk) {
         // Sin perfil aceptado no se crea la usuaria solo con preferencias (datos a medias).
         cuenta.omitidas++;
-        console.log(`omitida   perfiles/${u}/preferencias.json: su perfil.json fue rechazado`);
+        console.log(`omitida   ${etiqueta}/preferencias.json: su perfil.json fue rechazado`);
         continue;
       }
       await importar(prefs, "preferencias", async (p) => {
