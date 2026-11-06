@@ -100,3 +100,36 @@ test("H: el verificador deja eventos solo con números de la lista cerrada", asy
   await registrarEvento(db, { componente: "verificador", accion: "verificar", resultado: "error", duracion_ms: 40, detalle: { coinciden: 20, fallos: 2, avisos: 1, id: "of-1" } as never });
   assert.deepEqual(llamadas[0], ["verificador", "verificar", "error", 40, '{"coinciden":20,"fallos":2,"avisos":1}']);
 });
+
+// --- Candidaturas (bloque 3) ---
+import { incoherenciaCandidatura, paramsCandidatura, SQL_CANDIDATURA } from "./importar.ts";
+
+const hist = (...e: [string, string][]) => e.map(([estado, por]) => ({ estado, fecha: "2026-11-06", por }));
+
+test("candidatura: un borrador creado por el agente es coherente", () => {
+  assert.equal(incoherenciaCandidatura({ estado: "borrador", historial: hist(["borrador", "agente"]) }), null);
+});
+test("candidatura: un agente NUNCA puede aprobar (línea roja)", () => {
+  assert.ok(incoherenciaCandidatura({ estado: "aprobada", historial: hist(["borrador", "agente"], ["aprobada", "agente"]) }));
+  assert.ok(incoherenciaCandidatura({ estado: "aprobada", historial: hist(["borrador", "agente"]) }), "aprobada sin entrada de aprobación");
+  assert.ok(incoherenciaCandidatura({ estado: "enviada", historial: hist(["borrador", "agente"], ["enviada", "usuaria"]) }), "enviada sin aprobación");
+  assert.ok(incoherenciaCandidatura({ estado: "borrador", historial: hist(["aprobada", "usuaria"]) }), "borrador con aprobación");
+});
+test("candidatura: aprobada por la usuaria y enviada es coherente", () => {
+  assert.equal(incoherenciaCandidatura({ estado: "enviada", historial: hist(["borrador", "agente"], ["aprobada", "usuaria"], ["enviada", "usuaria"]) }), null);
+});
+test("candidatura: los parámetros siguen el orden del INSERT y los jsonb van como texto", () => {
+  const c = { estado: "borrador", cv_usado: "adaptado", historial: [{ estado: "borrador" }], traza: [], huecos: [], ats: { cobertura: 0.5 } };
+  const p = paramsCandidatura("ana-prueba", "of-1", c, "# CV", null, null);
+  assert.equal(p.length, (SQL_CANDIDATURA.match(/\$\d+/g) ?? []).filter((x, i, a) => a.indexOf(x) === i).length);
+  assert.equal(p[5], null); assert.equal(p[8], null);
+  assert.equal(typeof p[6], "string"); assert.equal(typeof p[7], "string");
+});
+import { soloClavesAts } from "./importar.ts";
+test("ats: se descartan las claves de trabajo de medir_ats", () => {
+  const a = soloClavesAts({ cobertura: 0.6, faltantes_con_origen: [], faltantes_sin_origen: ["React"], presentes: ["x"], no_medidos: ["y"] });
+  assert.deepEqual(Object.keys(a).sort(), ["cobertura", "faltantes_con_origen", "faltantes_sin_origen"]);
+});
+test("candidatura: reimportar solo actualiza borradores (no degrada una aprobada o enviada)", () => {
+  assert.match(SQL_CANDIDATURA, /WHERE candidaturas\.estado IN \('borrador','pendiente_de_ti'\)/);
+});

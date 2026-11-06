@@ -1,0 +1,89 @@
+import { Suspense } from "react";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { db } from "@/lib/db";
+import { ID_USUARIA } from "@/lib/preferencias";
+import { enlaceSeguro } from "@/lib/matches";
+import {
+  SQL_CANDIDATURAS, ETIQUETA_ESTADO, huecosConAviso, huecosSinCubrir, porcentaje, type FilaCandidatura,
+} from "@/lib/candidaturas";
+
+export default function Pagina({ params }: PageProps<"/candidaturas/[id]">) {
+  return <Suspense fallback={<p className="text-sm">Cargando candidaturas…</p>}><Candidaturas params={params} /></Suspense>;
+}
+
+// Todo el texto sale como texto de React (escapado); el CV y la carta se enseñan tal cual, sin interpretarlos como HTML.
+async function Candidaturas({ params }: { params: PageProps<"/candidaturas/[id]">["params"] }) {
+  const { id } = await params;
+  if (!ID_USUARIA.test(id)) notFound();
+  const filas = (await db().query<FilaCandidatura>(SQL_CANDIDATURAS, [id])).rows;
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <Link href={`/recomendaciones/${id}`} className="text-sm underline">← Recomendaciones</Link>
+        <h1 className="text-2xl font-semibold">Candidaturas de {id}</h1>
+        <p className="text-sm text-zinc-600">
+          Solo lectura. Aprobar y anotar el envío se hace en Claude Code (<code>/aprobar</code>, <code>/marcar-enviada</code>): ningún agente aprueba por ti y Horma no envía nada sin tu orden.
+        </p>
+      </div>
+      {filas.length === 0 ? (
+        <p className="rounded border border-zinc-200 bg-white p-3 text-sm">
+          Aún no hay candidaturas. Se generan con <code>/candidatura</code> en Claude Code y se cargan con <code>npm run importar</code>.
+        </p>
+      ) : (
+        <ul className="space-y-6">
+          {filas.map((c) => (
+            <li key={c.oferta_id} className="space-y-3 rounded border border-zinc-200 bg-white p-3 text-sm">
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <h2 className="font-medium">
+                  {enlaceSeguro(c.url) ? <a href={c.url} className="underline" rel="noreferrer noopener" target="_blank">{c.titulo}</a> : c.titulo}
+                  <span className="font-normal text-zinc-600"> · {c.empresa}</span>
+                </h2>
+                <span className="rounded bg-zinc-100 px-2 py-0.5 text-xs">{ETIQUETA_ESTADO[c.estado] ?? c.estado}</span>
+              </div>
+
+              {huecosConAviso(c.huecos).length > 0 && (
+                <div className="rounded border border-amber-200 bg-amber-50 p-2 text-xs">
+                  <p className="font-medium">Revisa primero: dónde Horma reformuló o rellenó algo</p>
+                  <ul className="list-disc pl-5">{huecosConAviso(c.huecos).map((h, k) => <li key={k}>{h.requisito}: {h.relleno_aviso}</li>)}</ul>
+                </div>
+              )}
+
+              <div>
+                <p className="text-xs text-zinc-600">
+                  Cobertura de palabras clave de la oferta (ATS): {porcentaje(c.ats.cobertura)}
+                  {c.ats.faltantes_sin_origen.length > 0 && ` · no constan en tu CV y no se añaden: ${c.ats.faltantes_sin_origen.join(", ")}`}
+                </p>
+              </div>
+
+              {huecosSinCubrir(c.huecos).length > 0 && (
+                <details open={huecosSinCubrir(c.huecos).some((h) => h.decision === "pendiente")}>
+                  <summary className="cursor-pointer text-xs underline">Lo que la oferta pide y tu CV no recoge ({huecosSinCubrir(c.huecos).length})</summary>
+                  <ul className="mt-2 list-disc space-y-1 pl-5 text-xs">
+                    {huecosSinCubrir(c.huecos).map((h, k) => <li key={k}><strong>{h.requisito}</strong> — {h.propuesta}</li>)}
+                  </ul>
+                </details>
+              )}
+
+              <details>
+                <summary className="cursor-pointer text-xs underline">CV adaptado ({c.cv_usado})</summary>
+                <pre className="mt-2 whitespace-pre-wrap rounded bg-zinc-50 p-2 text-xs">{c.cv_md}</pre>
+              </details>
+              {c.carta_md ? (
+                <details>
+                  <summary className="cursor-pointer text-xs underline">Carta de presentación</summary>
+                  <pre className="mt-2 whitespace-pre-wrap rounded bg-zinc-50 p-2 text-xs">{c.carta_md}</pre>
+                </details>
+              ) : <p className="text-xs text-zinc-600">Sin carta todavía.</p>}
+
+              <p className="text-xs text-zinc-500">
+                Historial: {c.historial.map((h) => `${h.estado} (${h.fecha}, ${h.por === "usuaria" ? "tú" : h.por})`).join(" → ")}
+              </p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}

@@ -60,7 +60,7 @@ async function Candidata({ params }: { params: PageProps<"/candidatos/[id]">["pa
   return (
     <div className="space-y-6">
       <div>
-        <Link href="/candidatos" className="text-sm underline">← Candidatas</Link>{" · "}<Link href={`/recomendaciones/${id}`} className="text-sm underline">Ofertas recomendadas</Link>
+        <Link href="/candidatos" className="text-sm underline">← Candidatas</Link>{" · "}<Link href={`/recomendaciones/${id}`} className="text-sm underline">Ofertas recomendadas</Link>{" · "}<Link href={`/candidaturas/${id}`} className="text-sm underline">Candidaturas</Link>
         <h1 className="text-2xl font-semibold">Perfil de {id}</h1>
         <p className="text-sm text-zinc-600">
           Cada dato de las listas de abajo dice de qué parte del CV salió.

@@ -79,6 +79,14 @@ Un test en rojo no es una catástrofe: es el aviso de que algo se rompió. Copia
 2. Prueba que de verdad avisa: abre un archivo de `datos/ofertas/procesadas/`, cambia el `titulo` y guarda; vuelve a lanzar `npm run verificar`. Debe decir **FALLO** con el id de esa oferta y el campo `titulo` (sin enseñar el texto), y terminar con «no cuadra». Deshaz el cambio (`git` no lo sigue: vuelve a escribir el título original a mano) y comprueba que vuelve a cuadrar.
 3. Ingesta repetible: tras `ingestar.py`, la respuesta lleva `pendientes`: debe ser una lista **vacía** si ya procesaste esas ofertas. `/ingestar-ofertas` solo gasta agentes en las pendientes.
 
+## 2 sexies. Candidatura de punta a punta (construcción optimizada, bloque 3)
+
+1. Con la web arrancada, abre `http://127.0.0.1:3000/candidaturas/mar`. **Debe pasar:** una candidatura a «AI-first developer» en estado «borrador: falta que tú la revises y apruebes», cobertura ATS 60 % y la lista desplegada de «Lo que la oferta pide y tu CV no recoge» (7 puntos: sueco, Cursor/Codex, años de desarrollo…).
+2. Despliega «CV adaptado» y «Carta»: lee cada frase y comprueba que **todo es tuyo y cierto** (nada de React, Cloudflare, Cursor, sueco). Esta prueba solo la puedes hacer tú.
+3. No hay botones: aprobar se hace en Claude Code con `/aprobar mar JobTech_Suecia__Platsbanken_-31550008-6b20c35d`. **Debe pasar:** te enseña primero los avisos de relleno y espera tu respuesta.
+4. Línea roja: copia `estado.json` de la candidatura, cámbialo a `"estado": "aprobada"` dejando `"por": "agente"`, y lanza `npm run importar -- --dir ../datos`. **Debe decir RECHAZADO** («una aprobación no la hizo la usuaria»). Restaura el archivo.
+5. Repetible: lanza el importador dos veces; en la base debe haber 1 sola candidatura (`select count(*) from candidaturas`).
+
 ## 2 quater. Licencia de origen (bloque 4)
 
 1. Abre `http://127.0.0.1:3000/ofertas` (con la web arrancada). **Debe pasar:** cada oferta de JobTech dice «Origen: JobTech Suecia (Platsbanken) · licencia: datos abiertos de la fuente (condiciones en la oferta original)» y tiene el enlace «Ver oferta original». Las 2 de prueba dicen «licencia: no indicada» (no se inventa).

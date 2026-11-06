@@ -133,3 +133,40 @@ export const SQL_MATCH = `
 export function paramsMatch(m: Json, o: Json): unknown[] {
   return [m.usuaria_id, o.oferta_id, m.version_perfil, m.fecha, o.nota, o.nivel_condiciones, o.explicacion, o.sin_sueldo ?? false, o.correccion ?? null];
 }
+
+// Candidaturas (esquema candidatura + cv.md y carta.md): una fila por (usuaria, oferta). Repetible: no duplica.
+export const SQL_CANDIDATURA = `
+  INSERT INTO candidaturas (usuaria_id, oferta_id, estado, cv_usado, cv_md, carta_md, historial, traza, traza_carta, huecos, ats)
+  VALUES ($1,$2,$3,$4,$5,$6,$7::jsonb,$8::jsonb,$9::jsonb,$10::jsonb,$11::jsonb)
+  ON CONFLICT (usuaria_id, oferta_id) DO UPDATE SET
+    estado=EXCLUDED.estado, cv_usado=EXCLUDED.cv_usado, cv_md=EXCLUDED.cv_md, carta_md=EXCLUDED.carta_md,
+    historial=EXCLUDED.historial, traza=EXCLUDED.traza, traza_carta=EXCLUDED.traza_carta,
+    huecos=EXCLUDED.huecos, ats=EXCLUDED.ats, actualizado_en=now()
+  -- Una reimportación nunca degrada una candidatura ya aprobada o enviada: solo se actualizan borradores.
+  WHERE candidaturas.estado IN ('borrador','pendiente_de_ti')`;
+
+export function paramsCandidatura(usuariaId: string, ofertaId: string, c: Json, cvMd: string, cartaMd: string | null, trazaCarta: unknown): unknown[] {
+  return [usuariaId, ofertaId, c.estado, c.cv_usado, cvMd, cartaMd, j(c.historial), j(c.traza),
+    trazaCarta === null || trazaCarta === undefined ? null : j(trazaCarta), j(c.huecos), j(c.ats)];
+}
+
+const ESTADOS_POSTERIORES = ["aprobada", "enviada", "entrevista", "rechazada", "sin_respuesta"];
+
+/**
+ * Línea roja: un agente nunca aprueba. Si el estado es «aprobada» o posterior, el historial debe llevar
+ * la entrada «aprobada» con por = usuaria. Devuelve el motivo del rechazo, o null si es coherente.
+ */
+export function incoherenciaCandidatura(c: Json): string | null {
+  const h: Json[] = Array.isArray(c.historial) ? c.historial : [];
+  if (c.estado === "borrador" && h.some((e) => e.estado === "aprobada")) return "estado borrador con una aprobación en el historial";
+  if (ESTADOS_POSTERIORES.includes(c.estado) && !h.some((e) => e.estado === "aprobada" && e.por === "usuaria")) {
+    return "la aprobación no está firmada por la usuaria";
+  }
+  if (h.some((e) => e.estado === "aprobada" && e.por !== "usuaria")) return "una aprobación no la hizo la usuaria";
+  return null;
+}
+
+/** medir_ats.py deja claves de trabajo (`presentes`, `no_medidos`); el esquema solo guarda estas tres. */
+export function soloClavesAts(a: Json): Json {
+  return { cobertura: a?.cobertura, faltantes_con_origen: a?.faltantes_con_origen, faltantes_sin_origen: a?.faltantes_sin_origen };
+}

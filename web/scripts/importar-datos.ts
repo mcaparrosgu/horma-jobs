@@ -15,10 +15,11 @@ import {
   fuentesDeEndpoints, SQL_SINCRONIZAR_FUENTE, paramsSincronizarFuente, SQL_ABRIR_EJECUCION, SQL_CERRAR_EJECUCION,
   paramsCerrarEjecucion, cuentaVacia, anotarRechazo, anotarInterrupcion, type CuentaEjecucion,
 } from "../src/lib/ingesta.ts";
+import { idValido } from "../src/lib/datos-usuaria.ts";
 import { origenDeRaw, origenCoincide } from "../src/lib/verificar.ts";
 import {
-  SQL_OFERTA, SQL_USUARIA, SQL_MATCH, sqlPerfil, sqlPreferencias,
-  paramsOferta, paramsPerfil, paramsPreferencias, paramsMatch, registrarEvento, errorSeguro,
+  SQL_OFERTA, SQL_USUARIA, SQL_MATCH, SQL_CANDIDATURA, sqlPerfil, sqlPreferencias,
+  paramsOferta, paramsPerfil, paramsPreferencias, paramsMatch, paramsCandidatura, incoherenciaCandidatura, soloClavesAts, registrarEvento, errorSeguro,
 } from "../src/lib/importar.ts";
 
 const MAX_BYTES = 1_000_000; // tope por archivo: un JSON enorme no debe agotar la memoria
@@ -64,7 +65,7 @@ function motivoRechazo(ruta: string, tipo: "archivo" | "carpeta"): string | null
 }
 
 /** Ruta relativa para la consola: el nombre de la carpeta de una usuaria (su id) se oculta. */
-const rutaCorta = (ruta: string) => relative(RAIZ, ruta).replace(/^(perfiles|usuarias|matches)[\\/][^\\/]+/, "$1/(usuaria)");
+const rutaCorta = (ruta: string) => relative(RAIZ, ruta).replace(/^(perfiles|usuarias|matches|candidaturas)[\\/][^\\/]+/, "$1/(usuaria)");
 
 /** Texto de cv.md (el que citan los «origen» del perfil), o null si falta o no se debe leer. */
 function leerCv(carpeta: string): string | null {
@@ -274,6 +275,62 @@ try {
           },
           (m) => (m.usuaria_id !== u ? "usuaria_id no coincide con el nombre de la carpeta" : null),
         );
+      }
+    }
+  }
+
+  // Candidaturas: …/candidaturas/<usuaria>/<oferta>/ con estado.json, cv.md, carta.md (opcional), traza.json,
+  // traza-carta.json (opcional), huecos.json y ats.json. Se juntan, se validan con el esquema `candidatura` y,
+  // además, ningún agente puede haber aprobado (incoherenciaCandidatura).
+  const dirCand = join(RAIZ, "candidaturas");
+  if (!SOLO_OFERTAS && existsSync(dirCand) && !motivoRechazo(dirCand, "carpeta")) {
+    for (const u of readdirSync(dirCand).sort()) {
+      const carpetaU = join(dirCand, u);
+      if (!idValido(u)) { cuenta.omitidas++; console.log("omitida   candidaturas: nombre de carpeta de usuaria no válido"); continue; }
+      if (motivoRechazo(carpetaU, "carpeta")) { cuenta.omitidas++; console.log("omitida   candidaturas: no es una carpeta"); continue; }
+      for (const of of readdirSync(carpetaU).sort()) {
+        const carpeta = join(carpetaU, of);
+        if (!/^[A-Za-z0-9_-][A-Za-z0-9_.-]{0,79}$/.test(of)) { cuenta.omitidas++; console.log("omitida   candidaturas: nombre de carpeta de oferta no válido"); continue; }
+        const nombre = `candidaturas/(usuaria)/${of}`;
+        cuenta.archivos++;
+        if (motivoRechazo(carpeta, "carpeta")) { cuenta.omitidas++; console.log(`omitida   ${nombre}: no es una carpeta`); continue; }
+        const rechazar = (m: string) => { cuenta.rechazadas++; console.log(`RECHAZADO ${nombre}: ${m}`); };
+        // Devuelve el texto, null si es opcional y no está, o lanza con el motivo (sin repetir el contenido).
+        const leer = (n: string, obligatorio: boolean): string | null => {
+          const ruta = join(carpeta, n);
+          if (!existsSync(ruta)) { if (obligatorio) throw new Error(`${n}: falta`); return null; }
+          if (motivoRechazo(ruta, "archivo")) throw new Error(`${n}: no se puede leer`);
+          const t = readFileSync(ruta, "utf8");
+          if (t.includes("\u0000")) throw new Error(`${n}: contiene caracteres nulos`);
+          return t;
+        };
+        const textos: Record<string, string | null> = {};
+        let malo: string | null = null;
+        try {
+          for (const [n, ob] of [["estado.json", true], ["cv.md", true], ["carta.md", false], ["traza.json", true], ["traza-carta.json", false], ["huecos.json", true], ["ats.json", true]] as const) textos[n] = leer(n, ob);
+        } catch (e) { malo = (e as Error).message; }
+        if (malo) { rechazar(malo); continue; }
+        let c: Record<string, any>; let trazaCarta: unknown = null; // eslint-disable-line @typescript-eslint/no-explicit-any
+        try {
+          const estado = JSON.parse(textos["estado.json"]!);
+          c = { ...estado, traza: JSON.parse(textos["traza.json"]!), huecos: JSON.parse(textos["huecos.json"]!), ats: soloClavesAts(JSON.parse(textos["ats.json"]!)) };
+          if (textos["traza-carta.json"]) trazaCarta = JSON.parse(textos["traza-carta.json"]);
+        } catch { rechazar("algún JSON no es válido"); continue; }
+        const r = validar("candidatura", c);
+        if (!r.ok) { rechazar(`\n  - ${r.errores.join("\n  - ")}`); continue; }
+        const inc = incoherenciaCandidatura(c);
+        if (inc) { rechazar(inc); continue; }
+        await db.query("BEGIN");
+        try {
+          await db.query(SQL_USUARIA, [u]);
+          await db.query(SQL_CANDIDATURA, paramsCandidatura(u, of, c, textos["cv.md"]!, textos["carta.md"], trazaCarta));
+          await db.query("COMMIT");
+          cuenta.importadas++;
+          console.log(`ok        ${nombre}`);
+        } catch (e) {
+          await db.query("ROLLBACK");
+          rechazar(`no se pudo guardar (${errorSeguro(e)})`);
+        }
       }
     }
   }

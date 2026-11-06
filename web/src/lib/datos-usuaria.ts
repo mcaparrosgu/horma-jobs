@@ -91,7 +91,8 @@ export const SQL_EXPORTAR = {
   perfil: "SELECT to_jsonb(p) AS dato FROM perfiles p WHERE usuaria_id = $1",
   preferencias: "SELECT to_jsonb(p) AS dato FROM preferencias p WHERE usuaria_id = $1",
   matches: "SELECT jsonb_agg(to_jsonb(m)) AS dato FROM matches m WHERE usuaria_id = $1",
+  candidaturas: "SELECT jsonb_agg(to_jsonb(c)) AS dato FROM candidaturas c WHERE usuaria_id = $1",
 } as const;
 
-// Las tablas hijas (perfiles, preferencias, matches) se borran solas por ON DELETE CASCADE.
+// Las tablas hijas (perfiles, preferencias, matches, candidaturas) se borran solas por ON DELETE CASCADE.
 export const SQL_BORRAR_USUARIA = "DELETE FROM usuarias WHERE id = $1";
