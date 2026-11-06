@@ -1,0 +1,59 @@
+// Borra TODOS los datos de una usuaria (RGPD: derecho de supresión). IRREVERSIBLE.
+// Uso (desde web/): npm run borrar -- --usuaria <id>                    (en seco: solo enseña qué se perdería)
+//                   npm run borrar -- --usuaria <id> --confirmar <id>   (borra de verdad; repite el id)
+// Borra: su fila en la base (y, en cascada, perfil y preferencias) y sus carpetas en datos/usuarias,
+// datos/candidaturas y datos/matches. NO toca ofertas, fuentes ni eventos (no llevan datos personales)
+// ni las exportaciones ya hechas (datos/exportaciones): esas bórralas tú cuando las entregues.
+import { resolve } from "node:path";
+import pg from "pg";
+import { problemaClave } from "../src/lib/clave.ts";
+import { errorSeguro } from "../src/lib/importar.ts";
+import { ID_USUARIA, SQL_BORRAR_USUARIA, SQL_EXPORTAR, borrarCarpetas, inspeccionar } from "../src/lib/datos-usuaria.ts";
+
+const problema = problemaClave(process.env.HORMA_DB_PASSWORD);
+if (problema) { console.error(problema); process.exit(1); }
+
+const args = process.argv.slice(2);
+const valor = (flag: string) => { const k = args.indexOf(flag); return k >= 0 ? args[k + 1] : undefined; };
+const id = valor("--usuaria"), confirmar = valor("--confirmar");
+if (!id || !ID_USUARIA.test(id)) {
+  console.error("Uso: npm run borrar -- --usuaria <id> [--confirmar <id>]");
+  process.exit(1);
+}
+if (args.includes("--confirmar") && confirmar !== id) {
+  console.error("--confirmar debe repetir exactamente el id de la usuaria. No se borra nada.");
+  process.exit(1);
+}
+
+const DATOS = resolve(import.meta.dirname, "..", "..", "datos");
+const db = new pg.Client({ host: "127.0.0.1", port: 5433, user: "horma", database: "horma", password: process.env.HORMA_DB_PASSWORD });
+try {
+  await db.connect();
+  const usuaria = await db.query(SQL_EXPORTAR.usuaria, [id]);
+  const perfil = await db.query(SQL_EXPORTAR.perfil, [id]);
+  const preferencias = await db.query(SQL_EXPORTAR.preferencias, [id]);
+  const carpetas = inspeccionar(DATOS, id); // aborta si hay enlaces simbólicos
+  console.log(`${confirmar ? "SE BORRARÁ" : "EN SECO. Se borraría"}:`);
+  console.log(`  base de datos: usuaria ${usuaria.rowCount ? 1 : 0} · perfil ${perfil.rowCount ?? 0} · preferencias ${preferencias.rowCount ?? 0}`);
+  for (const c of carpetas) console.log(`  disco: datos/${c.carpeta}/(usuaria): ${c.archivos} archivos, ${c.bytes} bytes`);
+  if (!usuaria.rowCount && carpetas.length === 0) { console.log("No hay nada de esa usuaria."); }
+  else if (!confirmar) {
+    console.log("No se ha borrado nada. ¿Has exportado sus datos antes? (npm run exportar). Para borrar de verdad: repite la orden con --confirmar <id>.");
+  } else {
+    await db.query("BEGIN");
+    try {
+      const filas = (await db.query(SQL_BORRAR_USUARIA, [id])).rowCount ?? 0;
+      const archivos = borrarCarpetas(DATOS, id);
+      await db.query("COMMIT");
+      console.log(`Borrado: ${filas} usuaria en la base (con su perfil y preferencias) y ${archivos} archivos en disco.`);
+    } catch (e) {
+      await db.query("ROLLBACK");
+      throw e;
+    }
+  }
+} catch (e) {
+  console.error("Falló el borrado:", (e as { code?: unknown })?.code ? errorSeguro(e) : (e as Error).message);
+  process.exitCode = 1;
+} finally {
+  await db.end().catch(() => {});
+}

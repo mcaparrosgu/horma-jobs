@@ -10,7 +10,9 @@
     "test": "node --test src/lib/*.test.ts",
     "migrar": "node --env-file=.env scripts/migrar.mjs",
     "importar": "node --env-file=.env scripts/importar-datos.ts",
-    "verificar": "node --env-file=.env scripts/verificar.ts"
+    "verificar": "node --env-file=.env scripts/verificar.ts",
+    "exportar": "node --env-file=.env scripts/exportar.ts",
+    "borrar": "node --env-file=.env scripts/borrar.ts"
   },
   "dependencies": {
     "ajv": "^8.20.0",

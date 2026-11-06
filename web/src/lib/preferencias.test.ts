@@ -1,4 +1,5 @@
 // Pruebas de las preferencias de la usuaria. Se ejecutan con: npm test
+import { SQL_EXPORTAR, SQL_BORRAR_USUARIA } from "./datos-usuaria.ts";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
@@ -54,13 +55,16 @@ test("línea roja: nada lee candidatas fuera de la lista blanca, ni las ordena p
   assert.match(SQL_PREFERENCIAS, /WHERE usuaria_id = \$1/);
   assert.match(SQL_USUARIAS, /ORDER BY u\.id\s*$/); // la lista de candidatas se ordena solo por id
   assert.ok(!/empresa/i.test(SQL_USUARIAS + SQL_PERFIL + SQL_PREFERENCIAS));
+  // Exportar y borrar: cada consulta toca a UNA usuaria por su id, nunca una lista.
+  for (const sql of [...Object.values(SQL_EXPORTAR), SQL_BORRAR_USUARIA]) assert.match(sql, /WHERE (usuaria_id|id) = \$1\s*$/);
 
   const src = join(process.cwd(), "src");
   const archivos = readdirSync(src, { recursive: true, withFileTypes: true })
     .filter((d) => d.isFile() && /\.(ts|tsx)$/.test(d.name) && !/\.test\.ts$/.test(d.name))
     .map((d) => ({ ruta: join(d.parentPath, d.name), nombre: d.name }));
   // Solo estos archivos pueden mencionar las tablas de candidatas. Un archivo nuevo que lo haga obliga a revisar esta lista a propósito.
-  const PUEDEN_LEER_CANDIDATAS = new Set(["preferencias.ts", "importar.ts", "esquemas.ts"]);
+  // datos-usuaria.ts: exportar y borrar SUS datos (RGPD), siempre por id de una sola usuaria (se comprueba abajo).
+  const PUEDEN_LEER_CANDIDATAS = new Set(["preferencias.ts", "importar.ts", "esquemas.ts", "datos-usuaria.ts"]);
   for (const { ruta, nombre } of archivos) {
     const t = readFileSync(ruta, "utf8");
     if (/\b(FROM|JOIN|INTO|UPDATE)\s+(perfiles|preferencias)\b/i.test(t)) {
