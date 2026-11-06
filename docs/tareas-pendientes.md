@@ -2,6 +2,9 @@
 
 Actualizado el 2026-11-06 (bloques 1 a 8 de la pista B hechos; ver «Retomar: empieza aquí»). Única fuente de estado y próximos pasos (mapa de documentos: `docs/indice.md`). Orden = prioridad.
 
+## Fuentes de empleo: solo España (6-nov, Mar)
+Alcance de fuentes limitado a España hasta que las bases estén sólidas. **Siguiente en fuentes:** `/calificar-fuentes` de empleo público autonómico y municipal; Mar abre la cuenta de socia de Careerjet; escribir a InfoJobs, Tecnoempleo, Infoempleo y Adzuna pidiendo permiso (la Copiloto redacta los correos). Detalle en la bitácora del 6-nov. **Banco de ideas** (de dos agentes externos y propias, con estado): `docs/ideas-banco.md`; Mar las selecciona y se diseña el plan combinado.
+
 ## Estado en tres líneas
 - **Fase 0, versión del profesor** (`docs/flujo-agentico-claude-code.md`): **pista A hecha** (agentes, skills, comandos, esquemas, scripts y evals en `.claude/` y `evals/`); **pista B** (web **Next.js** + PostgreSQL en `web/`; FastAPI se quitó el 4-nov) **en marcha: pasos 1 a 5 hechos el 5-nov, sigue el paso 6** (ver «Pista B: por dónde seguir»).
 - **Instrucciones nuevas del profesor (4-nov):** (1) **dashboard** para ver el flujo agéntico (pipelines o workflows); (2) **observabilidad** en cada componente; (3) construir **primero** la web de **ingesta de ofertas** y la de **candidatos** (se escribe «candidatos», no «postulantes»); (4) web con **Next.js**, sin FastAPI; (5) probar y pasar los tests **a mano**. **Nuevas (5-nov):** (6) el **pipeline de ingesta toma las ofertas de las APIs**, como hacía antes (en Jobs con n8n; en Horma, script propio); (7) seguir construyendo la web **como un dashboard**; (8) **validar que los datos se guardan en la base de datos**. Dudas que quedan: preguntas 29, 30 y 31 de `docs/preguntas-profesor.md`.

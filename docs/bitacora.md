@@ -642,3 +642,23 @@ Esquema 0.7: `match.nota` admite `null` («sin datos suficientes»), y el esquem
 
 **Hecho.** `/auth/google?vincular=1` y su rama en el retorno de Google (exige sesión y mismo correo; solo si la cuenta no tenía otro Google); campo `google` en la sesión; etiqueta y enlace en la barra. 127 tests, `tsc`, `lint` y `build` bien. **No probado** con credenciales reales de Google (las crea Mar en Google Cloud). Pendiente menor: si la vinculación falla no se muestra un mensaje (el enlace «Vincular Google» sigue ahí); se puede añadir un aviso en el panel.
 
+
+## 6-nov-2026 · Alcance de fuentes: solo España, y qué se toma de un agente externo
+
+**En llano.** Por ahora Horma solo busca ofertas en webs y portales de España, para construir sobre una base pequeña y sólida; Europa llega después. Mar pasó los consejos de otro agente de IA sobre cómo conseguir ofertas. Algunas ideas sirven y otras chocan con lo que ya decidimos; aquí queda lo que se aprovecha, lo que no y por qué, para no volver a discutirlo desde cero.
+
+**Decisión (Mar).** Alcance geográfico: España. Reversible. JobTech Suecia sigue apagada en `endpoints.json`, no borrada. Actualizados: `propuesta-horma.md`, `CLAUDE.md` y el artefacto «Fuentes de empleo».
+
+**Se aprovecha del agente externo.**
+- **Prompt injection (texto de la oferta que intenta dar órdenes al modelo):** Mar tiene razón en que se puede gestionar con medidas y no es motivo para renunciar a una fuente. Ya las tenemos: subagentes solo con `Read`, texto de ofertas tratado como no fiable, esquemas cerrados, revisión humana antes de guardar. Se mantienen y se refuerzan, no frenan nada.
+- **Fuentes públicas y de nicho en España:** boletines oficiales autonómicos y provinciales (como el BOE, ya activa), servicios autonómicos de empleo, universidades, ayuntamientos. Aún no calificados.
+- **Ofertas que trae la usuaria** (marcador del navegador, extensión o enlace): ya previsto en «fuentes por capas».
+- **GitHub Actions para programar la ingesta:** viable; es un detalle de despliegue para más adelante.
+- **Lectura del HTML con apoyo de un modelo cuando una fuente permitida no ofrece API:** posible dentro de la pista A (Claude Code), no dentro de la web.
+
+**No se adopta (y por qué).**
+- **Saltarse bloqueos o condiciones de uso, o rotar IP para evitarlos:** es el riesgo legal que `/calificar-fuentes` existe para evitar (derechos sobre bases de datos, RGPD con nombres y contactos de reclutadores). Es un límite de producto, no prudencia; se cambia solo con el profesor.
+- **LLM dentro de la web, base vectorial, Supabase:** el profesor pidió web sin LLM; el emparejamiento es por taxonomía; ya hay PostgreSQL.
+- **«El RSS y los canales públicos no tienen condiciones»:** lo tienen; se califican igual.
+
+**Camino para más volumen en España sin romper reglas** (el volumen es el segundo paso, no se descarta): (1) calificar fuentes de empleo público autonómicas y municipales; (2) Careerjet: abrir la cuenta de socia (pendiente de Mar) y leer sus términos; (3) escribir a InfoJobs, Tecnoempleo, Infoempleo y Adzuna pidiendo permiso o programa de socios: un metabuscador les da tráfico y puede ser una buena oferta; (4) ATS públicos de empresas españolas (Greenhouse, Personio…) con lista que mantenemos a mano; (5) decisión del profesor sobre Apify y scraping (pregunta 32).

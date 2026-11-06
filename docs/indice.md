@@ -14,6 +14,7 @@ Una sola fuente de verdad para cada cosa. Si algo cambia, se cambia donde dice �
 | Pruebas (evals, agentes con LLM real, fallos, resumen para el profesor) | `docs/informe-pruebas.md` |
 | Preguntas y consultas para el profesor (incluye fuentes de ofertas) | `docs/preguntas-profesor.md` |
 | Cuaderno de decisiones y fallos (solo se añade) | `docs/bitacora.md` |
+| **Banco de ideas** (fuentes, calidad, producto; nada decidido) | `docs/ideas-banco.md` |
 | Términos técnicos | `docs/glosario.md` |
 | Ajuste de `settings.json` que pega Mar | `docs/ajustes-pendientes-settings.md` |
 
