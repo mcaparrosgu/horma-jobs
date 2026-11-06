@@ -79,7 +79,7 @@ Un test en rojo no es una catástrofe: es el aviso de que algo se rompió. Copia
 2. Prueba que de verdad avisa: abre un archivo de `datos/ofertas/procesadas/`, cambia el `titulo` y guarda; vuelve a lanzar `npm run verificar`. Debe decir **FALLO** con el id de esa oferta y el campo `titulo` (sin enseñar el texto), y terminar con «no cuadra». Deshaz el cambio (`git` no lo sigue: vuelve a escribir el título original a mano) y comprueba que vuelve a cuadrar.
 3. Ingesta repetible: tras `ingestar.py`, la respuesta lleva `pendientes`: debe ser una lista **vacía** si ya procesaste esas ofertas. `/ingestar-ofertas` solo gasta agentes en las pendientes.
 
-## 2 sexies. Candidatura de punta a punta (construcción optimizada, bloque 3)
+## 2 decies. Candidatura de punta a punta (construcción optimizada, bloque 3)
 
 1. Con la web arrancada, abre `http://127.0.0.1:3000/candidaturas/mar`. **Debe pasar:** una candidatura a «AI-first developer» en estado «borrador: falta que tú la revises y apruebes», cobertura ATS 60 % y la lista desplegada de «Lo que la oferta pide y tu CV no recoge» (7 puntos: sueco, Cursor/Codex, años de desarrollo…).
 2. Despliega «CV adaptado» y «Carta»: lee cada frase y comprueba que **todo es tuyo y cierto** (nada de React, Cloudflare, Cursor, sueco). Esta prueba solo la puedes hacer tú.

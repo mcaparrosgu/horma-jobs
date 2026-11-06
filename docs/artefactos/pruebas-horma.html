@@ -102,7 +102,7 @@ li.paso{padding:14px 0;border-top:1px solid var(--line);display:grid;grid-templa
   <div class="eyebrow">Horma jobs · para Mar</div>
   <h1>Pruebas de Horma a mano</h1>
   <p class="lead">Sigue los pasos en orden. En cada uno compara con lo que <b>debe pasar</b> y marca «Pasa» o «Falla». Lo que marques se guarda solo. Al final tienes un informe de fallos listo para copiar y pasárselo a la Copiloto.</p>
-  <p class="aviso"><b>Solo datos inventados</b> (Ana, Rosa, Leo y dos ofertas ficticias). Nunca pruebes con un CV real tuyo ni de nadie. La web no tiene inicio de sesión: no la abras a internet.</p>
+  <p class="aviso"><b>Secciones 0 a 10: solo datos inventados</b> (Ana, Rosa, Leo y dos ofertas ficticias); no pruebes ahí con un CV real. <b>Sección 11: tu CV real</b>, que vive solo en tu ordenador y git ignora. La web no tiene inicio de sesión: no la abras a internet.</p>
 </header>
 
 <div class="resumen" aria-live="polite">
@@ -144,9 +144,9 @@ var SECCIONES = [
 { id:"s1", t:"1 · Tests automáticos (2 minutos)", abierta:false,
   intro:"Un test en rojo no es una catástrofe: avisa de que algo se rompió. Copia el mensaje completo en la nota.",
   pasos:[
-  { id:"1.1", q:"Tests de la web, desde la carpeta <code>web</code>.", cmd:"npm test", d:"Todas en verde. Hoy son <b>85</b> correctas y 0 fallos. Después lanza <code>npm run build</code>: termina sin errores." },
+  { id:"1.1", q:"Tests de la web, desde la carpeta <code>web</code>.", cmd:"npm test", d:"Todas en verde. Hoy son <b>102</b> correctas y 0 fallos. Después lanza <code>npm run build</code>: termina sin errores." },
   { id:"1.2", q:"Tipos y estilo, desde <code>web</code>.", cmd:"npx tsc --noEmit", d:"No escribe ningún error. Después lanza <code>npm run lint</code>: tampoco." },
-  { id:"1.3", q:"Tests de los agentes (sin IA de pago), desde la carpeta principal del proyecto.", cmd:"python -I evals/correr_evals.py", d:"<b>36</b> correctos, 0 fallos." }
+  { id:"1.3", q:"Tests de los agentes (sin IA de pago), desde la carpeta principal del proyecto.", cmd:"python -I evals/correr_evals.py", d:"<b>41</b> correctos, 0 fallos." }
 ]},
 { id:"s2", t:"2 · La web a mano", abierta:false,
   intro:"Sigue con la web abierta en <code>http://127.0.0.1:3000</code>.",
@@ -239,6 +239,19 @@ var SECCIONES = [
   { id:"10.4", q:"Borra de verdad.", cmd:"npm run borrar -- --usuaria zz-prueba --confirmar zz-prueba", d:"Dice cuántos archivos borró y <code>datos/usuarias/zz-prueba</code> ya no existe." },
   { id:"10.5", q:"Prueba ids no permitidos.", cmd:"npm run borrar -- --usuaria Ana", cmd2:"npm run borrar -- --usuaria con", d:"Ambos se <b>rechazan</b> con el mensaje de uso: minúsculas, sin punto y sin nombres reservados de Windows." },
   { id:"10.6", q:"Limpieza: borra a mano <code>datos/exportaciones/zz-prueba-&lt;fecha&gt;</code>.", d:"La exportación lleva datos de la usuaria y no se borra sola. No se sube a git." }
+]}
+,
+{ id:"s11", t:"11 · Tu perfil, recomendaciones y candidatura (construcción optimizada, bloques 1 a 3)", abierta:false,
+  intro:"<p>Aquí sí se usa <b>tu CV real</b> (carpeta <code>datos/usuarias/mar/</code>, ignorada por git). Solo mira y lee: <b>no se ha aprobado ni enviado nada</b>. Con la web arrancada y la base al día (<code>npm run migrar</code>, <code>npm run importar -- --dir ../datos</code>).</p>",
+  pasos:[
+  { id:"11.1", q:"Abre tu ficha en <code>/candidatos/mar</code>.", d:"Cada dato (cargo, empresa, fecha) tiene su «de dónde sale». Sin edad. Los niveles por área (senior en atención al cliente, junior en IA) salen como «sugerido, ella puede corregirlo»." },
+  { id:"11.2", q:"Abre <code>/recomendaciones/mar</code>.", d:"Ofertas ordenadas por nota, con una explicación honesta. Las del BOE salen «sin nota» al final, no con un número inventado. Esta lista es solo para ti." },
+  { id:"11.3", q:"Abre <code>/candidaturas/mar</code>.", d:"Una candidatura a «AI-first developer» en estado <b>borrador</b>, con cobertura ATS 60 %. La lista «Lo que la oferta pide y tu CV no recoge» sale desplegada (7 puntos: sueco, Cursor/Codex, años de desarrollo…). No hay botones." },
+  { id:"11.4", q:"Despliega «CV adaptado» y «Carta de presentación» y léelos frase por frase.", d:"<b>Todo es tuyo y cierto.</b> Nada de React, Cloudflare, Cursor ni sueco. Fechas, cargos, empresas y titulaciones iguales a tu CV maestro. Esta prueba solo la puedes hacer tú." },
+  { id:"11.5", q:"Comprueba la línea de 2002–2004 en «Experiencia».", d:"Lleva «Fusión de expedientes médicos» y «Trabajo como administrativa durante las vacaciones»: no parece un empleo continuo." },
+  { id:"11.6", q:"Línea roja: copia <code>estado.json</code> de la candidatura, cambia a <code>\"estado\": \"aprobada\"</code> dejando <code>\"por\": \"agente\"</code>, importa y restaura el archivo.", cmd:"npm run importar -- --dir ../datos", d:"Dice <b>RECHAZADO</b> («una aprobación no la hizo la usuaria»). Nada queda aprobado." },
+  { id:"11.7", q:"Repetible: lanza el importador dos veces y cuenta candidaturas.", cmd:"docker exec horma-db psql -U horma -d horma -tAc \"select count(*) from candidaturas\"", d:"Sale <b>1</b>, no 2." },
+  { id:"11.8", q:"Aprobar es cosa tuya, en Claude Code (no lo hagas si no quieres enviar esa oferta: es sueca y pide sueco).", cmd:"/aprobar mar JobTech_Suecia__Platsbanken_-31550008-6b20c35d", d:"Te enseña <b>primero</b> los avisos de relleno y espera tu respuesta literal. Un agente nunca escribe «aprobada»." }
 ]}
 ];
 
