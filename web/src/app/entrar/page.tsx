@@ -24,6 +24,7 @@ async function Entrar({ searchParams }: { searchParams: PageProps<"/entrar">["se
       <p className="text-sm text-zinc-600">
         Cada persona ve solo lo suyo. Las empresas no ven nada de tu cuenta: Horma no ordena ni filtra candidatas para ellas.
       </p>
+      {q.borrada === "1" && <p role="status" className="rounded border border-green-200 bg-green-50 p-2 text-sm text-green-800">Tu cuenta se ha borrado. Gracias por haber probado Horma.</p>}
       {aviso && <p role="alert" className="rounded border border-amber-200 bg-amber-50 p-2 text-sm">{aviso}</p>}
       <FormularioEntrar />
       {googleActivo() && (
@@ -32,6 +33,9 @@ async function Entrar({ searchParams }: { searchParams: PageProps<"/entrar">["se
         </a>
       )}
       <FormularioRegistro />
+      <p className="text-center text-sm text-zinc-600">
+        ¿Eres una empresa? <a href="/empresa/entrar" className="underline">Entra aquí</a>.
+      </p>
     </div>
   );
 }
