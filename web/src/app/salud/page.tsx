@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { connection } from "next/server";
 import { join } from "node:path";
 import { db } from "@/lib/db";
 import { SQL_PANEL_FUENTES } from "@/lib/panel";
@@ -49,6 +50,7 @@ function Tabla({ titulo, piezas, vacio }: { titulo: string; piezas: Pieza[]; vac
 }
 
 async function Salud() {
+  await connection(); // se calcula en cada visita (usa la hora y la base): nunca en la compilación
   const raiz = join(process.cwd(), "..");
   const evals = piezaEvals(leerUltimosEvals(join(raiz, "evals", "resultados")));
   const enDisco = migracionesEnDisco(join(process.cwd(), "db", "migraciones"));
