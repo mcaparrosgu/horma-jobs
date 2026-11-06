@@ -4,6 +4,7 @@ import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import pg from "pg";
 import { problemaClave } from "../src/lib/clave.ts";
+import { errorSeguro } from "../src/lib/importar.ts";
 
 const password = process.env.HORMA_DB_PASSWORD;
 const problema = problemaClave(password);
@@ -34,8 +35,17 @@ try {
       nuevas++;
     } catch (e) {
       await client.query("ROLLBACK");
-      throw new Error(`Falló ${f}: ${e.message}`);
+      throw new Error(`Falló ${f}: ${errorSeguro(e)}`);
     }
+  }
+  // La contraseña del rol de la web no puede ir en una migración (se sube a git): se pone aquí, desde .env.
+  const claveWeb = process.env.HORMA_WEB_PASSWORD;
+  const problemaWeb = problemaClave(claveWeb, "HORMA_WEB_PASSWORD");
+  const existeRol = (await client.query("SELECT 1 FROM pg_roles WHERE rolname = 'horma_web'")).rowCount > 0;
+  if (existeRol) {
+    if (problemaWeb) throw new Error(problemaWeb);
+    await client.query(`ALTER ROLE horma_web PASSWORD ${client.escapeLiteral(claveWeb)}`);
+    console.log("rol horma_web: contraseña al día.");
   }
   if (nuevas === 0) console.log("Nada que aplicar: la base de datos está al día.");
 } finally {
