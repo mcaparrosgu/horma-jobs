@@ -7,13 +7,19 @@ export type FilaCandidatura = {
   huecos: { requisito: string; propuesta: string; decision: string; relleno_aviso?: string | null }[];
   ats: { cobertura: number; faltantes_con_origen: string[]; faltantes_sin_origen: string[] };
   actualizado_en: Date; titulo: string; empresa: string; url: string;
+  empresa_id: string | null; estado_bandeja: string | null;
 };
 
 // Siempre filtrada por usuaria ($1). Sin traza: es para auditar en Claude Code, no para leer.
+// empresa_id (de la oferta): si no es null, la candidatura es de una oferta publicada por una empresa en Horma y
+// cabe «Enviar a la empresa» (bloque 4) en vez de «Marcar como enviada» a mano.
+// estado_bandeja: lo pone la EMPRESA sobre el envío (recibida/vista/en_proceso/no_seleccionada); es solo información
+// para la usuaria, nunca cambia el estado de su candidatura por sí solo.
 export const SQL_CANDIDATURAS = `
   SELECT c.oferta_id, c.estado, c.cv_usado, c.cv_md, c.carta_md, c.historial, c.huecos, c.ats, c.actualizado_en,
-         o.titulo, o.empresa, o.url
+         o.titulo, o.empresa, o.url, o.empresa_id, e.estado_bandeja
   FROM candidaturas c JOIN ofertas o ON o.id = c.oferta_id
+  LEFT JOIN envios_empresa e ON e.usuaria_id = c.usuaria_id AND e.oferta_id = c.oferta_id
   WHERE c.usuaria_id = $1
   ORDER BY c.actualizado_en DESC, c.oferta_id`;
 
@@ -51,10 +57,16 @@ export const SQL_MARCAR_ENVIADA = `
   WHERE usuaria_id = $1 AND oferta_id = $2 AND estado = 'aprobada'
     AND EXISTS (SELECT 1 FROM jsonb_array_elements(historial) e WHERE e->>'estado' = 'aprobada' AND e->>'por' = 'usuaria')`;
 
-/** Lista cerrada: el canal no es texto libre. */
+/** Lista cerrada: el canal no es texto libre. «portal de Horma» lo pone enviarAEmpresa (bloque 4), nunca la usuaria. */
 export const CANALES = ["web de la empresa", "correo", "LinkedIn", "Indeed", "otro"] as const;
+export const CANAL_PORTAL = "portal de Horma";
 export const canalValido = (c: unknown): c is (typeof CANALES)[number] => typeof c === "string" && (CANALES as readonly string[]).includes(c);
 export const ID_OFERTA = /^[A-Za-z0-9_-][A-Za-z0-9_.-]{0,79}$/;
+
+export const ETIQUETA_BANDEJA: Record<string, string> = {
+  recibida: "recibida por la empresa", vista: "vista por la empresa", en_proceso: "en proceso en la empresa",
+  no_seleccionada: "no seleccionada por la empresa",
+};
 
 // --- Seguimiento (bloque 2, construcción autónoma): la usuaria registra la respuesta de la empresa. --------------
 // Los mismos pares que hace cumplir el disparador `candidaturas_transicion` (migración 017): si se cambia aquí sin
