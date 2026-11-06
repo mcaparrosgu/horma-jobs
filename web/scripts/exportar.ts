@@ -31,6 +31,7 @@ const db = new pg.Client({ host: "127.0.0.1", port: 5433, user: "horma", databas
 try {
   await db.connect();
   const usuaria = await db.query(SQL_EXPORTAR.usuaria, [id]);
+  const cuenta = await db.query(SQL_EXPORTAR.cuenta, [id]);
   const perfil = await db.query(SQL_EXPORTAR.perfil, [id]);
   const preferencias = await db.query(SQL_EXPORTAR.preferencias, [id]);
   const matches = await db.query(SQL_EXPORTAR.matches, [id]);
@@ -49,6 +50,7 @@ try {
     writeFileSync(join(destino, "base-de-datos.json"), JSON.stringify({
       exportado_en: new Date().toISOString(),
       usuaria: usuaria.rows[0]?.dato ?? null,
+      cuenta: cuenta.rows[0]?.dato ?? null,
       perfil: perfil.rows[0]?.dato ?? null,
       preferencias: preferencias.rows[0]?.dato ?? null,
       matches: matches.rows[0]?.dato ?? [],

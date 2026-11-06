@@ -88,11 +88,13 @@ export function purgarCuarentena(raizDatos: string, id: string): void {
 
 export const SQL_EXPORTAR = {
   usuaria: "SELECT to_jsonb(u) AS dato FROM usuarias u WHERE id = $1",
+  // La cuenta SIN la contraseña (ni su hash) ni el identificador de Google: solo lo que la usuaria puede entender.
+  cuenta: "SELECT jsonb_build_object('email', email, 'rol', rol, 'email_verificado', email_verificado, 'google_vinculado', google_sub IS NOT NULL, 'creada_en', creada_en) AS dato FROM cuentas WHERE usuaria_id = $1",
   perfil: "SELECT to_jsonb(p) AS dato FROM perfiles p WHERE usuaria_id = $1",
   preferencias: "SELECT to_jsonb(p) AS dato FROM preferencias p WHERE usuaria_id = $1",
   matches: "SELECT jsonb_agg(to_jsonb(m)) AS dato FROM matches m WHERE usuaria_id = $1",
   candidaturas: "SELECT jsonb_agg(to_jsonb(c)) AS dato FROM candidaturas c WHERE usuaria_id = $1",
 } as const;
 
-// Las tablas hijas (perfiles, preferencias, matches, candidaturas) se borran solas por ON DELETE CASCADE.
+// Las tablas hijas (cuentas, sesiones, perfiles, preferencias, matches, candidaturas) se borran solas por ON DELETE CASCADE.
 export const SQL_BORRAR_USUARIA = "DELETE FROM usuarias WHERE id = $1";

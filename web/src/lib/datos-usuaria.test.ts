@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { mkdtempSync, mkdirSync, writeFileSync, existsSync, symlinkSync, rmSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { carpetasDe, idValido, inspeccionar, copiarA, aCuarentena, restaurar, purgarCuarentena } from "./datos-usuaria.ts";
+import { carpetasDe, idValido, inspeccionar, copiarA, aCuarentena, restaurar, purgarCuarentena, SQL_EXPORTAR } from "./datos-usuaria.ts";
 
 function raizDePrueba() {
   const raiz = mkdtempSync(join(tmpdir(), "horma-datos-"));
@@ -86,4 +86,10 @@ test("una carpeta padre que es un enlace (datos/matches) aborta", (t) => {
   catch { t.skip("este sistema no permite crear enlaces"); return; }
   assert.throws(() => inspeccionar(raiz, "ana-prueba"), /enlace simbólico/);
   assert.ok(existsSync(join(fuera, "ana-prueba", "secreto.txt")));
+});
+
+test("exportar incluye la cuenta SIN contraseña ni identificador de Google", () => {
+  assert.ok(SQL_EXPORTAR.cuenta);
+  assert.doesNotMatch(SQL_EXPORTAR.cuenta, /hash|google_sub\s*[,)]\s*'|to_jsonb\(c\)/);
+  assert.match(SQL_EXPORTAR.cuenta, /'email'/);
 });

@@ -12,7 +12,8 @@
     "importar": "node --env-file=.env scripts/importar-datos.ts",
     "verificar": "node --env-file=.env scripts/verificar.ts",
     "exportar": "node --env-file=.env scripts/exportar.ts",
-    "borrar": "node --env-file=.env scripts/borrar.ts"
+    "borrar": "node --env-file=.env scripts/borrar.ts",
+    "cuenta": "node --env-file=.env scripts/cuenta.ts"
   },
   "dependencies": {
     "ajv": "^8.20.0",

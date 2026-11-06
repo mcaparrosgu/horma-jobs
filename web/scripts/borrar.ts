@@ -1,7 +1,7 @@
 // Borra TODOS los datos de una usuaria (RGPD: derecho de supresión). IRREVERSIBLE.
 // Uso (desde web/): npm run borrar -- --usuaria <id>                    (en seco: solo enseña qué se perdería)
 //                   npm run borrar -- --usuaria <id> --confirmar <id>   (borra de verdad; repite el id)
-// Borra: su fila en la base (y, en cascada, perfil y preferencias) y sus carpetas en datos/usuarias,
+// Borra: su fila en la base (y, en cascada, cuenta de acceso, sesiones, perfil, preferencias, recomendaciones y candidaturas) y sus carpetas en datos/usuarias,
 // datos/candidaturas y datos/matches. NO toca ofertas, fuentes ni eventos (no llevan datos personales)
 // ni las exportaciones ya hechas (datos/exportaciones): esas bórralas tú cuando las entregues.
 import { resolve } from "node:path";
@@ -32,12 +32,15 @@ try {
   const usuaria = await db.query(SQL_EXPORTAR.usuaria, [id]);
   const perfil = await db.query(SQL_EXPORTAR.perfil, [id]);
   const preferencias = await db.query(SQL_EXPORTAR.preferencias, [id]);
+  const cuenta = await db.query("SELECT (SELECT count(*) FROM cuentas WHERE usuaria_id = $1)::int AS cuentas, (SELECT count(*) FROM sesiones WHERE usuaria_id = $1)::int AS sesiones, (SELECT count(*) FROM matches WHERE usuaria_id = $1)::int AS matches, (SELECT count(*) FROM candidaturas WHERE usuaria_id = $1)::int AS candidaturas", [id]);
   // «Ana» y «ana» son la misma carpeta en Windows: si la base tiene dos ids que solo difieren en mayúsculas, no se toca nada.
   const choque = await db.query("SELECT count(*)::int AS n FROM usuarias WHERE lower(id) = lower($1)", [id]);
   if (choque.rows[0].n > 1) throw new Error("hay ids que solo se distinguen por mayúsculas: resuélvelo a mano");
   const carpetas = inspeccionar(DATOS, id); // aborta si hay enlaces simbólicos
   console.log(`${confirmar ? "SE BORRARÁ" : "EN SECO. Se borraría"}:`);
   console.log(`  base de datos: usuaria ${usuaria.rowCount ? 1 : 0} · perfil ${perfil.rowCount ?? 0} · preferencias ${preferencias.rowCount ?? 0}`);
+  const n = cuenta.rows[0];
+  console.log(`  también: cuenta de acceso ${n.cuentas} · sesiones abiertas ${n.sesiones} · recomendaciones ${n.matches} · candidaturas ${n.candidaturas}`);
   for (const c of carpetas) console.log(`  disco: datos/${c.carpeta}/(usuaria): ${c.archivos} archivos, ${c.bytes} bytes`);
   if (!usuaria.rowCount && carpetas.length === 0) { console.log("No hay nada de esa usuaria."); }
   else if (!confirmar) {
