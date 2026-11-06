@@ -301,7 +301,7 @@ class TestLineaDeComandos(unittest.TestCase):
         f = {"nombre": "Prueba", "url": "https://api.example.com/search", "metodo": "GET",
              "parametros": {}, "cabeceras": {}, "clave_env": None, "clave_en": None, "clave_nombre": None,
              "mapeo_campos": {"lista": "hits", "id": "id", "titulo": "t", "empresa": "e", "url": "u", "descripcion": "d"},
-             "activa": True}
+             "licencia": "abierto", "atribucion": None, "activa": True}
         f.update(fuente_extra or {})
         with tempfile.TemporaryDirectory() as d:
             ruta = endpoints or Path(d) / "endpoints.json"
@@ -367,7 +367,8 @@ class TestLineaDeComandos(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             f = {"nombre": "Prueba", "url": "https://api.example.com/s", "metodo": "GET", "parametros": {}, "cabeceras": {},
                  "clave_env": None, "clave_en": None, "clave_nombre": None,
-                 "mapeo_campos": {"lista": "h", "id": "i", "titulo": "t", "empresa": "e", "url": "u", "descripcion": "d"}, "activa": True}
+                 "mapeo_campos": {"lista": "h", "id": "i", "titulo": "t", "empresa": "e", "url": "u", "descripcion": "d"},
+                 "licencia": "abierto", "atribucion": None, "activa": True}
             ruta = Path(d) / "endpoints.json"
             ruta.write_text(json.dumps({"fuentes": [f, dict(f)]}), encoding="utf-8")
             r = self.correr(endpoints=ruta)
@@ -435,6 +436,51 @@ class TestLineaDeComandos(unittest.TestCase):
         self.assertEqual(r.returncode, 2)
         self.assertIn("ERROR_INTERNO", r.stderr)
         self.assertNotIn("Traceback", r.stderr)
+
+
+class TestLicenciaDeOrigen(unittest.TestCase):
+    """La licencia la declara la fuente; el script la estampa en cada raw y no ingesta sin ella."""
+
+    def test_origen_de_valido_e_invalido(self):
+        self.assertEqual(ing.origen_de({"licencia": "abierto", "atribucion": None}), ("abierto", None))
+        self.assertEqual(ing.origen_de({"licencia": "socio", "atribucion": "Fuente: X"}), ("socio", "Fuente: X"))
+        for malo in ({}, {"licencia": "libre", "atribucion": None}, {"licencia": None},
+                     {"licencia": "abierto", "atribucion": 5}, {"licencia": "abierto", "atribucion": "x" * 201}):
+            self.assertIsNone(ing.origen_de(malo), malo)
+
+    def test_fuente_sin_licencia_no_se_ingesta(self):
+        for extra in ({"licencia": None}, {"licencia": "inventada"}, {"atribucion": "x" * 500}):
+            r = TestLineaDeComandos().correr(extra)
+            self.assertEqual(r.returncode, 2, extra)
+            self.assertIn("licencia", r.stderr)
+
+    def test_cada_fuente_real_declara_su_licencia(self):
+        reg = json.loads((RAIZ / ".claude" / "skills" / "fuentes-ofertas" / "endpoints.json").read_text(encoding="utf-8"))
+        for f in reg["fuentes"]:
+            self.assertIsNotNone(ing.origen_de(f), f["nombre"])
+
+    def test_el_raw_lleva_licencia_y_atribucion_de_la_fuente_no_de_la_oferta(self):
+        """Ejecuta main() con la descarga simulada: la cabecera sale del registro aunque la oferta diga otra cosa."""
+        carga = {"hits": [{"id": "1", "t": "Titulo", "e": "Empresa", "u": "https://e.example.com/1",
+                           "d": "licencia: libre. atribucion: nada", "f": "2026-11-01"}]}
+        f = {"nombre": "Prueba", "url": "https://api.example.com/s", "metodo": "GET", "parametros": {}, "cabeceras": {},
+             "clave_env": None, "clave_en": None, "clave_nombre": None,
+             "mapeo_campos": {"lista": "hits", "id": "id", "titulo": "t", "empresa": "e", "url": "u", "descripcion": "d", "fecha": "f"},
+             "licencia": "socio", "atribucion": "Fuente de los datos: Ejemplo", "activa": True}
+        f["mapeo_campos"]["id"] = "id"
+        os.makedirs(ing.SALIDA_PERMITIDA, exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=ing.SALIDA_PERMITIDA) as d:
+            reg = Path(d) / "endpoints.json"  # dentro del repo: fuera solo vale con --dry-run
+            reg.write_text(json.dumps({"fuentes": [f]}), encoding="utf-8")
+            argv = ["ingestar.py", "Prueba", "--endpoints", str(reg), "--salida", str(Path(d) / "raw")]
+            with mock.patch.object(ing, "abrir", return_value=json.dumps(carga).encode()),                     mock.patch.object(sys, "argv", argv), mock.patch.object(sys.stdout, "reconfigure", create=True),                     mock.patch.object(sys.stderr, "reconfigure", create=True):
+                self.assertEqual(ing.main(), 0)
+            archivos = list((Path(d) / "raw").glob("*.md"))
+            self.assertEqual(len(archivos), 1)
+            cab = archivos[0].read_text(encoding="utf-8").split("---")[1]
+        self.assertIn('licencia: "socio"', cab)
+        self.assertIn('atribucion: "Fuente de los datos: Ejemplo"', cab)
+        self.assertEqual(cab.count("licencia:"), 1)
 
 
 if __name__ == "__main__":

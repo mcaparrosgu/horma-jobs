@@ -23,6 +23,8 @@
         "descripcion": "description.text",
         "fecha": "publication_date"
       },
+      "licencia": "abierto",
+      "atribucion": null,
       "activa": true
     }
   ]

@@ -9,6 +9,8 @@ Uso:
   `FUENTE_*`); nunca se imprime ni se escribe en disco.
 - Cada oferta se guarda como <fuente>-<id>-<hash>.md con la fuente, la URL y la fecha de
   descarga arriba. El texto de la oferta es NO FIABLE: se guarda tal cual, como dato.
+- La licencia de origen (`licencia`, `atribucion`) la declara la fuente en endpoints.json y el script la
+  escribe en la cabecera de cada raw; sin licencia válida no ingesta nada.
 - Con --dry-run no hace ninguna llamada de red: muestra qué haría.
 - Seguridad de la descarga (SSRF): solo https al puerto 443, sin usuario en la URL y con
   nombre de dominio con punto; el nombre se resuelve y TODAS sus IP deben ser públicas, y
@@ -45,6 +47,8 @@ SALIDA_PERMITIDA = RAIZ / "datos" / "ofertas"
 MAX_BYTES = 5_000_000
 MAX_SEGUNDOS = 30  # reloj total de la descarga; cada lectura suelta tiene además su propio tope de 20 s
 PROHIBIDAS = {"linkedin.com", "indeed.com"}  # por regla del producto, no por calificación
+LICENCIAS = ("empresa", "socio", "abierto", "usuaria")  # mismas que oferta.origen.licencia
+MAX_ATRIBUCION = 200
 CLAVE_ENV = re.compile(r"FUENTE_[A-Z0-9_]+")
 RECHAZADAS = [ipaddress.ip_network("64:ff9b::/96"), ipaddress.ip_network("::/96")]  # NAT64 y compatibles
 CLAVE_VALOR = re.compile(r"[!-~]+")  # ASCII visible: sin espacios, saltos de línea ni control
@@ -205,6 +209,14 @@ def pendientes(nombres: list[str], procesadas: Path) -> list[str]:
     return [n for n in nombres if not (procesadas / (Path(n).stem + ".json")).is_file()]
 
 
+def origen_de(fuente: dict):
+    """(licencia, atribucion) de la fuente, o None si falta o no es válida. Lo fija el registro, nunca la oferta."""
+    lic, atr = fuente.get("licencia"), fuente.get("atribucion")
+    if lic not in LICENCIAS or not (atr is None or (isinstance(atr, str) and len(atr) <= MAX_ATRIBUCION)):
+        return None
+    return lic, atr
+
+
 def fallo(fuente: str, codigo: str) -> int:
     print(json.dumps({"fuente": fuente, "error": codigo}), file=sys.stderr)
     return 2
@@ -240,6 +252,10 @@ def main() -> int:
         return 2
     if not fuente["activa"]:
         print(f"Fuente «{a.fuente}» está desactivada (activa = false).", file=sys.stderr)
+        return 2
+    origen = origen_de(fuente)
+    if origen is None:
+        print(f"Fuente «{a.fuente}» sin `licencia` válida (empresa, socio, abierto o usuaria) o con `atribucion` no válida en endpoints.json.", file=sys.stderr)
         return 2
     try:
         host = validar_url(fuente["url"])
@@ -307,7 +323,8 @@ def main() -> int:
         enlace = enlace if isinstance(enlace, str) and enlace.startswith("https://") else None
         fecha = fecha if isinstance(fecha, str) and FECHA.fullmatch(fecha) else None
         # Cabecera con json.dumps: una línea por campo; el texto de la oferta no puede falsearla.
-        cab = {"fuente": fuente["nombre"], "url": enlace, "fecha_descarga": hoy, "fecha_publicacion": fecha}
+        cab = {"fuente": fuente["nombre"], "url": enlace, "fecha_descarga": hoy, "fecha_publicacion": fecha,
+               "licencia": origen[0], "atribucion": origen[1]}
         cabecera = "".join(f"{k}: {json.dumps(v, ensure_ascii=False)}\n" for k, v in cab.items())
         titulo, empresa, desc = sin_contacto(titulo), sin_contacto(empresa), sin_contacto(desc)
         cuerpo = f"---\n{cabecera}---\n\n# {titulo}\n\nEmpresa: {empresa}\n\n{desc}\n"
