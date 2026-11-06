@@ -79,7 +79,7 @@ export const huella = (token: string) => createHash("sha256").update(token).dige
 export const SESION_DIAS = 7;
 export const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 
-export type Sesion = { usuaria_id: string; publico: string; rol: "usuaria" | "admin"; email: string };
+export type Sesion = { usuaria_id: string; publico: string; rol: "usuaria" | "admin"; email: string; google: boolean };
 
 /** ¿Los datos personales de esta URL son de quien tiene la sesión? Ni siquiera la administradora entra en los de otra persona. */
 export function esDuena(sesion: Sesion | null, publicoDeLaUrl: string): boolean {

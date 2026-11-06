@@ -57,7 +57,7 @@ test("ids y tokens: el id interno cumple la regla de ids, el token es largo y la
   assert.notEqual(huella(t), t);
 });
 
-const sesion = (publico: string, rol: "usuaria" | "admin" = "usuaria"): Sesion => ({ usuaria_id: "u1", publico, rol, email: "a@b.es" });
+const sesion = (publico: string, rol: "usuaria" | "admin" = "usuaria"): Sesion => ({ usuaria_id: "u1", publico, rol, email: "a@b.es", google: false });
 const P1 = "123e4567-e89b-42d3-a456-426614174000", P2 = "223e4567-e89b-42d3-a456-426614174000";
 
 test("esDuena: solo su dueña; ni la administradora ni nadie sin sesión; un id mal formado no pasa", () => {

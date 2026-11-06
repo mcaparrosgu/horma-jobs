@@ -6,6 +6,7 @@ import { FormularioEntrar, FormularioRegistro } from "./formularios";
 
 const MENSAJES: Record<string, string> = {
   google: "No se pudo entrar con Google. Prueba otra vez o usa tu correo y contraseña.",
+  vincular: "No se pudo vincular Google: el correo de Google tiene que ser el mismo de tu cuenta, y esa cuenta no puede tener ya otro Google.",
   cuenta: "Ya hay una cuenta con ese correo que no se puede unir a Google. Entra con tu contraseña.",
 };
 

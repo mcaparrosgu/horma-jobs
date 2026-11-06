@@ -13,7 +13,7 @@ const seguro = () => process.env.NODE_ENV === "production" || url_base().startsW
 export const COOKIE = "horma_sesion";
 
 const SQL_SESION = `
-  SELECT s.usuaria_id, u.publico::text AS publico, c.rol, c.email
+  SELECT s.usuaria_id, u.publico::text AS publico, c.rol, c.email, (c.google_sub IS NOT NULL) AS google
   FROM sesiones s JOIN cuentas c ON c.usuaria_id = s.usuaria_id JOIN usuarias u ON u.id = s.usuaria_id
   WHERE s.huella = $1 AND s.caduca_en > now()`;
 
