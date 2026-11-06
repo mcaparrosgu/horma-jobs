@@ -102,7 +102,7 @@ Un test en rojo no es una catástrofe: es el aviso de que algo se rompió. Copia
 
 ## 2 septies. Salud (bloque 7)
 
-1. Desde `web/`: `npm test` (**Debe pasar:** 83 pruebas) y `npm run verificar`. Abre `http://127.0.0.1:3000/salud` (también está en el menú como «Salud»).
+1. Desde `web/`: `npm test` (**Debe pasar:** 84 pruebas) y `npm run verificar`. Abre `http://127.0.0.1:3000/salud` (también está en el menú como «Salud»).
 2. **Debe pasar:** arriba un resumen (bien, atención o falla) y cinco tarjetas: *Base de datos*, *Componentes* (importador, verificador, web…), *Ingesta por fuente*, *Datos* (ofertas y última verificación) y *Pipelines (pista A)* (último resultado de los evals). Cada estado lleva su palabra además del color.
 3. **Debe pasar:** tras `npm run verificar`, «Verificación archivos ↔ base» dice «bien» y «23 ofertas coinciden».
 4. Para ver un «falla» a propósito: para el contenedor `horma-db` y recarga `/salud`. **Debe pasar:** la página no se cae; dice que la base de datos no responde y no enseña ningún mensaje técnico. Vuelve a arrancarlo después.
@@ -128,7 +128,8 @@ Solo con una usuaria **inventada**. Desde `web/`:
 4. `npm run borrar -- --usuaria zz-prueba --confirmar otra`. **Debe pasar:** se niega («debe repetir exactamente el id»).
 5. `npm run borrar -- --usuaria zz-prueba --confirmar zz-prueba`. **Debe pasar:** dice cuántos archivos borró y la carpeta `datos/usuarias/zz-prueba` ya no existe.
 6. Limpieza: borra a mano `datos/exportaciones/zz-prueba-<fecha>` (lleva datos de la usuaria; no se borra sola).
-7. **Nunca** lo pruebes con una usuaria real. El borrado no se puede deshacer.
+7. Con `--usuaria Ana` (mayúscula) o `--usuaria con`, ambos deben **rechazarse** con el mensaje de uso: los ids son en minúsculas, sin punto y sin nombres reservados de Windows.
+8. **Nunca** lo pruebes con una usuaria real. El borrado no se puede deshacer.
 
 ## 3. Líneas rojas, a ojo
 

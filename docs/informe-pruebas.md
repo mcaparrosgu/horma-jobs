@@ -92,7 +92,7 @@ Se probaron con tres CV y dos ofertas ficticios, con trampas sembradas:
 
 ## 3 bis. Cierre de la pista B (bloque 8, 6-nov-2026)
 
-- **Automáticas:** 83 pruebas de la web (6 son de exportar y borrar, con carpetas temporales: id con rutas raras, copia, borrado solo de esa usuaria, enlaces simbólicos) y 36 evals de código, todo en verde; `tsc` y `lint` sin errores; `npm run build` compila (antes fallaba en `/salud`).
+- **Automáticas:** 84 pruebas de la web (7 son de exportar y borrar, con carpetas temporales: id con rutas raras, copia, borrado solo de esa usuaria, enlaces simbólicos) y 36 evals de código, todo en verde; `tsc` y `lint` sin errores; `npm run build` compila (antes fallaba en `/salud`).
 - **A mano, con curl:** `Host: evil.com` devuelve 403 y `localhost` devuelve 200; las tres cabeceras anti-marco salen en las respuestas; el rol `horma_web` puede leer, y la base le deniega borrar, actualizar ofertas, crear o borrar tablas e insertar perfiles.
 - **Exportar y borrar (RGPD):** probado de punta a punta con una usuaria inventada en la base real y en disco: exportar, borrar en seco, rechazo de `--confirmar` distinto del id, borrado real (fila, perfil y preferencias en cascada, y carpetas) y repetición sin nada que borrar. Un test de línea roja ya existente obligó a añadir el archivo nuevo a su lista blanca.
 - **Revisiones:** `revisor-seguridad` (sin hallazgos altos; 3 medios y 6 bajos) y `auditor-lineas-rojas` (sin incumplimientos; 2 altos «antes de usuarias reales» y 2 medios). Detalle y lo que quedó abierto: `docs/bitacora.md` y `docs/tareas-pendientes.md`.
