@@ -68,13 +68,28 @@ Un test en rojo no es una catástrofe: es el aviso de que algo se rompió. Copia
 1. Con `horma-db` arrancada, desde `web/`: `npm run importar -- --ofertas ../datos/ofertas/procesadas`. Debe terminar con **20 importados, 0 rechazados**. Repetirlo no cambia el total.
 2. Abre una oferta de `datos/ofertas/procesadas/` y su original en `raw/`: comprueba que **no hay emails ni teléfonos** (aparece `[contacto omitido]`) y que el país, el nivel y las tecnologías están en el texto original.
 3. Abre `datos/ofertas/procesadas/` las ofertas de Saab (`...31634221...`, `...31672635...`), Ida Infront (`...31648023...`) y Epical (`...31679417...`): la ciudadanía, la habilitación de seguridad y el permiso de trabajo están en el campo `avisos`, no en `requisitos`.
-4. Atadura de claves: `python -I evals/ingesta/test_ingestar.py` debe terminar en `OK` (48 pruebas), incluidas «cambiar la url no desvía la clave» y «nombres repetidos». No hace falta probarlo a mano: no hay ninguna fuente con clave todavía.
+4. Atadura de claves: `python -I evals/ingesta/test_ingestar.py` debe terminar en `OK` (ahora 69 pruebas), incluidas «cambiar la url no desvía la clave» y «nombres repetidos». No hace falta probarlo a mano: no hay ninguna fuente con clave todavía.
 
 ## 2 ter. Lo descargado = lo guardado (bloque 3)
 
 1. Desde `web/`: `npm run verificar`. Debe terminar con **«RESULTADO: todo cuadra»**: 20 coinciden y 2 filas de prueba esperadas (`of-prueba-*`). Solo lee: no cambia nada.
 2. Prueba que de verdad avisa: abre un archivo de `datos/ofertas/procesadas/`, cambia el `titulo` y guarda; vuelve a lanzar `npm run verificar`. Debe decir **FALLO** con el id de esa oferta y el campo `titulo` (sin enseñar el texto), y terminar con «no cuadra». Deshaz el cambio (`git` no lo sigue: vuelve a escribir el título original a mano) y comprueba que vuelve a cuadrar.
 3. Ingesta repetible: tras `ingestar.py`, la respuesta lleva `pendientes`: debe ser una lista **vacía** si ya procesaste esas ofertas. `/ingestar-ofertas` solo gasta agentes en las pendientes.
+
+## 2 quater. Licencia de origen (bloque 4)
+
+1. Abre `http://127.0.0.1:3000/ofertas` (con la web arrancada). **Debe pasar:** cada oferta de JobTech dice «Origen: JobTech Suecia (Platsbanken) · licencia: datos abiertos de la fuente (condiciones en la oferta original)» y tiene el enlace «Ver oferta original». Las 2 de prueba dicen «licencia: no indicada» (no se inventa).
+2. En una oferta de BOE, además, debe verse la atribución: «Fuente de los datos: Agencia Estatal Boletín Oficial del Estado (boe.es). Datos reorganizados por Horma; no es una publicación oficial.»
+3. Que un agente no puede cambiar la licencia: abre un archivo de `datos/ofertas/procesadas/` y cambia `"licencia": "abierto"` por `"empresa"`; lanza `npm run verificar`. **Debe pasar:** FALLO con el id y «el `origen` (licencia) no es el de la cabecera del raw». Deshaz el cambio.
+4. Sin licencia no se ingesta: en una copia de `endpoints.json` quita `licencia` a una fuente y lanza `ingestar.py ... --dry-run --endpoints <copia>`. **Debe pasar:** se niega con un mensaje que nombra `licencia` (si la copia está fuera del repositorio solo vale con `--dry-run`).
+
+## 2 quinquies. BOE (bloque 5)
+
+1. Sin gastar nada: `python -I .claude/skills/fuentes-ofertas/scripts/ingestar.py "BOE Empleo público (sección II.B)" --dry-run`. **Debe pasar:** «[dry-run] GET https://www.boe.es/datosabiertos/api/boe/sumario/{fecha}…», sin red.
+2. Descarga real (una consulta al BOE; hazla como mucho una vez al día): mismo comando sin `--dry-run` y con `--fecha AAAA-MM-DD` de un día laborable. **Debe pasar:** `guardadas` + `descartadas` = los elementos de la sección II.B de ese día. Abre 2 o 3 archivos de `datos/ofertas/raw/` y comprueba que son **convocatorias** (título «por la que se convoca…» o «referente a la convocatoria…») y que **ninguna es una lista de aspirantes, admitidos o aprobados**.
+3. Contrasta con la web del BOE (boe.es, sumario de ese día, sección II.B): los títulos descartados deben ser listas, correcciones, modificaciones, plazas desiertas u ofertas de empleo globales. Si descartó una convocatoria buena o dejó pasar una lista, anótalo: el filtro es `es_convocatoria` y se ajusta con un test.
+4. Un domingo sin `--fecha` pide el sábado; con una fecha futura o mal escrita se niega sin llamar al BOE; si el BOE no tiene sumario ese día sale `NO_ENCONTRADO`.
+5. `python -I evals/ingesta/test_ingestar.py` debe terminar en `OK` (69 pruebas).
 
 ## 3. Líneas rojas, a ojo
 
