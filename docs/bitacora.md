@@ -553,3 +553,13 @@ Mar pidió menos documentos y menos confusión. Decisiones: (1) `docs/` queda co
 **Decisiones técnicas.** No toqué el esquema compartido `perfil.json` ni los comandos de `.claude/` (su patrón sigue admitiendo mayúsculas): un `perfil.json` con mayúsculas ya fallará al importar, con un error claro de la base. Si quieres que falle antes, se endurece el patrón y se sube la versión del esquema. Tema del bootcamp que practica: integridad de datos con restricciones en la base.
 
 **No hecho.** Endurecer el patrón de los esquemas y comandos. Push: sin hacer.
+
+## 6-nov-2026 · Esquema 0.5: usuaria en minúsculas también en `perfil.json` y `match.json`
+
+**En llano.** Ya no solo la base de datos: también los archivos que producen los agentes rechazan una usuaria con mayúsculas. Si alguna vez un agente escribe `Ana` en lugar de `ana`, el validador lo para antes de que llegue a ningún sitio.
+
+**Hecho.** (1) `perfil.usuaria_id` y `match.usuaria_id` con el patrón `^[a-z0-9_-][a-z0-9_.-]{0,79}$` (anotado en `CHANGELOG.md` antes de tocarlo, versión 0.5). (2) Los 7 comandos que reciben una usuaria piden además minúsculas para ese id; el patrón de ofertas y fuentes no cambia (los ids de oferta llevan mayúsculas, p. ej. los del BOE). (3) Test nuevo en la web (85 en total; 36 evals en verde); las fixtures siguen validando.
+
+**Decisiones técnicas.** Es un cambio que **estrecha** el contrato (lo que valía deja de valer): no había ningún archivo afectado y la base ya lo exigía, así que no rompe nada. `preferencias.json` no tiene id de usuaria; `candidatura.json` no lo valida. Tema del bootcamp que practica: contratos de datos entre agentes y su versionado.
+
+**No hecho.** Push: sin hacer.
