@@ -55,3 +55,32 @@ export const SQL_MARCAR_ENVIADA = `
 export const CANALES = ["web de la empresa", "correo", "LinkedIn", "Indeed", "otro"] as const;
 export const canalValido = (c: unknown): c is (typeof CANALES)[number] => typeof c === "string" && (CANALES as readonly string[]).includes(c);
 export const ID_OFERTA = /^[A-Za-z0-9_-][A-Za-z0-9_.-]{0,79}$/;
+
+// --- Seguimiento (bloque 2, construcción autónoma): la usuaria registra la respuesta de la empresa. --------------
+// Los mismos pares que hace cumplir el disparador `candidaturas_transicion` (migración 017): si se cambia aquí sin
+// cambiar la migración (o al revés), esta consulta deja de mover filas, nunca se cuela una transición no permitida.
+export const DESTINOS_VALIDOS: Readonly<Record<string, readonly string[]>> = {
+  enviada: ["entrevista", "rechazada", "sin_respuesta"],
+  entrevista: ["rechazada"],
+  borrador: ["descartada"],
+  aprobada: ["descartada"],
+  pendiente_de_ti: ["descartada"],
+};
+export const destinosDe = (estado: string): readonly string[] => DESTINOS_VALIDOS[estado] ?? [];
+export const NOTA_MAX = 300;
+export const DIAS_SIN_RESPUESTA = 21;
+
+/** Aviso informativo, calculado al mostrar (no hay tareas programadas): solo si sigue «enviada» tras N días. */
+export const sinRespuestaTrasDias = (estado: string, actualizadoEn: Date, ahora = new Date()): boolean =>
+  estado === "enviada" && ahora.getTime() - actualizadoEn.getTime() >= DIAS_SIN_RESPUESTA * 24 * 3600 * 1000;
+
+export const SQL_REGISTRAR_RESPUESTA = `
+  UPDATE candidaturas SET estado = $3,
+    historial = historial || jsonb_build_array(jsonb_build_object('estado', $3::text, 'fecha', ${HOY}, 'por', 'usuaria', 'motivo', $4::text)),
+    actualizado_en = now()
+  WHERE usuaria_id = $1 AND oferta_id = $2
+    AND (
+      (estado = 'enviada' AND $3 IN ('entrevista', 'rechazada', 'sin_respuesta'))
+      OR (estado = 'entrevista' AND $3 = 'rechazada')
+      OR (estado IN ('borrador', 'aprobada', 'pendiente_de_ti') AND $3 = 'descartada')
+    )`;
