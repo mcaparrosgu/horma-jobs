@@ -8,7 +8,7 @@ Fuente: $1 · Argumentos: $ARGUMENTS
 
 
 1. Ejecuta `python -I .claude/skills/fuentes-ofertas/scripts/ingestar.py $1 --limite 50` (usa el límite que pida el usuario). Si dice que la fuente no está en `endpoints.json`, para y recomienda `/calificar-fuentes`.
-2. Para cada archivo nuevo de `datos/ofertas/raw/`, lanza el subagente `extractor-oferta` con su texto (de una en una, en tandas paralelas de 10 como máximo). Valida el JSON con `python -I .claude/skills/esquemas-horma/scripts/validar.py oferta <archivo>`; si no valida, una segunda vuelta y, si sigue mal, apunta el error de esa oferta y sigue con la siguiente.
+2. Para cada archivo de la lista `pendientes` que imprime el script (los de `raw/` sin su `procesadas/<mismo nombre>.json`; las ya procesadas se saltan para no gastar agentes dos veces), lanza el subagente `extractor-oferta` con su texto (de una en una, en tandas paralelas de 10 como máximo). Valida el JSON con `python -I .claude/skills/esquemas-horma/scripts/validar.py oferta <archivo>`; si no valida, una segunda vuelta y, si sigue mal, apunta el error de esa oferta y sigue con la siguiente.
 3. Pasa cada `oferta.json` por `auditor-oferta` y después por `clasificador-oferta`.
 4. Escribe cada resultado en `datos/ofertas/procesadas/<id>.json`.
 5. Escribe el resumen de la ejecución en `datos/ofertas/ejecuciones/<fecha>.json`: cuántas entraron, cuántas fallaron y por qué, ofertas con `instrucciones_embebidas`, sospechosas de fraude o fantasma.
