@@ -17,6 +17,7 @@ Una sola fuente de verdad para cada cosa. Si algo cambia, se cambia donde dice �
 | **Banco de ideas** (fuentes, calidad, producto; nada decidido) | `docs/ideas-banco.md` |
 | Términos técnicos | `docs/glosario.md` |
 | Ajuste de `settings.json` que pega Mar | `docs/ajustes-pendientes-settings.md` |
+| **Construcción autónoma** (prompt de 10 h, bloques, puertas de calidad) | `docs/construccion-autonoma.md` |
 
 ## Fuentes de los artefactos (`docs/artefactos/`)
 
