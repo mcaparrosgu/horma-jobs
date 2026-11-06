@@ -200,6 +200,11 @@ def nombre_archivo(fuente: str, id_) -> str:
     return f"{limpio(fuente)}-{limpio(id_)[:60]}-{h}.md"
 
 
+def pendientes(nombres: list[str], procesadas: Path) -> list[str]:
+    """Archivos de raw/ que aún no tienen su procesada (mismo nombre, con .json): solo esos necesitan agentes."""
+    return [n for n in nombres if not (procesadas / (Path(n).stem + ".json")).is_file()]
+
+
 def fallo(fuente: str, codigo: str) -> int:
     print(json.dumps({"fuente": fuente, "error": codigo}), file=sys.stderr)
     return 2
@@ -288,6 +293,7 @@ def main() -> int:
     salida.mkdir(parents=True, exist_ok=True)
     hoy = datetime.date.today().isoformat()
     guardadas = 0
+    nombres: list[str] = []
     for item in lista[: a.limite]:
         if not isinstance(item, dict):
             continue
@@ -305,9 +311,13 @@ def main() -> int:
         cabecera = "".join(f"{k}: {json.dumps(v, ensure_ascii=False)}\n" for k, v in cab.items())
         titulo, empresa, desc = sin_contacto(titulo), sin_contacto(empresa), sin_contacto(desc)
         cuerpo = f"---\n{cabecera}---\n\n# {titulo}\n\nEmpresa: {empresa}\n\n{desc}\n"
-        (salida / nombre_archivo(fuente["nombre"], id_)).write_text(cuerpo, encoding="utf-8")
+        nombre = nombre_archivo(fuente["nombre"], id_)
+        (salida / nombre).write_text(cuerpo, encoding="utf-8")
+        nombres.append(nombre)
         guardadas += 1
-    print(json.dumps({"fuente": fuente["nombre"], "guardadas": guardadas, "fecha": hoy}))
+    # «pendientes»: las que no tienen procesada; /ingestar-ofertas solo gasta agentes en esas.
+    print(json.dumps({"fuente": fuente["nombre"], "guardadas": guardadas, "fecha": hoy,
+                      "pendientes": pendientes(nombres, salida.parent / "procesadas")}))
     return 0
 
 
