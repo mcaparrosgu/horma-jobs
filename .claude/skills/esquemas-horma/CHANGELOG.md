@@ -2,6 +2,10 @@
 
 Un cambio de esquema es un cambio de contrato entre agentes y web. Se anota aquí antes de tocarlo.
 
+## 0.8 · 2026-11-06
+
+- `oferta.descripcion` (opcional): texto plano de hasta 8000 caracteres. Lo pide el bloque 3 de la construcción autónoma (portal de empresas): el formulario `/empresa/ofertas/nueva` de la web lo rellena; las ofertas que traen los agentes (scraping) no lo traen y siguen validando igual. Afecta solo a la pista B (web); no toca ningún extractor de la pista A. En la base de datos, migración `018` (columna `descripcion`, nullable).
+
 ## 0.7 · 2026-11-06
 
 - `match.ofertas[].nota` admite `null` («sin datos suficientes»): decisión tras el aviso de `auditor-lineas-rojas` sobre las ofertas del BOE sin requisitos, donde un 15 parecía una medición y no lo era. Es un valor nuevo: quien lea `nota` debe tratar `null` (la web la rotula «sin nota» y la ordena al final; migración `012`). **Estrecha** además lo que valida: `fecha` con formato `AAAA-MM-DD`, `version_perfil` de 1 a 80 caracteres, `explicacion` de 1 a 1500 y `correccion` de hasta 1500 (los mismos límites que la tabla `matches`).
