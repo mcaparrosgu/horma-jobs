@@ -442,3 +442,14 @@ Mar pidió menos documentos y menos confusión. Decisiones: (1) `docs/` queda co
 
 **Preparado para el bloque 3.** Plan, receta de ingesta y notas en `docs/tareas-pendientes.md`.
 
+## 6-nov-2026 · Bloque 3 de la pista B: lo descargado = lo guardado
+
+**En llano.** Ahora Horma puede comprobar por sí misma que no se ha perdido ni cambiado nada por el camino. Hay un comando nuevo, `npm run verificar`, que compara tres cosas: las ofertas que se descargaron, las que los agentes procesaron y las que están en la base de datos. Si todo cuadra, lo dice; si falta una o es distinta, lo marca y dice cuál (solo el identificador y el campo, nunca el texto, para que no se cuele ningún dato personal). Con tus 20 ofertas reales cuadra. Además, al descargar de nuevo, el programa avisa de cuáles ya estaban procesadas, y los agentes (que son lo que cuesta) solo trabajan en las nuevas.
+
+**Hecho.** `web/src/lib/verificar.ts` (parte pura: compara `titulo`, `empresa`, `url`, `fecha`, `sector`, `familia`, `requisitos`, `stack` y `avisos`, y trata «ausente» igual que `null` o lista vacía, como hace el importador) y `web/scripts/verificar.ts` (lee disco y base; no escribe nada; sale con código 1 si algo no cuadra). `ingestar.py` añade `pendientes` a su respuesta y `/ingestar-ofertas` la usa. 8 tests nuevos de la web (46) y 3 de ingesta (48); 36 evals en verde.
+
+**Comprobado de verdad.** Con los datos reales: 20 coinciden, 2 filas de prueba esperadas, «todo cuadra». Con una copia alterada (fuera del repositorio): un título cambiado, una procesada borrada, un raw sin procesar y un JSON roto → los cuatro fallos salen con su id y el comando termina en 1.
+
+**Decisión técnica.** No registro todavía cada ejecución en `ejecuciones_ingesta`: esa tabla exige una fila en `fuentes` (vacía hoy) y nadie la leerá hasta el dashboard. Hacerlo ahora sería construir sin saber qué se necesita; queda para el bloque 6. Tema del bootcamp que practica: validación de datos y pruebas automáticas (tests deterministas sin LLM).
+
+**Límites.** `verificar` no puede ver si el agente interpretó bien el texto de la oferta (eso sigue siendo revisión a mano); solo asegura que lo procesado es lo guardado.
