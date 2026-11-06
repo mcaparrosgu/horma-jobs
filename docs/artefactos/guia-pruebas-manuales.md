@@ -10,6 +10,7 @@ Términos: **terminal** = ventana donde se escriben órdenes; **test** = comprob
 
 ## 0. Preparar (una vez por sesión)
 
+0. Solo la primera vez tras el bloque 8: `web/.env` debe tener **dos** contraseñas, `HORMA_DB_PASSWORD` y `HORMA_WEB_PASSWORD` (la de la web, distinta, de 16 o más caracteres; ya está creada en tu `.env`, no la abras ni la copies).
 1. Abre Docker Desktop y espera a que diga «running».
 2. Terminal en `C:\AI Engineering\Bootcamp\Horma jobs\web` y escribe:
    ```
@@ -101,12 +102,22 @@ Un test en rojo no es una catástrofe: es el aviso de que algo se rompió. Copia
 
 ## 2 septies. Salud (bloque 7)
 
-1. Desde `web/`: `npm test` (**Debe pasar:** 73 pruebas) y `npm run verificar`. Abre `http://127.0.0.1:3000/salud` (también está en el menú como «Salud»).
+1. Desde `web/`: `npm test` (**Debe pasar:** 77 pruebas) y `npm run verificar`. Abre `http://127.0.0.1:3000/salud` (también está en el menú como «Salud»).
 2. **Debe pasar:** arriba un resumen (bien, atención o falla) y cinco tarjetas: *Base de datos*, *Componentes* (importador, verificador, web…), *Ingesta por fuente*, *Datos* (ofertas y última verificación) y *Pipelines (pista A)* (último resultado de los evals). Cada estado lleva su palabra además del color.
 3. **Debe pasar:** tras `npm run verificar`, «Verificación archivos ↔ base» dice «bien» y «23 ofertas coinciden».
 4. Para ver un «falla» a propósito: para el contenedor `horma-db` y recarga `/salud`. **Debe pasar:** la página no se cae; dice que la base de datos no responde y no enseña ningún mensaje técnico. Vuelve a arrancarlo después.
 5. **Debe pasar:** no hay botones ni formularios; no aparece ningún nombre de persona, correo ni texto de CV.
 6. Los agentes no dejan coste ni tokens (corren en Claude Code): es normal que no salgan.
+
+## 2 octies. Seguridad de la web (bloque 8)
+
+1. Desde `web/`: `npm run migrar`. **Debe pasar:** «Nada que aplicar» (o «aplicada: 009_rol_web.sql» si es la primera vez) y «rol horma_web: contraseña al día».
+2. Con la web arrancada, en otra terminal: `curl -s -o NUL -w "%{http_code}
+" -H "Host: evil.com" http://127.0.0.1:3000/ofertas`. **Debe pasar:** `403`. Con `-H "Host: localhost:3000"` sale `200`.
+3. `curl -sI http://127.0.0.1:3000/salud`. **Debe pasar:** salen `X-Frame-Options: DENY`, `Content-Security-Policy: frame-ancestors 'none'` y `X-Content-Type-Options: nosniff`.
+4. En `/fuentes`, intenta guardar una fuente con la dirección `https://www.linkedin.com/jobs`. **Debe pasar:** la rechaza con «LinkedIn e Indeed no son fuente de ofertas».
+5. `npm run build`. **Debe pasar:** termina sin errores (el bloque 8 arregló un fallo en `/salud`).
+6. Las ofertas guardadas ya no tienen su descarga original: `datos/ofertas/raw/` está vacía a propósito (llevaba nombres de reclutadores). Para volver a descargar: `python -I .claude/skills/fuentes-ofertas/scripts/ingestar.py "JobTech Suecia (Platsbanken)" --limite 20`.
 
 ## 3. Líneas rojas, a ojo
 

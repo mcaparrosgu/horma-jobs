@@ -90,6 +90,14 @@ Se probaron con tres CV y dos ofertas ficticios, con trampas sembradas:
 - **Errores que el código no ve** («Dirigí un equipo», «Experta en»): los cazó el juez de CV. El juez de cartas detectó los 7 errores sembrados, sin falsos positivos.
 - **Redactor de cartas:** tres versiones del prompt hasta que la carta pasó verificador y juez, y pregunta a la usuaria lo que no sabe en lugar de inventarlo.
 
+## 3 bis. Cierre de la pista B (bloque 8, 6-nov-2026)
+
+- **Automáticas:** 77 pruebas de la web y 36 evals de código, todo en verde; `tsc` y `lint` sin errores; `npm run build` compila (antes fallaba en `/salud`).
+- **A mano, con curl:** `Host: evil.com` devuelve 403 y `localhost` devuelve 200; las tres cabeceras anti-marco salen en las respuestas; el rol `horma_web` puede leer, y la base le deniega borrar, actualizar ofertas, crear o borrar tablas e insertar perfiles.
+- **Revisiones:** `revisor-seguridad` (sin hallazgos altos; 3 medios y 6 bajos) y `auditor-lineas-rojas` (sin incumplimientos; 2 altos «antes de usuarias reales» y 2 medios). Detalle y lo que quedó abierto: `docs/bitacora.md` y `docs/tareas-pendientes.md`.
+- **Fallo encontrado por mí:** `/salud` rompía la compilación de producción (usaba la hora al prerenderizar); en desarrollo no se veía.
+- **Límite:** la guía de pruebas en HTML (`pruebas-horma.html`) no incluye los bloques 6 a 8; usa la versión `.md`.
+
 ## 3. Pista B: web (Next.js y PostgreSQL)
 
 - **Automáticas:** 34 pruebas. Cubren la validación contra los esquemas compartidos, el importador (repetible, sin duplicar), la validación de fuentes de ofertas y de preferencias, y una prueba de línea roja: ningún archivo puede leer candidatas fuera de una lista corta, ordenarlas por una nota ni crear rutas de empresas.
@@ -109,6 +117,6 @@ Se probaron con tres CV y dos ofertas ficticios, con trampas sembradas:
 
 - Un caso de prueba por agente; faltan ofertas sin salario, perfiles sin experiencia y más errores sembrados para el juez.
 - `auditor-fuentes` sin probar; el flujo de candidatura completo sobre un CV y una oferta, de principio a fin, sin ejecutar.
-- La web **no tiene inicio de sesión**: solo se usa en local. Pendientes antes de abrirla: inicio de sesión, cabeceras de seguridad, usuario de base de datos con menos permisos, exportar y borrar datos (RGPD) y protección real frente a direcciones internas cuando exista la descarga de ofertas.
+- La web **no tiene inicio de sesión**: solo se usa en local. Pendientes antes de abrirla: inicio de sesión y exportar y borrar datos (RGPD). Cabeceras, usuario de base de datos con menos permisos y protección frente a direcciones internas y DNS rebinding se hicieron en el bloque 8.
 - Aún no existen el panel del flujo agéntico ni la observabilidad completa (pasos 6 y 7), que se han planificado para los próximos seis días.
 - Los hooks y permisos de Claude Code siguen sin activar.
