@@ -3,7 +3,8 @@
 // especiales (RGPD art. 9): el esquema prohíbe cualquier campo extra, así que ni se pueden enviar.
 import { validar } from "./esquemas.ts";
 
-export const ID_USUARIA = /^[A-Za-z0-9_-][A-Za-z0-9_.-]{0,79}$/;
+// Solo minúsculas, igual que el CHECK de la migración 010 (en Windows «Ana» y «ana» serían la misma carpeta).
+export const ID_USUARIA = /^[a-z0-9_-][a-z0-9_.-]{0,79}$/;
 export const REMOTOS_PREF = ["presencial", "hibrido", "remoto"] as const;
 export const HORARIOS_PREF = ["manana", "tarde", "noche", "flexible"] as const;
 

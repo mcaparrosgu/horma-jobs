@@ -47,7 +47,7 @@ test("los países deben ser códigos de 2 letras", () => {
 
 test("el id de usuaria solo admite caracteres seguros", () => {
   assert.ok(ID_USUARIA.test("ana-datos"));
-  for (const mal of ["", "../x", "a b", "a;b", "x'--", ".oculto", "a".repeat(81)]) assert.equal(ID_USUARIA.test(mal), false, mal);
+  for (const mal of ["", "../x", "a b", "a;b", "x'--", ".oculto", "a".repeat(81), "Ana", "ANA-datos"]) assert.equal(ID_USUARIA.test(mal), false, mal);
 });
 
 test("línea roja: nada lee candidatas fuera de la lista blanca, ni las ordena por nota, ni hay rutas de empresas", () => {
