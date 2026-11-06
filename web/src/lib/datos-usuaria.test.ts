@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { mkdtempSync, mkdirSync, writeFileSync, existsSync, symlinkSync, rmSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { carpetasDe, inspeccionar, copiarA, borrarCarpetas } from "./datos-usuaria.ts";
+import { carpetasDe, idValido, inspeccionar, copiarA, aCuarentena, restaurar, purgarCuarentena } from "./datos-usuaria.ts";
 
 function raizDePrueba() {
   const raiz = mkdtempSync(join(tmpdir(), "horma-datos-"));
@@ -17,16 +17,19 @@ function raizDePrueba() {
   return raiz;
 }
 
-test("rechaza identificadores con rutas o raros", () => {
+test("rechaza ids con rutas, mayúsculas, puntos, guion inicial o nombres reservados de Windows", () => {
   const raiz = raizDePrueba();
-  for (const id of ["../x", "a/b", "a\b", "..", ".oculto", "", "x".repeat(81), "a b"]) {
+  const malos = ["../x", "a/b", "a\\b", "..", ".oculto", "", "x".repeat(81), "a b",
+    "Ana", "ana.", "ana..", "a.b", "-confirmar", "--x", "con", "nul", "aux", "com1", "lpt9", "prn"];
+  for (const id of malos) {
+    assert.equal(idValido(id), false, id);
     assert.throws(() => carpetasDe(raiz, id), /no válido/, id);
   }
+  for (const id of ["ana-prueba", "ana_1", "0abc", "_x", "console", "ana-datos"]) assert.equal(idValido(id), true, id);
 });
 
 test("inspeccionar cuenta archivos solo de esa usuaria", () => {
-  const raiz = raizDePrueba();
-  const h = inspeccionar(raiz, "ana-prueba");
+  const h = inspeccionar(raizDePrueba(), "ana-prueba");
   assert.equal(h.length, 3);
   assert.ok(h.every((x) => x.archivos === 2));
 });
@@ -41,27 +44,46 @@ test("copiarA copia las tres carpetas y deja el origen intacto", () => {
   copiarA(raiz, "ana-prueba", destino);
   assert.equal(readFileSync(join(destino, "usuarias", "a.txt"), "utf8"), "usuarias/ana-prueba");
   assert.ok(existsSync(join(raiz, "usuarias", "ana-prueba", "a.txt")));
-  assert.ok(!existsSync(join(destino, "..", "leo-prueba")));
 });
 
-test("borrarCarpetas borra solo a esa usuaria", () => {
+test("cuarentena: mueve solo a esa usuaria; purgar borra; restaurar lo deja como estaba", () => {
   const raiz = raizDePrueba();
-  assert.equal(borrarCarpetas(raiz, "ana-prueba"), 6);
+  assert.equal(aCuarentena(raiz, "ana-prueba"), 6);
   for (const c of ["usuarias", "candidaturas", "matches"]) {
-    assert.ok(!existsSync(join(raiz, c, "ana-prueba")));
-    assert.ok(existsSync(join(raiz, c, "leo-prueba", "a.txt")));
+    assert.ok(!existsSync(join(raiz, c, "ana-prueba")), "ya no está en su sitio");
+    assert.ok(existsSync(join(raiz, c, "leo-prueba", "a.txt")), "la otra usuaria sigue");
   }
+  assert.ok(existsSync(join(raiz, ".borrando-ana-prueba", "usuarias", "a.txt")));
+  restaurar(raiz, "ana-prueba");
+  for (const c of ["usuarias", "candidaturas", "matches"]) assert.ok(existsSync(join(raiz, c, "ana-prueba", "sub", "b.txt")));
+  assert.ok(!existsSync(join(raiz, ".borrando-ana-prueba")));
+  aCuarentena(raiz, "ana-prueba");
+  purgarCuarentena(raiz, "ana-prueba");
+  assert.ok(!existsSync(join(raiz, ".borrando-ana-prueba")));
+  assert.ok(existsSync(join(raiz, "usuarias", "leo-prueba", "a.txt")));
 });
 
-test("un enlace simbólico aborta antes de borrar o copiar nada", (t) => {
+test("un enlace simbólico dentro de los datos aborta antes de mover o copiar nada", (t) => {
   const raiz = raizDePrueba();
   const fuera = mkdtempSync(join(tmpdir(), "horma-fuera-"));
   writeFileSync(join(fuera, "secreto.txt"), "no tocar");
   try { symlinkSync(fuera, join(raiz, "matches", "ana-prueba", "enlace"), "junction"); }
   catch { t.skip("este sistema no permite crear enlaces"); return; }
-  assert.throws(() => borrarCarpetas(raiz, "ana-prueba"), /enlace simbólico/);
-  assert.ok(existsSync(join(raiz, "usuarias", "ana-prueba", "a.txt")), "no se borró nada");
+  assert.throws(() => aCuarentena(raiz, "ana-prueba"), /enlace simbólico/);
+  assert.ok(existsSync(join(raiz, "usuarias", "ana-prueba", "a.txt")), "no se movió nada");
   assert.ok(existsSync(join(fuera, "secreto.txt")));
   assert.throws(() => copiarA(raiz, "ana-prueba", join(fuera, "dest")), /enlace simbólico/);
   rmSync(join(raiz, "matches", "ana-prueba", "enlace"));
+});
+
+test("una carpeta padre que es un enlace (datos/matches) aborta", (t) => {
+  const raiz = raizDePrueba();
+  const fuera = mkdtempSync(join(tmpdir(), "horma-fuera2-"));
+  mkdirSync(join(fuera, "ana-prueba"));
+  writeFileSync(join(fuera, "ana-prueba", "secreto.txt"), "no tocar");
+  rmSync(join(raiz, "matches"), { recursive: true });
+  try { symlinkSync(fuera, join(raiz, "matches"), "junction"); }
+  catch { t.skip("este sistema no permite crear enlaces"); return; }
+  assert.throws(() => inspeccionar(raiz, "ana-prueba"), /enlace simbólico/);
+  assert.ok(existsSync(join(fuera, "ana-prueba", "secreto.txt")));
 });

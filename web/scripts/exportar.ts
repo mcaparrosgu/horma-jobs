@@ -2,12 +2,12 @@
 // Uso (desde web/): npm run exportar -- --usuaria <id>
 // Crea datos/exportaciones/<id>-<fecha>/ con base-de-datos.json y copias de sus carpetas en disco.
 // Esa carpeta lleva datos personales: se entrega a la usuaria y se borra después. No se sube a git.
-import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import pg from "pg";
 import { problemaClave } from "../src/lib/clave.ts";
 import { errorSeguro } from "../src/lib/importar.ts";
-import { ID_USUARIA, SQL_EXPORTAR, copiarA, inspeccionar } from "../src/lib/datos-usuaria.ts";
+import { idValido, SQL_EXPORTAR, copiarA, inspeccionar } from "../src/lib/datos-usuaria.ts";
 
 const problema = problemaClave(process.env.HORMA_DB_PASSWORD);
 if (problema) { console.error(problema); process.exit(1); }
@@ -15,7 +15,7 @@ if (problema) { console.error(problema); process.exit(1); }
 const args = process.argv.slice(2);
 const i = args.indexOf("--usuaria");
 const id = i >= 0 ? args[i + 1] : undefined;
-if (!id || !ID_USUARIA.test(id)) {
+if (!id || !idValido(id)) {
   console.error("Uso: npm run exportar -- --usuaria <id>  (id: letras, números, - _ .; máximo 80)");
   process.exit(1);
 }
@@ -34,18 +34,26 @@ try {
   const perfil = await db.query(SQL_EXPORTAR.perfil, [id]);
   const preferencias = await db.query(SQL_EXPORTAR.preferencias, [id]);
   const enBase = usuaria.rowCount ?? 0;
+  const choque = await db.query("SELECT count(*)::int AS n FROM usuarias WHERE lower(id) = lower($1)", [id]);
+  if (choque.rows[0].n > 1) throw new Error("hay ids que solo se distinguen por mayúsculas: resuélvelo a mano");
   if (enBase === 0 && inspeccionar(DATOS, id).length === 0) { // también aborta si hay enlaces simbólicos
     console.error("No hay datos de esa usuaria, ni en la base ni en disco. No se crea nada.");
     process.exit(1);
   }
-  const carpetas = copiarA(DATOS, id, destino);
-  mkdirSync(destino, { recursive: true });
-  writeFileSync(join(destino, "base-de-datos.json"), JSON.stringify({
-    exportado_en: new Date().toISOString(),
-    usuaria: usuaria.rows[0]?.dato ?? null,
-    perfil: perfil.rows[0]?.dato ?? null,
-    preferencias: preferencias.rows[0]?.dato ?? null,
-  }, null, 2), "utf8");
+  let carpetas;
+  try {
+    carpetas = copiarA(DATOS, id, destino);
+    mkdirSync(destino, { recursive: true });
+    writeFileSync(join(destino, "base-de-datos.json"), JSON.stringify({
+      exportado_en: new Date().toISOString(),
+      usuaria: usuaria.rows[0]?.dato ?? null,
+      perfil: perfil.rows[0]?.dato ?? null,
+      preferencias: preferencias.rows[0]?.dato ?? null,
+    }, null, 2), "utf8");
+  } catch (e) {
+    rmSync(destino, { recursive: true, force: true }); // nunca queda una exportación a medias con datos personales
+    throw e;
+  }
   console.log(`Exportación creada en datos/exportaciones/ (carpeta «<id>-<fecha>»).`);
   console.log(`Base de datos: usuaria ${enBase ? "sí" : "no"} · perfil ${perfil.rowCount ? "sí" : "no"} · preferencias ${preferencias.rowCount ? "sí" : "no"}`);
   for (const c of carpetas) console.log(`Disco: ${c.carpeta}: ${c.archivos} archivos, ${c.bytes} bytes`);

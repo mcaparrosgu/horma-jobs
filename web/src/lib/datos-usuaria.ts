@@ -1,16 +1,22 @@
 // Datos de UNA usuaria en disco, para exportarlos y borrarlos (RGPD: acceso y supresión).
 // Solo toca estas tres carpetas dentro de la carpeta de datos; nunca sigue enlaces simbólicos.
-import { cpSync, existsSync, lstatSync, mkdirSync, readdirSync, rmSync } from "node:fs";
+import { cpSync, existsSync, lstatSync, mkdirSync, readdirSync, realpathSync, renameSync, rmSync } from "node:fs";
 import { join } from "node:path";
 
-export const ID_USUARIA = /^[A-Za-z0-9_-][A-Za-z0-9_.-]{0,79}$/;
+// Más estricto que el de la base (que admite mayúsculas y puntos): en Windows «Ana» y «ana» son la MISMA carpeta
+// y «ana.» también, pero en la base son usuarias distintas. Aquí solo ids que significan lo mismo en disco y en base.
+export const ID_USUARIA = /^[a-z0-9_][a-z0-9_-]{0,79}$/;
+const RESERVADOS = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])$/;
+export function idValido(id: string): boolean {
+  return ID_USUARIA.test(id) && !RESERVADOS.test(id);
+}
 export const CARPETAS = ["usuarias", "candidaturas", "matches"] as const;
 
 export interface Hallazgo { carpeta: string; archivos: number; bytes: number }
 
 /** Rutas absolutas de las carpetas de la usuaria que EXISTEN. Lanza si el id no es válido. */
 export function carpetasDe(raizDatos: string, id: string): { carpeta: string; ruta: string }[] {
-  if (!ID_USUARIA.test(id)) throw new Error("identificador de usuaria no válido");
+  if (!idValido(id)) throw new Error("identificador de usuaria no válido");
   return CARPETAS.map((c) => ({ carpeta: c, ruta: join(raizDatos, c, id) })).filter((x) => existsSync(x.ruta) || enlace(x.ruta));
 }
 
@@ -32,8 +38,16 @@ function medir(ruta: string): { archivos: number; bytes: number } {
   return { archivos, bytes };
 }
 
+/** La carpeta padre (datos/usuarias…) no puede ser un enlace ni sacar la ruta de la carpeta de datos. */
+function comprobarDentro(raizDatos: string, carpeta: string, ruta: string): void {
+  const padre = join(raizDatos, carpeta);
+  if (existsSync(padre) && lstatSync(padre).isSymbolicLink()) throw new Error("una carpeta de datos es un enlace simbólico: revísalo a mano");
+  const base = realpathSync(raizDatos);
+  if (existsSync(ruta) && !realpathSync(ruta).startsWith(base)) throw new Error("la ruta sale de la carpeta de datos");
+}
+
 export function inspeccionar(raizDatos: string, id: string): Hallazgo[] {
-  return carpetasDe(raizDatos, id).map(({ carpeta, ruta }) => ({ carpeta, ...medir(ruta) }));
+  return carpetasDe(raizDatos, id).map(({ carpeta, ruta }) => { comprobarDentro(raizDatos, carpeta, ruta); return { carpeta, ...medir(ruta) }; });
 }
 
 /** Copia las carpetas de la usuaria a `destino/<carpeta>`. Devuelve lo copiado. */
@@ -44,11 +58,32 @@ export function copiarA(raizDatos: string, id: string, destino: string): Hallazg
   return hallado;
 }
 
-/** Borra las carpetas de la usuaria. Devuelve cuántos archivos se borraron. */
-export function borrarCarpetas(raizDatos: string, id: string): number {
-  const hallado = inspeccionar(raizDatos, id); // si hay un enlace, aborta antes de borrar nada
-  for (const { ruta } of carpetasDe(raizDatos, id)) rmSync(ruta, { recursive: true, force: false });
+/**
+ * Borrado en dos tiempos, para que base y disco no queden a medias:
+ * 1) `aCuarentena` RENOMBRA las carpetas a datos/.borrando-<id>/ (un rename casi nunca falla a medias);
+ * 2) se borra la fila y se confirma; 3) `purgarCuarentena` borra de verdad. Si algo falla antes, `restaurar` lo deshace.
+ */
+export function aCuarentena(raizDatos: string, id: string): number {
+  const hallado = inspeccionar(raizDatos, id); // si hay un enlace, aborta antes de mover nada
+  const q = join(raizDatos, `.borrando-${id}`);
+  mkdirSync(q, { recursive: true });
+  const movidas: { carpeta: string; ruta: string }[] = [];
+  try {
+    for (const c of carpetasDe(raizDatos, id)) { renameSync(c.ruta, join(q, c.carpeta)); movidas.push(c); }
+  } catch (e) { restaurar(raizDatos, id, movidas); throw e; }
   return hallado.reduce((n, h) => n + h.archivos, 0);
+}
+
+export function restaurar(raizDatos: string, id: string, movidas?: { carpeta: string; ruta: string }[]): void {
+  const q = join(raizDatos, `.borrando-${id}`);
+  for (const c of movidas ?? CARPETAS.map((k) => ({ carpeta: k, ruta: join(raizDatos, k, id) }))) {
+    if (existsSync(join(q, c.carpeta))) renameSync(join(q, c.carpeta), c.ruta);
+  }
+  if (existsSync(q)) rmSync(q, { recursive: true });
+}
+
+export function purgarCuarentena(raizDatos: string, id: string): void {
+  rmSync(join(raizDatos, `.borrando-${id}`), { recursive: true, force: true });
 }
 
 export const SQL_EXPORTAR = {

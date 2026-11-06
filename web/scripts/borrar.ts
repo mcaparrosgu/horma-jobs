@@ -8,7 +8,7 @@ import { resolve } from "node:path";
 import pg from "pg";
 import { problemaClave } from "../src/lib/clave.ts";
 import { errorSeguro } from "../src/lib/importar.ts";
-import { ID_USUARIA, SQL_BORRAR_USUARIA, SQL_EXPORTAR, borrarCarpetas, inspeccionar } from "../src/lib/datos-usuaria.ts";
+import { idValido, SQL_BORRAR_USUARIA, SQL_EXPORTAR, aCuarentena, restaurar, purgarCuarentena, inspeccionar } from "../src/lib/datos-usuaria.ts";
 
 const problema = problemaClave(process.env.HORMA_DB_PASSWORD);
 if (problema) { console.error(problema); process.exit(1); }
@@ -16,7 +16,7 @@ if (problema) { console.error(problema); process.exit(1); }
 const args = process.argv.slice(2);
 const valor = (flag: string) => { const k = args.indexOf(flag); return k >= 0 ? args[k + 1] : undefined; };
 const id = valor("--usuaria"), confirmar = valor("--confirmar");
-if (!id || !ID_USUARIA.test(id)) {
+if (!id || !idValido(id)) {
   console.error("Uso: npm run borrar -- --usuaria <id> [--confirmar <id>]");
   process.exit(1);
 }
@@ -32,6 +32,9 @@ try {
   const usuaria = await db.query(SQL_EXPORTAR.usuaria, [id]);
   const perfil = await db.query(SQL_EXPORTAR.perfil, [id]);
   const preferencias = await db.query(SQL_EXPORTAR.preferencias, [id]);
+  // «Ana» y «ana» son la misma carpeta en Windows: si la base tiene dos ids que solo difieren en mayúsculas, no se toca nada.
+  const choque = await db.query("SELECT count(*)::int AS n FROM usuarias WHERE lower(id) = lower($1)", [id]);
+  if (choque.rows[0].n > 1) throw new Error("hay ids que solo se distinguen por mayúsculas: resuélvelo a mano");
   const carpetas = inspeccionar(DATOS, id); // aborta si hay enlaces simbólicos
   console.log(`${confirmar ? "SE BORRARÁ" : "EN SECO. Se borraría"}:`);
   console.log(`  base de datos: usuaria ${usuaria.rowCount ? 1 : 0} · perfil ${perfil.rowCount ?? 0} · preferencias ${preferencias.rowCount ?? 0}`);
@@ -40,14 +43,18 @@ try {
   else if (!confirmar) {
     console.log("No se ha borrado nada. ¿Has exportado sus datos antes? (npm run exportar). Para borrar de verdad: repite la orden con --confirmar <id>.");
   } else {
+    let enCuarentena = false;
     await db.query("BEGIN");
     try {
       const filas = (await db.query(SQL_BORRAR_USUARIA, [id])).rowCount ?? 0;
-      const archivos = borrarCarpetas(DATOS, id);
+      const archivos = aCuarentena(DATOS, id); // mover es casi instantáneo y se puede deshacer
+      enCuarentena = true;
       await db.query("COMMIT");
+      purgarCuarentena(DATOS, id);
       console.log(`Borrado: ${filas} usuaria en la base (con su perfil y preferencias) y ${archivos} archivos en disco.`);
     } catch (e) {
-      await db.query("ROLLBACK");
+      await db.query("ROLLBACK").catch(() => {});
+      if (enCuarentena) restaurar(DATOS, id); // si falló el COMMIT, el disco vuelve a su sitio
       throw e;
     }
   }
