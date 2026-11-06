@@ -13,7 +13,7 @@ export const SQL_MATCHES = `
   SELECT m.oferta_id, m.version_perfil, m.fecha, m.nota, m.nivel_condiciones, m.explicacion, m.sin_sueldo, m.correccion,
          o.titulo, o.empresa, o.ubicacion, o.pais, o.remoto, o.url, o.avisos
   FROM matches m JOIN ofertas o ON o.id = m.oferta_id
-  WHERE m.usuaria_id = $1
+  WHERE m.usuaria_id = $1 AND o.estado_publicacion = 'aprobada'
     AND m.version_perfil = (SELECT version_perfil FROM matches WHERE usuaria_id = $1 ORDER BY fecha DESC, char_length(version_perfil) DESC, version_perfil DESC LIMIT 1)
   ORDER BY m.nota DESC NULLS LAST, o.titulo, o.id`;
 

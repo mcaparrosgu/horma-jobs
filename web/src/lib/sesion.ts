@@ -6,8 +6,9 @@ import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { db } from "./db";
 import { huella, nuevoToken, SESION_DIAS, esDuena, type Sesion } from "./auth";
+import { url_base } from "./url-base";
 
-export const url_base = () => process.env.HORMA_URL || "http://localhost:3000";
+export { url_base };
 // Secure siempre en producción (aunque falte o esté mal escrita HORMA_URL) y también si la dirección oficial es https.
 const seguro = () => process.env.NODE_ENV === "production" || url_base().startsWith("https://");
 export const COOKIE = "horma_sesion";

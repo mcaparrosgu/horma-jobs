@@ -22,6 +22,7 @@ export async function Nav() {
               <Link href="/fuentes">Fuentes</Link>
               <Link href="/ejecuciones">Ejecuciones</Link>
               <Link href="/candidatos">Candidatas</Link>
+              <Link href="/admin/ofertas-empresas">Ofertas de empresas</Link>
               <Link href="/salud">Salud</Link>
             </>
           )}
