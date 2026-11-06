@@ -35,15 +35,32 @@ def pdf_a_texto(ruta: Path) -> str:
         from pypdf import PdfReader
     except ImportError:
         # `python -I` ignora la carpeta de paquetes de usuario donde `pip install pypdf` la deja:
-        # se añade solo para este import, no para el resto del script.
+        # se añade solo durante este import (y solo si existe) y se quita justo después, para
+        # que ningún otro import del script pueda cargar código desde esa carpeta.
         import site
-        sys.path.append(site.getusersitepackages())
+        usuario = site.getusersitepackages()
+        if Path(usuario).is_dir():
+            sys.path.append(usuario)
         try:
             from pypdf import PdfReader
         except ImportError:
             print("Falta `pypdf` para leer PDF (instalar: pip install pypdf).", file=sys.stderr)
             sys.exit(3)
-    return "\n".join((pg.extract_text() or "") for pg in PdfReader(str(ruta)).pages)
+        finally:
+            if usuario in sys.path:
+                sys.path.remove(usuario)
+    # Un PDF es entrada no fiable: tope de tamaño y de páginas (un CV real cabe de sobra).
+    if ruta.stat().st_size > 10_000_000:
+        print("El PDF pesa más de 10 MB: no parece un CV. No se lee.", file=sys.stderr)
+        sys.exit(3)
+    try:
+        paginas = PdfReader(str(ruta)).pages
+        if len(paginas) > 30:
+            print("El PDF tiene más de 30 páginas: se leen solo las 30 primeras.", file=sys.stderr)
+        return "\n".join((paginas[i].extract_text() or "") for i in range(min(len(paginas), 30)))
+    except Exception:  # cifrado, dañado o que pide una librería que aquí no se carga: mensaje fijo, sin traceback
+        print("No se pudo leer el PDF (¿está cifrado o dañado?). Pega el texto del CV a mano.", file=sys.stderr)
+        sys.exit(3)
 
 
 def main() -> int:

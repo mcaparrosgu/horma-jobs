@@ -2,7 +2,7 @@
 """Corre las partes deterministas de los evals de la fase 1 (código, sin LLM).
 
 Uso:
-    python -I evals/correr_evals.py [cv|ats|filtro|esquemas|todo]
+    python -I evals/correr_evals.py [cv|ats|filtro|esquemas|fixtures|carta|ingesta|todo]
 
 - cv:       sobre evals/cv/base/ aplica las mutaciones de evals/cv/mutaciones.json y exige que
             verificar.py rechace el 100 % de los casos sembrados y acepte el caso «ok».
@@ -154,7 +154,15 @@ def eval_carta():
     return res
 
 
-SETS = {"cv": eval_cv, "ats": eval_ats, "filtro": eval_filtro, "esquemas": eval_esquemas, "fixtures": eval_fixtures, "carta": eval_carta}
+def eval_ingesta():
+    """Seguridad de la descarga (ingestar.py): IP públicas, redirecciones, clave FUENTE_*, límites. Sin red."""
+    r = subprocess.run(PY + [str(RAIZ / "evals" / "ingesta" / "test_ingestar.py")], capture_output=True, text=True, encoding="utf-8")
+    resumen = [l for l in r.stderr.splitlines() if l.startswith(("Ran ", "OK", "FAILED"))]
+    return [{"caso": "tests de seguridad de la descarga (" + " · ".join(resumen) + ")", "ok": r.returncode == 0,
+             "obtenido": None if r.returncode == 0 else r.stderr[-1500:]}]
+
+
+SETS = {"cv": eval_cv, "ats": eval_ats, "filtro": eval_filtro, "esquemas": eval_esquemas, "fixtures": eval_fixtures, "carta": eval_carta, "ingesta": eval_ingesta}
 
 
 def main() -> int:

@@ -22,7 +22,7 @@ Actualizado el 2026-11-05 por la noche (día 1 del plan de 6 días hecho; ver «
 7. **Países sin investigar:** Italia, Polonia, Portugal, Países Bajos (solo datos agregados).
 8. **Profesor:** pregunta 32 en `docs/preguntas-profesor.md` con el detalle y seis preguntas; sirve para decidir si basta una demostración con las fuentes aptas más las publicadas por empresas.
 
-**Seguridad: arreglos antes de activar ninguna fuente** (revisión del día 1; ninguna alta). Aplicar con orden de Mar, con sus tests:
+**Seguridad: arreglos antes de activar ninguna fuente** (revisión del día 1; ninguna alta). **M1, M2, B1 y B2 a B5 ya están hechos (6-nov);** quedan M3 y B6. Lista original, para consulta:
 - **M1:** `ingestar.py` no comprueba a qué IP se conecta (SSRF): resolver el nombre y rechazar IP no públicas, puertos distintos de 443, usuario en la URL y nombres sin punto (≈25 líneas, 1 test).
 - **M2:** limitar `clave_env` a `FUENTE_[A-Z0-9_]+` y exigir `clave_nombre` si la clave va por parámetro (3 líneas).
 - **B1:** quitar de `sys.path` la carpeta de usuario tras importar `pypdf` y no añadirla si no existe (2 líneas; corregir el comentario).
@@ -31,7 +31,7 @@ Actualizado el 2026-11-05 por la noche (día 1 del plan de 6 días hecho; ver «
 - **B6:** nota bajo el formulario («no escribas salud, religión, afiliación…»); listas cerradas más adelante.
 
 **Mañana: tareas de construir (en este orden; Mar da la orden al empezar):**
-1. **Seguridad de la descarga:** M1 (IP y puertos), M2 (variable `FUENTE_*`), B1 (`sys.path`), B2 (puerto en redirecciones), con tests. Sin esto no se activa ninguna fuente.
+1. ~~**Seguridad de la descarga:** M1, M2, B1, B2 a B5~~ **HECHO (6-nov)**: 36 tests nuevos sin red, 36 evals en verde y revisada por `revisor-seguridad` (detalle en la bitácora). **Abierto, decide Mar:** atar cada clave `FUENTE_*` a su fuente (hoy cualquier variable `FUENTE_*` sirve para cualquier fuente).
 2. **Activar JobTech** y primera ingesta real de unos 20 anuncios (`ingestar.py`), sin guardar campos de contacto.
 3. **`/ingestar-ofertas`** con los agentes (`extractor-oferta`, `auditor-oferta`, `clasificador-oferta`) y el **importador** a la base de datos.
 4. **`npm run verificar`:** que lo descargado coincide con lo guardado; ingesta repetible sin duplicar.

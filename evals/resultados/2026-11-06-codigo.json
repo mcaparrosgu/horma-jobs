@@ -222,5 +222,12 @@
       "ok": true,
       "obtenido": null
     }
+  ],
+  "ingesta": [
+    {
+      "caso": "tests de seguridad de la descarga (Ran 36 tests in 4.516s · OK)",
+      "ok": true,
+      "obtenido": null
+    }
   ]
 }
