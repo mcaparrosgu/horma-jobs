@@ -563,3 +563,11 @@ Mar pidió menos documentos y menos confusión. Decisiones: (1) `docs/` queda co
 **Decisiones técnicas.** Es un cambio que **estrecha** el contrato (lo que valía deja de valer): no había ningún archivo afectado y la base ya lo exigía, así que no rompe nada. `preferencias.json` no tiene id de usuaria; `candidatura.json` no lo valida. Tema del bootcamp que practica: contratos de datos entre agentes y su versionado.
 
 **No hecho.** Push: sin hacer.
+
+## 6-nov-2026 · Documentación y artefactos al día
+
+**En llano.** Puse al día los documentos y las páginas publicadas para que digan lo que Horma es hoy: la pista B está hecha, las pruebas a mano cubren todo lo nuevo y la guía ya no tiene fallos.
+
+**Hecho.** (1) `CLAUDE.md` (cómo correr la web, `build`, exportar y borrar), `analisis-tecnico.md` (estado de los roles y del proxy) y `glosario.md` (DNS rebinding, mínimo privilegio, CHECK, cuarentena). (2) Guía de pruebas: corregí un `curl` que se había partido en dos líneas, avisé de que `raw/` está vacía a propósito y actualicé cifras (85 tests, 36 evals). (3) Artefactos republicados en su misma dirección: «Pruebas de Horma a mano» (ahora 64 pasos: secciones nuevas 7 a 10, ids antiguos intactos para no perder tu progreso), «Construcción de Horma» (estado a 6-nov) y «Fuentes de empleo» (JobTech y BOE en marcha; el adaptador del BOE ya está hecho).
+
+**No hecho.** «Horma por dentro»: el texto ya está corregido en `docs/artefactos/horma-por-dentro.html` y commiteado, pero **no está republicado**: publicar sobre él exige releer entera la versión publicada (125 KB). Dime si lo hago. Push: sin hacer.
