@@ -15,6 +15,7 @@ export async function Nav() {
           <Link href="/ofertas">Ofertas</Link>
           <Link href={`/recomendaciones/${s.publico}`}>Recomendaciones</Link>
           <Link href={`/candidaturas/${s.publico}`}>Candidaturas</Link>
+          <Link href="/seguimiento">Seguimiento</Link>
           <Link href="/cuenta">Mi cuenta</Link>
           {s.rol === "admin" && (
             <>

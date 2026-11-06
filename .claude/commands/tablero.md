@@ -8,3 +8,5 @@ Usuaria: $1
 
 
 Lee los `estado.json` de `datos/candidaturas/$1/*/` y muestra una tabla: oferta, empresa, estado y fecha del último cambio, agrupada por estado (borrador, aprobada, enviada, entrevista, rechazada, sin respuesta, pendiente de ti, descartada). Solo lectura.
+
+**El estado al día está en la web, en «Seguimiento» (`/seguimiento`):** la usuaria cambia allí su candidatura (enviada → entrevista/rechazada/sin respuesta, etc.), no aquí. Este comando lee los archivos en disco (útiles para depurar el pipeline de agentes); pueden ir por detrás de lo que ve la usuaria en la web.
