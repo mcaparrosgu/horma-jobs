@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
-import { ID_USUARIA } from "@/lib/preferencias";
+import { requerirDuena } from "@/lib/sesion";
+import { Aprobar, MarcarEnviada } from "./acciones";
 import { enlaceSeguro } from "@/lib/matches";
 import {
   SQL_CANDIDATURAS, ETIQUETA_ESTADO, huecosConAviso, huecosSinCubrir, porcentaje, type FilaCandidatura,
@@ -15,16 +15,16 @@ export default function Pagina({ params }: PageProps<"/candidaturas/[id]">) {
 // Todo el texto sale como texto de React (escapado); el CV y la carta se enseñan tal cual, sin interpretarlos como HTML.
 async function Candidaturas({ params }: { params: PageProps<"/candidaturas/[id]">["params"] }) {
   const { id } = await params;
-  if (!ID_USUARIA.test(id)) notFound();
-  const filas = (await db().query<FilaCandidatura>(SQL_CANDIDATURAS, [id])).rows;
+  const uid = (await requerirDuena(id)).usuaria_id;
+  const filas = (await db().query<FilaCandidatura>(SQL_CANDIDATURAS, [uid])).rows;
 
   return (
     <div className="space-y-6">
       <div>
         <Link href={`/recomendaciones/${id}`} className="text-sm underline">← Recomendaciones</Link>
-        <h1 className="text-2xl font-semibold">Candidaturas de {id}</h1>
+        <h1 className="text-2xl font-semibold">Tus candidaturas</h1>
         <p className="text-sm text-zinc-600">
-          Solo lectura. Aprobar y anotar el envío se hace en Claude Code (<code>/aprobar</code>, <code>/marcar-enviada</code>): ningún agente aprueba por ti y Horma no envía nada sin tu orden.
+          Aprobar y anotar el envío lo haces tú, aquí, con tu sesión: ningún agente aprueba por ti y Horma no envía nada sin tu orden. Tú copias el CV y la carta y envías por tu cuenta; después lo anotas.
         </p>
       </div>
       {filas.length === 0 ? (
@@ -76,6 +76,12 @@ async function Candidaturas({ params }: { params: PageProps<"/candidaturas/[id]"
                   <pre className="mt-2 whitespace-pre-wrap rounded bg-zinc-50 p-2 text-xs">{c.carta_md}</pre>
                 </details>
               ) : <p className="text-xs text-zinc-600">Sin carta todavía.</p>}
+
+              {c.estado === "borrador" && <Aprobar ofertaId={c.oferta_id} avisos={huecosConAviso(c.huecos).length} version={new Date(c.actualizado_en).toISOString()} />}
+              {c.estado === "aprobada" && <MarcarEnviada ofertaId={c.oferta_id} />}
+              {c.estado === "pendiente_de_ti" && (
+                <p className="rounded border border-amber-200 bg-amber-50 p-2 text-xs">No pasó el control: pide los cambios en Claude Code (<code>/candidatura</code>) antes de poder aprobarla.</p>
+              )}
 
               <p className="text-xs text-zinc-500">
                 Historial: {c.historial.map((h) => `${h.estado} (${h.fecha}, ${h.por === "usuaria" ? "tú" : h.por})`).join(" → ")}

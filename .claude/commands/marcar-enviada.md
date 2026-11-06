@@ -8,3 +8,5 @@ Usuaria: $1 · Oferta: $2 · Canal: $3
 
 
 Si `estado.json` no está en `aprobada`, o la entrada `aprobada` del `historial` no tiene `por: usuaria`, para y explica por qué. Si lo está, pasa a `enviada` con fecha y canal en `historial`.
+
+**Desde el bloque 4 este comando ya no escribe nada:** anotar el envío se hace en la web (`/candidaturas/<tu id público>`, botón «Marcar como enviada»), con la sesión de la usuaria. El importador rechaza archivos con estados `aprobada` o `enviada`. Indícale la página.

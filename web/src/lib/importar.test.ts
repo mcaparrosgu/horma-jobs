@@ -109,14 +109,12 @@ const hist = (...e: [string, string][]) => e.map(([estado, por]) => ({ estado, f
 test("candidatura: un borrador creado por el agente es coherente", () => {
   assert.equal(incoherenciaCandidatura({ estado: "borrador", historial: hist(["borrador", "agente"]) }), null);
 });
-test("candidatura: un agente NUNCA puede aprobar (línea roja)", () => {
+test("candidatura: desde archivos NUNCA entra una aprobación ni un envío, ni «firmados» por la usuaria (línea roja)", () => {
   assert.ok(incoherenciaCandidatura({ estado: "aprobada", historial: hist(["borrador", "agente"], ["aprobada", "agente"]) }));
-  assert.ok(incoherenciaCandidatura({ estado: "aprobada", historial: hist(["borrador", "agente"]) }), "aprobada sin entrada de aprobación");
-  assert.ok(incoherenciaCandidatura({ estado: "enviada", historial: hist(["borrador", "agente"], ["enviada", "usuaria"]) }), "enviada sin aprobación");
+  assert.ok(incoherenciaCandidatura({ estado: "aprobada", historial: hist(["borrador", "agente"], ["aprobada", "usuaria"]) }), "un archivo no puede firmar por ella");
+  assert.ok(incoherenciaCandidatura({ estado: "enviada", historial: hist(["borrador", "agente"], ["aprobada", "usuaria"], ["enviada", "usuaria"]) }));
   assert.ok(incoherenciaCandidatura({ estado: "borrador", historial: hist(["aprobada", "usuaria"]) }), "borrador con aprobación");
-});
-test("candidatura: aprobada por la usuaria y enviada es coherente", () => {
-  assert.equal(incoherenciaCandidatura({ estado: "enviada", historial: hist(["borrador", "agente"], ["aprobada", "usuaria"], ["enviada", "usuaria"]) }), null);
+  assert.equal(incoherenciaCandidatura({ estado: "pendiente_de_ti", historial: hist(["borrador", "agente"]) }), null);
 });
 test("candidatura: los parámetros siguen el orden del INSERT y los jsonb van como texto", () => {
   const c = { estado: "borrador", cv_usado: "adaptado", historial: [{ estado: "borrador" }], traza: [], huecos: [], ats: { cobertura: 0.5 } };

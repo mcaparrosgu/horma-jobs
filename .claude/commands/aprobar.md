@@ -9,5 +9,5 @@ Usuaria: $1 · Oferta: $2
 
 1. Muestra PRIMERO los `relleno_aviso` de `huecos.json` (dónde se reformuló o rellenó algo) y después `cv.md`, `carta.md` y los huecos de `datos/candidaturas/$1/$2/`.
 2. Pregunta a la usuaria: ¿apruebas, pides cambios o descartas? Si pide cambios, vuelve al flujo D con sus notas. Si la oferta lo pide y existe `cv-estetico.pdf`, pregunta si lo adjunta en lugar del CV adaptado (`cv_usado`).
-3. Solo si ella acepta, en este mismo turno y con su respuesta literal delante: `estado.json` pasa a `aprobada` con fecha y `por: usuaria`. Un agente nunca escribe `aprobada`.
+3. **Un agente nunca escribe `aprobada`**, y desde el bloque 4 tampoco lo hace este comando: el importador rechaza cualquier archivo con una aprobación. La aprobación se hace en la web (`/candidaturas/<tu id público>`), con la sesión de la usuaria. Aquí solo se revisa y se explica; si ella quiere aprobar, le indicas la página.
 4. En la fase 1 no se envía nada: la usuaria copia el CV y la carta y envía por su cuenta. Después usa `/marcar-enviada`.

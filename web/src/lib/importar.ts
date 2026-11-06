@@ -77,8 +77,8 @@ export function paramsPreferencias(usuariaId: string, p: Json): unknown[] {
 export const CLAVES_DETALLE = ["archivos", "importadas", "omitidas", "rechazadas", "coinciden", "fallos", "avisos"] as const;
 
 // Componentes y acciones permitidos: cada uno nuevo se añade aquí, a propósito (hallazgo C).
-export const COMPONENTES = ["importador", "verificador", "web-ingesta", "web-candidatos"] as const;
-export const ACCIONES = ["importar-datos", "verificar", "guardar-fuente", "guardar-preferencias"] as const;
+export const COMPONENTES = ["importador", "verificador", "web-ingesta", "web-candidatos", "web-acceso"] as const;
+export const ACCIONES = ["importar-datos", "verificar", "guardar-fuente", "guardar-preferencias", "entrar", "registrar", "entrar-google", "aprobar", "marcar-enviada"] as const;
 
 export type EventoEntrada = {
   componente: (typeof COMPONENTES)[number];
@@ -150,19 +150,14 @@ export function paramsCandidatura(usuariaId: string, ofertaId: string, c: Json, 
     trazaCarta === null || trazaCarta === undefined ? null : j(trazaCarta), j(c.huecos), j(c.ats)];
 }
 
-const ESTADOS_POSTERIORES = ["aprobada", "enviada", "entrevista", "rechazada", "sin_respuesta"];
-
 /**
- * Línea roja: un agente nunca aprueba. Si el estado es «aprobada» o posterior, el historial debe llevar
- * la entrada «aprobada» con por = usuaria. Devuelve el motivo del rechazo, o null si es coherente.
+ * Línea roja: un agente nunca aprueba. Desde el bloque 4 la aprobación y el envío SOLO los escribe la web, con la sesión de la
+ * usuaria; un archivo (que puede escribir un agente) solo puede traer borradores. Devuelve el motivo del rechazo, o null.
  */
 export function incoherenciaCandidatura(c: Json): string | null {
   const h: Json[] = Array.isArray(c.historial) ? c.historial : [];
-  if (c.estado === "borrador" && h.some((e) => e.estado === "aprobada")) return "estado borrador con una aprobación en el historial";
-  if (ESTADOS_POSTERIORES.includes(c.estado) && !h.some((e) => e.estado === "aprobada" && e.por === "usuaria")) {
-    return "la aprobación no está firmada por la usuaria";
-  }
-  if (h.some((e) => e.estado === "aprobada" && e.por !== "usuaria")) return "una aprobación no la hizo la usuaria";
+  if (c.estado !== "borrador" && c.estado !== "pendiente_de_ti") return "desde archivos solo entran borradores: aprobar y enviar se hace en la web, con tu sesión";
+  if (h.some((e) => e.estado === "aprobada" || e.estado === "enviada")) return "el historial de un archivo no puede traer aprobaciones ni envíos";
   return null;
 }
 
