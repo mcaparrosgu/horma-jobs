@@ -502,3 +502,16 @@ Mar pidió menos documentos y menos confusión. Decisiones: (1) `docs/` queda co
 
 **No hecho.** Observabilidad por pieza y `/salud` (bloque 7). Las 12 convocatorias restantes del BOE siguen sin procesar, a la espera de tu decisión.
 
+## 6-nov-2026 · Bloque 7: observabilidad y página /salud
+
+**En llano.** Hay una página nueva, «Salud», que te dice de un vistazo si cada pieza de Horma funciona: la base de datos, el importador, cada fuente de ofertas, la calidad de lo guardado, la última comprobación «archivos = base» y los tests de los agentes. Cada pieza sale con un color y con una palabra (bien, atención, falla, sin datos). Solo mira; no ejecuta nada.
+
+**Hecho.** (1) `/salud` con cinco tarjetas y un resumen general; si una consulta falla, solo esa pieza sale en «falla» y las demás se siguen viendo. (2) `npm run verificar` deja ahora un evento con tres números (coinciden, fallos, avisos); no lo deja si se usa `--dir`, para que una carpeta de pruebas no ponga la página en verde. (3) Una ejecución de ingesta sin cerrar hace más de 6 horas se marca «abandonada». (4) El importador ya no escribe el id de la usuaria en consola (`perfil nº N`, `perfiles/(usuaria)`). (5) Test de que los errores del validador no repiten el valor que falló. (6) Si el archivo de evals existe pero está roto, sale «atención», no «sin datos». Comprobado con la base real: todo en «bien» salvo el importador, en «atención» por 6 errores de los últimos 7 días (de mis pruebas del bloque 6). 73 tests de la web (eran 60), 36 evals en verde, tipos y lint limpios.
+
+**Decisiones técnicas.** (a) Reutilicé la tabla `eventos` que ya existía desde la migración `001`, en vez de crear otra; los componentes y las claves permitidas siguen en listas cerradas, solo números. (b) `endpoints.json` manda sobre `activa` en las fuentes: `ingestar.py` lo lee a él y no a la tabla, así que dejar que la web lo cambie daría dos verdades. (c) Sin métricas de coste ni tokens por agente: corren dentro de Claude Code y no dejan rastro; inventar un registro manual que nadie rellena era peor (pregunta 18 del profesor). Tema del bootcamp que practica: observabilidad (estado, métricas y trazabilidad de un pipeline).
+
+**Errores míos.** Puse `export const dynamic` en la página y Next la rechazó (`cacheComponents` está activo): lo vi al abrirla en vivo. Mi primera consulta de calidad contaba las 2 ofertas de prueba como «sin licencia» y la página salía en rojo sin motivo real.
+
+**Revisión.** `auditor-lineas-rojas`: las seis líneas cumplen. `revisor-seguridad`: nada grave ni medio. Apliqué los tres puntos bajos que eran de código (un fallo ya no se disfraza de «base caída», el evento de `--dir`, evals ilegibles). Queda anotado: `/salud` sin login (como el resto de rutas; imprescindible antes de salir de localhost).
+
+**No hecho.** Bloque 8 (revisión final de toda la pista B, guía de pruebas completa, informe y push). Las 12 convocatorias del BOE siguen sin procesar, a la espera de tu decisión.

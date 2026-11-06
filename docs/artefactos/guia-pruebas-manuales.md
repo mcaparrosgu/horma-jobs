@@ -29,7 +29,7 @@ En otra terminal:
 
 | Qué | Orden (carpeta) | Debe pasar |
 |---|---|---|
-| Tests de la web | `npm test` (en `web`) | Todas en verde; hoy son **46**. |
+| Tests de la web | `npm test` (en `web`) | Todas en verde; hoy son **73**. |
 | Tipos y estilo | `npx tsc --noEmit` y `npm run lint` (en `web`) | Sin errores. |
 | Tests de los agentes (sin IA de pago) | `python -I evals/correr_evals.py` (en la raíz) | **36** en verde. |
 
@@ -98,6 +98,15 @@ Un test en rojo no es una catástrofe: es el aviso de que algo se rompió. Copia
 3. Corre `npm run importar -- --ofertas ../datos/ofertas/procesadas` y recarga: **Debe pasar:** cada fuente muestra una ejecución nueva en «Ejecuciones» y en el panel con «correcta».
 4. **Debe pasar:** en el panel no hay botones ni formularios; solo texto. Nada se ejecuta desde ahí.
 5. Para ver una ejecución interrumpida: no hace falta; la cubre una prueba (`ingesta.test.ts`).
+
+## 2 septies. Salud (bloque 7)
+
+1. Desde `web/`: `npm test` (**Debe pasar:** 73 pruebas) y `npm run verificar`. Abre `http://127.0.0.1:3000/salud` (también está en el menú como «Salud»).
+2. **Debe pasar:** arriba un resumen (bien, atención o falla) y cinco tarjetas: *Base de datos*, *Componentes* (importador, verificador, web…), *Ingesta por fuente*, *Datos* (ofertas y última verificación) y *Pipelines (pista A)* (último resultado de los evals). Cada estado lleva su palabra además del color.
+3. **Debe pasar:** tras `npm run verificar`, «Verificación archivos ↔ base» dice «bien» y «23 ofertas coinciden».
+4. Para ver un «falla» a propósito: para el contenedor `horma-db` y recarga `/salud`. **Debe pasar:** la página no se cae; dice que la base de datos no responde y no enseña ningún mensaje técnico. Vuelve a arrancarlo después.
+5. **Debe pasar:** no hay botones ni formularios; no aparece ningún nombre de persona, correo ni texto de CV.
+6. Los agentes no dejan coste ni tokens (corren en Claude Code): es normal que no salgan.
 
 ## 3. Líneas rojas, a ojo
 
