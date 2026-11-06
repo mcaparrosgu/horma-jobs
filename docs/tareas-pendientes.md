@@ -2,6 +2,9 @@
 
 Actualizado el 2026-11-06 (bloques 1 a 8 de la pista B hechos; ver «Retomar: empieza aquí»). Única fuente de estado y próximos pasos (mapa de documentos: `docs/indice.md`). Orden = prioridad.
 
+## Construcción autónoma en marcha (6-nov noche, sin Mar)
+Sonnet 5.5 construye en modo autónomo lo que falta (plan: `docs/construccion-autonoma.md`; estado y retoma: `docs/autonomo/estado.md`), en la rama `autonomo/2026-11-06` (no toca `main`). **B0 y B1 (cuenta y RGPD: descargar datos, cambiar contraseña, borrar cuenta) hechos y fundidos.** Al terminar o a la hora límite, deja `docs/autonomo/resumen-para-mar.md`: léelo primero.
+
 ## Fuentes de empleo: solo España (6-nov, Mar)
 Alcance de fuentes limitado a España hasta que las bases estén sólidas. **Siguiente en fuentes:** `/calificar-fuentes` de empleo público autonómico y municipal; Mar abre la cuenta de socia de Careerjet; escribir a InfoJobs, Tecnoempleo, Infoempleo y Adzuna pidiendo permiso (la Copiloto redacta los correos). Detalle en la bitácora del 6-nov. **Banco de ideas** (de dos agentes externos y propias, con estado): `docs/ideas-banco.md`; Mar las selecciona y se diseña el plan combinado.
 

@@ -17,7 +17,9 @@ export interface Hallazgo { carpeta: string; archivos: number; bytes: number }
 /** Rutas absolutas de las carpetas de la usuaria que EXISTEN. Lanza si el id no es válido. */
 export function carpetasDe(raizDatos: string, id: string): { carpeta: string; ruta: string }[] {
   if (!idValido(id)) throw new Error("identificador de usuaria no válido");
-  return CARPETAS.map((c) => ({ carpeta: c, ruta: join(raizDatos, c, id) })).filter((x) => existsSync(x.ruta) || enlace(x.ruta));
+  // La ruta siempre queda dentro de raizDatos/CARPETAS/id (nunca es libre): ignora el aviso de Turbopack de que
+  // un acceso "dinámico" a disco obligaría a empaquetar todo el proyecto en el despliegue.
+  return CARPETAS.map((c) => ({ carpeta: c, ruta: join(/*turbopackIgnore: true*/ raizDatos, c, id) })).filter((x) => existsSync(x.ruta) || enlace(x.ruta));
 }
 
 function enlace(ruta: string): boolean {
@@ -76,7 +78,7 @@ export function aCuarentena(raizDatos: string, id: string): number {
 
 export function restaurar(raizDatos: string, id: string, movidas?: { carpeta: string; ruta: string }[]): void {
   const q = join(raizDatos, `.borrando-${id}`);
-  for (const c of movidas ?? CARPETAS.map((k) => ({ carpeta: k, ruta: join(raizDatos, k, id) }))) {
+  for (const c of movidas ?? CARPETAS.map((k) => ({ carpeta: k, ruta: join(/*turbopackIgnore: true*/ raizDatos, k, id) }))) {
     if (existsSync(join(q, c.carpeta))) renameSync(join(q, c.carpeta), c.ruta);
   }
   if (existsSync(q)) rmSync(q, { recursive: true });
@@ -97,4 +99,8 @@ export const SQL_EXPORTAR = {
 } as const;
 
 // Las tablas hijas (cuentas, sesiones, perfiles, preferencias, matches, candidaturas) se borran solas por ON DELETE CASCADE.
+// Para la terminal (rol `horma`, sin restricciones): borrado directo.
 export const SQL_BORRAR_USUARIA = "DELETE FROM usuarias WHERE id = $1";
+// Para la web (rol `horma_web`): la función (migración 016) nunca borra una cuenta de administración y devuelve
+// cuántas filas borró (0 si no existía o era de administración). El id siempre sale de la sesión, nunca del formulario.
+export const SQL_BORRAR_CUENTA_PROPIA = "SELECT borrar_cuenta_propia($1) AS filas";
