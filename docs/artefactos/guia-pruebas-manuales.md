@@ -29,9 +29,9 @@ En otra terminal:
 
 | Qué | Orden (carpeta) | Debe pasar |
 |---|---|---|
-| Tests de la web | `npm test` (en `web`) | Todas en verde; hoy son **34**. |
+| Tests de la web | `npm test` (en `web`) | Todas en verde; hoy son **46**. |
 | Tipos y estilo | `npx tsc --noEmit` y `npm run lint` (en `web`) | Sin errores. |
-| Tests de los agentes (sin IA de pago) | `python -I evals/correr_evals.py` (en la raíz) | **35** en verde. |
+| Tests de los agentes (sin IA de pago) | `python -I evals/correr_evals.py` (en la raíz) | **36** en verde. |
 
 Un test en rojo no es una catástrofe: es el aviso de que algo se rompió. Copia el mensaje completo.
 
@@ -68,7 +68,13 @@ Un test en rojo no es una catástrofe: es el aviso de que algo se rompió. Copia
 1. Con `horma-db` arrancada, desde `web/`: `npm run importar -- --ofertas ../datos/ofertas/procesadas`. Debe terminar con **20 importados, 0 rechazados**. Repetirlo no cambia el total.
 2. Abre una oferta de `datos/ofertas/procesadas/` y su original en `raw/`: comprueba que **no hay emails ni teléfonos** (aparece `[contacto omitido]`) y que el país, el nivel y las tecnologías están en el texto original.
 3. Abre `datos/ofertas/procesadas/` las ofertas de Saab (`...31634221...`, `...31672635...`), Ida Infront (`...31648023...`) y Epical (`...31679417...`): la ciudadanía, la habilitación de seguridad y el permiso de trabajo están en el campo `avisos`, no en `requisitos`.
-4. Atadura de claves: `python -I evals/ingesta/test_ingestar.py` debe terminar en `OK` (45 pruebas), incluidas «cambiar la url no desvía la clave» y «nombres repetidos». No hace falta probarlo a mano: no hay ninguna fuente con clave todavía.
+4. Atadura de claves: `python -I evals/ingesta/test_ingestar.py` debe terminar en `OK` (48 pruebas), incluidas «cambiar la url no desvía la clave» y «nombres repetidos». No hace falta probarlo a mano: no hay ninguna fuente con clave todavía.
+
+## 2 ter. Lo descargado = lo guardado (bloque 3)
+
+1. Desde `web/`: `npm run verificar`. Debe terminar con **«RESULTADO: todo cuadra»**: 20 coinciden y 2 filas de prueba esperadas (`of-prueba-*`). Solo lee: no cambia nada.
+2. Prueba que de verdad avisa: abre un archivo de `datos/ofertas/procesadas/`, cambia el `titulo` y guarda; vuelve a lanzar `npm run verificar`. Debe decir **FALLO** con el id de esa oferta y el campo `titulo` (sin enseñar el texto), y terminar con «no cuadra». Deshaz el cambio (`git` no lo sigue: vuelve a escribir el título original a mano) y comprueba que vuelve a cuadrar.
+3. Ingesta repetible: tras `ingestar.py`, la respuesta lleva `pendientes`: debe ser una lista **vacía** si ya procesaste esas ofertas. `/ingestar-ofertas` solo gasta agentes en las pendientes.
 
 ## 3. Líneas rojas, a ojo
 
