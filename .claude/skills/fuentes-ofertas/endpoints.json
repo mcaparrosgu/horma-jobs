@@ -26,6 +26,31 @@
       "licencia": "abierto",
       "atribucion": null,
       "activa": true
+    },
+    {
+      "nombre": "BOE Empleo público (sección II.B)",
+      "url": "https://www.boe.es/datosabiertos/api/boe/sumario/{fecha}",
+      "metodo": "GET",
+      "parametros": {},
+      "cabeceras": {
+        "Accept": "application/json"
+      },
+      "clave_env": null,
+      "clave_en": null,
+      "clave_nombre": null,
+      "adaptador": "boe-sumario",
+      "mapeo_campos": {
+        "lista": "",
+        "id": "id",
+        "titulo": "titulo",
+        "empresa": "empresa",
+        "url": "url",
+        "descripcion": "descripcion",
+        "fecha": "fecha"
+      },
+      "licencia": "abierto",
+      "atribucion": "Fuente de los datos: Agencia Estatal Boletín Oficial del Estado (boe.es). Datos reorganizados por Horma; no es una publicación oficial.",
+      "activa": true
     }
   ]
 }

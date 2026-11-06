@@ -9,6 +9,9 @@ Uso:
   `FUENTE_*`); nunca se imprime ni se escribe en disco.
 - Cada oferta se guarda como <fuente>-<id>-<hash>.md con la fuente, la URL y la fecha de
   descarga arriba. El texto de la oferta es NO FIABLE: se guarda tal cual, como dato.
+- Fuentes con `adaptador` (hoy `boe-sumario`): el origen no trae ofertas sino un documento anidado por día;
+  el adaptador (en este archivo, solo los nombres de `ADAPTADORES`) lo pasa a lista plana y `url` lleva `{fecha}`.
+  Del BOE solo la sección II.B y solo las resoluciones que convocan plazas (nada de listas de aspirantes: llevan nombres).
 - La licencia de origen (`licencia`, `atribucion`) la declara la fuente en endpoints.json y el script la
   escribe en la cabecera de cada raw; sin licencia válida no ingesta nada.
 - Con --dry-run no hace ninguna llamada de red: muestra qué haría.
@@ -35,6 +38,7 @@ import socket
 import ssl
 import sys
 import time
+import unicodedata
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -161,6 +165,9 @@ def abrir(req, plazo: float) -> bytes:
         raise
     except TimeoutError:
         raise ErrorFuente("TIEMPO")
+    except urllib.error.HTTPError as e:
+        e.close()  # sin leer ni devolver el cuerpo: solo el código
+        raise ErrorFuente("NO_ENCONTRADO" if e.code == 404 else "RED")  # 404: p. ej. el BOE no publica los domingos
     except Exception:  # URLError, HTTPError, TLS, ValueError de cabeceras (su texto podría llevar la clave)...
         raise ErrorFuente("RED")
 
@@ -209,6 +216,97 @@ def pendientes(nombres: list[str], procesadas: Path) -> list[str]:
     return [n for n in nombres if not (procesadas / (Path(n).stem + ".json")).is_file()]
 
 
+# --- Adaptador del BOE (sumario diario, solo sección II.B «Oposiciones y concursos») -----------------------------------
+# El BOE no publica «ofertas» sino resoluciones. Solo se queda con las que CONVOCAN plazas y se descartan las listas de
+# aspirantes, admitidos o aprobados (llevan nombres de personas), las correcciones, las modificaciones, las plazas
+# declaradas desiertas y las ofertas de empleo globales. Solo se usa el sumario: NO se descarga el texto de cada
+# resolución (robots.txt del BOE pide no hacerlo); la oferta enlaza a la original. Licencia: aviso legal del BOE.
+BOE_SECCION = "2B"
+BOE_ID = re.compile(r"BOE-[A-Z]-[0-9]{4}-[0-9]{1,7}")  # [0-9], no \d: \d acepta cifras de otros alfabetos
+BOE_FECHA = re.compile(r"[0-9]{8}")
+BOE_SI = re.compile(r"\bse convocan?\b|\breferente a la convocatoria\b")
+# Lista de exclusión: palabras que delatan listas con nombres de personas, tribunales y comisiones, o que no son una
+# convocatoria. Ante la duda se descarta (cuesta una oferta; dejar pasar un nombre cuesta un dato personal).
+BOE_NO = re.compile(
+    r"relacion|\blist(?:a|as|ado|ados)\b|aspirantes|opositor|candidat|participante|interesad|aprobad|admitid|excluid|"
+    r"superado|seleccionad|resultado|calificacion|adjudic|nombra|\bse designan?\b|comision|composicion|miembros|jurado|"
+    r"correccion|corrigen|se modifica|desiert|oferta de empleo|tribunal|resuelve|anula|sin efecto")
+BOE_PERSONA = re.compile(r"\b(?:don|dona|d\.|da\.|dna\.|sr\.|sra\.)\s")  # tratamientos personales: nunca en una convocatoria
+BOE_MAX_TITULO = 400  # las convocatorias reales son cortas; un título enorme es sospechoso (y alimenta a los agentes)
+AVISO_LIBRE_DESIGNACION = ("Aviso de Horma: las convocatorias de libre designación suelen estar reservadas a personal funcionario; "
+                           "comprueba las bases en el BOE antes de preparar nada.")
+BOE_ORGANISMO = re.compile(r"^Resoluci[oó]n de [^,]+, (?:de la|del|de) (.{3,150}?), (?:referente|por la que|de correcci)")
+BOE_PROPIOS = ("ADMINISTRACION LOCAL", "UNIVERSIDADES")  # departamentos genéricos: el organismo real va en el título
+
+
+def _sin_acentos(t: str) -> str:
+    return "".join(c for c in unicodedata.normalize("NFKD", t.lower()) if not unicodedata.combining(c))
+
+
+def _lista(x) -> list:
+    """El JSON del BOE trae un solo elemento como objeto y varios como lista."""
+    return [e for e in x if isinstance(e, dict)] if isinstance(x, list) else ([x] if isinstance(x, dict) else [])
+
+
+def es_convocatoria(titulo: str) -> bool:
+    t = _sin_acentos(titulo)
+    return (len(titulo) <= BOE_MAX_TITULO and bool(BOE_SI.search(t))
+            and not BOE_NO.search(t) and not BOE_PERSONA.search(t))
+
+
+def _una_linea(texto, tope: int = 300) -> str:
+    """Texto del origen en una sola línea y con tope: sin saltos que simulen una cabecera ni textos largos para los agentes."""
+    return " ".join(str(texto or "").split())[:tope]
+
+
+def adaptar_boe(datos) -> tuple[list[dict], int]:
+    """Del sumario del BOE a una lista plana de ofertas {id, titulo, empresa, url, descripcion, fecha}.
+    Devuelve (convocatorias, descartadas). Lanza ErrorFuente('FORMATO') si el sumario no tiene la forma esperada."""
+    sumario = ruta(datos, "data.sumario")
+    fecha_raw = ruta(sumario, "metadatos.fecha_publicacion") if isinstance(sumario, dict) else None
+    if not isinstance(fecha_raw, str) or not BOE_FECHA.fullmatch(fecha_raw):
+        raise ErrorFuente("FORMATO")
+    fecha = f"{fecha_raw[:4]}-{fecha_raw[4:6]}-{fecha_raw[6:]}"
+    validas, descartadas = [], 0
+    for diario in _lista(sumario.get("diario")):
+        n = diario.get("numero")
+        numero = n if isinstance(n, str) and n.isascii() and n.isdigit() and len(n) <= 6 else "?"
+        for sec in _lista(diario.get("seccion")):
+            if sec.get("codigo") != BOE_SECCION:
+                continue
+            for dep in _lista(sec.get("departamento")):
+                nombre_dep = _una_linea(dep.get("nombre")) if isinstance(dep.get("nombre"), str) else ""
+                for ep in _lista(dep.get("epigrafe")):
+                    nombre_ep = _una_linea(ep.get("nombre")) if isinstance(ep.get("nombre"), str) else ""
+                    for it in _lista(ep.get("item")):
+                        ident, titulo = it.get("identificador"), it.get("titulo")
+                        if not (isinstance(ident, str) and BOE_ID.fullmatch(ident) and isinstance(titulo, str) and titulo.strip()):
+                            descartadas += 1
+                            continue
+                        if not es_convocatoria(titulo):
+                            descartadas += 1
+                            continue
+                        titulo = _una_linea(titulo, BOE_MAX_TITULO)
+                        organismo = nombre_dep
+                        m = BOE_ORGANISMO.match(titulo)
+                        if m and _sin_acentos(nombre_dep).upper().strip() in BOE_PROPIOS:
+                            organismo = _una_linea(m.group(1))
+                        aviso = f"\n{AVISO_LIBRE_DESIGNACION}" if "libre designacion" in _sin_acentos(titulo) else ""
+                        validas.append({
+                            "id": ident, "titulo": titulo, "empresa": organismo, "fecha": fecha,
+                            "url": f"https://www.boe.es/diario_boe/txt.php?id={ident}",
+                            # Sin el identificador en el texto: «BOE-A-2026-23304» parece un teléfono al filtro de contactos
+                            # (ya va en la URL). Y sin repetir el título, que es el encabezado del raw.
+                            "descripcion": (f"Organismo: {organismo}\nBOE sección II.B (oposiciones y concursos) · epígrafe: {nombre_ep}\n"
+                                            f"BOE núm. {numero} de {fecha}\n"
+                                            "El texto completo de la convocatoria está en el enlace; Horma no lo descarga." + aviso),
+                        })
+    return validas, descartadas
+
+
+ADAPTADORES = {"boe-sumario": adaptar_boe}
+
+
 def origen_de(fuente: dict):
     """(licencia, atribucion) de la fuente, o None si falta o no es válida. Lo fija el registro, nunca la oferta."""
     lic, atr = fuente.get("licencia"), fuente.get("atribucion")
@@ -228,9 +326,10 @@ def main() -> int:
     sys.stderr.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("fuente")
-    ap.add_argument("--limite", type=int, default=50)
+    ap.add_argument("--limite", type=lambda s: max(1, int(s)), default=50)  # un límite negativo cortaría por el final
     ap.add_argument("--endpoints", type=Path, default=ENDPOINTS)
     ap.add_argument("--salida", type=Path, default=SALIDA_PERMITIDA / "raw")
+    ap.add_argument("--fecha", help="AAAA-MM-DD; solo para fuentes por día (adaptador): por defecto hoy, o el sábado si hoy es domingo")
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
 
@@ -257,6 +356,12 @@ def main() -> int:
     if origen is None:
         print(f"Fuente «{a.fuente}» sin `licencia` válida (empresa, socio, abierto o usuaria) o con `atribucion` no válida en endpoints.json.", file=sys.stderr)
         return 2
+    adaptador = fuente.get("adaptador")
+    if adaptador is not None and adaptador not in ADAPTADORES:
+        print(f"Fuente «{a.fuente}» con adaptador desconocido (los permitidos están en ADAPTADORES de ingestar.py).", file=sys.stderr)
+        return 2
+    if adaptador is None and "{" in fuente["url"]:
+        return fallo(a.fuente, "URL_NO_VALIDA")  # la plantilla {fecha} solo la entiende un adaptador
     try:
         host = validar_url(fuente["url"])
     except ErrorFuente as e:
@@ -287,7 +392,27 @@ def main() -> int:
             print(f"El valor de {fuente['clave_env']} tiene caracteres no válidos (espacios o saltos de línea dentro).", file=sys.stderr)
             return 2
         (params if por_parametro else cabeceras)[nombre] = clave
-    url = fuente["url"] + ("?" + urllib.parse.urlencode(params) if params else "")
+    url_base = fuente["url"]
+    if adaptador is not None and "{fecha}" in url_base:
+        try:
+            if a.fecha and not re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", a.fecha):
+                raise ValueError
+            dia = datetime.date.fromisoformat(a.fecha) if a.fecha else datetime.date.today()
+        except ValueError:
+            print("`--fecha` debe ser AAAA-MM-DD.", file=sys.stderr)
+            return 2
+        if not a.fecha and dia.weekday() == 6:  # domingo: el BOE no publica
+            dia -= datetime.timedelta(days=1)
+        if dia > datetime.date.today():
+            print("`--fecha` no puede ser futura.", file=sys.stderr)
+            return 2
+        url_base = url_base.replace("{fecha}", dia.strftime("%Y%m%d"))
+        try:  # la URL final debe seguir yendo al mismo servidor que se comprobó con la plantilla
+            if validar_url(url_base) != host:
+                raise ErrorFuente("URL_NO_VALIDA")
+        except ErrorFuente as e:
+            return fallo(a.fuente, e.codigo)
+    url = url_base + ("?" + urllib.parse.urlencode(params) if params else "")
 
     if a.dry_run:
         print(f"[dry-run] GET {fuente['url']} (parámetros: {sorted(params)}), límite {a.limite}, salida {a.salida}")
@@ -302,6 +427,12 @@ def main() -> int:
             raise ErrorFuente("FORMATO")
     except ErrorFuente as e:
         return fallo(a.fuente, e.codigo)
+    descartadas = None
+    if adaptador is not None:
+        try:
+            datos, descartadas = ADAPTADORES[adaptador](datos)  # a una lista plana con las claves del mapeo_campos
+        except ErrorFuente as e:
+            return fallo(a.fuente, e.codigo)
     m = fuente["mapeo_campos"]
     lista = ruta(datos, m["lista"])
     if not isinstance(lista, list):
@@ -333,8 +464,11 @@ def main() -> int:
         nombres.append(nombre)
         guardadas += 1
     # «pendientes»: las que no tienen procesada; /ingestar-ofertas solo gasta agentes en esas.
-    print(json.dumps({"fuente": fuente["nombre"], "guardadas": guardadas, "fecha": hoy,
-                      "pendientes": pendientes(nombres, salida.parent / "procesadas")}))
+    resumen = {"fuente": fuente["nombre"], "guardadas": guardadas, "fecha": hoy,
+               "pendientes": pendientes(nombres, salida.parent / "procesadas")}
+    if descartadas is not None:
+        resumen["descartadas"] = descartadas  # elementos del origen que no son convocatorias
+    print(json.dumps(resumen))
     return 0
 
 

@@ -21,6 +21,7 @@
         "mapeo_campos": {"type": "object", "description": "lista = ruta al array en la respuesta; el resto: campo de Horma -> ruta dentro de cada elemento", "required": ["lista", "id", "titulo", "empresa", "url", "descripcion"], "additionalProperties": {"type": "string"}},
         "licencia": {"enum": ["empresa", "socio", "abierto", "usuaria"], "description": "Permiso con el que Horma tiene las ofertas de esta fuente. Opcional en el esquema, pero ingestar.py no ingesta una fuente sin ella."},
         "atribucion": {"type": ["string", "null"], "maxLength": 200, "description": "Texto que hay que citar al mostrar sus ofertas; null si no se exige"},
+        "adaptador": {"enum": ["boe-sumario"], "description": "Nombre de un adaptador de ingestar.py para orígenes anidados o por día; `url` puede llevar {fecha} (AAAAMMDD). Opcional."},
         "activa": {"type": "boolean"}
       }}}
   }
