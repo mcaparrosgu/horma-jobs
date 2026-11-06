@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { db } from "@/lib/db";
+import { requerirAdmin } from "@/lib/sesion";
 import { SQL_FUENTES } from "@/lib/consultas";
 import Formulario, { VACIA, type ValoresFuente } from "./formulario";
 
@@ -14,6 +15,7 @@ export default function Pagina({ searchParams }: PageProps<"/fuentes">) {
 }
 
 async function Fuentes({ searchParams }: { searchParams: PageProps<"/fuentes">["searchParams"] }) {
+  await requerirAdmin(); // sección de administración: el proxy solo mira que haya cookie
   const sp = await searchParams;
   const editar = Array.isArray(sp.editar) ? sp.editar[0] : sp.editar;
   const { rows } = await db().query<Fuente>(SQL_FUENTES);

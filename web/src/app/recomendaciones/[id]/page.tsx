@@ -1,8 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
-import { ID_USUARIA } from "@/lib/preferencias";
+import { requerirDuena } from "@/lib/sesion";
 import { SQL_MATCHES, ETIQUETA_CONDICIONES, enlaceSeguro, type FilaMatch } from "@/lib/matches";
 
 export default function Pagina({ params }: PageProps<"/recomendaciones/[id]">) {
@@ -12,15 +11,15 @@ export default function Pagina({ params }: PageProps<"/recomendaciones/[id]">) {
 // Todo el texto sale como texto de React (escapado); nunca como HTML.
 async function Recomendaciones({ params }: { params: PageProps<"/recomendaciones/[id]">["params"] }) {
   const { id } = await params;
-  if (!ID_USUARIA.test(id)) notFound();
-  const r = await db().query<FilaMatch>(SQL_MATCHES, [id]);
+  const uid = (await requerirDuena(id)).usuaria_id;
+  const r = await db().query<FilaMatch>(SQL_MATCHES, [uid]);
   const filas = r.rows;
 
   return (
     <div className="space-y-6">
       <div>
         <Link href={`/candidatos/${id}`} className="text-sm underline">← Perfil</Link>
-        <h1 className="text-2xl font-semibold">Ofertas recomendadas para {id}</h1>
+        <h1 className="text-2xl font-semibold">Tus ofertas recomendadas</h1>
         <p className="text-sm text-zinc-600">
           La nota (0-100) mide solo experiencia y formación frente a los requisitos; «sin nota» significa que la oferta no trae requisitos para medirla (aparecen al final). Las condiciones de trabajo van aparte.
           Es una ayuda para decidir, no una decisión: la candidata siempre decide. Esta lista es para la candidata; Horma no la comparte con empresas.

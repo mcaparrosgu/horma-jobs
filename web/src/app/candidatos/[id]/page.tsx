@@ -2,7 +2,8 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
-import { ID_USUARIA, SQL_PERFIL, SQL_PREFERENCIAS } from "@/lib/preferencias";
+import { SQL_PERFIL, SQL_PREFERENCIAS } from "@/lib/preferencias";
+import { requerirDuena } from "@/lib/sesion";
 import FormularioPrefs, { type ValoresPrefs } from "./formulario";
 
 type Origen = { archivo: string; fragmento: string; linea?: number | null };
@@ -41,8 +42,8 @@ export default function Pagina({ params }: PageProps<"/candidatos/[id]">) {
 
 async function Candidata({ params }: { params: PageProps<"/candidatos/[id]">["params"] }) {
   const { id } = await params;
-  if (!ID_USUARIA.test(id)) notFound();
-  const [p, pr] = await Promise.all([db().query<Perfil>(SQL_PERFIL, [id]), db().query<Prefs>(SQL_PREFERENCIAS, [id])]);
+  const uid = (await requerirDuena(id)).usuaria_id; // `id` de la URL es el opaco; solo su dueña pasa
+  const [p, pr] = await Promise.all([db().query<Perfil>(SQL_PERFIL, [uid]), db().query<Prefs>(SQL_PREFERENCIAS, [uid])]);
   if (p.rows.length === 0) notFound();
   const perfil = p.rows[0];
   const pref = pr.rows[0];
@@ -60,8 +61,8 @@ async function Candidata({ params }: { params: PageProps<"/candidatos/[id]">["pa
   return (
     <div className="space-y-6">
       <div>
-        <Link href="/candidatos" className="text-sm underline">← Candidatas</Link>{" · "}<Link href={`/recomendaciones/${id}`} className="text-sm underline">Ofertas recomendadas</Link>{" · "}<Link href={`/candidaturas/${id}`} className="text-sm underline">Candidaturas</Link>
-        <h1 className="text-2xl font-semibold">Perfil de {id}</h1>
+        <Link href={`/recomendaciones/${id}`} className="text-sm underline">Ofertas recomendadas</Link>{" · "}<Link href={`/candidaturas/${id}`} className="text-sm underline">Candidaturas</Link>
+        <h1 className="text-2xl font-semibold">Tu perfil</h1>
         <p className="text-sm text-zinc-600">
           Cada dato de las listas de abajo dice de qué parte del CV salió.
           {clasificacion ? ` Clasificación sugerida por Horma (no sale del CV): ${clasificacion}.` : ""}
@@ -120,7 +121,7 @@ async function Candidata({ params }: { params: PageProps<"/candidatos/[id]">["pa
         </details>
       )}
 
-      <FormularioPrefs id={id} valores={valores} />
+      <FormularioPrefs valores={valores} />
     </div>
   );
 }

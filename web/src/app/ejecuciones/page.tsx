@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { db } from "@/lib/db";
+import { requerirAdmin } from "@/lib/sesion";
 import { SQL_EJECUCIONES } from "@/lib/consultas";
 
 type Ejecucion = { id: string; fuente: string; inicio: Date; fin: Date | null; entraron: number; descartadas: number; errores: unknown[] };
@@ -9,6 +10,7 @@ export default function Pagina() {
 }
 
 async function Ejecuciones() {
+  await requerirAdmin(); // sección de administración: el proxy solo mira que haya cookie
   const { rows } = await db().query<Ejecucion>(SQL_EJECUCIONES);
   return (
     <div className="space-y-4">

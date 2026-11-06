@@ -1,9 +1,10 @@
 "use server";
 // Guardar las preferencias de una usuaria. Pasa por validarPreferencias (esquema preferencias.json) y el apunte
-// de observabilidad solo lleva números. Sin login aún: cuando exista, el id saldrá de la sesión, no del formulario.
+// de observabilidad solo lleva números. El id sale de la SESIÓN, nunca del formulario: nadie puede editar las de otra.
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
-import { ID_USUARIA, validarPreferencias } from "@/lib/preferencias";
+import { validarPreferencias } from "@/lib/preferencias";
+import { requerirSesion } from "@/lib/sesion";
 import { registrarEvento, errorSeguro, sqlPreferencias, paramsPreferencias } from "@/lib/importar";
 
 export type EstadoPrefs = { ok: boolean; errores: string[]; enviado?: Record<string, string | string[]> };
@@ -11,7 +12,7 @@ export type EstadoPrefs = { ok: boolean; errores: string[]; enviado?: Record<str
 const t = (f: FormData, k: string) => { const v = f.get(k); return typeof v === "string" ? v.slice(0, 2000) : ""; };
 
 export async function guardarPreferencias(_previo: EstadoPrefs, f: FormData): Promise<EstadoPrefs> {
-  const id = t(f, "usuaria_id");
+  const id = (await requerirSesion()).usuaria_id; // el campo «usuaria_id» del formulario se ignora
   const enviado: Record<string, string | string[]> = {
     puestos: t(f, "puestos"), ciudades: t(f, "ciudades"), paises: t(f, "paises"), contrato: t(f, "contrato"),
     idiomas: t(f, "idiomas"), sectores: t(f, "sectores"), niveles: t(f, "niveles"), sueldo_min: t(f, "sueldo_min"),
@@ -19,8 +20,6 @@ export async function guardarPreferencias(_previo: EstadoPrefs, f: FormData): Pr
     remoto: f.getAll("remoto").filter((v): v is string => typeof v === "string"),
     horario: f.getAll("horario").filter((v): v is string => typeof v === "string"),
   };
-  if (!ID_USUARIA.test(id)) return { ok: false, errores: ["usuaria no válida"], enviado };
-
   const r = validarPreferencias(enviado as Parameters<typeof validarPreferencias>[0]);
   if (!r.ok) return { ok: false, errores: r.errores, enviado };
 
@@ -35,6 +34,6 @@ export async function guardarPreferencias(_previo: EstadoPrefs, f: FormData): Pr
     return { ok: false, errores: [`No se pudo guardar (${errorSeguro(e)})`], enviado };
   }
   await apunte("ok");
-  revalidatePath(`/candidatos/${id}`);
+  revalidatePath("/candidatos/[id]", "page");
   return { ok: true, errores: [] };
 }

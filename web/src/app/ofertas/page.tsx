@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { db } from "@/lib/db";
+import { requerirSesion } from "@/lib/sesion";
 import { NIVELES, REMOTOS, LIMITE_OFERTAS, SQL_OPCIONES, SQL_TOTAL_OFERTAS, sqlOfertas, type FiltrosOfertas } from "@/lib/consultas";
 
 type Fila = {
@@ -40,6 +41,7 @@ export default function Pagina({ searchParams }: PageProps<"/ofertas">) {
 }
 
 async function Ofertas({ searchParams }: { searchParams: PageProps<"/ofertas">["searchParams"] }) {
+  await requerirSesion();
   const sp = await searchParams;
   const filtros: FiltrosOfertas = {
     q: uno(sp.q), pais: uno(sp.pais), nivel: uno(sp.nivel), remoto: uno(sp.remoto),

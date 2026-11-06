@@ -67,8 +67,9 @@ export function validarPreferencias(e: EntradaPreferencias): ResultadoPreferenci
 }
 
 // --- Consultas (siempre por una usuaria concreta; no existe ninguna consulta «para empresas») ---
+// Lista para administración ($1 = la administradora): sin ids ni correos, solo si tiene perfil y cuál es la propia.
 export const SQL_USUARIAS = `
-  SELECT u.id, (p.usuaria_id IS NOT NULL) AS tiene_perfil
+  SELECT u.publico::text AS publico, (u.id = $1) AS soy_yo, (p.usuaria_id IS NOT NULL) AS tiene_perfil
   FROM usuarias u LEFT JOIN perfiles p ON p.usuaria_id = u.id ORDER BY u.id`;
 export const SQL_PERFIL = `
   SELECT experiencias, formacion, skills, idiomas, taxonomia, preguntas_pendientes, cv_texto

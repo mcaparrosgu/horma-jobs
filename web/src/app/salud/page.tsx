@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { connection } from "next/server";
 import { join } from "node:path";
 import { db } from "@/lib/db";
+import { requerirAdmin } from "@/lib/sesion";
 import { SQL_PANEL_FUENTES } from "@/lib/panel";
 import { errorSeguro } from "@/lib/importar";
 import {
@@ -50,6 +51,7 @@ function Tabla({ titulo, piezas, vacio }: { titulo: string; piezas: Pieza[]; vac
 }
 
 async function Salud() {
+  await requerirAdmin(); // sección de administración: el proxy solo mira que haya cookie
   await connection(); // se calcula en cada visita (usa la hora y la base): nunca en la compilación
   const raiz = join(process.cwd(), "..");
   const evals = piezaEvals(leerUltimosEvals(join(raiz, "evals", "resultados")));

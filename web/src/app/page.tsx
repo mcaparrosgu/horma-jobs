@@ -1,5 +1,7 @@
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
+import { inicioDe, requerirSesion } from "@/lib/sesion";
 import {
   FLUJOS, SQL_PANEL_FUENTES, SQL_PANEL_POR_FUENTE, SQL_PANEL_POR_PAIS, SQL_PANEL_POR_LICENCIA, SQL_PANEL_TOTALES,
   anchoBarra, estadoEjecucion, type Conteo,
@@ -37,6 +39,8 @@ function Barras({ titulo, filas }: { titulo: string; filas: Conteo[] }) {
 }
 
 async function Panel() {
+  const sesion = await requerirSesion();
+  if (sesion.rol !== "admin") redirect(inicioDe(sesion)); // cada usuaria va a lo suyo; el panel es de administración
   const [fuentes, porFuente, porPais, porLicencia, totales] = await Promise.all([
     db().query<FilaFuente>(SQL_PANEL_FUENTES),
     db().query<Conteo>(SQL_PANEL_POR_FUENTE),

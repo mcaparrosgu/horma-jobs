@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { validarFuente, SQL_GUARDAR_FUENTE, paramsFuente } from "@/lib/fuentes";
 import { registrarEvento, errorSeguro } from "@/lib/importar";
+import { requerirAdmin } from "@/lib/sesion";
 
 export type EstadoFormulario = { ok: boolean; errores: string[]; guardada?: string; enviado?: Record<string, string> };
 
@@ -28,6 +29,7 @@ function leerJson(texto: FormDataEntryValue | null, campo: string, errores: stri
 const texto = (f: FormData, k: string) => { const v = f.get(k); return typeof v === "string" && v.trim() ? v.trim() : null; };
 
 export async function guardarFuente(_previo: EstadoFormulario, f: FormData): Promise<EstadoFormulario> {
+  await requerirAdmin(); // una acción es un punto de entrada público: se comprueba aquí, no solo en la página
   const errores: string[] = [];
   const parametros = leerJson(f.get("parametros"), "parámetros", errores);
   const cabeceras = leerJson(f.get("cabeceras"), "cabeceras", errores);

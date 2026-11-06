@@ -14,13 +14,12 @@ const LISTAS: [keyof ValoresPrefs, string, string][] = [
   ["idiomas", "Idiomas", "Español, Inglés"], ["sectores", "Sectores", ""], ["niveles", "Niveles", "junior, medio"],
 ];
 
-export default function FormularioPrefs({ id, valores: inicial }: { id: string; valores: ValoresPrefs }) {
+export default function FormularioPrefs({ valores: inicial }: { valores: ValoresPrefs }) {
   const [estado, accion, enCurso] = useActionState<EstadoPrefs, FormData>(guardarPreferencias, { ok: false, errores: [] });
   const e = estado.enviado as Partial<ValoresPrefs> | undefined;
   const v: ValoresPrefs = { ...inicial, ...(e ?? {}) };
   return (
     <form action={accion} className="space-y-3 rounded border border-zinc-200 bg-white p-4">
-      <input type="hidden" name="usuaria_id" value={id} />
       <h2 className="font-medium">Preferencias de búsqueda</h2>
       <p className="text-xs text-zinc-600">Listas separadas por comas. Aquí no hay edad, nacionalidad ni datos de categorías especiales, y Horma no los pide.</p>
       <div className="grid gap-3 sm:grid-cols-2">
