@@ -2,6 +2,11 @@
 
 Un cambio de esquema es un cambio de contrato entre agentes y web. Se anota aquí antes de tocarlo.
 
+## 0.4 · 2026-11-06
+
+- `oferta.origen` (opcional): `{licencia, atribucion}` con `licencia` en `empresa`, `socio`, `abierto`, `usuaria` y `atribucion` texto o null. Es el «campo de licencia de origen» pedido en la propuesta por capas (`docs/preguntas-profesor.md`, apartado 4): con qué permiso tiene Horma la oferta y qué hay que citar al mostrarla. **Lo estampa el script, no un agente:** la licencia es propiedad de la fuente (`endpoints.json`), `ingestar.py` la escribe en la cabecera del `raw/` y el extractor la copia sin deducirla. Opcional, así los archivos anteriores siguen validando; en la base de datos, migración `007`.
+- `endpoints.fuentes[].licencia` y `.atribucion` (opcionales en el esquema, para que el formulario `/fuentes` de la web siga validando): `ingestar.py` **se niega** a ingestar una fuente sin `licencia` válida.
+
 ## 0.3 · 2026-11-06
 
 - `oferta.avisos` (opcional): lista de `{tipo, texto}` con `tipo` en `ciudadania`, `habilitacion_seguridad`, `residencia_o_permiso`, `otro`. Decisión de Mar (6-nov), por el aviso de `auditor-lineas-rojas`: la ciudadanía o la habilitación de seguridad que piden algunas ofertas (Saab, Ida Infront, Epical) iban como una frase más en `requisitos`, y si algún día se puntúa con `requisitos` se puntuaría por nacionalidad. Se muestran a la usuaria y **nunca** entran en la nota, el filtro ni lo que ve una empresa. Opcional, así los archivos anteriores siguen validando; en la base de datos, migración `006`.

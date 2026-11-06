@@ -31,6 +31,16 @@
         }
       }
     },
+    "origen": {
+      "type": "object",
+      "description": "Con qué permiso tiene Horma esta oferta. Lo copia el extractor de la cabecera del raw (la fija el script según la fuente); no se deduce. La web enseña siempre el enlace a la original. Opcional.",
+      "required": ["licencia", "atribucion"],
+      "additionalProperties": false,
+      "properties": {
+        "licencia": {"enum": ["empresa", "socio", "abierto", "usuaria"]},
+        "atribucion": {"type": ["string", "null"], "maxLength": 200, "description": "Texto que hay que mostrar junto a la oferta (p. ej. «Fuente de los datos: …»); null si la licencia no pide citar"}
+      }
+    },
     "salario": {
       "type": "object",
       "required": ["publicado", "min", "max", "moneda"],
