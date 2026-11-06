@@ -1,16 +1,35 @@
 # Estado y tareas pendientes de Horma jobs
 
-Actualizado el 2026-11-05 por la noche (día 1 del plan de 6 días hecho; ver «Retomar mañana»). Única fuente de estado y próximos pasos (mapa de documentos: `docs/indice.md`). Orden = prioridad.
+Actualizado el 2026-11-06 (bloque 1 de la pista B hecho; ver «Retomar: empieza aquí»). Única fuente de estado y próximos pasos (mapa de documentos: `docs/indice.md`). Orden = prioridad.
 
 ## Estado en tres líneas
 - **Fase 0, versión del profesor** (`docs/flujo-agentico-claude-code.md`): **pista A hecha** (agentes, skills, comandos, esquemas, scripts y evals en `.claude/` y `evals/`); **pista B** (web **Next.js** + PostgreSQL en `web/`; FastAPI se quitó el 4-nov) **en marcha: pasos 1 a 5 hechos el 5-nov, sigue el paso 6** (ver «Pista B: por dónde seguir»).
 - **Instrucciones nuevas del profesor (4-nov):** (1) **dashboard** para ver el flujo agéntico (pipelines o workflows); (2) **observabilidad** en cada componente; (3) construir **primero** la web de **ingesta de ofertas** y la de **candidatos** (se escribe «candidatos», no «postulantes»); (4) web con **Next.js**, sin FastAPI; (5) probar y pasar los tests **a mano**. **Nuevas (5-nov):** (6) el **pipeline de ingesta toma las ofertas de las APIs**, como hacía antes (en Jobs con n8n; en Horma, script propio); (7) seguir construyendo la web **como un dashboard**; (8) **validar que los datos se guardan en la base de datos**. Dudas que quedan: preguntas 29, 30 y 31 de `docs/preguntas-profesor.md`.
 - **Pruebas:** resultados, fallos y límites en `docs/informe-pruebas.md`.
-- **Repositorio:** `mcaparrosgu/horma-jobs`, rama `main`, al día con `git log` (último push: 2026-11-05, pista B pasos 1 y 2). El repo `workbook` (Cuaderno y página del profesor) va aparte.
+- **Repositorio:** `mcaparrosgu/horma-jobs`, rama `main`, al día con `git log` (último push: 2026-11-06, pista B bloque 1: seguridad de la descarga). El repo `workbook` (Cuaderno y página del profesor) va aparte.
 
-## Retomar mañana (6-nov): empieza aquí
+## Retomar: empieza aquí (estado al cierre del 6-nov)
 
-**Dónde estamos.** El día 1 del plan está hecho: `pypdf` instalado, campo `horario` en esquema, base de datos, web y agentes (migración `005`; 35 tests de la web y 35 evals en verde), preferencias deducidas vacías, y 12 fuentes calificadas con `/calificar-fuentes` (registro en `datos/fuentes/calificacion.json`, ignorado por git; resumen en `docs/bitacora.md`). Dos son **aptas con condiciones**: **BOE** (empleo público, España) y **JobTech** (Suecia, CC0). Las otras diez salieron no aptas (Arbeitnow, EURES, Adzuna, The Hub, InfoJobs, Personio, Careerjet, Jooble, Greenhouse, Lever). `endpoints.json` tiene JobTech con `activa: false`; el BOE necesita un adaptador porque su respuesta va anidada. Último push: `0675eb5`; los cambios de este cierre (documentación) pueden estar sin subir: mira `git status`.
+**Decisión de Mar (6-nov): primero se termina la pista B del profesor al completo; después, la construcción optimizada** (el prompt está al final de este documento). Modo de trabajo acordado: la Copiloto trabaja **sola dentro de cada bloque y se para al acabarlo** para recibir el ok de Mar; Mar pasa las pruebas a mano **al final**, con `docs/artefactos/guia-pruebas-manuales.md` (la Copiloto la deja al día con lo nuevo). **Commits por archivo y, con orden de Mar, push; la bitácora se actualiza a cada bloque.**
+
+**La pista B tiene 8 bloques (≈ 9 a 13 h de trabajo efectivo restantes):**
+
+| # | Bloque | Estado |
+|---|---|---|
+| 1 | Seguridad de la descarga (M1, M2, B1, B2 a B5) | **Hecho** (6-nov; 36 tests nuevos, 36 evals en verde, `revisor-seguridad` aplicado) |
+| 2 | **Siguiente:** activar JobTech, primera ingesta real de ~20 anuncios, `/ingestar-ofertas` con los tres agentes e importador a la base | Pendiente |
+| 3 | `npm run verificar` (lo descargado = lo guardado) e ingesta repetible sin duplicar | Pendiente |
+| 4 | Campo «licencia de origen» con su migración y enlace visible a la original | Pendiente |
+| 5 | Adaptador del BOE (solo sección `2B`, sin listas de aprobados, con atribución) | Pendiente |
+| 6 | Dashboard (portada con pipelines, ingesta y datos guardados; muestra y pide, no ejecuta) | Pendiente |
+| 7 | Observabilidad en cada pieza y página `/salud` | Pendiente |
+| 8 | `revisor-seguridad` y `auditor-lineas-rojas`, arreglos, guía de pruebas, informe y push | Pendiente |
+
+**Para el bloque 2, ten en cuenta:** (a) al activar JobTech, probar la lectura lenta con la fuente real (los tests la simulan); (b) el texto de las descripciones puede llevar emails o teléfonos: no guardarlos (regla de datos de terceros, solo `docs/privado/`); (c) al cerrar el bloque 2, pasar `auditor-lineas-rojas` (el bloque 1 no lo necesitó); (d) cambios de base de datos y dependencias nuevas: avisar antes con coste y mantenimiento; (e) **decisión abierta de Mar:** atar cada clave `FUENTE_*` a su fuente (recomendado: antes de abrir la web a otras personas; ~4 líneas).
+
+**Mensaje para abrir la sesión:** «Lee `docs/tareas-pendientes.md` (sección “Retomar: empieza aquí”) y la última entrada de `docs/bitacora.md`. Comprueba que `horma-db` está arrancada y que `python -I evals/correr_evals.py` y `npm test` en `web/` pasan. Plan breve del bloque 2 y adelante, autónoma dentro del bloque».
+
+**Estado anterior (5-nov).** El día 1 del plan está hecho: `pypdf` instalado, campo `horario` en esquema, base de datos, web y agentes (migración `005`; 35 tests de la web y 35 evals en verde), preferencias deducidas vacías, y 12 fuentes calificadas con `/calificar-fuentes` (registro en `datos/fuentes/calificacion.json`, ignorado por git; resumen en `docs/bitacora.md`). Dos son **aptas con condiciones**: **BOE** (empleo público, España) y **JobTech** (Suecia, CC0). Las otras diez salieron no aptas (Arbeitnow, EURES, Adzuna, The Hub, InfoJobs, Personio, Careerjet, Jooble, Greenhouse, Lever). `endpoints.json` tiene JobTech con `activa: false`; el BOE necesita un adaptador porque su respuesta va anidada. Último push: `0675eb5`; los cambios de este cierre (documentación) pueden estar sin subir: mira `git status`.
 
 **Decisión de Mar (5-nov, noche): demostración con pocas fuentes, pero limpias; después se amplía.** Mañana se **construye** con las fuentes aptas (JobTech y BOE) y las ofertas que publiquen empresas, y la búsqueda de más fuentes corre en paralelo, sin bloquear la construcción. Mar no está satisfecha con el volumen todavía: la ampliación es el segundo paso, no se descarta. Todo lo que ya sabemos y las ideas están en `docs/preguntas-profesor.md (apartado «Consulta sobre fuentes de ofertas»)` y `docs/artefactos/fuentes-de-empleo.html`. Para la ampliación (después de la demostración), lo que **no** se ha probado, de más rápido a más lento:
 1. **Careerjet:** crear la cuenta de publicador (Mar, con sus datos) y leer dentro los términos de caché, atribución y enlace. Es el programa pensado para mostrar sus ofertas.
@@ -38,7 +57,7 @@ Actualizado el 2026-11-05 por la noche (día 1 del plan de 6 días hecho; ver «
 5. **Campo «licencia de origen»** en cada oferta (empresa, socio, abierto, usuaria), con su migración y la web enseñando siempre el enlace a la original.
 6. **BOE:** adaptador para su respuesta anidada; solo convocatorias de la sección `2B`, descartando listas de aprobados (nombres de personas); atribución «Fuente de los datos: Agencia Estatal Boletín Oficial del Estado» con enlace y fecha.
 7. **Después:** dashboard y observabilidad (días 4 y 5 del plan), y la ampliación de fuentes (lista de arriba).
-Mar prueba el resultado con `docs/artefactos/guia-pruebas-manuales.md` al acabar cada bloque.
+Mar pasa las pruebas a mano con `docs/artefactos/guia-pruebas-manuales.md` **al final de la pista B** (decisión del 6-nov; antes se probaba tras cada bloque).
 
 **Ya no hace falta:** que Mar cree claves de Adzuna e InfoJobs (ninguna salió apta).
 
@@ -46,6 +65,7 @@ Mar prueba el resultado con `docs/artefactos/guia-pruebas-manuales.md` al acabar
 - En la sección Proyectos del Cuaderno nunca se hacen ejercicios ni examen.
 - La Copiloto es la agente predeterminada.
 - Cerrar frentes antes de abrir otros.
+- **La bitácora (`docs/bitacora.md`) se actualiza a cada paso**, en prosa y con párrafo «En llano»; va en el mismo commit que el trabajo, con este documento al día.
 - Sin presión de fechas: si hay que recortar, ramas pequeñas, nunca troncos.
 
 ## 0. Plan de 6 días (Mar, 5-nov; reordenado con las instrucciones nuevas del profesor)
@@ -178,3 +198,38 @@ Mar prueba el resultado con `docs/artefactos/guia-pruebas-manuales.md` al acabar
 Actualizados el 4-nov con Next.js, «candidatos» y el orden de la web (ingesta y candidatos primero): Cuaderno personal, «Horma por fases», «Construcción de Horma», «Horma por dentro» y la página del profesor. Tabla y reglas en `docs/indice.md`.
 
 **Pendiente:** el PRD (`docs/archivo/prd-horma-v1.html`, RES-01) aún dice «backend 100 % Python (FastAPI)». No se toca hasta que el profesor responda a las preguntas 29 y 30, porque el PRD es su documento de partida.
+
+## Prompt de construcción optimizada (para usar cuando la pista B esté completa)
+
+Mar lo pidió el 6-nov: construir Horma de la forma más rápida y sólida posible, y sobre todo **que funcione**. Se pega tal cual al abrir la sesión; los bloques de trabajo salen de este mismo documento, no del prompt.
+
+````text
+Actúa como la Copiloto de Horma jobs, con la mentalidad de una desarrolladora y arquitecta de software muy eficaz. Tu objetivo único es llevar Horma a un estado en el que FUNCIONA de punta a punta con datos reales, con la construcción más rápida y sólida posible. Funcionar de verdad, comprobado y mostrado, vale más que cualquier cosa bonita o a medias.
+
+## Antes de nada (no toques código todavía)
+1. Lee `docs/tareas-pendientes.md` (sección «Retomar: empieza aquí»), la última entrada de `docs/bitacora.md` y `git status`.
+2. Comprueba el entorno: `horma-db` arrancada, `npm test` en `web/` y `python -I evals/correr_evals.py` en verde. Dime el resultado real, errores incluidos.
+3. Preséntame un plan corto con el orden, qué va en paralelo y cómo se comprueba cada bloque. Espera mi ok.
+
+## Principios de optimización
+- **Esqueleto andante primero:** el camino más corto de un dato real a la pantalla. Lo que no está en esa cadena espera.
+- **Rebanadas verticales:** cada bloque termina funcionando y verificado antes de abrir el siguiente («cerrar frentes antes de abrir otros»). Nada a medias.
+- **Ruta crítica y paralelismo real:** primero lo que bloquea a lo demás (seguridad, datos). Solo lo independiente corre en paralelo, con subagentes de contexto limpio.
+- **Reutilizar antes que inventar; borrar antes que añadir.** Sin sobreingeniería: la solución más simple que funcione.
+- **Pruebas baratas y deterministas:** los tests no llaman a ningún LLM de pago; usa fixtures con datos inventados. El test del riesgo (SSRF, duplicados, esquemas) va antes o junto al código, y se comprueba que protege rompiendo el código a propósito.
+- **Fallos pensados desde el principio:** red caída, respuesta rara, lista vacía, ejecución repetida sin duplicar, errores como códigos fijos y nunca como mensajes de red.
+- **Cada bloque tiene un «hecho cuando» medible,** y no lo das por cerrado sin mostrarme la salida real del comando.
+- **La bitácora se actualiza en cada bloque,** en prosa y con párrafo «En llano», en el mismo commit que el trabajo.
+
+## Orden de trabajo
+El de `docs/tareas-pendientes.md`: primero los troncos (ingesta, perfil y CV maestro, CV base, adaptación por oferta, envío, seguimiento, portal de empresas), después las ramas. Exportar y borrar datos (RGPD) antes de tener usuarias reales.
+
+## Reglas que no se negocian
+- Las del `CLAUDE.md` del proyecto: líneas rojas del producto, ningún dato inventado, nunca leer `.env`, `git add` por nombre tras `git diff`, sin push a `main` sin mi orden, nada destructivo sin confirmación, nunca modificar Jobs.
+- Todo lo irreversible o con coste (migraciones, dependencias nuevas, contratos de datos) me lo avisas ANTES, con coste y mantenimiento.
+- Duda sobre lo que quiero: me preguntas con un menú de 2 a 4 opciones. Duda técnica: decides y me explicas el porqué en una o dos líneas.
+- Antes de cada commit: `revisor-seguridad` y, si el cambio toca contenido de usuarias o líneas rojas, `auditor-lineas-rojas`. Me traes sus hallazgos con la solución propuesta; los de revisores que no pudieron ejecutar código son hipótesis que compruebas.
+
+## Cómo me hablas
+En español, concisa y directa. Término técnico con una línea de definición. Al cerrar cada bloque: hecho / no hecho / siguiente paso, en tres líneas.
+````

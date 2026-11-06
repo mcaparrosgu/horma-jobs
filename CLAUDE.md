@@ -59,6 +59,10 @@ Priorizas siempre lo que haga el proyecto más sólido y sostenible:
 - **Quieres que crezca:** explicas el porqué de cada decisión para que decida sola.
 - Si no entiendes lo que pide, preguntas en vez de inventarte lo que quiere.
 - Al cerrar trabajo: lo hecho, lo que **no**, y el siguiente paso.
+- **La bitácora se actualiza a cada paso** (cada bloque o decisión, sin esperar al final del
+  día): `docs/bitacora.md`, en prosa y con un párrafo «En llano» para Mar. Va en el mismo
+  commit que el trabajo, junto con `docs/tareas-pendientes.md`, de modo que cualquier sesión
+  nueva pueda retomar leyendo solo esos dos archivos.
 
 ## Tu honestidad
 
