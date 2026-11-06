@@ -206,3 +206,54 @@ Antes: una vez, en tu terminal, crea tu cuenta de administración (la contraseñ
 10. Línea roja en la base (con una candidatura en borrador): `docker exec -it horma-db psql -U horma -d horma -c "update candidaturas set estado='aprobada' where usuaria_id='mar'"`. **Debe pasar:** ERROR «solo la usuaria, desde la web y con su sesión, aprueba…».
 11. «Vincular Google» (solo si has puesto `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET` en `web/.env`; sin ellas el botón no sale). Con tu sesión abierta (cuenta de administración), pulsa «Vincular Google» en la barra y entra con el Google del MISMO correo de tu cuenta. **Debe pasar:** vuelves al panel, el enlace «Vincular Google» desaparece y sigues viendo la etiqueta «Administración». Con otro Google distinto, no se vincula. Después sal y entra con «Entrar con Google»: **Debe pasar:** entras como administradora. Una cuenta de administración que NO haya vinculado antes su Google no entra nunca con Google solo.
 12. Pulsa «Salir» y vuelve a `/candidaturas/<código>`. **Debe pasar:** te lleva a `/entrar`.
+
+## 13. Mi cuenta: descargar, cambiar contraseña, borrar (construcción autónoma, bloque 1)
+
+Crea una cuenta nueva con datos inventados (no la tuya) para esta sección: `prueba-cuenta@ejemplo.test`.
+
+1. Entra con esa cuenta y ve a «Mi cuenta» en la barra.
+2. Pulsa «Descargar mis datos». **Debe pasar:** se descarga `horma-datos.json`; ábrelo con el Bloc de notas y comprueba que NO aparece ninguna palabra como `hash` ni nada parecido a una contraseña cifrada.
+3. Cambiar contraseña con la actual mal escrita. **Debe pasar:** «La contraseña actual no es correcta», no cambia nada.
+4. Cambiar contraseña bien. **Debe pasar:** «Contraseña cambiada. Se cerraron tus otras sesiones.» y sigues dentro en esta ventana.
+5. Borrar la cuenta escribiendo mal la contraseña. **Debe pasar:** «La contraseña no es correcta», sigue existiendo.
+6. Borrar la cuenta con la contraseña correcta. **Debe pasar:** vuelves a `/entrar` con el mensaje «Tu cuenta se ha borrado».
+7. En la terminal: `npm run exportar -- --usuaria <su-id>` (el id lo ves en el JSON del paso 2, campo `usuaria.id`, o lo buscas en la base). **Debe pasar:** «No hay datos de esa usuaria».
+8. Con tu cuenta de administración: `/cuenta` **no** muestra el formulario de borrar (solo un aviso de que se borra por terminal).
+
+## 14. Seguimiento: registrar la respuesta de una empresa (construcción autónoma, bloque 2)
+
+Necesitas una candidatura ya «enviada» (sigue los pasos 9 y 10 de la sección 12 con una cuenta de prueba, hasta «Marcar como enviada»).
+
+1. Ve a «Seguimiento» en la barra. **Debe pasar:** arriba, un contador «enviada: 1» (o más); abajo, la candidatura con su historial.
+2. En el desplegable «Registrar respuesta», solo aparecen `entrevista`, `rechazada` y `sin respuesta` (nada de «aprobada» ni «borrador»).
+3. Elige «entrevista», escribe una nota («Me llaman el jueves») y pulsa «Registrar». **Debe pasar:** el contador pasa a «entrevista: 1» y el historial lleva tu nota.
+4. Ahora el desplegable solo ofrece «rechazada» (desde «entrevista» no se puede ir a ningún otro sitio salvo ahí).
+5. Regístrala como «rechazada». **Debe pasar:** ya no hay ningún desplegable (es un estado final).
+6. Con otra cuenta de prueba sin candidaturas: `/seguimiento` dice «Aún no hay candidaturas» (nunca ve las de la primera).
+
+## 15. Portal de empresas I: publicar y moderar (construcción autónoma, bloque 3)
+
+En la terminal, crea una empresa de prueba (pide la contraseña, no se ve al escribirla):
+`npm run cuenta-empresa -- --empresa prueba-empresa --nombre "Empresa de Prueba" --email empresa@ejemplo.test`
+
+1. Ve a `/empresa/entrar` (o pulsa «¿Eres una empresa? Entra aquí» desde `/entrar`) y entra con ese correo.
+2. «Publicar oferta»: rellena título, ciudad, modalidad, contrato, nivel y sector/familia (son listas, no texto libre) y pulsa «Enviar a revisión». **Debe pasar:** vuelves a «Mis ofertas» y la ves «en revisión».
+3. Con tu cuenta de administración, ve a «Ofertas de empresas» en la barra. **Debe pasar:** ahí está, con todo lo que escribiste.
+4. Con una cuenta de candidata, busca esa oferta en `/ofertas`. **Debe pasar:** no aparece (sigue en revisión).
+5. Vuelve a «Ofertas de empresas» y pulsa «Aprobar». **Debe pasar:** ahora sí aparece en `/ofertas`, con «Origen: … licencia: publicada por la empresa».
+6. Crea una SEGUNDA empresa de prueba y, con su sesión, intenta abrir `/empresa/ofertas/<id-de-la-primera>/editar` escribiendo la dirección a mano. **Debe pasar:** 404.
+7. Con una cuenta de candidata (sin sesión de empresa), intenta abrir `/empresa`. **Debe pasar:** te lleva a `/empresa/entrar`, no a tu panel de candidata.
+
+## 16. Portal de empresas II: enviar y bandeja (construcción autónoma, bloque 4)
+
+Sigue desde la sección 15, con una candidatura aprobada (sección 12, paso 9) para la oferta de la empresa ya aprobada.
+
+1. En `/candidaturas/<tu código>`, donde antes salía «Marcar como enviada» ahora sale «Enviar a la empresa» (porque la oferta es de una empresa en Horma). Pulsa ahí.
+2. **Debe pasar:** ves tu CV y tu carta tal cual, y una lista de lo que nunca se comparte (nota, ATS, huecos, perfil, preferencias, otras candidaturas).
+3. Marca «Compartir también mi nombre…», escribe un nombre y pulsa «Enviar a la empresa». **Debe pasar:** vuelves a tu candidatura, ahora «enviada», con una línea «La empresa la marcó como: recibida por la empresa» y un botón «Retirar envío».
+4. Con la sesión de la empresa, ve a «Mis ofertas» → «Candidaturas recibidas». **Debe pasar:** ves tu nombre, tu correo, tu CV y tu carta, en una lista SIN ningún filtro, buscador ni orden que no sea la fecha.
+5. Cambia el desplegable de esa candidatura a «vista» y pulsa «Guardar»; recarga la página. **Debe pasar:** sigue en «vista».
+6. Vuelve a tu candidatura (sesión de candidata). **Debe pasar:** ahora dice «La empresa la marcó como: vista por la empresa».
+7. Pulsa «Retirar envío». **Debe pasar:** desaparece esa línea y el botón; tu candidatura sigue «enviada» (se envió y se retiró, las dos cosas son ciertas).
+8. Con la sesión de la empresa, recarga «Candidaturas recibidas». **Debe pasar:** ya no aparece esa candidatura.
+9. Con una SEGUNDA empresa de prueba, intenta abrir la bandeja de la primera escribiendo su dirección a mano. **Debe pasar:** 404.
