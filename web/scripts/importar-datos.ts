@@ -15,6 +15,7 @@ import {
   fuentesDeEndpoints, SQL_SINCRONIZAR_FUENTE, paramsSincronizarFuente, SQL_ABRIR_EJECUCION, SQL_CERRAR_EJECUCION,
   paramsCerrarEjecucion, cuentaVacia, anotarRechazo, anotarInterrupcion, type CuentaEjecucion,
 } from "../src/lib/ingesta.ts";
+import { origenDeRaw, origenCoincide } from "../src/lib/verificar.ts";
 import {
   SQL_OFERTA, SQL_USUARIA, sqlPerfil, sqlPreferencias,
   paramsOferta, paramsPerfil, paramsPreferencias, registrarEvento, errorSeguro,
@@ -191,7 +192,17 @@ try {
         const ruta = join(dirOfertas, f);
         const fuente = fuenteRegistrada(ruta);
         const ej = fuente ? await ejecucionDe(fuente) : null;
-        const ok = await importar(ruta, "oferta", async (o) => (await db.query(SQL_OFERTA, paramsOferta(o, ej?.id ?? null))).rowCount ?? 0);
+        // La licencia la fija el script en la cabecera del raw: si el agente la cambió, no se guarda.
+        const rutaRaw = join(dirOfertas, "..", "raw", f.replace(/\.json$/, ".md"));
+        const ok = await importar(
+          ruta, "oferta",
+          async (o) => (await db.query(SQL_OFERTA, paramsOferta(o, ej?.id ?? null))).rowCount ?? 0,
+          (o) => {
+            let raw = null;
+            try { raw = origenDeRaw(readFileSync(rutaRaw, "utf8")); } catch { /* sin raw: nada que comparar */ }
+            return origenCoincide(raw, o) ? null : "el `origen` (licencia) no es el de la cabecera del raw: reprocesa la oferta";
+          },
+        );
         if (ej) { if (ok) ej.cuenta.entraron++; else anotarRechazo(ej.cuenta, f, "archivo rechazado"); }
       }
     }
