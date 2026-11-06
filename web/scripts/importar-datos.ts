@@ -5,6 +5,7 @@
 // Uso (desde web/): npm run importar                 ->  datos/fixtures
 //                   npm run importar -- --dir ../datos/otra-carpeta
 //                   npm run importar -- --forzar
+//                   npm run importar -- --ofertas ../datos/ofertas/procesadas   ->  solo ofertas ya procesadas
 import { readdirSync, readFileSync, existsSync, lstatSync, statSync } from "node:fs";
 import { join, resolve, relative } from "node:path";
 import pg from "pg";
@@ -29,6 +30,16 @@ const forzar = args.includes("--forzar");
 const i = args.indexOf("--dir");
 if (i >= 0 && (!args[i + 1] || args[i + 1].startsWith("--"))) {
   console.error("--dir necesita una carpeta: npm run importar -- --dir ../datos/otra-carpeta");
+  process.exit(1);
+}
+const io = args.indexOf("--ofertas");
+if (io >= 0 && (!args[io + 1] || args[io + 1].startsWith("--"))) {
+  console.error("--ofertas necesita una carpeta: npm run importar -- --ofertas ../datos/ofertas/procesadas");
+  process.exit(1);
+}
+const SOLO_OFERTAS = io >= 0 ? resolve(args[io + 1]) : null; // modo «solo ofertas»: no toca perfiles
+if (SOLO_OFERTAS && (!existsSync(SOLO_OFERTAS) || !statSync(SOLO_OFERTAS).isDirectory())) {
+  console.error("--ofertas debe ser una carpeta que exista:", SOLO_OFERTAS);
   process.exit(1);
 }
 const RAIZ = resolve(i >= 0 ? args[i + 1] : join(import.meta.dirname, "..", "..", "datos", "fixtures"));
@@ -127,7 +138,7 @@ async function importar(
 
 try {
   // Ofertas: …/ofertas/*.json
-  const dirOfertas = join(RAIZ, "ofertas");
+  const dirOfertas = SOLO_OFERTAS ?? join(RAIZ, "ofertas");
   if (existsSync(dirOfertas)) {
     const m = motivoRechazo(dirOfertas, "carpeta");
     if (m) {
@@ -143,11 +154,11 @@ try {
 
   // Perfiles: …/perfiles/<usuaria>/perfil.json y preferencias.json
   const dirPerfiles = join(RAIZ, "perfiles");
-  const mp = existsSync(dirPerfiles) ? motivoRechazo(dirPerfiles, "carpeta") : null;
+  const mp = SOLO_OFERTAS ? null : existsSync(dirPerfiles) ? motivoRechazo(dirPerfiles, "carpeta") : null;
   if (mp) {
     cuenta.omitidas++;
     console.log(`omitida   perfiles: ${mp}`);
-  } else if (existsSync(dirPerfiles)) {
+  } else if (!SOLO_OFERTAS && existsSync(dirPerfiles)) {
     for (const u of readdirSync(dirPerfiles).sort()) {
       const carpeta = join(dirPerfiles, u);
       const m = motivoRechazo(carpeta, "carpeta");
