@@ -112,10 +112,10 @@ noscript{display:block;margin-top:30px}
 <noscript>Esta página necesita JavaScript para mostrar las etapas.</noscript>
 
 <aside class="box">
-  <h2>Estado de la construcción (4-nov-2026)</h2>
+  <h2>Estado de la construcción (6-nov-2026)</h2>
   <ul>
     <li><b>Fase 0, pista A hecha:</b> agentes, skills, comandos, esquemas JSON, scripts y evals en Claude Code. 12 de los 13 agentes probados con casos reales; falta <code>auditor-fuentes</code>.</li>
-    <li><b>Pista B, pendiente:</b> la web con Next.js y PostgreSQL (etapas 1 a 9). La monta Mar, sin ningún LLM dentro. Por instrucción del profesor (4-nov): primero la ingesta de ofertas y de candidatos, con un dashboard del flujo agéntico y observabilidad en cada componente. Nuevo (5-nov, profesor): el pipeline de ingesta toma las ofertas de las APIs como antes, la web se construye como dashboard y hay que validar que los datos se guardan en la base.</li>
+    <li><b>Pista B, hecha el 6-nov en 8 bloques</b> (web Next.js + PostgreSQL en <code>web/</code>, sin ningún LLM dentro): seguridad de la descarga, ingesta real de JobTech y del BOE a la base, <code>npm run verificar</code> (lo descargado = lo guardado), licencia de origen visible, panel, página <code>/salud</code> con observabilidad por pieza y revisión final de seguridad y líneas rojas. También hecho: exportar y borrar los datos de una usuaria (RGPD). <b>Falta:</b> el inicio de sesión (con él llegan los botones de exportar y borrar en la web) y el resto de etapas de esta lista.</li>
     <li>Las dos pistas se unen por los esquemas JSON: un agente que pasa sus evals se migra a la web tal cual.</li>
   </ul>
 </aside>
@@ -153,7 +153,7 @@ noscript{display:block;margin-top:30px}
   </ul>
 </aside>
 
-<footer>Este orden es una propuesta de la Copiloto: se ajusta en el desglose de tareas. Actualizado el 4-nov-2026: la construcción empezó con la fase 0.</footer>
+<footer>Este orden es una propuesta de la Copiloto: se ajusta en el desglose de tareas. Actualizado el 6-nov-2026: pista A y pista B del profesor hechas; sigue la construcción optimizada.</footer>
 </div>
 
 <script>
