@@ -35,10 +35,18 @@ export function anchoBarra(n: number, maximo: number): number {
   return Math.min(100, Math.round((n / maximo) * 100));
 }
 
-export type EstadoFuente = "sin ejecutar" | "sin terminar" | "con errores" | "correcta";
+export type EstadoFuente = "sin ejecutar" | "sin terminar" | "abandonada" | "con errores" | "correcta";
 
-export function estadoEjecucion(u: { ultima_inicio: Date | null; ultima_fin: Date | null; ultima_errores: number | null }): EstadoFuente {
+/** Una ejecución sin cierre que lleva más de estas horas se da por abandonada (el proceso murió de golpe). */
+export const HORAS_ABANDONADA = 6;
+
+export function estadoEjecucion(
+  u: { ultima_inicio: Date | null; ultima_fin: Date | null; ultima_errores: number | null },
+  ahora: Date = new Date(),
+): EstadoFuente {
   if (!u.ultima_inicio) return "sin ejecutar";
-  if (!u.ultima_fin) return "sin terminar";
+  if (!u.ultima_fin) {
+    return ahora.getTime() - u.ultima_inicio.getTime() > HORAS_ABANDONADA * 3_600_000 ? "abandonada" : "sin terminar";
+  }
   return (u.ultima_errores ?? 0) > 0 ? "con errores" : "correcta";
 }
