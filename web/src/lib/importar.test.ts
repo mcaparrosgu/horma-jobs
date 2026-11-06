@@ -93,3 +93,10 @@ test("G: se rechazan contraseñas ausentes, de ejemplo o cortas", () => {
   assert.ok(problemaClave("corta123"));
   assert.equal(problemaClave("x".repeat(16)), null);
 });
+
+test("H: el verificador deja eventos solo con números de la lista cerrada", async () => {
+  const llamadas: unknown[][] = [];
+  const db = { query: async (_s: string, p: unknown[]) => void llamadas.push(p) };
+  await registrarEvento(db, { componente: "verificador", accion: "verificar", resultado: "error", duracion_ms: 40, detalle: { coinciden: 20, fallos: 2, avisos: 1, id: "of-1" } as never });
+  assert.deepEqual(llamadas[0], ["verificador", "verificar", "error", 40, '{"coinciden":20,"fallos":2,"avisos":1}']);
+});

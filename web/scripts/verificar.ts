@@ -1,4 +1,4 @@
-// Comprueba que lo descargado coincide con lo guardado. SOLO LEE: no escribe en la base ni en disco.
+// Comprueba que lo descargado coincide con lo guardado. SOLO LEE los datos: no toca ofertas ni archivos. Lo único que escribe es un evento de observabilidad (solo números).
 //   raw/*.md  →  procesadas/*.json  →  tabla ofertas
 // Uso (desde web/): npm run verificar
 //                   npm run verificar -- --dir ../datos/ofertas   (otra carpeta con raw/ y procesadas/)
@@ -8,10 +8,11 @@ import { join, resolve, basename } from "node:path";
 import pg from "pg";
 import { validar } from "../src/lib/esquemas.ts";
 import { problemaClave } from "../src/lib/clave.ts";
-import { errorSeguro } from "../src/lib/importar.ts";
+import { errorSeguro, registrarEvento } from "../src/lib/importar.ts";
 import { SQL_FILAS, cruzar, hayFallos, origenDeRaw, origenCoincide } from "../src/lib/verificar.ts";
 
 const MAX_BYTES = 1_000_000;
+const inicio = Date.now();
 
 const problema = problemaClave(process.env.HORMA_DB_PASSWORD);
 if (problema) {
@@ -84,6 +85,14 @@ try {
   lista("FALLO  descargadas sin procesar (tanda a medias: /ingestar-ofertas)", inf.sinProcesada);
   lista("AVISO  filas en la base sin archivo (no se borran solas)", inf.soloEnBase);
   if (inf.deClavePrueba) console.log(`Filas de prueba esperadas (of-prueba-*): ${inf.deClavePrueba}`);
+
+  // Observabilidad: /salud enseña cuándo corrió por última vez y si cuadraba. Solo números, nunca ids ni valores.
+  const fallos = inf.invalidas.length + inf.distintas.length + inf.origenDistinto.length + inf.sinFila.length + inf.sinProcesada.length;
+  // Con --dir se verifica otra carpeta (pruebas): no debe poner /salud en verde por datos/ofertas.
+  if (i < 0) await registrarEvento(db, {
+    componente: "verificador", accion: "verificar", resultado: hayFallos(inf) ? "error" : "ok",
+    duracion_ms: Date.now() - inicio, detalle: { coinciden: inf.coinciden, fallos, avisos: inf.soloEnBase.length },
+  }).catch(() => console.log("aviso  no se pudo anotar el evento de esta verificación"));
 
   if (hayFallos(inf)) {
     console.log("\nRESULTADO: no cuadra.");

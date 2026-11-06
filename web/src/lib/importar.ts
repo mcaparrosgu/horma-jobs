@@ -74,11 +74,11 @@ export function paramsPreferencias(usuariaId: string, p: Json): unknown[] {
 
 // --- Observabilidad -------------------------------------------------------------------------
 // `eventos.detalle` NUNCA lleva datos personales: solo estas claves, y solo números.
-export const CLAVES_DETALLE = ["archivos", "importadas", "omitidas", "rechazadas"] as const;
+export const CLAVES_DETALLE = ["archivos", "importadas", "omitidas", "rechazadas", "coinciden", "fallos", "avisos"] as const;
 
 // Componentes y acciones permitidos: cada uno nuevo se añade aquí, a propósito (hallazgo C).
-export const COMPONENTES = ["importador", "web-ingesta", "web-candidatos"] as const;
-export const ACCIONES = ["importar-datos", "guardar-fuente", "guardar-preferencias"] as const;
+export const COMPONENTES = ["importador", "verificador", "web-ingesta", "web-candidatos"] as const;
+export const ACCIONES = ["importar-datos", "verificar", "guardar-fuente", "guardar-preferencias"] as const;
 
 export type EventoEntrada = {
   componente: (typeof COMPONENTES)[number];
