@@ -601,3 +601,11 @@ Mar pidió menos documentos y menos confusión. Decisiones: (1) `docs/` queda co
 **Revisores.** Sin incumplimientos. Aplicado: sin datos de condiciones, `nivel_condiciones` pasa de «encaja» a «parcial» (8 ofertas); frases vagas y de género sustituidas por hechos; el texto de la página ya no promete una protección que aún no existe; `avisos` tolera campos ausentes. Las afirmaciones del CV (C1, UOC, Althaia, 7 centros) coinciden con el CV maestro. **Pendiente:** (a) la página no tiene login: cualquiera en localhost ve cualquier id (bloque 4); (b) las 3 ofertas del BOE sin requisitos llevan nota provisional baja: conviene permitir «sin nota» (nota nula) más adelante; (c) endurecer el esquema `match` (longitudes, formato de fecha); (d) el sueco no está en el perfil, así que muchas salen «a revisar»: Mar puede añadirlo o corregirlo; (e) `build` de web sin repetir.
 
 **En llano.** Mar ya ve, ordenadas por nota, las ofertas reales con una explicación honesta de qué tiene y qué le falta. La nota mide solo experiencia y formación; el idioma o la ubicación van aparte. Con tu CV, las mejores son las de IA (72 y 60); las demás salen bajas, y es correcto.
+
+## 6-nov-2026 · Cierre del bloque 2: «sin nota», esquema 0.7 y solo España
+
+Decisión de Mar: **las fuentes de empleo son solo de España en esta primera construcción**; el resto, más adelante. Se apaga JobTech Suecia (`"activa": false` en `endpoints.json` y en la base; se puede reactivar desde `/fuentes`). Las 20 ofertas suecas ya importadas **no se borran** (sus recomendaciones siguen en la página); cuando haya más ofertas españolas se repite `/recomendar`. Mar no tiene sueco: el perfil no lo recoge y no se inventa.
+
+Esquema 0.7: `match.nota` admite `null` («sin datos suficientes»), y el esquema ya valida lo mismo que la tabla (fecha `AAAA-MM-DD`, longitudes). Migración 012 (solo quita un `NOT NULL`). El matcher pone `nota: null` si la oferta solo trae título y enlace; la página dice «sin nota» y la ordena al final. Las 3 del BOE de Mar quedan así. `build` de web: compila (Turbopack, en su sitio). 92 tests web, 41 evals.
+
+**En llano.** Si una oferta no dice qué piden, Horma ya no se inventa una nota baja: dice «sin nota». Y por ahora solo buscamos en España; Suecia queda apagada, no borrada.

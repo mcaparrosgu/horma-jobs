@@ -2,6 +2,10 @@
 
 Un cambio de esquema es un cambio de contrato entre agentes y web. Se anota aquí antes de tocarlo.
 
+## 0.7 · 2026-11-06
+
+- `match.ofertas[].nota` admite `null` («sin datos suficientes»): decisión tras el aviso de `auditor-lineas-rojas` sobre las ofertas del BOE sin requisitos, donde un 15 parecía una medición y no lo era. Es un valor nuevo: quien lea `nota` debe tratar `null` (la web la rotula «sin nota» y la ordena al final; migración `012`). **Estrecha** además lo que valida: `fecha` con formato `AAAA-MM-DD`, `version_perfil` de 1 a 80 caracteres, `explicacion` de 1 a 1500 y `correccion` de hasta 1500 (los mismos límites que la tabla `matches`).
+
 ## 0.6 · 2026-11-06
 
 - `perfil.taxonomia.niveles_por_familia` (opcional): lista de `{familia, nivel, origen}`. Decisión de Mar (6-nov): el nivel depende de la experiencia en cada área (senior en atención al cliente, junior en IA). `taxonomia.nivel` se mantiene como nivel general y como valor de reserva. Compatible hacia atrás: los perfiles sin el campo siguen validando y se comportan como antes (`taxonomia` es `jsonb` en la base: no hace falta migración). Lo usan `buscar.py` (los 2 puntos de nivel se miran con el nivel de la familia de la oferta), `clasificador-candidato` (lo rellena solo con origen) y la ficha de la web. El matcher no lo ve ni lo usa para la nota. Es de uso interno de Horma (ordena ofertas para ella): nunca se muestra a empresas.

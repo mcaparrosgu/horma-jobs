@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { validar, ESQUEMAS } from "./esquemas.ts";
+import { SQL_MATCHES } from "./matches.ts";
 
 const FIX = join(process.cwd(), "..", "datos", "fixtures");
 const leer = (...ruta: string[]) => JSON.parse(readFileSync(join(FIX, ...ruta), "utf8"));
@@ -103,4 +104,24 @@ test("esquema 0.5: usuaria_id en perfil y match solo admite minúsculas", () => 
   const base = { version_perfil: "v1", fecha: "2026-11-06", ofertas: [] };
   assert.equal(validar("match", { ...base, usuaria_id: "ana-datos" }).ok, true);
   assert.equal(validar("match", { ...base, usuaria_id: "Ana-datos" }).ok, false);
+});
+
+test("esquema 0.7: match admite nota null y rechaza fechas, versiones y textos fuera de rango", () => {
+  const of = { oferta_id: "of-1", nota: 40, nivel_condiciones: "parcial", explicacion: "x" };
+  const m = (o: object, extra: object = {}) => ({ usuaria_id: "ana-datos", version_perfil: "v1", fecha: "2026-11-06", ofertas: [{ ...of, ...o }], ...extra });
+  assert.equal(validar("match", m({})).ok, true);
+  assert.equal(validar("match", m({ nota: null })).ok, true, "sin nota es válido");
+  assert.equal(validar("match", m({ nota: 101 })).ok, false);
+  assert.equal(validar("match", m({ nota: "70" })).ok, false);
+  assert.equal(validar("match", m({ explicacion: "" })).ok, false);
+  assert.equal(validar("match", m({ explicacion: "x".repeat(1501) })).ok, false);
+  assert.equal(validar("match", m({ correccion: "x".repeat(1501) })).ok, false);
+  assert.equal(validar("match", m({}, { fecha: "6-11-2026" })).ok, false);
+  assert.equal(validar("match", m({}, { fecha: "2026-13-45" })).ok, false);
+  assert.equal(validar("match", m({ oferta_id: "o".repeat(201) })).ok, false);
+  assert.equal(validar("match", m({}, { version_perfil: "v".repeat(81) })).ok, false);
+});
+
+test("página de recomendaciones: la nota nula se ordena al final y se rotula «sin nota»", () => {
+  assert.match(SQL_MATCHES, /ORDER BY m\.nota DESC NULLS LAST/);
 });

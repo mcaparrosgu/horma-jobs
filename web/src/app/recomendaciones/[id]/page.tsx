@@ -22,7 +22,7 @@ async function Recomendaciones({ params }: { params: PageProps<"/recomendaciones
         <Link href={`/candidatos/${id}`} className="text-sm underline">← Perfil</Link>
         <h1 className="text-2xl font-semibold">Ofertas recomendadas para {id}</h1>
         <p className="text-sm text-zinc-600">
-          La nota (0-100) mide solo experiencia y formación frente a los requisitos. Las condiciones de trabajo van aparte.
+          La nota (0-100) mide solo experiencia y formación frente a los requisitos; «sin nota» significa que la oferta no trae requisitos para medirla (aparecen al final). Las condiciones de trabajo van aparte.
           Es una ayuda para decidir, no una decisión: la candidata siempre decide. Esta lista es para la candidata; Horma no la comparte con empresas.
         </p>
       </div>
@@ -40,17 +40,17 @@ async function Recomendaciones({ params }: { params: PageProps<"/recomendaciones
                   <h2 className="font-medium">
                     {enlaceSeguro(m.url) ? <a href={m.url} className="underline" rel="noreferrer noopener" target="_blank">{m.titulo}</a> : m.titulo}
                   </h2>
-                  <span className="rounded bg-zinc-100 px-2 py-0.5 text-xs">nota {m.nota}</span>
+                  <span className="rounded bg-zinc-100 px-2 py-0.5 text-xs">{m.nota === null ? "sin nota" : `nota ${m.nota}`}</span>
                 </div>
                 <p className="text-xs text-zinc-600">
                   {m.empresa} · {m.ubicacion}{m.pais ? ` (${m.pais})` : ""} · {m.remoto} · {ETIQUETA_CONDICIONES[m.nivel_condiciones]}
                   {m.sin_sueldo ? " · sin sueldo publicado" : ""}
                 </p>
                 <p className="mt-2">{m.explicacion}</p>
-                {m.avisos.length > 0 && (
+                {(m.avisos ?? []).length > 0 && (
                   <p className="mt-2 rounded border border-amber-200 bg-amber-50 p-2 text-xs">
                     Avisos de la oferta (informativos; no cuentan en la nota):{" "}
-                    {m.avisos.map((a) => `${a.tipo ?? ""}: ${a.texto ?? ""}`).join(" · ")}
+                    {(m.avisos ?? []).map((a) => `${a.tipo ?? ""}: ${a.texto ?? ""}`).join(" · ")}
                   </p>
                 )}
                 {m.correccion && <p className="mt-2 text-xs text-zinc-600">Corrección de la candidata: {m.correccion}</p>}
