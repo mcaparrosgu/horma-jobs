@@ -63,6 +63,12 @@ Un test en rojo no es una catástrofe: es el aviso de que algo se rompió. Copia
 5. Cambia la dirección a `/candidatos/no-existe`. **Debe pasar:** página «no encontrado», no un error técnico.
 6. Mira todos los campos del formulario. **Debe pasar:** no hay ninguno de edad, nacionalidad, salud, religión, etc.
 
+## 2 bis. Ofertas reales de JobTech (bloque 2)
+
+1. Con `horma-db` arrancada, desde `web/`: `npm run importar -- --ofertas ../datos/ofertas/procesadas`. Debe terminar con **20 importados, 0 rechazados**. Repetirlo no cambia el total.
+2. Abre una oferta de `datos/ofertas/procesadas/` y su original en `raw/`: comprueba que **no hay emails ni teléfonos** (aparece `[contacto omitido]`) y que el país, el nivel y las tecnologías están en el texto original.
+3. Comprueba que ninguna oferta pide «ciudadanía» como si fuera una nota: la decisión está pendiente (ver tareas).
+
 ## 3. Líneas rojas, a ojo
 
 Recorre la web entera y comprueba que **no existe**:
