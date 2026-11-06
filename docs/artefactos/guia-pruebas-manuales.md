@@ -67,7 +67,8 @@ Un test en rojo no es una catástrofe: es el aviso de que algo se rompió. Copia
 
 1. Con `horma-db` arrancada, desde `web/`: `npm run importar -- --ofertas ../datos/ofertas/procesadas`. Debe terminar con **20 importados, 0 rechazados**. Repetirlo no cambia el total.
 2. Abre una oferta de `datos/ofertas/procesadas/` y su original en `raw/`: comprueba que **no hay emails ni teléfonos** (aparece `[contacto omitido]`) y que el país, el nivel y las tecnologías están en el texto original.
-3. Comprueba que ninguna oferta pide «ciudadanía» como si fuera una nota: la decisión está pendiente (ver tareas).
+3. Abre `datos/ofertas/procesadas/` las ofertas de Saab (`...31634221...`, `...31672635...`), Ida Infront (`...31648023...`) y Epical (`...31679417...`): la ciudadanía, la habilitación de seguridad y el permiso de trabajo están en el campo `avisos`, no en `requisitos`.
+4. Atadura de claves: `python -I evals/ingesta/test_ingestar.py` debe terminar en `OK` (45 pruebas), incluidas «cambiar la url no desvía la clave» y «nombres repetidos». No hace falta probarlo a mano: no hay ninguna fuente con clave todavía.
 
 ## 3. Líneas rojas, a ojo
 

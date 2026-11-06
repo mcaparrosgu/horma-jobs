@@ -264,12 +264,24 @@ class TestNombres(unittest.TestCase):
         self.assertEqual(ing.nombre_archivo("F", 123), ing.nombre_archivo("F", "123"))
 
 
+# Lanza main() del script con HOST_DE_CLAVE ya cargado (en producción vive en el código; aquí se autoriza solo para la prueba).
+ENVOLTORIO = """
+import importlib.util, json, sys
+sp = importlib.util.spec_from_file_location("ingestar", sys.argv[1])
+m = importlib.util.module_from_spec(sp)
+sp.loader.exec_module(m)
+m.HOST_DE_CLAVE = json.loads(sys.argv[2])
+sys.argv = sys.argv[:1] + sys.argv[3:]
+sys.exit(m.main())
+"""
+
+
 class TestLineaDeComandos(unittest.TestCase):
     """Corre el script de verdad (con --dry-run no hay red)."""
 
     CLAVE = "valor-secreto-123"
 
-    def correr(self, fuente_extra=None, *args, salida=None, env_extra=None, dry=True, endpoints=None):
+    def correr(self, fuente_extra=None, *args, salida=None, env_extra=None, dry=True, endpoints=None, hosts=None):
         f = {"nombre": "Prueba", "url": "https://api.example.com/search", "metodo": "GET",
              "parametros": {}, "cabeceras": {}, "clave_env": None, "clave_en": None, "clave_nombre": None,
              "mapeo_campos": {"lista": "hits", "id": "id", "titulo": "t", "empresa": "e", "url": "u", "descripcion": "d"},
@@ -279,7 +291,11 @@ class TestLineaDeComandos(unittest.TestCase):
             ruta = endpoints or Path(d) / "endpoints.json"
             if endpoints is None:
                 ruta.write_text(json.dumps({"fuentes": [f]}), encoding="utf-8")
-            cmd = [sys.executable, "-I", str(SCRIPT), "Prueba", "--endpoints", str(ruta), *args]
+            if hosts is None and not (fuente_extra or {}).get("clave_env"):
+                cmd = [sys.executable, "-I", str(SCRIPT), "Prueba", "--endpoints", str(ruta), *args]  # el script tal cual
+            else:  # con clave: se autoriza FUENTE_PRUEBA solo dentro de la prueba
+                hosts = {"FUENTE_PRUEBA": "api.example.com"} if hosts is None else hosts
+                cmd = [sys.executable, "-I", "-c", ENVOLTORIO, str(SCRIPT), json.dumps(hosts), "Prueba", "--endpoints", str(ruta), *args]
             if dry:
                 cmd.append("--dry-run")
             if salida:
@@ -304,6 +320,43 @@ class TestLineaDeComandos(unittest.TestCase):
             r = self.correr({"clave_env": nombre})
             self.assertEqual(r.returncode, 2, nombre)
             self.assertIn("`clave_env` debe llamarse FUENTE_", r.stderr)
+
+    def test_clave_sin_servidor_asignado_rechazada(self):
+        """Una clave que no está en HOST_DE_CLAVE no sale hacia ningún servidor, aunque la variable exista."""
+        r = self.correr({"clave_env": "FUENTE_PRUEBA", "clave_en": "parametro", "clave_nombre": "k"}, hosts={})
+        self.assertEqual(r.returncode, 2)
+        self.assertIn("no está autorizada", r.stderr)
+        self.assertNotIn(self.CLAVE, r.stdout + r.stderr)
+
+    def test_cambiar_la_url_no_desvia_la_clave(self):
+        """El ataque real: dejar nombre y clave igual y apuntar la `url` a un dominio ajeno."""
+        for url in ("https://evil.example.org/search", "https://api.example.com.evil.org/x", "https://evilapi.example.com/x"):
+            r = self.correr({"clave_env": "FUENTE_PRUEBA", "clave_en": "parametro", "clave_nombre": "k", "url": url})
+            self.assertEqual(r.returncode, 2, url)
+            self.assertIn("no está autorizada", r.stderr, url)
+            self.assertNotIn(self.CLAVE, r.stdout + r.stderr, url)
+
+    def test_subdominio_del_servidor_autorizado_vale(self):
+        r = self.correr({"clave_env": "FUENTE_PRUEBA", "clave_en": "parametro", "clave_nombre": "k", "url": "https://v2.api.example.com/s"})
+        self.assertEqual(r.returncode, 0, r.stderr)
+
+    def test_tabla_de_claves_real_no_esta_vacia_sin_motivo(self):
+        """Hoy ninguna fuente activa usa clave; si alguna la usa, su clave debe estar en HOST_DE_CLAVE."""
+        reg = json.loads((RAIZ / ".claude" / "skills" / "fuentes-ofertas" / "endpoints.json").read_text(encoding="utf-8"))
+        for f in reg["fuentes"]:
+            if f.get("clave_env"):
+                self.assertTrue(ing.host_autorizado(f["clave_env"], ing.validar_url(f["url"])), f["nombre"])
+
+    def test_nombres_de_fuente_repetidos_rechazados(self):
+        with tempfile.TemporaryDirectory() as d:
+            f = {"nombre": "Prueba", "url": "https://api.example.com/s", "metodo": "GET", "parametros": {}, "cabeceras": {},
+                 "clave_env": None, "clave_en": None, "clave_nombre": None,
+                 "mapeo_campos": {"lista": "h", "id": "i", "titulo": "t", "empresa": "e", "url": "u", "descripcion": "d"}, "activa": True}
+            ruta = Path(d) / "endpoints.json"
+            ruta.write_text(json.dumps({"fuentes": [f, dict(f)]}), encoding="utf-8")
+            r = self.correr(endpoints=ruta)
+        self.assertEqual(r.returncode, 2)
+        self.assertIn("mismo nombre", r.stderr)
 
     def test_clave_por_parametro_exige_nombre(self):
         r = self.correr({"clave_env": "FUENTE_PRUEBA", "clave_en": "parametro", "clave_nombre": None})

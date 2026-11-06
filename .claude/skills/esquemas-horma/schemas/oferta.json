@@ -18,6 +18,19 @@
     "idioma": {"type": "string", "description": "Idioma de trabajo: nombre en español y minúsculas (español, inglés). Mismo formato que perfil.idiomas, para que el filtro duro case."},
     "nivel": {"enum": ["practicas", "junior", "medio", "senior", "direccion", "no_indicado"]},
     "requisitos": {"type": "array", "items": {"type": "string"}},
+    "avisos": {
+      "type": "array",
+      "description": "Condiciones de la oferta sobre la persona que NO son competencias (ciudadanía, habilitación de seguridad, residencia o permiso de trabajo). Se muestran a la usuaria como aviso informativo; NUNCA entran en la nota, el filtro ni lo que ve una empresa. Opcional.",
+      "items": {
+        "type": "object",
+        "required": ["tipo", "texto"],
+        "additionalProperties": false,
+        "properties": {
+          "tipo": {"enum": ["ciudadania", "habilitacion_seguridad", "residencia_o_permiso", "otro"]},
+          "texto": {"type": "string"}
+        }
+      }
+    },
     "salario": {
       "type": "object",
       "required": ["publicado", "min", "max", "moneda"],

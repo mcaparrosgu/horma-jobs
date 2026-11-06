@@ -2,6 +2,10 @@
 
 Un cambio de esquema es un cambio de contrato entre agentes y web. Se anota aquí antes de tocarlo.
 
+## 0.3 · 2026-11-06
+
+- `oferta.avisos` (opcional): lista de `{tipo, texto}` con `tipo` en `ciudadania`, `habilitacion_seguridad`, `residencia_o_permiso`, `otro`. Decisión de Mar (6-nov), por el aviso de `auditor-lineas-rojas`: la ciudadanía o la habilitación de seguridad que piden algunas ofertas (Saab, Ida Infront, Epical) iban como una frase más en `requisitos`, y si algún día se puntúa con `requisitos` se puntuaría por nacionalidad. Se muestran a la usuaria y **nunca** entran en la nota, el filtro ni lo que ve una empresa. Opcional, así los archivos anteriores siguen validando; en la base de datos, migración `006`.
+
 ## 0.2 · 2026-11-05
 
 - `preferencias.horario` (opcional): lista de `manana`, `tarde`, `noche`, `flexible`. Decisión de Mar (5-nov): la usuaria dice «solo mañanas» y el matcher lo compara con el horario de la oferta solo si la oferta lo dice. No se deduce del CV. Opcional para que los archivos anteriores sigan validando; en la base de datos, migración `005`.

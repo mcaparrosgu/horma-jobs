@@ -52,6 +52,10 @@ FECHA = re.compile(r"\d{4}-\d{2}-\d{2}([T ][0-9:.+\-Z]{0,20})?")
 EMAIL = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
 TELEFONO = re.compile(r"(?<![\w.])\+?\d[\d ().\-/]{5,}\d(?![\w])")  # 7 o más cifras con separadores
 FECHA_SUELTA = re.compile(r"\d{4}-\d{2}-\d{2}|\d{1,2}[./-]\d{1,2}[./-]\d{4}")
+# Cada clave solo viaja a su servidor: nombre de la variable → dominio al que se puede mandar. Está en el código (pasa por
+# git y revisión) y no en endpoints.json, que se edita a la ligera: así cambiar la `url` de una fuente no desvía su clave.
+# JobTech no usa clave. Al calificar una fuente con clave, se añade aquí, p. ej. "FUENTE_ADZUNA": "api.adzuna.com".
+HOST_DE_CLAVE: dict[str, str] = {}
 NOMBRE_CABECERA = re.compile(r"[A-Za-z0-9_-]{1,64}")  # sirve para cabecera y parámetro; sin espacios ni saltos de línea
 
 
@@ -169,6 +173,12 @@ def ruta(obj, camino: str):
     return obj
 
 
+def host_autorizado(clave_env: str, host: str) -> bool:
+    """La clave solo se manda al dominio que tiene asignado en HOST_DE_CLAVE (o a un subdominio suyo)."""
+    dominio = HOST_DE_CLAVE.get(clave_env)
+    return bool(dominio) and (host == dominio or host.endswith("." + dominio))
+
+
 def limpio(x) -> str:
     s = re.sub(r"[^A-Za-z0-9_.-]", "_", str(x)).lstrip(".")[:80]
     return s or "sin_id"
@@ -215,6 +225,10 @@ def main() -> int:
         print("`--endpoints` fuera del repositorio solo se acepta con --dry-run.", file=sys.stderr)
         return 2
     registro = json.loads(a.endpoints.read_text(encoding="utf-8"))
+    nombres = [f["nombre"] for f in registro["fuentes"]]
+    if len(nombres) != len(set(nombres)):
+        print("endpoints.json tiene dos fuentes con el mismo nombre.", file=sys.stderr)
+        return 2
     fuente = next((f for f in registro["fuentes"] if f["nombre"] == a.fuente), None)
     if fuente is None:
         print(f"Fuente «{a.fuente}» no está en endpoints.json. Califícala antes con /calificar-fuentes.", file=sys.stderr)
@@ -235,6 +249,9 @@ def main() -> int:
     if fuente.get("clave_env"):
         if not CLAVE_ENV.fullmatch(fuente["clave_env"]):
             print("`clave_env` debe llamarse FUENTE_ seguido de mayúsculas, números o _.", file=sys.stderr)
+            return 2
+        if not host_autorizado(fuente["clave_env"], host):
+            print(f"La clave {fuente['clave_env']} no está autorizada para este servidor (HOST_DE_CLAVE en ingestar.py).", file=sys.stderr)
             return 2
         por_parametro = fuente.get("clave_en") == "parametro"
         nombre = fuente.get("clave_nombre") or (None if por_parametro else "Authorization")

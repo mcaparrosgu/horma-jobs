@@ -57,3 +57,22 @@ test("un dato vacío devuelve errores, no lanza excepción", () => {
 test("un esquema desconocido lanza error", () => {
   assert.throws(() => validar("inventado" as never, {}));
 });
+
+test("oferta.avisos es opcional, solo admite tipos conocidos y no admite claves extra", () => {
+  const o = leer("ofertas", "of-prueba-1.json");
+  assert.ok(validar("oferta", o).ok);
+  const ok = { ...o, avisos: [{ tipo: "ciudadania", texto: "x" }, { tipo: "habilitacion_seguridad", texto: "y" }] };
+  assert.ok(validar("oferta", ok).ok);
+  assert.ok(!validar("oferta", { ...o, avisos: [{ tipo: "nacionalidad", texto: "x" }] }).ok);
+  assert.ok(!validar("oferta", { ...o, avisos: [{ tipo: "otro", texto: "x", puntos: 3 }] }).ok);
+  assert.ok(!validar("oferta", { ...o, avisos: [{ tipo: "otro" }] }).ok);
+});
+
+test("línea roja: el filtro y la nota de las ofertas no leen los avisos (ciudadanía, permisos)", () => {
+  const raiz = join(process.cwd(), "..", ".claude");
+  for (const f of [join("skills", "buscar-ofertas", "scripts", "buscar.py")]) {
+    assert.ok(!readFileSync(join(raiz, f), "utf8").includes("avisos"), f + " no debe usar `avisos`");
+  }
+  const matcher = readFileSync(join(raiz, "agents", "matcher.md"), "utf8");
+  assert.match(matcher, /Ignora `avisos`/); // el matcher tiene la orden explícita de ignorarlos
+});

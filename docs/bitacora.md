@@ -430,3 +430,15 @@ Mar pidió menos documentos y menos confusión. Decisiones: (1) `docs/` queda co
 
 **Límites.** La taxonomía no tiene robótica ni sistemas embebidos (4 ofertas sin familia). Ninguna empresa se pudo validar porque las ofertas no traen su dominio. El auditor y el clasificador a veces dan resultados distintos para ofertas iguales: sin un eval, la calidad depende de revisar a mano.
 
+## 6-nov-2026 · Bloque 2 bis: campo `avisos` y claves atadas a su fuente
+
+**En llano.** Mar resolvió las dos decisiones que quedaban del bloque 2. Primera: algunas empresas piden ciudadanía, permiso de trabajo o habilitación de seguridad. Eso no es una habilidad, y si Horma lo mezclara con los requisitos podría acabar puntuando a personas por su nacionalidad, que está prohibido. Ahora van en un campo aparte, `avisos`: se enseñan a la usuaria como información y no cuentan para ninguna nota, ningún filtro ni lo que ve una empresa. Segunda: cada clave de acceso queda atada al servidor de su fuente; si alguien cambia una dirección en el archivo de fuentes, la clave no la sigue.
+
+**Hecho.** Esquema `oferta` 0.3 con `avisos` opcional (`tipo` cerrado + `texto`); migración `006` (una columna con valor vacío por defecto, reversible) aplicada a `horma-db`; importador y `extractor-oferta` actualizados; `matcher` y `lineas-rojas` con la regla; 4 ofertas reales movidas de `requisitos` a `avisos` (Saab ×2, Ida Infront, Epical) y reimportadas (22 filas, 4 con avisos, sin duplicar). Atadura: tabla `HOST_DE_CLAVE` en `ingestar.py` (vacía hoy: JobTech no usa clave). Tests: 45 de ingesta (5 nuevos), 38 de la web (3 nuevos, uno vigila que `buscar.py` no lea `avisos`), 36 evals en verde.
+
+**Revisión de seguridad que cambió el diseño.** Mi primera versión ataba la clave al *nombre* de la fuente. `revisor-seguridad` vio que no servía: quien edite el archivo puede dejar el nombre y cambiar solo la dirección, y la clave viajaría igual al dominio nuevo. Lo rehice atando la clave al *servidor* en una tabla del código, y comprobé que los tests fallan si se rompe esa comprobación. También se rechazan nombres de fuente repetidos.
+
+**Un fallo mío, cazado a tiempo.** Al añadir la columna olvidé un parámetro en el importador; la base respondió con un error de protocolo y el importador rechazó las 20 ofertas sin guardar nada a medias. Lo arreglé y añadí un test que cuenta los parámetros. Lección: en las sustituciones automáticas de texto, comprobar cada una, no solo que el archivo cambió.
+
+**Preparado para el bloque 3.** Plan, receta de ingesta y notas en `docs/tareas-pendientes.md`.
+

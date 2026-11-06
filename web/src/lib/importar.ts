@@ -8,21 +8,22 @@ const j = (v: unknown) => JSON.stringify(v);
 
 export const SQL_OFERTA = `
   INSERT INTO ofertas (id, fuente, url, fecha, titulo, empresa, ubicacion, pais, remoto, contrato,
-                       idioma, nivel, sector, familia, requisitos, salario, stack, auditoria)
-  VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15::jsonb,$16::jsonb,$17::jsonb,$18::jsonb)
+                       idioma, nivel, sector, familia, requisitos, salario, stack, auditoria, avisos)
+  VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15::jsonb,$16::jsonb,$17::jsonb,$18::jsonb,$19::jsonb)
   ON CONFLICT (id) DO UPDATE SET
     fuente=EXCLUDED.fuente, url=EXCLUDED.url, fecha=EXCLUDED.fecha, titulo=EXCLUDED.titulo,
     empresa=EXCLUDED.empresa, ubicacion=EXCLUDED.ubicacion, pais=EXCLUDED.pais,
     remoto=EXCLUDED.remoto, contrato=EXCLUDED.contrato, idioma=EXCLUDED.idioma, nivel=EXCLUDED.nivel,
     sector=EXCLUDED.sector, familia=EXCLUDED.familia, requisitos=EXCLUDED.requisitos,
-    salario=EXCLUDED.salario, stack=EXCLUDED.stack, auditoria=EXCLUDED.auditoria`;
+    salario=EXCLUDED.salario, stack=EXCLUDED.stack, auditoria=EXCLUDED.auditoria,
+    avisos=EXCLUDED.avisos`;
 
 export function paramsOferta(o: Json): unknown[] {
   const t = o.taxonomia ?? {};
   return [
     o.id, o.fuente, o.url, o.fecha ?? null, o.titulo, o.empresa, o.ubicacion, o.pais ?? null,
     o.remoto, o.contrato, o.idioma, o.nivel, t.sector ?? null, t.familia ?? null,
-    j(o.requisitos ?? []), j(o.salario), j(t.stack ?? []), j(o.auditoria),
+    j(o.requisitos ?? []), j(o.salario), j(t.stack ?? []), j(o.auditoria), j(o.avisos ?? []),
   ];
 }
 
