@@ -543,3 +543,13 @@ Mar pidió menos documentos y menos confusión. Decisiones: (1) `docs/` queda co
 **No hecho.** Botones en la web (con el login). Datos de la usuaria que otros flujos guarden fuera de esas tres carpetas: hoy los comandos solo usan esas, pero el importador lee `perfiles/<id>` (de `fixtures`), una incoherencia de rutas por decidir. Push: sin hacer.
 
 **Revisión de exportar y borrar (mismo día).** `revisor-seguridad` encontró un fallo alto que yo no había visto: en Windows `Ana`, `ana` y `ana.` son la misma carpeta, pero en la base son usuarias distintas; borrar a una habría borrado la carpeta de otra. Arreglado: las órdenes solo aceptan ids en minúsculas, sin punto ni guion inicial y sin nombres reservados de Windows (`con`, `nul`, `com1`…), y se niegan si la base tiene dos ids que solo difieren en mayúsculas (probado con datos inventados). También: el borrado ahora mueve primero las carpetas a `datos/.borrando-<id>/`, borra la fila, confirma y solo entonces purga (si falla algo antes, el disco vuelve a su sitio); se comprueba que las carpetas padre no sean enlaces; y una exportación que falla a medias se elimina. 84 tests de la web. **Abierto, decide Mar:** `CHECK (id = lower(id))` en `usuarias` (migración, cambia un contrato; hoy la base admite mayúsculas y puntos, y el importador igual): lo propongo antes de la primera usuaria real.
+
+## 6-nov-2026 · Migración 010: ids de usuaria en minúsculas
+
+**En llano.** La base de datos ya no deja crear una usuaria con mayúsculas en el id (`Ana`): solo `ana`. Así no puede haber dos usuarias que en Windows compartan carpeta.
+
+**Hecho.** (1) Migración `010`: `CHECK (id = lower(id))` en `usuarias`, con su vuelta atrás escrita en el propio archivo; aplicada (las 2 usuarias que había ya eran minúsculas). (2) La web (`ID_USUARIA` en `preferencias.ts`) ya solo acepta minúsculas: `/candidatos/Ana` da «no encontrado». (3) Comprobado en la base real: insertar `Ana-mayus` se rechaza con la restricción `usuarias_id_minusculas`; `zz-minus` entra (y lo borré). 84 tests, `tsc`, `lint`, `build` y `verificar` en verde.
+
+**Decisiones técnicas.** No toqué el esquema compartido `perfil.json` ni los comandos de `.claude/` (su patrón sigue admitiendo mayúsculas): un `perfil.json` con mayúsculas ya fallará al importar, con un error claro de la base. Si quieres que falle antes, se endurece el patrón y se sube la versión del esquema. Tema del bootcamp que practica: integridad de datos con restricciones en la base.
+
+**No hecho.** Endurecer el patrón de los esquemas y comandos. Push: sin hacer.
