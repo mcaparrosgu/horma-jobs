@@ -5,7 +5,7 @@
   "required": ["usuaria_id", "version_perfil", "fecha", "ofertas"],
   "additionalProperties": false,
   "properties": {
-    "usuaria_id": {"type": "string"},
+    "usuaria_id": {"type": "string", "pattern": "^[a-z0-9_-][a-z0-9_.-]{0,79}$"},
     "version_perfil": {"type": "string"},
     "fecha": {"type": "string"},
     "ofertas": {"type": "array", "items": {"type": "object", "required": ["oferta_id", "nota", "nivel_condiciones", "explicacion"], "additionalProperties": false,

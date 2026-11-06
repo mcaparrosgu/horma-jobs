@@ -4,7 +4,7 @@ argument-hint: <usuaria> <oferta-id>
 ---
 
 Usuaria: $1 · Oferta: $2
-**Antes de nada:** comprueba que cada identificador recibido (usuaria, oferta, fuente) cumple `^[A-Za-z0-9_-][A-Za-z0-9_.-]{0,79}$`; si no, para y dilo. Pon siempre las rutas entre comillas.
+**Antes de nada:** comprueba que cada identificador recibido (usuaria, oferta, fuente) cumple `^[A-Za-z0-9_-][A-Za-z0-9_.-]{0,79}$`; el de la **usuaria** además va **en minúsculas** (`^[a-z0-9_-][a-z0-9_.-]{0,79}$`, como en la base de datos y en su carpeta de Windows); si no, para y dilo. Pon siempre las rutas entre comillas.
 
 
 1. Muestra PRIMERO los `relleno_aviso` de `huecos.json` (dónde se reformuló o rellenó algo) y después `cv.md`, `carta.md` y los huecos de `datos/candidaturas/$1/$2/`.

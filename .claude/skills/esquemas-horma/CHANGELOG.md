@@ -2,6 +2,10 @@
 
 Un cambio de esquema es un cambio de contrato entre agentes y web. Se anota aquí antes de tocarlo.
 
+## 0.5 · 2026-11-06
+
+- `perfil.usuaria_id` y `match.usuaria_id`: el patrón pasa a **solo minúsculas** (`^[a-z0-9_-][a-z0-9_.-]{0,79}$`). Motivo: en Windows `Ana` y `ana` son la misma carpeta, pero en la base eran dos usuarias distintas (hallazgo del `revisor-seguridad` sobre exportar y borrar); la migración `010` ya lo impide en la base y la web ya solo acepta minúsculas. **Estrecha** lo que valida: un archivo con `usuaria_id` en mayúsculas deja de ser válido (no había ninguno). Los comandos que reciben una usuaria piden también minúsculas; el patrón de ofertas y fuentes no cambia (los ids de oferta llevan mayúsculas, p. ej. del BOE).
+
 ## 0.4 · 2026-11-06
 
 - `oferta.origen` (opcional): `{licencia, atribucion}` con `licencia` en `empresa`, `socio`, `abierto`, `usuaria` y `atribucion` texto o null. Es el «campo de licencia de origen» pedido en la propuesta por capas (`docs/preguntas-profesor.md`, apartado 4): con qué permiso tiene Horma la oferta y qué hay que citar al mostrarla. **Lo estampa el script, no un agente:** la licencia es propiedad de la fuente (`endpoints.json`), `ingestar.py` la escribe en la cabecera del `raw/` y el extractor la copia sin deducirla. Opcional, así los archivos anteriores siguen validando; en la base de datos, migración `007`.

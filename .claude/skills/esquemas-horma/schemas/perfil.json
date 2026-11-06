@@ -13,7 +13,7 @@
     }
   },
   "properties": {
-    "usuaria_id": {"type": "string", "pattern": "^[A-Za-z0-9_-][A-Za-z0-9_.-]{0,79}$"},
+    "usuaria_id": {"type": "string", "pattern": "^[a-z0-9_-][a-z0-9_.-]{0,79}$"},
     "experiencias": {"type": "array", "items": {"type": "object", "required": ["cargo", "empresa", "inicio", "fin", "origen"], "additionalProperties": false,
       "properties": {"cargo": {"type": "string"}, "empresa": {"type": "string"}, "inicio": {"type": "string"}, "fin": {"type": "string", "description": "Texto tal cual del CV; «actualidad» si sigue"}, "descripcion": {"type": "array", "items": {"type": "string"}}, "origen": {"$ref": "#/$defs/origen"}}}},
     "formacion": {"type": "array", "items": {"type": "object", "required": ["titulo", "centro", "fin", "origen"], "additionalProperties": false,

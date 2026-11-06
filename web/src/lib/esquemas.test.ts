@@ -93,3 +93,14 @@ test("los errores del validador nunca repiten el valor que falló (pueden ser da
     }
   }
 });
+
+test("esquema 0.5: usuaria_id en perfil y match solo admite minúsculas", () => {
+  const perfil = leer("perfiles", "ana-datos", "perfil.json");
+  assert.equal(validar("perfil", perfil).ok, true);
+  for (const mal of ["Ana-datos", "ANA", "ana datos", "../ana"]) {
+    assert.equal(validar("perfil", { ...perfil, usuaria_id: mal }).ok, false, mal);
+  }
+  const base = { version_perfil: "v1", fecha: "2026-11-06", ofertas: [] };
+  assert.equal(validar("match", { ...base, usuaria_id: "ana-datos" }).ok, true);
+  assert.equal(validar("match", { ...base, usuaria_id: "Ana-datos" }).ok, false);
+});

@@ -4,7 +4,7 @@ argument-hint: <usuaria> [--rango 60-100]
 ---
 
 Usuaria: $1 · Argumentos: $ARGUMENTS
-**Antes de nada:** comprueba que cada identificador recibido (usuaria, oferta, fuente) cumple `^[A-Za-z0-9_-][A-Za-z0-9_.-]{0,79}$`; si no, para y dilo. Pon siempre las rutas entre comillas.
+**Antes de nada:** comprueba que cada identificador recibido (usuaria, oferta, fuente) cumple `^[A-Za-z0-9_-][A-Za-z0-9_.-]{0,79}$`; el de la **usuaria** además va **en minúsculas** (`^[a-z0-9_-][a-z0-9_.-]{0,79}$`, como en la base de datos y en su carpeta de Windows); si no, para y dilo. Pon siempre las rutas entre comillas.
 
 
 1. Ejecuta `python -I .claude/skills/buscar-ofertas/scripts/buscar.py --preferencias datos/usuarias/$1/preferencias.json --perfil datos/usuarias/$1/perfil.json --ofertas datos/ofertas/procesadas --salida datos/matches/$1/orden.json`. El rango por defecto es el de `preferencias.json`; si pasan `--rango`, úsalo.
