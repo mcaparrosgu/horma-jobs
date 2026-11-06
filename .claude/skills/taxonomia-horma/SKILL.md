@@ -8,7 +8,7 @@ description: Taxonomía común de sectores, familias de puesto y niveles. La usa
 Versión inicial (3-nov-2026), **propuesta a revisar con las primeras ofertas reales**. Los valores se escriben exactamente así (minúsculas, sin tildes). Si nada encaja, `null`: no se inventan categorías nuevas; se anota la carencia y se amplía esta lista a mano.
 
 ## Niveles
-`practicas`, `junior`, `medio`, `senior`, `direccion`
+`practicas`, `junior`, `medio`, `senior`, `direccion`, `no_indicado` (la oferta no dice el nivel: no se deduce)
 
 ## Sectores y familias de puesto
 
