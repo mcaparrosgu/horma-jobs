@@ -30,7 +30,7 @@ En otra terminal:
 
 | Qué | Orden (carpeta) | Debe pasar |
 |---|---|---|
-| Tests de la web | `npm test` (en `web`) | Todas en verde; hoy son **73**. |
+| Tests de la web | `npm test` (en `web`) | Todas en verde; hoy son **85**. |
 | Tipos y estilo | `npx tsc --noEmit` y `npm run lint` (en `web`) | Sin errores. |
 | Tests de los agentes (sin IA de pago) | `python -I evals/correr_evals.py` (en la raíz) | **36** en verde. |
 
@@ -66,14 +66,16 @@ Un test en rojo no es una catástrofe: es el aviso de que algo se rompió. Copia
 
 ## 2 bis. Ofertas reales de JobTech (bloque 2)
 
-1. Con `horma-db` arrancada, desde `web/`: `npm run importar -- --ofertas ../datos/ofertas/procesadas`. Debe terminar con **20 importados, 0 rechazados**. Repetirlo no cambia el total.
+**Antes:** desde el bloque 8, `datos/ofertas/raw/` está **vacía a propósito** (llevaba nombres de reclutadores). Los pasos que abren `raw/` o comparan con él (2 bis.2 y 2 quater.3) necesitan una descarga nueva: `python -I .claude/skills/fuentes-ofertas/scripts/ingestar.py "JobTech Suecia (Platsbanken)" --limite 20`. Al terminar, borra otra vez `raw/` (cuando `npm run verificar` esté en verde).
+
+1. Con `horma-db` arrancada, desde `web/`: `npm run importar -- --ofertas ../datos/ofertas/procesadas`. Debe terminar con **0 rechazados** (23 archivos; los que ya estaban salen «sin cambios»). Repetirlo no cambia el total.
 2. Abre una oferta de `datos/ofertas/procesadas/` y su original en `raw/`: comprueba que **no hay emails ni teléfonos** (aparece `[contacto omitido]`) y que el país, el nivel y las tecnologías están en el texto original.
 3. Abre `datos/ofertas/procesadas/` las ofertas de Saab (`...31634221...`, `...31672635...`), Ida Infront (`...31648023...`) y Epical (`...31679417...`): la ciudadanía, la habilitación de seguridad y el permiso de trabajo están en el campo `avisos`, no en `requisitos`.
 4. Atadura de claves: `python -I evals/ingesta/test_ingestar.py` debe terminar en `OK` (ahora 69 pruebas), incluidas «cambiar la url no desvía la clave» y «nombres repetidos». No hace falta probarlo a mano: no hay ninguna fuente con clave todavía.
 
 ## 2 ter. Lo descargado = lo guardado (bloque 3)
 
-1. Desde `web/`: `npm run verificar`. Debe terminar con **«RESULTADO: todo cuadra»**: 20 coinciden y 2 filas de prueba esperadas (`of-prueba-*`). Solo lee: no cambia nada.
+1. Desde `web/`: `npm run verificar`. Debe terminar con **«RESULTADO: todo cuadra»**: 23 coinciden y 2 filas de prueba esperadas (`of-prueba-*`). Solo lee: no cambia nada.
 2. Prueba que de verdad avisa: abre un archivo de `datos/ofertas/procesadas/`, cambia el `titulo` y guarda; vuelve a lanzar `npm run verificar`. Debe decir **FALLO** con el id de esa oferta y el campo `titulo` (sin enseñar el texto), y terminar con «no cuadra». Deshaz el cambio (`git` no lo sigue: vuelve a escribir el título original a mano) y comprueba que vuelve a cuadrar.
 3. Ingesta repetible: tras `ingestar.py`, la respuesta lleva `pendientes`: debe ser una lista **vacía** si ya procesaste esas ofertas. `/ingestar-ofertas` solo gasta agentes en las pendientes.
 
@@ -94,7 +96,7 @@ Un test en rojo no es una catástrofe: es el aviso de que algo se rompió. Copia
 
 ## 2 sexies. Panel (bloque 6)
 
-1. Desde `web/`: `npm run migrar` (aplica la `008`) y `npm test` (**Debe pasar:** 60 pruebas). Arranca la web (`npm run dev`) y abre `http://127.0.0.1:3000/`.
+1. Desde `web/`: `npm run migrar` (aplica la `008`) y `npm test` (**Debe pasar:** todas en verde). Arranca la web (`npm run dev`) y abre `http://127.0.0.1:3000/`.
 2. **Debe pasar:** la portada se llama «Panel» y tiene tres tarjetas: *Pipelines* (A′ a E con su comando), *Ingesta* (una fila por fuente, con licencia, última ejecución y resultado) y *Datos guardados* (barras por fuente, país y licencia). Los números deben coincidir con `npm run verificar` (23 coinciden + 2 de prueba = 25 ofertas).
 3. Corre `npm run importar -- --ofertas ../datos/ofertas/procesadas` y recarga: **Debe pasar:** cada fuente muestra una ejecución nueva en «Ejecuciones» y en el panel con «correcta».
 4. **Debe pasar:** en el panel no hay botones ni formularios; solo texto. Nada se ejecuta desde ahí.
@@ -102,7 +104,7 @@ Un test en rojo no es una catástrofe: es el aviso de que algo se rompió. Copia
 
 ## 2 septies. Salud (bloque 7)
 
-1. Desde `web/`: `npm test` (**Debe pasar:** 84 pruebas) y `npm run verificar`. Abre `http://127.0.0.1:3000/salud` (también está en el menú como «Salud»).
+1. Desde `web/`: `npm test` (**Debe pasar:** 85 pruebas) y `npm run verificar`. Abre `http://127.0.0.1:3000/salud` (también está en el menú como «Salud»).
 2. **Debe pasar:** arriba un resumen (bien, atención o falla) y cinco tarjetas: *Base de datos*, *Componentes* (importador, verificador, web…), *Ingesta por fuente*, *Datos* (ofertas y última verificación) y *Pipelines (pista A)* (último resultado de los evals). Cada estado lleva su palabra además del color.
 3. **Debe pasar:** tras `npm run verificar`, «Verificación archivos ↔ base» dice «bien» y «23 ofertas coinciden».
 4. Para ver un «falla» a propósito: para el contenedor `horma-db` y recarga `/salud`. **Debe pasar:** la página no se cae; dice que la base de datos no responde y no enseña ningún mensaje técnico. Vuelve a arrancarlo después.
@@ -112,12 +114,12 @@ Un test en rojo no es una catástrofe: es el aviso de que algo se rompió. Copia
 ## 2 octies. Seguridad de la web (bloque 8)
 
 1. Desde `web/`: `npm run migrar`. **Debe pasar:** «Nada que aplicar» (o «aplicada: 009_rol_web.sql» si es la primera vez) y «rol horma_web: contraseña al día».
-2. Con la web arrancada, en otra terminal: `curl -s -o NUL -w "%{http_code}
-" -H "Host: evil.com" http://127.0.0.1:3000/ofertas`. **Debe pasar:** `403`. Con `-H "Host: localhost:3000"` sale `200`.
+2. Con la web arrancada, en otra terminal: `curl -s -o NUL -w "%{http_code}\n" -H "Host: evil.com" http://127.0.0.1:3000/ofertas`. **Debe pasar:** `403`. Con `-H "Host: localhost:3000"` sale `200`.
 3. `curl -sI http://127.0.0.1:3000/salud`. **Debe pasar:** salen `X-Frame-Options: DENY`, `Content-Security-Policy: frame-ancestors 'none'` y `X-Content-Type-Options: nosniff`.
 4. En `/fuentes`, intenta guardar una fuente con la dirección `https://www.linkedin.com/jobs`. **Debe pasar:** la rechaza con «LinkedIn e Indeed no son fuente de ofertas».
 5. `npm run build`. **Debe pasar:** termina sin errores (el bloque 8 arregló un fallo en `/salud`).
-6. Las ofertas guardadas ya no tienen su descarga original: `datos/ofertas/raw/` está vacía a propósito (llevaba nombres de reclutadores). Para volver a descargar: `python -I .claude/skills/fuentes-ofertas/scripts/ingestar.py "JobTech Suecia (Platsbanken)" --limite 20`.
+6. Abre `http://127.0.0.1:3000/candidatos/Ana` (con mayúscula). **Debe pasar:** «no encontrado»: los ids de usuaria van en minúsculas (migración `010`).
+7. Las ofertas guardadas ya no tienen su descarga original: `datos/ofertas/raw/` está vacía a propósito (llevaba nombres de reclutadores). Para volver a descargar: `python -I .claude/skills/fuentes-ofertas/scripts/ingestar.py "JobTech Suecia (Platsbanken)" --limite 20`.
 
 ## 2 nonies. Exportar y borrar datos (RGPD)
 
