@@ -10,7 +10,9 @@ const leer = (...ruta: string[]) => JSON.parse(readFileSync(join(FIX, ...ruta), 
 
 test("la oferta saca sector, familia y stack de la taxonomía y guarda el JSON como texto", () => {
   const p = paramsOferta(leer("ofertas", "of-prueba-1.json"));
-  assert.equal(p.length, 19);
+  assert.equal(p.length, 21);
+  assert.equal(p[19], null); // sin origen → licencia nula
+  assert.equal(p[20], null);
   assert.equal(p[18], "[]"); // sin avisos en la oferta → lista vacía
   assert.equal(p[0], "of-prueba-1");
   assert.equal(typeof p[14], "string"); // requisitos como texto JSON, no como array de Postgres
@@ -23,6 +25,14 @@ test("los avisos de la oferta (ciudadanía, habilitación…) se guardan aparte 
   const p = paramsOferta(o);
   assert.deepEqual(JSON.parse(p[18] as string), o.avisos);
   assert.ok(!(p[14] as string).includes("ciudadan")); // no se mezclan con los requisitos
+});
+
+test("la licencia de origen se guarda en columnas propias", () => {
+  const o = leer("ofertas", "of-prueba-1.json");
+  o.origen = { licencia: "abierto", atribucion: "Fuente de los datos: Ejemplo" };
+  const p = paramsOferta(o);
+  assert.equal(p[19], "abierto");
+  assert.equal(p[20], "Fuente de los datos: Ejemplo");
 });
 
 test("el perfil rellena instrucciones_embebidas si falta", () => {

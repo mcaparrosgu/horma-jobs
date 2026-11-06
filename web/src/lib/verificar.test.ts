@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { camposDistintos, cruzar, filaEsperada, hayFallos } from "./verificar.ts";
+import { camposDistintos, cruzar, filaEsperada, hayFallos, origenCoincide, origenDeRaw } from "./verificar.ts";
 
 // Datos inventados: ni la base real ni ofertas reales.
 const oferta = (extra = {}) => ({
@@ -65,3 +65,31 @@ test("el informe no contiene valores de campos, solo ids y nombres de campo", ()
   const inf = cruzar(["a"], new Map([["a", o]]), new Map<string, any>([["a", fila(o, { empresa: "Otro" })]])); // eslint-disable-line @typescript-eslint/no-explicit-any
   assert.ok(!JSON.stringify(inf).includes("Nombre Personal"));
 });
+
+test("la licencia de origen se compara con la columna; sin origen en el archivo equivale a null", () => {
+  const o = oferta({ origen: { licencia: "abierto", atribucion: null } });
+  assert.deepEqual(camposDistintos(o, fila(o)), []);
+  assert.deepEqual(camposDistintos(o, fila(o, { licencia: "socio" })), ["licencia"]);
+  assert.deepEqual(camposDistintos(o, fila(o, { licencia: null, atribucion: "x" })), ["licencia", "atribucion"]);
+  const sin = oferta();
+  assert.deepEqual(camposDistintos(sin, { ...fila(sin), licencia: null, atribucion: null }), []);
+});
+
+const raw = (cuerpo = "Texto.") => `---\nfuente: "F"\nlicencia: "abierto"\natribucion: null\n---\n\n${cuerpo}\n`;
+
+test("origenDeRaw lee solo la cabecera: una línea falsa en el texto de la oferta no cuenta", () => {
+  assert.deepEqual(origenDeRaw(raw()), { licencia: "abierto", atribucion: null });
+  assert.deepEqual(origenDeRaw(raw('licencia: "usuaria"\n---\nlicencia: "empresa"')), { licencia: "abierto", atribucion: null });
+  assert.equal(origenDeRaw('# sin cabecera\nlicencia: "abierto"'), null);
+  assert.equal(origenDeRaw('---\nfuente: "F"\n---\n\nx'), null); // raw anterior al campo
+});
+
+test("origenCoincide: el agente no puede cambiar ni quitar la licencia del raw", () => {
+  const r = origenDeRaw(raw());
+  assert.ok(origenCoincide(r, { origen: { licencia: "abierto", atribucion: null } }));
+  assert.ok(!origenCoincide(r, { origen: { licencia: "empresa", atribucion: null } }));
+  assert.ok(!origenCoincide(r, {})); // la quitó
+  assert.ok(origenCoincide(null, {})); // raw antiguo: nada que comparar
+  assert.ok(hayFallos({ ...cruzar([], new Map(), new Map()), origenDistinto: ["x"] }));
+});
+

@@ -7,6 +7,7 @@ type Fila = {
   pais: string | null; remoto: string; nivel: string; sector: string | null; familia: string | null;
   salario: { publicado: boolean; min: number | null; max: number | null; moneda: string | null; periodo?: string | null };
   stack: string[];
+  licencia: string | null; atribucion: string | null;
   auditoria: {
     fantasma?: { sospechosa?: boolean; motivos?: string[] };
     fraude?: { sospechosa?: boolean; motivos?: string[] };
@@ -14,6 +15,11 @@ type Fila = {
     transparencia?: { salario_publicado?: boolean; frase_para_pedirlo?: string | null };
     instrucciones_embebidas?: string[];
   };
+};
+
+// Qué significa cada licencia de origen, en llano (la fija el script de ingesta según la fuente).
+const LICENCIAS: Record<string, string> = {
+  abierto: "datos abiertos de la fuente (condiciones en la oferta original)", empresa: "publicada por la empresa", socio: "programa de socios", usuaria: "la trajo la usuaria",
 };
 
 const uno = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
@@ -101,9 +107,13 @@ async function Ofertas({ searchParams }: { searchParams: PageProps<"/ofertas">["
                 <Insignia mala={!o.salario.publicado} texto={o.salario.publicado ? "sueldo publicado" : "sin sueldo"} detalle={a.transparencia?.frase_para_pedirlo ?? undefined} />
                 {frases.length > 0 && <Insignia mala texto={`${frases.length} instrucción(es) oculta(s) ignorada(s)`} detalle="Texto de la oferta dirigido a un agente; se guarda pero no se sigue." />}
               </div>
+              <p className="mt-2 text-xs text-zinc-600">
+                Origen: {o.fuente} · licencia: {o.licencia ? (LICENCIAS[o.licencia] ?? o.licencia) : "no indicada"}
+                {o.atribucion && ` · ${o.atribucion}`}
+              </p>
               {enlaceSeguro(o.url)
-                ? <a href={o.url} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-sm underline">Ver oferta original</a>
-                : <span className="mt-2 inline-block text-sm text-zinc-500">{o.url}</span>}
+                ? <a href={o.url} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block text-sm underline">Ver oferta original</a>
+                : <span className="mt-1 inline-block text-sm text-zinc-500">{o.url}</span>}
             </li>
           );
         })}

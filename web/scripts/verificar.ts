@@ -9,7 +9,7 @@ import pg from "pg";
 import { validar } from "../src/lib/esquemas.ts";
 import { problemaClave } from "../src/lib/clave.ts";
 import { errorSeguro } from "../src/lib/importar.ts";
-import { SQL_FILAS, cruzar, hayFallos } from "../src/lib/verificar.ts";
+import { SQL_FILAS, cruzar, hayFallos, origenDeRaw, origenCoincide } from "../src/lib/verificar.ts";
 
 const MAX_BYTES = 1_000_000;
 
@@ -56,6 +56,11 @@ for (const id of listar("procesadas", ".json")) {
   }
 }
 
+// La licencia de cada procesada debe ser la de la cabecera de su raw: el script la fija, el agente solo la copia.
+const origenDistinto = [...procesadas].filter(([id, o]) => {
+  try { return !origenCoincide(origenDeRaw(readFileSync(join(RAIZ, "raw", `${id}.md`), "utf8")), o); } catch { return false; }
+}).map(([id]) => id);
+
 const db = new pg.Client({ host: "127.0.0.1", port: 5433, user: "horma", database: "horma", password: process.env.HORMA_DB_PASSWORD });
 try {
   await db.connect();
@@ -63,6 +68,7 @@ try {
   // Una procesada inválida ya se cuenta como inválida: no se cuenta además como «raw sin procesar».
   const inf = cruzar(raw.filter((id) => !invalidas.includes(id)), procesadas, filas);
   inf.invalidas = invalidas;
+  inf.origenDistinto = origenDistinto;
 
   const lista = (titulo: string, ids: string[]) => {
     if (ids.length) console.log(`${titulo} (${ids.length}):\n${ids.map((x) => `  - ${x}`).join("\n")}`);
@@ -73,6 +79,7 @@ try {
   if (inf.distintas.length) {
     console.log(`FALLO  la base no coincide con el archivo (${inf.distintas.length}):\n${inf.distintas.map((d) => `  - ${d.id}: ${d.campos.join(", ")}`).join("\n")}`);
   }
+  lista("FALLO  el `origen` (licencia) no es el de la cabecera del raw: reprocesa la oferta", inf.origenDistinto);
   lista("FALLO  procesadas sin fila en la base (falta importar: npm run importar -- --ofertas ../datos/ofertas/procesadas)", inf.sinFila);
   lista("FALLO  descargadas sin procesar (tanda a medias: /ingestar-ofertas)", inf.sinProcesada);
   lista("AVISO  filas en la base sin archivo (no se borran solas)", inf.soloEnBase);
