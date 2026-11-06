@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Horma · ingesta",
-  description: "Ofertas, fuentes y ejecuciones de ingesta de Horma",
+  title: "Horma · panel",
+  description: "Panel de Horma: pipelines, ingesta y datos guardados",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -26,7 +26,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-zinc-50 text-zinc-900">
         <nav className="flex gap-6 border-b border-zinc-200 bg-white px-6 py-3 text-sm font-medium">
-          <span className="font-semibold">Horma · ingesta</span>
+          <span className="font-semibold">Horma</span>
+          <Link href="/">Panel</Link>
           <Link href="/ofertas">Ofertas</Link>
           <Link href="/fuentes">Fuentes</Link>
           <Link href="/ejecuciones">Ejecuciones</Link>
