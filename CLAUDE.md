@@ -149,6 +149,8 @@ y **no cargan skills solos**: reciben las rutas de los esquemas en su prompt.
 (`cv`, `ats`, `filtro`, `esquemas`, `fixtures`, `carta`). Solo biblioteca estándar de
 Python. Lo cualitativo lo corre `/evaluar`. Resultados y límites: `docs/informe-pruebas.md`.
 
+**Web (`web/`):** `npm test`, `npx tsc --noEmit`, `npm run lint` y `npm run build` (el `build` entra en el cierre de cada bloque: en `dev` hay fallos que no se ven). `npm run verificar` (archivos = base), `npm run migrar` (también pone la contraseña del rol `horma_web`) y, para el RGPD, `npm run exportar -- --usuaria <id>` y `npm run borrar -- --usuaria <id>` (en seco; borra de verdad solo con `--confirmar <id>`; ids en minúsculas).
+
 **Agentes de este repositorio** (`.claude/agents/`): `copiloto` es la predeterminada
 (`.claude/settings.json`). `revisor-seguridad` y `auditor-lineas-rojas` son de solo
 lectura: **no avisan solos**; trabajan cuando los invocas (o Mar los nombra) y devuelven

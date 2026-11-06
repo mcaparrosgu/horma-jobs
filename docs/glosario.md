@@ -71,3 +71,23 @@ Términos que descolocaron a Mar, en orden alfabético. Tres líneas por términ
 - **Qué es:** proceso aparte, con el mismo código que la API, que hace los trabajos lentos.
 - **Analogía:** el repartidor que sale a entregar mientras el dependiente sigue atendiendo en la tienda.
 - **En Horma:** ejecuta el agente de envío con Playwright, genera PDF y calcula embeddings en lote, para que la web no se quede colgada.
+
+## DNS rebinding
+- **Qué es:** truco por el que una web ajena hace que su dirección apunte a tu propio ordenador (127.0.0.1) y así habla, desde tu navegador, con programas que creías solo locales.
+- **Analogía:** un repartidor que te convence de que la puerta de tu casa es la de su almacén y entra por ella.
+- **En Horma:** mientras no haya login, `src/proxy.ts` rechaza (403) cualquier petición cuyo Host no sea `localhost` o `127.0.0.1`.
+
+## Mínimo privilegio (rol de base de datos)
+- **Qué es:** cada pieza se conecta con un usuario que solo puede hacer lo que necesita, no más.
+- **Analogía:** la llave del portal no abre también el cajón de la caja fuerte.
+- **En Horma:** la web usa el rol `horma_web` (migración `009`): lee, y solo escribe preferencias, fuentes y eventos. Si algún día falla, no puede borrar tablas.
+
+## Restricción CHECK
+- **Qué es:** una regla que la propia base de datos exige a cada fila al guardarla; si no se cumple, rechaza el dato.
+- **Analogía:** el torno del metro: no pasa quien no cumple la condición, lo mande quien lo mande.
+- **En Horma:** `CHECK (id = lower(id))` en `usuarias` (migración `010`) impide ids con mayúsculas, porque en Windows `Ana` y `ana` serían la misma carpeta.
+
+## Cuarentena de borrado
+- **Qué es:** antes de borrar de verdad, se aparta lo que se va a borrar a un sitio temporal; si algo falla, se devuelve a su lugar.
+- **Analogía:** meter las cosas en cajas antes de tirarlas, y tirar las cajas solo cuando estás segura.
+- **En Horma:** `npm run borrar` mueve las carpetas de la usuaria a `datos/.borrando-<id>/`, borra su fila en la base, confirma y solo entonces purga.
