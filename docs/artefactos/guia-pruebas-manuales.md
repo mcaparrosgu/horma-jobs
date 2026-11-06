@@ -83,7 +83,7 @@ Un test en rojo no es una catástrofe: es el aviso de que algo se rompió. Copia
 
 1. Con la web arrancada, abre `http://127.0.0.1:3000/candidaturas/mar`. **Debe pasar:** una candidatura a «AI-first developer» en estado «borrador: falta que tú la revises y apruebes», cobertura ATS 60 % y la lista desplegada de «Lo que la oferta pide y tu CV no recoge» (7 puntos: sueco, Cursor/Codex, años de desarrollo…).
 2. Despliega «CV adaptado» y «Carta»: lee cada frase y comprueba que **todo es tuyo y cierto** (nada de React, Cloudflare, Cursor, sueco). Esta prueba solo la puedes hacer tú.
-3. No hay botones: aprobar se hace en Claude Code con `/aprobar mar JobTech_Suecia__Platsbanken_-31550008-6b20c35d`. **Debe pasar:** te enseña primero los avisos de relleno y espera tu respuesta.
+3. (Cambiado en el bloque 4) Aprobar se hace en la web; mira la sección 12 más abajo. `/aprobar` y `/marcar-enviada` en Claude Code ya no escriben nada.
 4. Línea roja: copia `estado.json` de la candidatura, cámbialo a `"estado": "aprobada"` dejando `"por": "agente"`, y lanza `npm run importar -- --dir ../datos`. **Debe decir RECHAZADO** («una aprobación no la hizo la usuaria»). Restaura el archivo.
 5. Repetible: lanza el importador dos veces; en la base debe haber 1 sola candidatura (`select count(*) from candidaturas`).
 
@@ -188,3 +188,21 @@ Pásamelo tal cual. No hace falta entenderlo.
 ## 7. Después de cada paso de la pista B
 
 Tests (sección 1) + la parte de la web que se tocó (sección 2) + `revisor-seguridad` y `auditor-lineas-rojas` + anotarlo en `docs/bitacora.md`. Para el paso 6, además, el dashboard (cuando exista) se añade a esta guía.
+
+## 12. Login, ids opacos y aprobar (bloque 4 de la construcción optimizada)
+
+Antes: una vez, en tu terminal, crea tu cuenta de administración (la contraseña no se ve al escribirla y no queda en el historial):
+`cd web` · `npm run cuenta -- --usuaria mar --email TU_CORREO --admin`. Arranca la web (`npm run dev`).
+
+1. Sin sesión, abre `http://localhost:3000/ofertas`. **Debe pasar:** te lleva a `/entrar`.
+2. Entra con una contraseña mala. **Debe pasar:** «Correo o contraseña incorrectos…» y el correo sigue escrito. Con un correo que no existe, el mismo mensaje.
+3. Entra bien. **Debe pasar:** ves el Panel y, en la barra, Fuentes, Ejecuciones, Candidatas y Salud.
+4. Pulsa «Mi perfil». **Debe pasar:** la dirección lleva un código largo (como `8ed870f2-3b4c-…`), no `mar`.
+5. Prueba `/candidatos/mar` a mano. **Debe pasar:** 404. Cambia una letra del código por otra: 404.
+6. En `/candidatos` (administración) solo ves «Tú», «Cuenta 2»…, sin correos ni ids legibles.
+7. Cuentas normales (opcional, con datos inventados): en «Crear cuenta» registra `prueba@ejemplo.test` con una frase de 12 o más caracteres. **Debe pasar:** entras y NO ves Fuentes, Salud ni nada de administración; `/salud` da 404.
+8. Cinco contraseñas malas seguidas en una cuenta. **Debe pasar:** aunque pongas la buena, rechaza durante 15 minutos.
+9. Aprobar: en `/candidaturas/<tu código>`, pulsa «Aprobar» sin marcar la casilla. **Debe pasar:** te pide marcarla. Márcala y aprueba: el estado pasa a «aprobada por ti» y el historial dice «tú». Aparece «Marcar como enviada» con una lista de canales; elige uno y anótalo.
+10. Línea roja en la base (con una candidatura en borrador): `docker exec -it horma-db psql -U horma -d horma -c "update candidaturas set estado='aprobada' where usuaria_id='mar'"`. **Debe pasar:** ERROR «solo la usuaria, desde la web y con su sesión, aprueba…».
+11. «Entrar con Google» (solo si has puesto `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET` en `web/.env`; sin ellas el botón no sale). Con tu Google: si su correo coincide con tu cuenta de administración, NO se une sola (dice «entra con tu contraseña»); con otro Google se crea una cuenta normal.
+12. Pulsa «Salir» y vuelve a `/candidaturas/<código>`. **Debe pasar:** te lleva a `/entrar`.
