@@ -91,6 +91,14 @@ Un test en rojo no es una catástrofe: es el aviso de que algo se rompió. Copia
 4. Un domingo sin `--fecha` pide el sábado; con una fecha futura o mal escrita se niega sin llamar al BOE; si el BOE no tiene sumario ese día sale `NO_ENCONTRADO`.
 5. `python -I evals/ingesta/test_ingestar.py` debe terminar en `OK` (69 pruebas).
 
+## 2 sexies. Panel (bloque 6)
+
+1. Desde `web/`: `npm run migrar` (aplica la `008`) y `npm test` (**Debe pasar:** 60 pruebas). Arranca la web (`npm run dev`) y abre `http://127.0.0.1:3000/`.
+2. **Debe pasar:** la portada se llama «Panel» y tiene tres tarjetas: *Pipelines* (A′ a E con su comando), *Ingesta* (una fila por fuente, con licencia, última ejecución y resultado) y *Datos guardados* (barras por fuente, país y licencia). Los números deben coincidir con `npm run verificar` (23 coinciden + 2 de prueba = 25 ofertas).
+3. Corre `npm run importar -- --ofertas ../datos/ofertas/procesadas` y recarga: **Debe pasar:** cada fuente muestra una ejecución nueva en «Ejecuciones» y en el panel con «correcta».
+4. **Debe pasar:** en el panel no hay botones ni formularios; solo texto. Nada se ejecuta desde ahí.
+5. Para ver una ejecución interrumpida: no hace falta; la cubre una prueba (`ingesta.test.ts`).
+
 ## 3. Líneas rojas, a ojo
 
 Recorre la web entera y comprueba que **no existe**:

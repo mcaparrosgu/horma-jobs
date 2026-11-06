@@ -489,3 +489,16 @@ Mar pidió menos documentos y menos confusión. Decisiones: (1) `docs/` queda co
 **Plan del bloque 6.** (1) Portada `/` de solo lectura con tres tarjetas: pipelines (flujos A–E y su comando), ingesta (fuentes activas y última ejecución) y datos guardados (por fuente, país y licencia). (2) `npm run importar` registrará cada ejecución en `ejecuciones_ingesta`, creando antes la fila de `fuentes`. (3) Migración `008`: `licencia`, `atribucion` y `adaptador` en `fuentes`. (4) Tests con datos inventados. (5) Cierre con `revisor-seguridad`. Sin librerías de gráficos.
 
 **Pendiente de Mar.** Orden para el bloque 6; si se procesan las 12 convocatorias del BOE restantes.
+
+## 6-nov-2026 · Bloque 6: panel (dashboard) y registro de ejecuciones
+
+**En llano.** La portada de la web es ahora un panel de solo lectura: te enseña los flujos A′ a E con el comando que hay que lanzar, qué fuentes hay y cómo fue su última ejecución, y cuántas ofertas hay por fuente, país y licencia. Desde ahí no se ejecuta nada. Además, cada vez que importas ofertas, la base apunta una «ejecución» por fuente (cuántas entraron, cuántas se descartaron).
+
+**Hecho.** (1) Migración `008`: `licencia`, `atribucion` y `adaptador` en `fuentes`. (2) `npm run importar` crea la fila de la fuente desde `endpoints.json`, abre y cierra una fila en `ejecuciones_ingesta` y enlaza cada oferta con su ejecución (`ofertas.ejecucion_id`); las fuentes que no están en `endpoints.json` (las de prueba) no generan ejecución. (3) Portada `/` con tres tarjetas y barras hechas a mano (sin librerías de gráficos). (4) 10 tests nuevos con datos inventados (60 en total; 36 evals en verde). Comprobado con la base real: 2 fuentes, 25 ofertas, `npm run verificar` «todo cuadra».
+
+**Decisiones técnicas.** (a) El panel **no cuenta perfiles**: una prueba de líneas rojas existente lo impidió y la mantuve; solo muestra ofertas y usuarias registradas. (b) La sincronización de `endpoints.json` pasa por las mismas comprobaciones que el formulario de fuentes (https, sin hosts internos, sin credenciales, `clave_env` con prefijo `FUENTE_`), salvo la regla del nombre. (c) `endpoints.json` manda sobre lo editado en la web. Tema del bootcamp que practica: observabilidad básica y diseño de dashboards sobre datos propios.
+
+**Revisión.** `auditor-lineas-rojas`: sin incumplimientos. `revisor-seguridad`: sin nada grave; arreglé el hallazgo medio (una importación interrumpida salía «correcta»: ahora queda «con errores») y el 2 (comprobaciones de la sincronización). El resto queda anotado en `docs/tareas-pendientes.md` («Pendientes que deja el bloque 6»).
+
+**No hecho.** Observabilidad por pieza y `/salud` (bloque 7). Las 12 convocatorias restantes del BOE siguen sin procesar, a la espera de tu decisión.
+
