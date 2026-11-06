@@ -1,12 +1,21 @@
 // Se ejecuta antes de cada petición (en Next 16 «proxy» sustituye a «middleware»).
-// Mientras no haya login, la web solo contesta si se la llama como localhost o 127.0.0.1.
+// 1) La web solo contesta si se la llama como localhost o 127.0.0.1 (contra DNS rebinding).
+// 2) Sin cookie de sesión, todo lo que no sea /entrar o /auth lleva a /entrar. Es solo un filtro «optimista»: la cookie
+//    puede estar caducada o inventada. La comprobación de verdad (sesión válida, rol, dueña) la hace cada página y cada acción.
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { hostPermitido } from "./lib/host.ts";
+import { rutaPublica } from "./lib/rutas.ts";
 
 export function proxy(request: NextRequest) {
   if (!hostPermitido(request.headers.get("host"))) {
     return new NextResponse("Host no permitido", { status: 403 });
   }
+  if (!rutaPublica(request.nextUrl.pathname) && !request.cookies.get("horma_sesion")?.value) {
+    return NextResponse.redirect(new URL("/entrar", request.url));
+  }
   return NextResponse.next();
 }
+
+// No se ejecuta sobre los archivos estáticos de Next.
+export const config = { matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"] };

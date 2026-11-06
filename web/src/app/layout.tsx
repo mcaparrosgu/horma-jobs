@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Link from "next/link";
+import { Suspense } from "react";
 import "./globals.css";
+import { Nav } from "./nav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,15 +26,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-zinc-50 text-zinc-900">
-        <nav className="flex gap-6 border-b border-zinc-200 bg-white px-6 py-3 text-sm font-medium">
-          <span className="font-semibold">Horma</span>
-          <Link href="/">Panel</Link>
-          <Link href="/ofertas">Ofertas</Link>
-          <Link href="/fuentes">Fuentes</Link>
-          <Link href="/ejecuciones">Ejecuciones</Link>
-          <Link href="/candidatos">Candidatas</Link>
-          <Link href="/salud">Salud</Link>
-        </nav>
+        <Suspense fallback={<nav className="border-b border-zinc-200 bg-white px-6 py-3 text-sm font-semibold">Horma</nav>}><Nav /></Suspense>
         <main className="mx-auto w-full max-w-6xl flex-1 p-6">{children}</main>
       </body>
     </html>
