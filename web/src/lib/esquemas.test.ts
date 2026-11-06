@@ -76,3 +76,20 @@ test("línea roja: el filtro y la nota de las ofertas no leen los avisos (ciudad
   const matcher = readFileSync(join(raiz, "agents", "matcher.md"), "utf8");
   assert.match(matcher, /Ignora `avisos`/); // el matcher tiene la orden explícita de ignorarlos
 });
+
+test("los errores del validador nunca repiten el valor que falló (pueden ser datos personales)", () => {
+  const SECRETO = "SECRETO-Ana-Garcia-600123456";
+  const malos = [
+    { ...leer("ofertas", "of-prueba-1.json"), titulo: 12345, nivel: SECRETO, remoto: SECRETO, fecha: SECRETO, url: SECRETO },
+    { ...leer("ofertas", "of-prueba-1.json"), requisitos: [SECRETO, 7], avisos: [SECRETO], extra: SECRETO },
+    { id: SECRETO },
+  ];
+  for (const dato of malos) {
+    const r = validar("oferta", dato);
+    assert.equal(r.ok, false);
+    if (!r.ok) {
+      assert.ok(r.errores.length > 0);
+      assert.ok(!r.errores.join("\n").includes(SECRETO), r.errores.join("; "));
+    }
+  }
+});
