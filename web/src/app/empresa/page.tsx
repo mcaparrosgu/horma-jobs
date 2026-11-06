@@ -34,6 +34,9 @@ async function Panel() {
               </div>
               <div className="flex items-center gap-3">
                 {o.estado_publicacion !== "cerrada" && <Link href={`/empresa/ofertas/${o.id}/editar`} className="underline">Editar</Link>}
+                {(o.estado_publicacion === "aprobada" || o.estado_publicacion === "cerrada") && (
+                  <Link href={`/empresa/ofertas/${o.id}/bandeja`} className="underline">Candidaturas recibidas</Link>
+                )}
                 {o.estado_publicacion === "aprobada" && (
                   <form action={cerrarOferta}>
                     <input type="hidden" name="oferta_id" value={o.id} />

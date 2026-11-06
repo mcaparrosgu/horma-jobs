@@ -26,7 +26,7 @@ async function Cuenta() {
 
       <section className="space-y-2 rounded border border-zinc-200 bg-white p-4">
         <h2 className="font-medium">Descargar mis datos</h2>
-        <p className="text-sm text-zinc-600">Un archivo JSON con tu cuenta (sin tu contraseña), tu perfil, tus preferencias, tus recomendaciones y tus candidaturas.</p>
+        <p className="text-sm text-zinc-600">Un archivo JSON con tu cuenta (sin tu contraseña), tu perfil, tus preferencias, tus recomendaciones, tus candidaturas y tus envíos a empresas.</p>
         <a href="/cuenta/descargar" className="inline-block rounded border border-zinc-300 bg-white px-3 py-1.5 text-sm font-medium">Descargar mis datos</a>
       </section>
 

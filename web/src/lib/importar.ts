@@ -78,7 +78,7 @@ export const CLAVES_DETALLE = ["archivos", "importadas", "omitidas", "rechazadas
 
 // Componentes y acciones permitidos: cada uno nuevo se añade aquí, a propósito (hallazgo C).
 export const COMPONENTES = ["importador", "verificador", "web-ingesta", "web-candidatos", "web-acceso", "web-cuenta", "web-empresa"] as const;
-export const ACCIONES = ["importar-datos", "verificar", "guardar-fuente", "guardar-preferencias", "entrar", "registrar", "entrar-google", "aprobar", "marcar-enviada", "cambiar-contrasena", "borrar-cuenta", "descargar-datos", "registrar-respuesta", "entrar-empresa", "publicar-oferta", "editar-oferta", "cerrar-oferta", "moderar-oferta"] as const;
+export const ACCIONES = ["importar-datos", "verificar", "guardar-fuente", "guardar-preferencias", "entrar", "registrar", "entrar-google", "aprobar", "marcar-enviada", "cambiar-contrasena", "borrar-cuenta", "descargar-datos", "registrar-respuesta", "entrar-empresa", "publicar-oferta", "editar-oferta", "cerrar-oferta", "moderar-oferta", "enviar-a-empresa", "retirar-envio", "cambiar-estado-bandeja"] as const;
 
 export type EventoEntrada = {
   componente: (typeof COMPONENTES)[number];

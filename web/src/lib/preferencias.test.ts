@@ -66,7 +66,9 @@ test("línea roja: nada lee candidatas fuera de la lista blanca, nada ordena por
   // Un archivo nuevo que lo haga obliga a revisar esta lista a propósito.
   // datos-usuaria.ts: exportar y borrar SUS datos (RGPD), siempre por id de una sola usuaria (se comprueba arriba).
   // matches.ts y candidaturas.ts: lo que ya leían antes del bloque 3 (siempre filtrado por usuaria_id de la sesión).
-  const PUEDEN_LEER_CANDIDATAS = new Set(["preferencias.ts", "importar.ts", "esquemas.ts", "datos-usuaria.ts", "matches.ts", "candidaturas.ts"]);
+  // empresa-envio.ts (bloque 4): lee la candidatura aprobada de LA USUARIA para copiar su CV/carta al enviarla a la
+  // empresa (siempre WHERE usuaria_id = $1 AND oferta_id = $2, comprobado en empresa-envio.test.ts); nunca una lista.
+  const PUEDEN_LEER_CANDIDATAS = new Set(["preferencias.ts", "importar.ts", "esquemas.ts", "datos-usuaria.ts", "matches.ts", "candidaturas.ts", "empresa-envio.ts"]);
   for (const { ruta, nombre } of archivos) {
     const t = readFileSync(ruta, "utf8");
     if (/\b(FROM|JOIN|INTO|UPDATE)\s+(perfiles|preferencias|matches|candidaturas)\b/i.test(t)) {

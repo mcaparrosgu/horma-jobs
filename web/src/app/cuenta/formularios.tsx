@@ -28,7 +28,7 @@ export function FormularioBorrar({ tieneContrasena, email }: { tieneContrasena: 
     <form action={accion} className="space-y-3 rounded border border-red-200 bg-red-50 p-4">
       <h2 className="font-medium text-red-900">Borrar mi cuenta</h2>
       <p className="text-sm text-red-800">
-        Esto borra tu cuenta, tu perfil, tus preferencias, tus recomendaciones y tus candidaturas, sin vuelta atrás.
+        Esto borra tu cuenta, tu perfil, tus preferencias, tus recomendaciones, tus candidaturas y tus envíos a empresas, sin vuelta atrás.
         {tieneContrasena ? " Escribe tu contraseña para confirmarlo." : ` Entras con Google: escribe tu correo (${email}) para confirmarlo.`}
       </p>
       <label className="block text-sm">
