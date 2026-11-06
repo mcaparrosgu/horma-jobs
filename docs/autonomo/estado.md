@@ -29,4 +29,7 @@ Línea base: web 127 tests · evals 41 · build ok (ninguna ruta estática) · c
 - **017_seguimiento.sql:** `CREATE OR REPLACE FUNCTION candidaturas_transicion()` con los pares nuevos (ver bitácora). Rollback: recrear la función con el cuerpo de la migración 015 (solo `borrador→aprobada`, `aprobada→enviada` y el vaivén `borrador/pendiente_de_ti`).
 
 ## Siguiente paso exacto
-Lanzar `auditor-lineas-rojas` sobre el diff de B1+B2; si no hay hallazgos abiertos, empezar B3 (portal de empresas I).
+Empezar B3 (portal de empresas I: identidad, publicar, moderación).
+
+## Revisores
+- **auditor-lineas-rojas sobre B1+B2 (tras B2, según el plan): sin hallazgos.** Cumplen todas las líneas rojas. Único punto no bloqueante: la nota libre de «Registrar respuesta» (seguimiento) confía en el aviso de la UI para que la usuaria no escriba datos de un tercero; el auditor propone, si se quiere reforzar más adelante, una confirmación suave en el cliente si el texto parece un nombre o un correo. No es línea roja incumplida (la nota es de la propia usuaria, sobre su propio proceso, protegida por el mismo borrado/exportación RGPD); lo dejo anotado para Mar, no lo construyo ahora (no estaba en el plan de esta noche).
