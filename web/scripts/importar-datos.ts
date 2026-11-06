@@ -17,8 +17,8 @@ import {
 } from "../src/lib/ingesta.ts";
 import { origenDeRaw, origenCoincide } from "../src/lib/verificar.ts";
 import {
-  SQL_OFERTA, SQL_USUARIA, sqlPerfil, sqlPreferencias,
-  paramsOferta, paramsPerfil, paramsPreferencias, registrarEvento, errorSeguro,
+  SQL_OFERTA, SQL_USUARIA, SQL_MATCH, sqlPerfil, sqlPreferencias,
+  paramsOferta, paramsPerfil, paramsPreferencias, paramsMatch, registrarEvento, errorSeguro,
 } from "../src/lib/importar.ts";
 
 const MAX_BYTES = 1_000_000; // tope por archivo: un JSON enorme no debe agotar la memoria
@@ -64,7 +64,7 @@ function motivoRechazo(ruta: string, tipo: "archivo" | "carpeta"): string | null
 }
 
 /** Ruta relativa para la consola: el nombre de la carpeta de una usuaria (su id) se oculta. */
-const rutaCorta = (ruta: string) => relative(RAIZ, ruta).replace(/^(perfiles|usuarias)[\\/][^\\/]+/, "$1/(usuaria)");
+const rutaCorta = (ruta: string) => relative(RAIZ, ruta).replace(/^(perfiles|usuarias|matches)[\\/][^\\/]+/, "$1/(usuaria)");
 
 /** Texto de cv.md (el que citan los «origen» del perfil), o null si falta o no se debe leer. */
 function leerCv(carpeta: string): string | null {
@@ -130,7 +130,7 @@ const inicio = Date.now();
 /** Valida y guarda un archivo. Devuelve true si se aceptó. `guardar` devuelve las filas tocadas. */
 async function importar(
   archivo: string,
-  esquema: "oferta" | "perfil" | "preferencias",
+  esquema: "oferta" | "perfil" | "preferencias" | "match",
   guardar: (dato: any) => Promise<number>, // eslint-disable-line @typescript-eslint/no-explicit-any
   comprobar?: (dato: any) => string | null, // eslint-disable-line @typescript-eslint/no-explicit-any
 ): Promise<boolean> {
@@ -252,6 +252,29 @@ try {
         await db.query(SQL_USUARIA, [u]);
         return (await db.query(sqlPreferencias(forzar), paramsPreferencias(u, p))).rowCount ?? 0;
       });
+    }
+  }
+
+  // Recomendaciones: …/matches/<usuaria>/AAAA-MM-DD.json (los demás archivos de esa carpeta son de trabajo y no se leen).
+  const dirMatches = join(RAIZ, "matches");
+  if (!SOLO_OFERTAS && existsSync(dirMatches) && !motivoRechazo(dirMatches, "carpeta")) {
+    let nMatch = 0;
+    for (const u of readdirSync(dirMatches).sort()) {
+      const carpeta = join(dirMatches, u);
+      ++nMatch;
+      if (motivoRechazo(carpeta, "carpeta")) { cuenta.omitidas++; console.log(`omitida   matches nº ${nMatch}: no es una carpeta`); continue; }
+      for (const f of readdirSync(carpeta).sort().filter((n) => /^\d{4}-\d{2}-\d{2}\.json$/.test(n))) {
+        await importar(
+          join(carpeta, f), "match",
+          async (m) => {
+            await db.query(SQL_USUARIA, [u]);
+            let n = 0;
+            for (const o of m.ofertas) n += (await db.query(SQL_MATCH, paramsMatch(m, o))).rowCount ?? 0;
+            return n;
+          },
+          (m) => (m.usuaria_id !== u ? "usuaria_id no coincide con el nombre de la carpeta" : null),
+        );
+      }
     }
   }
 

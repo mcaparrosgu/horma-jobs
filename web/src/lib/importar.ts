@@ -120,3 +120,16 @@ export async function registrarEvento(
     [e.componente, e.accion, e.resultado, ms, JSON.stringify(detalleSeguro(e.detalle))],
   );
 }
+
+// Recomendaciones (esquema match): una fila por (usuaria, oferta, versión de perfil). Repetible: no duplica.
+export const SQL_MATCH = `
+  INSERT INTO matches (usuaria_id, oferta_id, version_perfil, fecha, nota, nivel_condiciones, explicacion, sin_sueldo, correccion)
+  VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+  ON CONFLICT (usuaria_id, oferta_id, version_perfil) DO UPDATE SET
+    fecha=EXCLUDED.fecha, nota=EXCLUDED.nota, nivel_condiciones=EXCLUDED.nivel_condiciones,
+    explicacion=EXCLUDED.explicacion, sin_sueldo=EXCLUDED.sin_sueldo,
+    correccion=COALESCE(EXCLUDED.correccion, matches.correccion)`;
+
+export function paramsMatch(m: Json, o: Json): unknown[] {
+  return [m.usuaria_id, o.oferta_id, m.version_perfil, m.fecha, o.nota, o.nivel_condiciones, o.explicacion, o.sin_sueldo ?? false, o.correccion ?? null];
+}

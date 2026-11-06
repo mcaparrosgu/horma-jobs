@@ -70,7 +70,9 @@ test("línea roja: nada lee candidatas fuera de la lista blanca, ni las ordena p
     if (/\b(FROM|JOIN|INTO|UPDATE)\s+(perfiles|preferencias)\b/i.test(t)) {
       assert.ok(PUEDEN_LEER_CANDIDATAS.has(nombre), `${nombre}: lee perfiles o preferencias fuera de la lista blanca`);
     }
-    assert.ok(!/ORDER BY[^`"']*(nota|score|puntu|ranking|compat|match)/i.test(t), `${nombre}: ordena por una nota`);
+    // Excepción única y acotada: matches.ts ordena las OFERTAS de UNA candidata por su nota para ella (nunca candidatas entre sí;
+    // su consulta va siempre con WHERE m.usuaria_id = $1, comprobado en matches.test.ts).
+    if (!ruta.replaceAll("\\","/").endsWith("src/lib/matches.ts")) assert.ok(!/ORDER BY[^`"']*(nota|score|puntu|ranking|compat|match)/i.test(t), `${nombre}: ordena por una nota`);
     assert.ok(!/dangerouslySetInnerHTML/.test(t), `${nombre}: HTML sin sanear`);
   }
   const rutas = archivos.map((a) => a.ruta.replaceAll("\\", "/")).filter((r) => r.includes("/app/"));
