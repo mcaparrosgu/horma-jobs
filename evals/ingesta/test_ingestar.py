@@ -264,6 +264,22 @@ class TestNombres(unittest.TestCase):
         self.assertEqual(ing.nombre_archivo("F", 123), ing.nombre_archivo("F", "123"))
 
 
+class TestPendientes(unittest.TestCase):
+    def test_solo_las_que_no_tienen_procesada(self):
+        with tempfile.TemporaryDirectory() as d:
+            proc = Path(d)
+            (proc / "A-1-aaaa.json").write_text("{}")
+            self.assertEqual(ing.pendientes(["A-1-aaaa.md", "B-2-bbbb.md"], proc), ["B-2-bbbb.md"])
+
+    def test_sin_carpeta_procesadas_todas_pendientes(self):
+        self.assertEqual(ing.pendientes(["A.md"], Path("no-existe-xyz")), ["A.md"])
+
+    def test_una_carpeta_con_ese_nombre_no_cuenta_como_procesada(self):
+        with tempfile.TemporaryDirectory() as d:
+            (Path(d) / "A.json").mkdir()
+            self.assertEqual(ing.pendientes(["A.md"], Path(d)), ["A.md"])
+
+
 # Lanza main() del script con HOST_DE_CLAVE ya cargado (en producción vive en el código; aquí se autoriza solo para la prueba).
 ENVOLTORIO = """
 import importlib.util, json, sys
