@@ -5,8 +5,8 @@ Línea base: web 127 tests · evals 41 · build ok (ninguna ruta estática) · c
 | Bloque | Estado | Rama | Hora | Tests (web/evals) | Revisores |
 |---|---|---|---|---|---|
 | B0 | hecho | autonomo/2026-11-06 | 22:54–23:05 | 127/41 (línea base) | — |
-| B1 | hecho | auto/b1-cuenta-rgpd | 23:05–00:15 | 136/41 | aplazado a B5 (con B2) |
-| B2 | hecho | auto/b2-seguimiento | 00:15–01:10 | 139/41 | auditor-lineas-rojas pendiente de lanzar |
+| B1 | hecho | auto/b1-cuenta-rgpd | 23:05–23:16 | 136/41 | aplazado a B5 (con B2) |
+| B2 | hecho | auto/b2-seguimiento | 23:16–23:27 | 139/41 | auditor-lineas-rojas pendiente de lanzar |
 | B3 | pendiente | — | — | — | — |
 | B4 | pendiente | — | — | — | — |
 | B5 | pendiente | — | — | — | — |
