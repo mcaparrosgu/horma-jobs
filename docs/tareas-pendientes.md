@@ -12,7 +12,7 @@ Actualizado el 2026-11-05 por la noche (día 1 del plan de 6 días hecho; ver «
 
 **Dónde estamos.** El día 1 del plan está hecho: `pypdf` instalado, campo `horario` en esquema, base de datos, web y agentes (migración `005`; 35 tests de la web y 35 evals en verde), preferencias deducidas vacías, y 12 fuentes calificadas con `/calificar-fuentes` (registro en `datos/fuentes/calificacion.json`, ignorado por git; resumen en `docs/bitacora.md`). Dos son **aptas con condiciones**: **BOE** (empleo público, España) y **JobTech** (Suecia, CC0). Las otras diez salieron no aptas (Arbeitnow, EURES, Adzuna, The Hub, InfoJobs, Personio, Careerjet, Jooble, Greenhouse, Lever). `endpoints.json` tiene JobTech con `activa: false`; el BOE necesita un adaptador porque su respuesta va anidada. Último push: `0675eb5`; los cambios de este cierre (documentación) pueden estar sin subir: mira `git status`.
 
-**Decisión de Mar (5-nov, noche): demostración con pocas fuentes, pero limpias; después se amplía.** Mañana se **construye** con las fuentes aptas (JobTech y BOE) y las ofertas que publiquen empresas, y la búsqueda de más fuentes corre en paralelo, sin bloquear la construcción. Mar no está satisfecha con el volumen todavía: la ampliación es el segundo paso, no se descarta. Todo lo que ya sabemos y las ideas están en `docs/consulta-profesor-fuentes-de-ofertas.md` y `docs/fuentes-de-empleo.html`. Para la ampliación (después de la demostración), lo que **no** se ha probado, de más rápido a más lento:
+**Decisión de Mar (5-nov, noche): demostración con pocas fuentes, pero limpias; después se amplía.** Mañana se **construye** con las fuentes aptas (JobTech y BOE) y las ofertas que publiquen empresas, y la búsqueda de más fuentes corre en paralelo, sin bloquear la construcción. Mar no está satisfecha con el volumen todavía: la ampliación es el segundo paso, no se descarta. Todo lo que ya sabemos y las ideas están en `docs/preguntas-profesor.md (apartado «Consulta sobre fuentes de ofertas»)` y `docs/artefactos/fuentes-de-empleo.html`. Para la ampliación (después de la demostración), lo que **no** se ha probado, de más rápido a más lento:
 1. **Careerjet:** crear la cuenta de publicador (Mar, con sus datos) y leer dentro los términos de caché, atribución y enlace. Es el programa pensado para mostrar sus ofertas.
 2. **Leer a mano** el aviso legal del BOE (una página) para dar la fuente por verificada.
 3. **Más datos abiertos del sector público:** datos abiertos del SEPE y de las comunidades autónomas (Aragón publica un CSV de empleo público), Työmarkkinatori de Finlandia (su documentación oficial no se pudo leer), Jobnet de Dinamarca, France Travail, Bundesagentur. Habría que calificar cada uno.
@@ -38,7 +38,7 @@ Actualizado el 2026-11-05 por la noche (día 1 del plan de 6 días hecho; ver «
 5. **Campo «licencia de origen»** en cada oferta (empresa, socio, abierto, usuaria), con su migración y la web enseñando siempre el enlace a la original.
 6. **BOE:** adaptador para su respuesta anidada; solo convocatorias de la sección `2B`, descartando listas de aprobados (nombres de personas); atribución «Fuente de los datos: Agencia Estatal Boletín Oficial del Estado» con enlace y fecha.
 7. **Después:** dashboard y observabilidad (días 4 y 5 del plan), y la ampliación de fuentes (lista de arriba).
-Mar prueba el resultado con `docs/guia-pruebas-manuales.md` al acabar cada bloque.
+Mar prueba el resultado con `docs/artefactos/guia-pruebas-manuales.md` al acabar cada bloque.
 
 **Ya no hace falta:** que Mar cree claves de Adzuna e InfoJobs (ninguna salió apta).
 
@@ -49,7 +49,7 @@ Mar prueba el resultado con `docs/guia-pruebas-manuales.md` al acabar cada bloqu
 - Sin presión de fechas: si hay que recortar, ramas pequeñas, nunca troncos.
 
 ## 0. Plan de 6 días (Mar, 5-nov; reordenado con las instrucciones nuevas del profesor)
-**Meta:** el flujo agéntico funcionando de punta a punta en 6 días como máximo, y probado a mano con `docs/guia-pruebas-manuales.md`. Si algo no cabe, se recorta por ramas (casos de prueba extra), nunca por troncos.
+**Meta:** el flujo agéntico funcionando de punta a punta en 6 días como máximo, y probado a mano con `docs/artefactos/guia-pruebas-manuales.md`. Si algo no cabe, se recorta por ramas (casos de prueba extra), nunca por troncos.
 
 **Cómo encajan las tres instrucciones nuevas (decisiones técnicas de la Copiloto):**
 - **Pipeline de ingesta desde APIs.** La primera mitad ya existe (`fuentes-ofertas/scripts/ingestar.py` descarga, los agentes procesan, el importador guarda), pero `endpoints.json` está vacío: faltan fuentes calificadas. Es el **primer trabajo**. Sigue sin n8n (decisión del profesor del 30-oct); se pregunta si «como antes» cambia eso (pregunta 31). Cadena: **descargar (script) → procesar (agentes, en Claude Code) → validar (esquemas) → guardar (importador) → registrar la ejecución**.
@@ -67,7 +67,7 @@ Mar prueba el resultado con `docs/guia-pruebas-manuales.md` al acabar cada bloqu
 
 **Riesgos:** (1) sin colchón, y las instrucciones nuevas añaden trabajo real (descarga, calificación de fuentes, `verificar`); si falta tiempo, los flujos C-E de la pista A pasan a casos mínimos, no el dashboard ni la ingesta; (2) `auditor-fuentes` nunca se ha probado con webs reales y puede ocupar el día 1 entero; (3) algunas APIs exigen clave (Adzuna, InfoJobs): sin clave en `.env` esa fuente no corre, y yo no leo `.env`; (4) la descarga abre la puerta a direcciones internas: sin revisión específica no se da por buena.
 
-**Plan detallado del día 1** (lista de fuentes: `docs/fuentes-de-empleo.html`; espera la orden de Mar):
+**Plan detallado del día 1** (lista de fuentes: `docs/artefactos/fuentes-de-empleo.html`; espera la orden de Mar):
 1. **Preparar (1 h):** `pypdf`; campo `horario` en el esquema compartido de `preferencias` (se avisa antes: toca pista A, web, migración y tests); preferencias deducidas vacías; `evals/resultados/*.json` a git. Tests y evals en verde.
 2. **Mar crea las claves** de Adzuna e InfoJobs (y, si quiere ampliar, Jooble y Careerjet) y las pone en `.env`. La Copiloto no lo lee.
 3. **`/calificar-fuentes` (2 a 3 h):** Arbeitnow, EURES, Adzuna, The Hub e InfoJobs (autorizadas) y, si Mar lo aprueba, un ATS abierto (Personio o Greenhouse) con 3 a 5 empresas europeas como prueba. Cada una: condiciones de uso, robots.txt, qué permiten y si sirven a un metabuscador.
@@ -75,7 +75,7 @@ Mar prueba el resultado con `docs/guia-pruebas-manuales.md` al acabar cada bloqu
 5. **Cierre:** tests, evals, `revisor-seguridad` sobre los cambios, bitácora, commit por archivo. Criterio: al menos 2 fuentes aptas.
 **No entra el día 1:** descargar ofertas (día 2), scraping y Apify (aparcados).
 
-**Resultado del día 1 (5-nov):** pasos 1, 3 y 4 hechos. Primera ronda: seis fuentes no aptas. Segunda ronda: Careerjet, Jooble, Greenhouse y Lever no aptas; **BOE y JobTech aptas con condiciones** (criterio de «2 aptas» cumplido). `endpoints.json` tiene JobTech con `activa: false`; BOE necesita adaptador. Pendiente tras el profesor (6-nov): ingesta real con las aptas y el campo «licencia de origen»; «añadir oferta por enlace»; agente descubridor de empresas con ATS. Detalle y preguntas: `docs/consulta-profesor-fuentes-de-ofertas.md` (pregunta 32 de `preguntas-profesor.md`).
+**Resultado del día 1 (5-nov):** pasos 1, 3 y 4 hechos. Primera ronda: seis fuentes no aptas. Segunda ronda: Careerjet, Jooble, Greenhouse y Lever no aptas; **BOE y JobTech aptas con condiciones** (criterio de «2 aptas» cumplido). `endpoints.json` tiene JobTech con `activa: false`; BOE necesita adaptador. Pendiente tras el profesor (6-nov): ingesta real con las aptas y el campo «licencia de origen»; «añadir oferta por enlace»; agente descubridor de empresas con ATS. Detalle y preguntas: `docs/preguntas-profesor.md (apartado «Consulta sobre fuentes de ofertas»)` (pregunta 32 de `preguntas-profesor.md`).
 
 **Decisiones de Mar (5-nov):** preferencias deducidas vacías hasta confirmar; sí al campo de horario; sí a instalar `pypdf`; sí a versionar `evals/resultados/*.json` (datos inventados); sí a calificar EURES, Adzuna, Arbeitnow, The Hub e InfoJobs; compartir la página del profesor con él desde *Share*; **`settings.json` «más adelante»** (hook y bloqueo de `.env` siguen sin activar durante las pruebas).
 
@@ -158,14 +158,14 @@ Mar prueba el resultado con `docs/guia-pruebas-manuales.md` al acabar cada bloqu
 - **Multiagente para construir Horma:** en pequeño y sin framework; falta definir roles y el ok del profesor. LangGraph solo dentro de Horma; si dice que no, Python plano sin cambiar agentes ni flujos. Cada agente, una función independiente del framework.
 - **Por confirmar (Mar):** ingesta como proceso aparte; agente de relleno LLM frente a adaptadores por ATS (lo decide el eval de ablación).
 - **Investigaciones:** seguimiento por correo (Gmail frente a reenvío); coste del servidor; condiciones de InfoJobs y EURES, SmartRecruiters, Ashby, Workable y la sentencia C-30/14.
-- **Pregunta sobre fuentes al profesor:** ¿Apify para portales que prohíben el scraping o base en APIs y ATS públicos? Datos en `docs/investigacion-fuentes-y-costes.md`. Recomendación: híbrido.
+- **Pregunta sobre fuentes al profesor:** ¿Apify para portales que prohíben el scraping o base en APIs y ATS públicos? Datos en `docs/archivo/investigacion-fuentes-y-costes.md`. Recomendación: híbrido.
 - **Rúbrica y fecha exacta de entrega** (20 o 24 de noviembre) en Neoland; si el repositorio es público en la entrega.
 - **Obligación RGPD:** exportar y borrar datos, antes de tener usuarias reales.
 
 **Baja (ramas)**
 - Minijuegos (miden una habilidad del puesto, nunca rasgos; el resultado no llega a ninguna empresa); voz del entrenador; tiendas de apps; **servidor MCP «Horma»** (recomendado: solo lectura, 3-4 herramientas, ninguna que envíe).
 - **Evidencias del perfil humano:** perfeccionar la función (no reescribir; ocultar; pedir corrección). Mar la considera importante.
-- **Ideas de honestidad** (`docs/ideas/honestidad.md`, ideas 11-18; auditadas, ninguna en rojo): por decidir con el profesor cuáles entran; por decidir (Mar) confesionario solo por texto, peso y salud (art. 9) en la idea 13, y si historial y registro de correcciones son un solo sistema; verificar licencia y API de ESCO.
+- **Ideas de honestidad** (`docs/archivo/honestidad.md`, ideas 11-18; auditadas, ninguna en rojo): por decidir con el profesor cuáles entran; por decidir (Mar) confesionario solo por texto, peso y salud (art. 9) en la idea 13, y si historial y registro de correcciones son un solo sistema; verificar licencia y API de ESCO.
 - **Condiciones del auditor (29-oct)** en `propuesta-horma.md`, apartado 4: carta «cómo trabajo», entrenador, asistente de edición, modo autónomo y lema.
 - **Topes:** sin tope de ofertas ni candidaturas; los demás se perfilan más adelante. Diseñar el supervisor del modo autónomo; elegir transcripción en la UE.
 - **Seguridad previa al código:** los 20 puntos de `analisis-tecnico.md`, apartado 8, pasan a ADR; los de mejor relación coste/beneficio: roles de BD con RLS forzada, máquina de estados del envío y reglas duras del supervisor en código.
@@ -177,4 +177,4 @@ Mar prueba el resultado con `docs/guia-pruebas-manuales.md` al acabar cada bloqu
 ## 5. Artefactos pendientes de actualizar
 Actualizados el 4-nov con Next.js, «candidatos» y el orden de la web (ingesta y candidatos primero): Cuaderno personal, «Horma por fases», «Construcción de Horma», «Horma por dentro» y la página del profesor. Tabla y reglas en `docs/indice.md`.
 
-**Pendiente:** el PRD (`docs/prd-horma-v1.html`, RES-01) aún dice «backend 100 % Python (FastAPI)». No se toca hasta que el profesor responda a las preguntas 29 y 30, porque el PRD es su documento de partida.
+**Pendiente:** el PRD (`docs/archivo/prd-horma-v1.html`, RES-01) aún dice «backend 100 % Python (FastAPI)». No se toca hasta que el profesor responda a las preguntas 29 y 30, porque el PRD es su documento de partida.

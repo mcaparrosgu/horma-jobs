@@ -1,6 +1,6 @@
 # Guía de pruebas a mano de Horma
 
-**Versión con casillas para el navegador:** https://claude.ai/artifact/AeDdEVZyd7y4xi4mHe7nYY (si cambias esta guía, hay que actualizar también `docs/pruebas-horma.html`).
+**Versión con casillas para el navegador:** https://claude.ai/artifact/AeDdEVZyd7y4xi4mHe7nYY (si cambias esta guía, hay que actualizar también `docs/artefactos/pruebas-horma.html`).
 
 Para Mar. Sirve para comprobar tú misma que Horma funciona, sin saber programar. El profesor pidió probar y pasar los tests a mano. **Todo con datos inventados** (Ana, Rosa, Leo). Nunca pruebes con un CV real tuyo ni de nadie: los datos personales no van a logs ni a git.
 

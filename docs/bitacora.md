@@ -401,3 +401,7 @@ Cuaderno de decisiones de Horma jobs en orden cronológico. Solo se añade al fi
 ## 5-nov-2026 · Decisión de Mar: demostración con pocas fuentes limpias
 
 Mar elige construir primero una demostración con pocas fuentes que pasen la calificación (JobTech y BOE) y las ofertas que publiquen empresas, y ampliar después. Por qué: calidad y permiso antes que volumen; no depender de respuestas ajenas para avanzar. Efecto: mañana empieza la construcción (seguridad de la descarga, activar JobTech, ingesta real, verificar, licencia de origen, adaptador del BOE) y la búsqueda de más fuentes corre en paralelo. Detalle en «Retomar mañana» de `docs/tareas-pendientes.md`.
+
+## 6-nov-2026 · Depuración de la documentación y fusión de «Horma v3»
+
+Mar pidió menos documentos y menos confusión. Decisiones: (1) `docs/` queda con 9 documentos vivos; las fuentes de los artefactos pasan a `docs/artefactos/` y lo no vigente a `docs/archivo/` (movido con `git mv`, recuperable). (2) La consulta sobre fuentes y el resumen de pruebas para el profesor se fusionan en `preguntas-profesor.md` e `informe-pruebas.md`. (3) «Horma v3» se fusiona en «Horma jobs» (apartado 10, agentes y LangGraph) y se añade el criterio de migración del profesor (apartado 24). (4) El índice del Cuaderno solo lleva lo esencial para estudiar, más lo del profesor; la página del profesor añade las fases, la consulta de fuentes y las preguntas. Comprobado: 35 evals en verde y estructura del Cuaderno coherente. Efecto: `docs/indice.md` es el mapa; las rutas antiguas están actualizadas.

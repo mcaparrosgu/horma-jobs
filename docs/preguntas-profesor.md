@@ -44,7 +44,7 @@
 13. ~~n8n en la ingesta~~ **Resuelta (30-oct):** sin n8n; la ingesta es un script propio en Python con un dashboard. Número conservado para no alterar las referencias.
 14. **¿Framework de agentes o SDK directo?** ¿Espera LangGraph (u otro framework) o basta con el SDK del LLM y function calling?
     - Propuesta (1-nov): SDK directo en el resto, y LangGraph solo en dos flujos: CV y cartas (bucle redactor-juez con tope de 2 y pausa para que la usuaria apruebe) y envío (pausa para aprobar). Orquestación en código, sin LangChain. Si prefiere Python plano, los agentes y los flujos no cambian.
-    - Diagramas: Cuaderno, Proyectos, «Horma v3».
+    - Diagramas: Cuaderno, Proyectos, «Horma jobs» (apartado de agentes).
     - Por qué: cada framework añade mantenimiento y una capa más que depurar.
     - Matiz (2-nov): el argumento técnico para LangGraph es débil (ambos flujos se resuelven con Python plano; solo la pausa del envío se beneficia de guardar y reanudar estado, y eso también cabe en una tabla de PostgreSQL). El argumento sólido es **aprender** el framework para el bootcamp y el portfolio. ¿Prefiere que lo usemos por eso, aunque no haga falta?
     - Propuesta de prueba: implementar el flujo de envío (el que tiene pausa) en LangGraph y en Python plano, y comparar líneas, claridad y fallos. Cada agente se escribe como función con entrada y salida claras, independiente del framework, para poder cambiar el orquestador sin rehacer nada.
@@ -55,7 +55,7 @@
 17. **Envío con Playwright:** el relleno (LLM) prepara un plan, el supervisor (código) lo comprueba y el ejecutor (script) maneja el navegador para rellenar formularios ATS. ¿Le parece bien para el MVP o es demasiado frágil para la demo?
 18. **Observabilidad:** ¿basta con una tabla propia de coste, tokens y latencia, o espera una herramienta como Langfuse?
 18 bis. **Arquitectura por procesos (29 oct, a raíz de su comentario sobre el análisis técnico):** en lugar de una sola API, proponemos un monolito modular con dos procesos (API síncrona y worker, mismo código base), un script de ingesta aparte y un navegador aislado para el envío; la cola de tareas sería una tabla de PostgreSQL y no Redis. ¿Le parece el nivel de detalle y de complejidad adecuado para un proyecto final, o espera algo más (o menos)?
-    - Propuesta: la de `docs/analisis-tecnico.md`; diagramas en el WB (`tecnico`, `recomendacion`, `calidad` y los de «Horma v3»). Si responde a la 14 con «SDK directo», los grafos del worker se simplifican.
+    - Propuesta: la de `docs/analisis-tecnico.md`; diagramas en el WB (`tecnico`, `recomendacion`, `calidad` y los del apartado de agentes de «Horma jobs»). Si responde a la 14 con «SDK directo», los grafos del worker se simplifican.
     - Por qué importa: separa lo lento de lo rápido y aísla el envío (lo único irreversible), sin el coste de microservicios.
     - Pedirle también una opinión sobre los requisitos de seguridad previos al código (apartado 8 del análisis): roles de BD con RLS forzada, navegador sin red interna, máquina de estados del envío y supervisor con denegación por defecto.
 
@@ -99,7 +99,7 @@
     - Propuesta: script en Python (ya existe `ingestar.py`), el dashboard solo muestra y pide, y un comando `verificar` comprueba que lo descargado está en la base.
     - Por qué: reaprovechar lo hecho, una herramienta menos que mantener y una web sin permiso para lanzar programas.
 
-32. **Fuentes de ofertas y permisos (5-nov):** calificamos Arbeitnow, EURES, Adzuna, The Hub, InfoJobs y Personio: ninguna sale apta (uso personal o no comercial, acuerdo escrito, o sin poder leer sus condiciones). Proponemos un metabuscador por capas con «licencia de origen» (ATS públicos de empresas, programas de socios como Careerjet y Jooble, datos abiertos como JobTech y BOE, ofertas que trae la usuaria, y permisos a los grandes) y un agente que descubra empresas y ATS sin copiar contenido. ¿Lo valida? Documento con el detalle y seis preguntas: `docs/consulta-profesor-fuentes-de-ofertas.md`.
+32. **Fuentes de ofertas y permisos (5-nov):** calificamos Arbeitnow, EURES, Adzuna, The Hub, InfoJobs y Personio: ninguna sale apta (uso personal o no comercial, acuerdo escrito, o sin poder leer sus condiciones). Proponemos un metabuscador por capas con «licencia de origen» (ATS públicos de empresas, programas de socios como Careerjet y Jooble, datos abiertos como JobTech y BOE, ofertas que trae la usuaria, y permisos a los grandes) y un agente que descubra empresas y ATS sin copiar contenido. ¿Lo valida? Documento con el detalle y seis preguntas: `docs/preguntas-profesor.md (apartado «Consulta sobre fuentes de ofertas»)`.
     - Por qué: cambiar la herramienta (subagentes, scraper propio) no cambia el permiso: las condiciones de cada portal mandan.
 
 ## Después de la reunión
@@ -107,3 +107,107 @@
 - Apuntar las respuestas aquí, debajo de cada punto.
 - Pasarlas a `docs/propuesta-horma.md` (apartado 4) y a `docs/tareas-pendientes.md`.
 - Si da el ok: desglosar en tareas pequeñas y construir por componentes, empezando por la ingesta (su método, 30-oct).
+
+
+---
+
+## Consulta sobre fuentes de ofertas (5-nov-2026)
+
+
+Documento para comentar con el profesor. Resume qué pasó al calificar las primeras fuentes, qué opciones hay para que Horma sea un metabuscador sin depender de permisos lentos, y qué decisiones necesitamos de él. Lista completa de fuentes y su estado: `docs/artefactos/fuentes-de-empleo.html`. Nada de esto es asesoramiento legal.
+
+## 1. Objetivo
+
+Horma es un metabuscador de empleo europeo: la persona no debe ir de web en web ni de app en app, porque todas las ofertas llegan a un solo sitio. Esa es la diferencia con el resto. El flujo agéntico exige que la ingesta traiga ofertas de APIs (instrucción del 5-nov).
+
+## 2. Qué ha pasado: las seis primeras fuentes salen «no aptas»
+
+`/calificar-fuentes` (agente `auditor-fuentes`: condiciones de uso, `robots.txt`, API) sobre Arbeitnow, EURES, Adzuna, The Hub, InfoJobs y Personio (ATS de prueba).
+
+| Fuente | Resultado | Motivo |
+|---|---|---|
+| Arbeitnow | No apta | API sin clave con enlace de vuelta, pero sus términos dicen uso personal y no comercial |
+| Adzuna | No apta | La clave gratuita es para evaluar; un metabuscador necesita acuerdo escrito |
+| The Hub | No apta | Solo uso personal; sin API; sin España |
+| EURES | No apta (no claro) | Ni permite ni prohíbe; sin API oficial encontrada; reutilización citando a ELA |
+| InfoJobs | No apta (no claro) | API con credenciales, pero condiciones sin leer (bloqueo a bots, error 456) y `robots.txt` que bloquea listados |
+| Personio | No apta (no claro) | Ayuda y términos no legibles (errores 403 y 429): sin base para decidir |
+
+Ninguna prohíbe expresamente la API. Todas limitan el uso a fines personales o no comerciales, piden acuerdo escrito o no se pudieron leer. Limitación: el agente leyó las páginas a través de un resumen automático, no siempre literal; las cláusulas citadas hay que verificarlas a mano antes de decidir.
+
+### 2 bis. Segunda ronda (5-nov, tarde): Careerjet, Jooble, Greenhouse, Lever, JobTech y BOE
+
+Las seis siguen `apta = false` hasta verificar, pero con diferencias:
+
+| Fuente | Estado | Lo más relevante |
+|---|---|---|
+| **BOE (datos abiertos)** | Candidata fuerte | El aviso legal permite reutilizar «para fines comerciales y no comerciales», con copia y modificación, citando la fuente con enlace; prohíbe desnaturalizar el sentido y sugerir carácter oficial. API sin clave. Falta leer la licencia tipo (27-jun-2024), el esquema del sumario (sección II.B, oposiciones y concursos) y el `robots.txt` completo |
+| **JobTech (Suecia)** | Candidata fuerte | Licencia CC0 y acceso público confirmados en la fuente oficial. Faltan los términos y límites de la API. Solo Suecia |
+| **Careerjet** | Pendiente de cuenta | Programa para mostrar sus ofertas; los términos están dentro de la cuenta de publicador; obliga a reenviar IP y navegador de la usuaria |
+| **Greenhouse** | Con matices | API pública sin autenticación; sin prohibición ni autorización para agregadores; el texto de cada oferta es de la empresa |
+| **Lever** | Descartada sin permiso | Términos para clientes: no distribuir a terceros; sin licencia visible |
+| **Jooble** | Descartada sin permiso | Prohíbe bots y copiar para republicar; 500 peticiones de por vida por clave |
+
+Conclusión: la capa de datos abiertos (BOE y JobTech) es hoy la base más sólida; los ATS valen empresa por empresa; los portales comerciales necesitan permiso escrito. Hallazgo para la pregunta 1: empezar con menos volumen pero con permiso es viable (BOE para empleo público en España; JobTech para Suecia), y el resto crece con empresas que se registran. Limitación: todo se leyó a través de un resumen automático; cláusulas por verificar a mano.
+
+## 3. Por qué cambiar la herramienta no resuelve el problema
+
+La pregunta no es cómo se descargan las ofertas, sino si hay permiso para guardarlas y mostrarlas en un producto de pago. Un subagente con LLM o un scraper propio entran por la misma puerta que los términos de uso y el `robots.txt`. Además, un subagente cuesta tokens y puede recibir instrucciones escondidas en una oferta.
+
+Marco jurídico (sin verificar con un abogado):
+- Sentencia del TJUE C-30/14 (Ryanair contra PR Aviation, 2015): si una base de datos no está protegida por derechos de autor ni por el derecho `sui generis`, su dueño puede limitar su uso **por contrato**, es decir, con sus condiciones de uso. Es lo que hacen estos portales. No hay constancia, en lo que he encontrado, de una sentencia española sobre scraping de ofertas.
+- Los datos personales dentro de una oferta (nombre o correo de quien selecciona) entran en el RGPD.
+- LinkedIn e Indeed prohíben la automatización en sus términos; el profesor ya los descartó.
+
+## 4. Propuesta: el metabuscador por capas, con licencia de origen
+
+Principio: fuentes que **quieren ser leídas**. Cada oferta guarda su origen y su licencia o permiso (`empresa`, `socio`, `abierto`, `usuaria`) y la web enseña siempre el enlace a la original.
+
+1. **Empresas que publican para ser difundidas.** Las APIs públicas de Greenhouse, Lever, Ashby, Workable y Personio sirven para que terceros monten bolsas de empleo. Greenhouse documenta que los datos del tablero son públicos y no piden autenticación; Lever dice que su API sirve para crear un sitio de empleo (citas de terceros). **Ninguna da una licencia expresa de redistribución**: aplican las condiciones de cada empresa. Añadir una empresa cuesta una línea y se puede ofrecer desde el portal de empresas.
+2. **Programas de socios pensados para sitios como Horma.** Careerjet ofrece cuenta de publicador con clave por sitio y paga por clic; Jooble entrega clave por formulario. Ambos se piden por **formulario web, sin esperar correos**. Falta leer sus condiciones (los acuerdos con límites y reglas de atribución van con la clave).
+3. **Datos abiertos de servicios públicos.** JobTech de Suecia publica los anuncios, según terceros, con CC0 (dominio público); su API JobStream está pensada para hacer una copia completa, con un límite de una petición por minuto. En España, el BOE tiene API de datos abiertos y la Ley 37/2007 regula la reutilización del sector público; falta confirmar la licencia en su aviso legal y que cubra convocatorias de empleo público.
+4. **Ofertas que trae la usuaria.** Pegar el enlace de una oferta (se guarda como en un gestor de marcadores, para uso personal) o reenviar a Horma las alertas de correo que ella ya recibe de InfoJobs o LinkedIn.
+5. **Permisos a los grandes** (InfoJobs, Arbeitnow, EURES, The Hub, Adzuna): por escrito, ofreciendo tráfico y candidaturas de vuelta. Lento; se hace en paralelo sin bloquear nada.
+
+## 5. Agentes que buscan ofertas por la web: cómo encajan en Horma
+
+Contexto: Mar usa en otro proyecto un agente que busca ofertas por toda la web. La utilidad es real, pero el límite legal es el mismo: lo que cuenta es qué se hace con lo encontrado.
+
+- **Agente descubridor de fuentes (recomendado).** Busca páginas de empleo de empresas y detecta qué ATS usan por la dirección (`boards.greenhouse.io`, `jobs.lever.co`, `apply.workable.com`, `*.jobs.personio.de`). No copia contenido: **rellena el registro de empresas**, y las ofertas se leen después con la API pública de ese ATS. Resuelve el problema real que vimos con los ATS, que no es la API sino saber qué empresas usar.
+- **Agente de búsqueda de la usuaria.** A petición de ella («busca ofertas de X»), busca por la web y le devuelve **enlaces con un resumen**, sin guardarlos en una base compartida. Se comporta como su asistente y como un buscador, no como una copia de otros portales. Hay que revisar los términos del proveedor de búsqueda: Brave, por ejemplo, restringe crear una base de datos con sus resultados y solo permite almacenamiento transitorio; hay proveedores con derechos de almacenamiento como opción de pago.
+- **Agente que normaliza y comprueba.** Ya existe en el flujo: `extractor-oferta`, `auditor-oferta` y `clasificador-oferta` dan formato común, detectan ofertas fantasma o fraudulentas y las clasifican, siempre sobre ofertas de fuentes con permiso.
+- **Agente auditor de fuentes.** Ya existe (`auditor-fuentes`); el siguiente paso es darle acceso a los textos completos, porque con el resumen automático falló en varias páginas.
+- **Dato estructurado `JobPosting`.** Muchas empresas marcan sus ofertas con este formato para Google for Jobs, y Google pide un mapa del sitio con las páginas de cada oferta. Hay conjuntos abiertos de esas marcas (Web Data Commons). El marcado se hace para aparecer en buscadores, **no es una licencia** para terceros, así que se usa solo para descubrir, no para copiar.
+
+Regla común: el agente **descubre y clasifica**; no copia en masa contenido de portales que lo limitan.
+
+## 6. Plan de trabajo propuesto (a falta de su visto bueno)
+
+1. Calificar con el mismo método: Careerjet, Jooble, Greenhouse, Lever, JobTech, Työmarkkinatori y reutilización del BOE (2 a 3 horas).
+2. Ingesta real con las aptas, con el campo «licencia de origen» (día 2).
+3. Pieza propia: «añadir oferta por enlace» y «reenviar alertas».
+4. Agente descubridor de fuentes (registro de empresas con ATS).
+5. Solicitud de permiso a los grandes, en paralelo, desde el portal de socios o por correo.
+
+## 7. Preguntas para el profesor
+
+1. ¿Está de acuerdo en que solo se usen fuentes que pasen la calificación, aunque eso limite al principio el volumen de ofertas?
+2. ¿Valida el enfoque por capas y el campo de licencia de origen?
+3. ¿Qué espera del scraping? Mar lo ha aparcado de momento y Horma no usa LinkedIn ni Indeed.
+4. ¿Acepta que un agente descubra empresas y ATS, y que la ingesta lea solo sus APIs públicas?
+5. ¿Para el proyecto del bootcamp basta una demostración con las fuentes aptas (ATS de empresas, datos abiertos y alguna cuenta de socio) y ofertas publicadas por empresas con `/publicar-oferta`?
+6. ¿Revisamos con él, o con alguien de la escuela, la parte legal antes de abrir a usuarias reales?
+
+## 8. Qué no sabemos
+
+- Las condiciones completas de Careerjet y Jooble, de Greenhouse y Lever, y la licencia exacta de JobTech y del BOE.
+- Si existe una sentencia española sobre agregadores de empleo.
+- Casi todo el estado de las fuentes viene de documentación de terceros; los datos oficiales están marcados en la página de fuentes.
+
+## 9. Actualización (5-nov, noche): BOE y JobTech verificadas
+
+Ya hay **dos fuentes aptas con condiciones**: el BOE (empleo público en España; reutilización comercial permitida con atribución, API sin clave que exige la cabecera `Accept`, sección II.B = código `2B`) y JobTech de Suecia (CC0, acceso público, sin clave). Ambas respondieron a una consulta de prueba. Restricciones: el BOE publica resoluciones, no ofertas con formato propio (se filtran convocatorias y se descartan listas de aprobados, que llevan nombres); JobTech trae campos de contacto que no se guardan. Con esto la pregunta 1 queda respondida en parte: se puede empezar con menos volumen, pero con permiso. Faltan: límites de peticiones de ambas y cláusulas por revisar a mano.
+
+## 10. Decisión de Mar (5-nov, noche)
+
+Mar prefiere **una demostración con pocas fuentes, pero limpias, y ampliar después**. Es lo que se construirá primero (JobTech, BOE y ofertas de empresas), con la ampliación de fuentes en paralelo. Esto responde a la pregunta 5 desde nuestro lado; seguimos queriendo su opinión sobre el resto.
