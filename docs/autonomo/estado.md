@@ -7,8 +7,8 @@ Línea base: web 127 tests · evals 41 · build ok (ninguna ruta estática) · c
 | B0 | hecho | autonomo/2026-11-06 | 22:54–23:05 | 127/41 (línea base) | — |
 | B1 | hecho | auto/b1-cuenta-rgpd | 23:05–23:16 | 136/41 | aplazado a B5 (con B2) |
 | B2 | hecho | auto/b2-seguimiento | 23:16–23:27 | 139/41 | auditor-lineas-rojas pendiente de lanzar |
-| B3 | hecho | auto/b3-empresas-i | 23:27–00:00 | 154/41 | revisor-seguridad + auditor-lineas-rojas sobre B3+B4 juntos (pendiente de lanzar hasta cerrar B4) |
-| B4 | pendiente | — | — | — | — |
+| B3 | hecho | auto/b3-empresas-i | 23:27–00:00 | 154/41 | revisor-seguridad + auditor-lineas-rojas sobre B3+B4 juntos |
+| B4 | hecho | auto/b4-enviar-bandeja | 00:00–00:20 | 159/41 | revisor-seguridad + auditor-lineas-rojas sobre B3+B4 juntos, a continuación |
 | B5 | pendiente | — | — | — | — |
 
 ## Decisiones técnicas (porqué en 1–2 líneas)
@@ -21,6 +21,8 @@ Línea base: web 127 tests · evals 41 · build ok (ninguna ruta estática) · c
 - **B3, moderación con disparador en la base, no solo en el código:** igual que `candidaturas_transicion` (B2), `ofertas_moderacion` repite la regla «nace pendiente_de_revision» y las transiciones permitidas dentro de la base. Coherente con el estilo ya usado en el proyecto (defensa en profundidad) y encontré con `docker exec` que sí hace falta: si confiara solo en el código, un fallo futuro podría publicar sin revisión.
 - **B3, url de una oferta de empresa:** no hay página original externa; la columna `url` exige `http(s)` (migración 002, `revisor-seguridad`), así que apunta a `/ofertas` de la propia web en vez de un texto descriptivo. Funciona, pero el texto del enlace («Ver oferta original») queda un poco raro para una oferta que nace en Horma; cosmético, no lo toco ahora.
 - **B3, editar tras aprobar vuelve a revisión:** decisión propia (el plan no lo detalla): si se deja editar una oferta ya aprobada sin pasar otra vez por moderación, una empresa podría publicar algo inocuo y cambiarlo después. «Cerrar» no pasa por revisión (solo reduce exposición, nunca la aumenta).
+- **B4, retirar no revierte el estado de la candidatura:** queda en «enviada» (es cierto: se envió, y luego se retiró; no hay transición `enviada → aprobada` en el disparador de B2 y abrirla para esto solo habría complicado la máquina de estados sin que el plan lo pidiera). Si Mar prefiere que vuelva a «aprobada» para poder reenviarla, es un cambio pequeño y aislado.
+- **B4, nombre de contacto escrito en el momento:** la usuaria no tiene un campo «nombre» guardado en ningún sitio (perfil no lo pide); si marca compartir contacto, lo escribe ahí mismo y se guarda solo en `envios_empresa`. El correo de contacto es siempre el de su cuenta (nunca uno que escriba ella), para que no pueda compartir, ni por error, un correo que no es suyo.
 
 ## Preguntas para Mar (opciones, recomendada marcada)
 (ninguna todavía — se repasa en el cierre, B5)
@@ -32,9 +34,10 @@ Línea base: web 127 tests · evals 41 · build ok (ninguna ruta estática) · c
 - **016_borrar_cuenta_propia.sql:** función `borrar_cuenta_propia(id)` para que `horma_web` pueda borrar su propia cuenta sin `GRANT DELETE`; nunca borra una cuenta `admin`. Rollback: `REVOKE EXECUTE ON FUNCTION borrar_cuenta_propia(text) FROM horma_web; DROP FUNCTION borrar_cuenta_propia(text);`
 - **017_seguimiento.sql:** `CREATE OR REPLACE FUNCTION candidaturas_transicion()` con los pares nuevos (ver bitácora). Rollback: recrear la función con el cuerpo de la migración 015 (solo `borrador→aprobada`, `aprobada→enviada` y el vaivén `borrador/pendiente_de_ti`).
 - **018_empresas.sql:** tablas `empresas`, `cuentas_empresa`, `sesiones_empresa`; columnas `ofertas.descripcion`, `ofertas.estado_publicacion` (por defecto `aprobada`), `ofertas.empresa_id`; disparador `ofertas_moderacion`. Rollback en la cabecera del archivo.
+- **019_envios_empresa.sql:** tabla `envios_empresa` (copia congelada de CV/carta, contacto opcional, estado de bandeja). Incluye `GRANT USAGE ON SEQUENCE envios_empresa_id_seq` (se me olvidó al escribirla; lo encontré probando el INSERT a mano y lo corregí en el propio archivo antes de fundir, sin dejarlo para después). Rollback: `DROP TABLE envios_empresa;`.
 
 ## Siguiente paso exacto
-Empezar B4 (portal de empresas II: enviar y bandeja). Al cerrarlo, lanzar `revisor-seguridad` + `auditor-lineas-rojas` sobre el diff conjunto de B3+B4 (según el plan).
+Lanzar `revisor-seguridad` + `auditor-lineas-rojas` sobre el diff conjunto de B3+B4 (según el plan). Si no hay hallazgos críticos o altos sin arreglar, empezar el cierre (B5).
 
 ## Revisores
 - **auditor-lineas-rojas sobre B1+B2 (tras B2, según el plan): sin hallazgos.** Cumplen todas las líneas rojas. Único punto no bloqueante: la nota libre de «Registrar respuesta» (seguimiento) confía en el aviso de la UI para que la usuaria no escriba datos de un tercero; el auditor propone, si se quiere reforzar más adelante, una confirmación suave en el cliente si el texto parece un nombre o un correo. No es línea roja incumplida (la nota es de la propia usuaria, sobre su propio proceso, protegida por el mismo borrado/exportación RGPD); lo dejo anotado para Mar, no lo construyo ahora (no estaba en el plan de esta noche).
