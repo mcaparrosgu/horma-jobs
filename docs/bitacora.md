@@ -479,3 +479,13 @@ Mar pidió menos documentos y menos confusión. Decisiones: (1) `docs/` queda co
 **Decisiones que he tomado y tú puedes revertir.** `pais: ES` en las tres (la fuente es el BOE); `sector: educacion`, `familia: docencia` solo en la universidad, porque su título dice «cuerpos docentes universitarios» (las otras dos, `null`: la taxonomía no tiene «administración pública»); el organismo es el del sumario, así que la oferta de la AECID figura bajo el ministerio (la AECID sí sale en el título).
 
 **Límites.** La tabla `fuentes` de la web aún no tiene `licencia`, `atribucion` ni `adaptador` (se decide en el bloque 6). La API del BOE no publica límites: hice dos consultas hoy, una por día es la cortesía que me impuse. Tema del bootcamp que practica: ingesta de datos con adaptadores, seguridad ante entradas no fiables y trabajo con datos abiertos y su licencia.
+
+## 6-nov-2026 · Cierre de sesión: push y plan del bloque 6
+
+**En llano.** Los bloques 4 y 5 ya están subidos a GitHub (16 commits). El bloque 6 (el dashboard) está planeado pero no empezado: espera tu «adelante».
+
+**Hecho.** Push a `main` por orden de Mar. Estado de partida comprobado: `horma-db` arrancada, 36 evals y 50 tests web en verde.
+
+**Plan del bloque 6.** (1) Portada `/` de solo lectura con tres tarjetas: pipelines (flujos A–E y su comando), ingesta (fuentes activas y última ejecución) y datos guardados (por fuente, país y licencia). (2) `npm run importar` registrará cada ejecución en `ejecuciones_ingesta`, creando antes la fila de `fuentes`. (3) Migración `008`: `licencia`, `atribucion` y `adaptador` en `fuentes`. (4) Tests con datos inventados. (5) Cierre con `revisor-seguridad`. Sin librerías de gráficos.
+
+**Pendiente de Mar.** Orden para el bloque 6; si se procesan las 12 convocatorias del BOE restantes.

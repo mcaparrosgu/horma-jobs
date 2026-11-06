@@ -21,7 +21,7 @@ Actualizado el 2026-11-06 (bloques 1 a 5 de la pista B hechos; ver «Retomar: em
 | 3 | `npm run verificar` (lo descargado = lo guardado) e ingesta repetible sin duplicar | **Hecho** (6-nov; 8 tests web y 3 de ingesta nuevos, 46 y 48; 36 evals en verde) |
 | 4 | Campo «licencia de origen» con su migración y enlace visible a la original | **Hecho** (6-nov; esquema 0.4, migración `007`, 4 tests de ingesta y 4 de la web nuevos, `auditor-lineas-rojas` aplicado) |
 | 5 | Adaptador del BOE (solo sección `2B`, sin listas de aprobados, con atribución) | **Hecho** (6-nov; 69 tests de ingesta, 3 convocatorias reales procesadas; revisores aplicados) |
-| 6 | **Siguiente:** Dashboard (portada con pipelines, ingesta y datos guardados; muestra y pide, no ejecuta) | Pendiente |
+| 6 | **Siguiente:** Dashboard (portada con pipelines, ingesta y datos guardados; muestra y pide, no ejecuta). Plan en la bitácora del 6-nov (cierre de sesión); espera la orden de Mar | Planeado |
 | 7 | Observabilidad en cada pieza y página `/salud` | Pendiente |
 | 8 | `revisor-seguridad` y `auditor-lineas-rojas`, arreglos, guía de pruebas, informe y push | Pendiente |
 
