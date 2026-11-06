@@ -102,7 +102,7 @@ Un test en rojo no es una catástrofe: es el aviso de que algo se rompió. Copia
 
 ## 2 septies. Salud (bloque 7)
 
-1. Desde `web/`: `npm test` (**Debe pasar:** 77 pruebas) y `npm run verificar`. Abre `http://127.0.0.1:3000/salud` (también está en el menú como «Salud»).
+1. Desde `web/`: `npm test` (**Debe pasar:** 83 pruebas) y `npm run verificar`. Abre `http://127.0.0.1:3000/salud` (también está en el menú como «Salud»).
 2. **Debe pasar:** arriba un resumen (bien, atención o falla) y cinco tarjetas: *Base de datos*, *Componentes* (importador, verificador, web…), *Ingesta por fuente*, *Datos* (ofertas y última verificación) y *Pipelines (pista A)* (último resultado de los evals). Cada estado lleva su palabra además del color.
 3. **Debe pasar:** tras `npm run verificar`, «Verificación archivos ↔ base» dice «bien» y «23 ofertas coinciden».
 4. Para ver un «falla» a propósito: para el contenedor `horma-db` y recarga `/salud`. **Debe pasar:** la página no se cae; dice que la base de datos no responde y no enseña ningún mensaje técnico. Vuelve a arrancarlo después.
@@ -118,6 +118,17 @@ Un test en rojo no es una catástrofe: es el aviso de que algo se rompió. Copia
 4. En `/fuentes`, intenta guardar una fuente con la dirección `https://www.linkedin.com/jobs`. **Debe pasar:** la rechaza con «LinkedIn e Indeed no son fuente de ofertas».
 5. `npm run build`. **Debe pasar:** termina sin errores (el bloque 8 arregló un fallo en `/salud`).
 6. Las ofertas guardadas ya no tienen su descarga original: `datos/ofertas/raw/` está vacía a propósito (llevaba nombres de reclutadores). Para volver a descargar: `python -I .claude/skills/fuentes-ofertas/scripts/ingestar.py "JobTech Suecia (Platsbanken)" --limite 20`.
+
+## 2 nonies. Exportar y borrar datos (RGPD)
+
+Solo con una usuaria **inventada**. Desde `web/`:
+1. Crea la usuaria de prueba: carpeta `datos/usuarias/zz-prueba/` con un archivo `cv-maestro.md` que ponga «cv inventado».
+2. `npm run exportar -- --usuaria zz-prueba`. **Debe pasar:** dice que creó la exportación y cuenta los archivos de disco; en `datos/exportaciones/` hay una carpeta `zz-prueba-<fecha>` con `base-de-datos.json` y una copia de `usuarias/`. Si la repites el mismo día, se niega (no pisa).
+3. `npm run borrar -- --usuaria zz-prueba`. **Debe pasar:** «EN SECO», cuenta lo que se perdería y dice «No se ha borrado nada». La carpeta sigue ahí.
+4. `npm run borrar -- --usuaria zz-prueba --confirmar otra`. **Debe pasar:** se niega («debe repetir exactamente el id»).
+5. `npm run borrar -- --usuaria zz-prueba --confirmar zz-prueba`. **Debe pasar:** dice cuántos archivos borró y la carpeta `datos/usuarias/zz-prueba` ya no existe.
+6. Limpieza: borra a mano `datos/exportaciones/zz-prueba-<fecha>` (lleva datos de la usuaria; no se borra sola).
+7. **Nunca** lo pruebes con una usuaria real. El borrado no se puede deshacer.
 
 ## 3. Líneas rojas, a ojo
 
