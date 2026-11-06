@@ -196,7 +196,7 @@ Antes: una vez, en tu terminal, crea tu cuenta de administración (la contraseñ
 
 1. Sin sesión, abre `http://localhost:3000/ofertas`. **Debe pasar:** te lleva a `/entrar`.
 2. Entra con una contraseña mala. **Debe pasar:** «Correo o contraseña incorrectos…» y el correo sigue escrito. Con un correo que no existe, el mismo mensaje.
-3. Entra bien. **Debe pasar:** ves el Panel y, en la barra, Fuentes, Ejecuciones, Candidatas y Salud.
+3. Entra bien. **Debe pasar:** ves el Panel, una etiqueta negra «Administración» junto a tu correo y, en la barra, Fuentes, Ejecuciones, Candidatas y Salud. Una cuenta normal no tiene ni etiqueta ni esos enlaces.
 4. Pulsa «Mi perfil». **Debe pasar:** la dirección lleva un código largo (como `8ed870f2-3b4c-…`), no `mar`.
 5. Prueba `/candidatos/mar` a mano. **Debe pasar:** 404. Cambia una letra del código por otra: 404.
 6. En `/candidatos` (administración) solo ves «Tú», «Cuenta 2»…, sin correos ni ids legibles.
@@ -204,5 +204,5 @@ Antes: una vez, en tu terminal, crea tu cuenta de administración (la contraseñ
 8. Cinco contraseñas malas seguidas en una cuenta. **Debe pasar:** aunque pongas la buena, rechaza durante 15 minutos.
 9. Aprobar: en `/candidaturas/<tu código>`, pulsa «Aprobar» sin marcar la casilla. **Debe pasar:** te pide marcarla. Márcala y aprueba: el estado pasa a «aprobada por ti» y el historial dice «tú». Aparece «Marcar como enviada» con una lista de canales; elige uno y anótalo.
 10. Línea roja en la base (con una candidatura en borrador): `docker exec -it horma-db psql -U horma -d horma -c "update candidaturas set estado='aprobada' where usuaria_id='mar'"`. **Debe pasar:** ERROR «solo la usuaria, desde la web y con su sesión, aprueba…».
-11. «Entrar con Google» (solo si has puesto `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET` en `web/.env`; sin ellas el botón no sale). Con tu Google: si su correo coincide con tu cuenta de administración, NO se une sola (dice «entra con tu contraseña»); con otro Google se crea una cuenta normal.
+11. «Vincular Google» (solo si has puesto `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET` en `web/.env`; sin ellas el botón no sale). Con tu sesión abierta (cuenta de administración), pulsa «Vincular Google» en la barra y entra con el Google del MISMO correo de tu cuenta. **Debe pasar:** vuelves al panel, el enlace «Vincular Google» desaparece y sigues viendo la etiqueta «Administración». Con otro Google distinto, no se vincula. Después sal y entra con «Entrar con Google»: **Debe pasar:** entras como administradora. Una cuenta de administración que NO haya vinculado antes su Google no entra nunca con Google solo.
 12. Pulsa «Salir» y vuelve a `/candidaturas/<código>`. **Debe pasar:** te lleva a `/entrar`.

@@ -636,3 +636,9 @@ Esquema 0.7: `match.nota` admite `null` («sin datos suficientes»), y el esquem
 
 **Límites y pendientes.** (a) **Antes de abrir Horma a internet:** límite de intentos por IP y de registros (hoy quien sepa un correo puede bloquear esa cuenta 15 min), verificación de correo, dominio propio en `host.ts` y prefijo `__Host-` en la cookie. (b) Botones «Descargar mis datos» y «Borrar mi cuenta» en la web (hoy por terminal; obligación RGPD antes de usuarias reales). (c) Cambiar y recuperar contraseña (hoy `npm run cuenta` la restablece). (d) `datos/candidaturas/*/estado.json` ya no se actualiza: la base manda desde que se aprueba. (e) Google no se probó con credenciales reales (las creas tú en Google Cloud); sí la salida a Google y los caminos de error.
 
+## 6-nov-2026 · Bloque 4, añadido: vincular Google a la cuenta de administración
+
+**En llano.** Querías entrar con Google y seguir siendo administradora. Por seguridad, Google nunca se une solo a una cuenta de administración (un correo reciclado podría entrar como admin). La solución: creas la cuenta con `npm run cuenta ... --admin`, entras una vez con contraseña y pulsas «Vincular Google» en la barra. Solo vale con tu sesión abierta y con el Google del mismo correo de la cuenta, así que quien robe una sesión no puede dejarse su propio Google como puerta permanente. Desde ahí, Google te deja entrar con tu rol de siempre. En la barra aparece ahora la etiqueta «Administración» para saber en qué modo estás.
+
+**Hecho.** `/auth/google?vincular=1` y su rama en el retorno de Google (exige sesión y mismo correo; solo si la cuenta no tenía otro Google); campo `google` en la sesión; etiqueta y enlace en la barra. 127 tests, `tsc`, `lint` y `build` bien. **No probado** con credenciales reales de Google (las crea Mar en Google Cloud). Pendiente menor: si la vinculación falla no se muestra un mensaje (el enlace «Vincular Google» sigue ahí); se puede añadir un aviso en el panel.
+
