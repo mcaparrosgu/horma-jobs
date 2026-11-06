@@ -8,23 +8,25 @@ const j = (v: unknown) => JSON.stringify(v);
 
 export const SQL_OFERTA = `
   INSERT INTO ofertas (id, fuente, url, fecha, titulo, empresa, ubicacion, pais, remoto, contrato,
-                       idioma, nivel, sector, familia, requisitos, salario, stack, auditoria, avisos, licencia, atribucion)
-  VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15::jsonb,$16::jsonb,$17::jsonb,$18::jsonb,$19::jsonb,$20,$21)
+                       idioma, nivel, sector, familia, requisitos, salario, stack, auditoria, avisos, licencia, atribucion, ejecucion_id)
+  VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15::jsonb,$16::jsonb,$17::jsonb,$18::jsonb,$19::jsonb,$20,$21,$22)
   ON CONFLICT (id) DO UPDATE SET
     fuente=EXCLUDED.fuente, url=EXCLUDED.url, fecha=EXCLUDED.fecha, titulo=EXCLUDED.titulo,
     empresa=EXCLUDED.empresa, ubicacion=EXCLUDED.ubicacion, pais=EXCLUDED.pais,
     remoto=EXCLUDED.remoto, contrato=EXCLUDED.contrato, idioma=EXCLUDED.idioma, nivel=EXCLUDED.nivel,
     sector=EXCLUDED.sector, familia=EXCLUDED.familia, requisitos=EXCLUDED.requisitos,
     salario=EXCLUDED.salario, stack=EXCLUDED.stack, auditoria=EXCLUDED.auditoria,
-    avisos=EXCLUDED.avisos, licencia=EXCLUDED.licencia, atribucion=EXCLUDED.atribucion`;
+    avisos=EXCLUDED.avisos, licencia=EXCLUDED.licencia, atribucion=EXCLUDED.atribucion,
+    ejecucion_id=COALESCE(EXCLUDED.ejecucion_id, ofertas.ejecucion_id)`;
 
-export function paramsOferta(o: Json): unknown[] {
+/** `ejecucionId`: la ejecución de ingesta que la trae (null si su fuente no está en endpoints.json, p. ej. las de prueba). */
+export function paramsOferta(o: Json, ejecucionId: number | string | null = null): unknown[] {
   const t = o.taxonomia ?? {};
   return [
     o.id, o.fuente, o.url, o.fecha ?? null, o.titulo, o.empresa, o.ubicacion, o.pais ?? null,
     o.remoto, o.contrato, o.idioma, o.nivel, t.sector ?? null, t.familia ?? null,
     j(o.requisitos ?? []), j(o.salario), j(t.stack ?? []), j(o.auditoria), j(o.avisos ?? []),
-    o.origen?.licencia ?? null, o.origen?.atribucion ?? null,
+    o.origen?.licencia ?? null, o.origen?.atribucion ?? null, ejecucionId,
   ];
 }
 

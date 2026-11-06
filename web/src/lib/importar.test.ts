@@ -10,7 +10,8 @@ const leer = (...ruta: string[]) => JSON.parse(readFileSync(join(FIX, ...ruta), 
 
 test("la oferta saca sector, familia y stack de la taxonomía y guarda el JSON como texto", () => {
   const p = paramsOferta(leer("ofertas", "of-prueba-1.json"));
-  assert.equal(p.length, 21);
+  assert.equal(p.length, 22);
+  assert.equal(p[21], null); // sin ejecución → nulo
   assert.equal(p[19], null); // sin origen → licencia nula
   assert.equal(p[20], null);
   assert.equal(p[18], "[]"); // sin avisos en la oferta → lista vacía

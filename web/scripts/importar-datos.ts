@@ -12,6 +12,10 @@ import pg from "pg";
 import { validar } from "../src/lib/esquemas.ts";
 import { problemaClave } from "../src/lib/clave.ts";
 import {
+  fuentesDeEndpoints, SQL_SINCRONIZAR_FUENTE, paramsSincronizarFuente, SQL_ABRIR_EJECUCION, SQL_CERRAR_EJECUCION,
+  paramsCerrarEjecucion, cuentaVacia, anotarRechazo, anotarInterrupcion, type CuentaEjecucion,
+} from "../src/lib/ingesta.ts";
+import {
   SQL_OFERTA, SQL_USUARIA, sqlPerfil, sqlPreferencias,
   paramsOferta, paramsPerfil, paramsPreferencias, registrarEvento, errorSeguro,
 } from "../src/lib/importar.ts";
@@ -82,6 +86,40 @@ function leerCv(carpeta: string): string | null {
 const db = new pg.Client({ host: "127.0.0.1", port: 5433, user: "horma", database: "horma", password });
 await db.connect();
 
+// Fuentes registradas (endpoints.json): solo las ofertas de estas fuentes cuentan en una ejecución de ingesta.
+const RUTA_ENDPOINTS = join(import.meta.dirname, "..", "..", ".claude", "skills", "fuentes-ofertas", "endpoints.json");
+let FUENTES = new Map<string, Record<string, any>>(); // eslint-disable-line @typescript-eslint/no-explicit-any
+if (existsSync(RUTA_ENDPOINTS) && !motivoRechazo(RUTA_ENDPOINTS, "archivo")) {
+  try { FUENTES = fuentesDeEndpoints(JSON.parse(readFileSync(RUTA_ENDPOINTS, "utf8"))); } catch { /* sin endpoints legibles: no se registran ejecuciones */ }
+}
+const ejecuciones = new Map<string, { id: number; cuenta: CuentaEjecucion }>();
+
+/** Nombre de la fuente de un archivo de oferta si está registrada; null si no (o si el archivo no se puede leer). */
+function fuenteRegistrada(ruta: string): string | null {
+  if (motivoRechazo(ruta, "archivo")) return null;
+  try {
+    const f = JSON.parse(readFileSync(ruta, "utf8"))?.fuente;
+    return typeof f === "string" && FUENTES.has(f) ? f : null;
+  } catch { return null; }
+}
+
+/** Primera oferta de una fuente: se asegura su fila en `fuentes` y se abre su ejecución. */
+async function ejecucionDe(fuente: string) {
+  let e = ejecuciones.get(fuente);
+  if (!e) {
+    await db.query(SQL_SINCRONIZAR_FUENTE, paramsSincronizarFuente(FUENTES.get(fuente)!));
+    const id = (await db.query(SQL_ABRIR_EJECUCION, [fuente])).rows[0].id as number;
+    e = { id, cuenta: cuentaVacia() };
+    ejecuciones.set(fuente, e);
+  }
+  return e;
+}
+
+async function cerrarEjecuciones() {
+  for (const { id, cuenta: c } of ejecuciones.values()) await db.query(SQL_CERRAR_EJECUCION, paramsCerrarEjecucion(id, c));
+  ejecuciones.clear();
+}
+
 const cuenta = { archivos: 0, importadas: 0, omitidas: 0, rechazadas: 0 };
 const inicio = Date.now();
 
@@ -147,7 +185,11 @@ try {
     }
     else {
       for (const f of readdirSync(dirOfertas).filter((f) => f.endsWith(".json")).sort()) {
-        await importar(join(dirOfertas, f), "oferta", async (o) => (await db.query(SQL_OFERTA, paramsOferta(o))).rowCount ?? 0);
+        const ruta = join(dirOfertas, f);
+        const fuente = fuenteRegistrada(ruta);
+        const ej = fuente ? await ejecucionDe(fuente) : null;
+        const ok = await importar(ruta, "oferta", async (o) => (await db.query(SQL_OFERTA, paramsOferta(o, ej?.id ?? null))).rowCount ?? 0);
+        if (ej) { if (ok) ej.cuenta.entraron++; else anotarRechazo(ej.cuenta, f, "archivo rechazado"); }
       }
     }
   }
@@ -196,6 +238,7 @@ try {
     }
   }
 
+  await cerrarEjecuciones();
   await registrarEvento(db, {
     componente: "importador", accion: "importar-datos",
     resultado: cuenta.rechazadas > 0 ? "error" : "ok",
@@ -205,6 +248,8 @@ try {
 } catch (e) {
   // Caída a medias: se deja un evento de error (sin datos) y se sale con código 1.
   console.error("Importación interrumpida:", errorSeguro(e));
+  for (const e of ejecuciones.values()) anotarInterrupcion(e.cuenta);
+  try { await cerrarEjecuciones(); } catch { /* si no se puede cerrar, queda «sin terminar» en el panel */ }
   try {
     await registrarEvento(db, { componente: "importador", accion: "importar-datos", resultado: "error", duracion_ms: Date.now() - inicio, detalle: cuenta });
   } catch { /* si ni siquiera se puede registrar, ya hemos avisado por consola */ }
