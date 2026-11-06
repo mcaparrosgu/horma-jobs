@@ -227,6 +227,29 @@ class TestDescarga(unittest.TestCase):
         self.assertEqual(c.exception.codigo, "DESTINO_NO_PUBLICO")
 
 
+class TestSinContacto(unittest.TestCase):
+    """Emails y teléfonos de terceros no se guardan (regla de datos de terceros)."""
+
+    def test_quita_emails(self):
+        t = ing.sin_contacto("Escribe a ana.lopez+rrhh@empresa.example.se o a b@c.io hoy")
+        self.assertNotIn("@", t)
+        self.assertIn("hoy", t)
+
+    def test_quita_telefonos(self):
+        for tel in ("+46 8 123 456 78", "08-123 45 67", "(+34) 600.123.456", "600123456", "+46701234567"):
+            t = ing.sin_contacto(f"Llama al {tel} para más info")
+            self.assertNotRegex(t, r"\d{3}", tel)
+            self.assertIn("para más info", t)
+
+    def test_no_toca_cifras_normales(self):
+        for txt in ("5 años de experiencia", "Salario 45 000 EUR", "Publicado 2026-11-06", "Hasta el 06.11.2026", "100 % remoto", "Java 17 y Python 3.12"):
+            self.assertEqual(ing.sin_contacto(txt), txt)
+
+    def test_none_y_texto_vacio(self):
+        self.assertEqual(ing.sin_contacto(None), "")
+        self.assertEqual(ing.sin_contacto(""), "")
+
+
 class TestNombres(unittest.TestCase):
     def test_ids_parecidos_no_chocan(self):
         self.assertNotEqual(ing.nombre_archivo("F", "a/b"), ing.nombre_archivo("F", "a_b"))

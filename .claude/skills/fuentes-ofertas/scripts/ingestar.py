@@ -49,6 +49,9 @@ CLAVE_ENV = re.compile(r"FUENTE_[A-Z0-9_]+")
 RECHAZADAS = [ipaddress.ip_network("64:ff9b::/96"), ipaddress.ip_network("::/96")]  # NAT64 y compatibles
 CLAVE_VALOR = re.compile(r"[!-~]+")  # ASCII visible: sin espacios, saltos de línea ni control
 FECHA = re.compile(r"\d{4}-\d{2}-\d{2}([T ][0-9:.+\-Z]{0,20})?")
+EMAIL = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
+TELEFONO = re.compile(r"(?<![\w.])\+?\d[\d ().\-/]{5,}\d(?![\w])")  # 7 o más cifras con separadores
+FECHA_SUELTA = re.compile(r"\d{4}-\d{2}-\d{2}|\d{1,2}[./-]\d{1,2}[./-]\d{4}")
 NOMBRE_CABECERA = re.compile(r"[A-Za-z0-9_-]{1,64}")  # sirve para cabecera y parámetro; sin espacios ni saltos de línea
 
 
@@ -171,6 +174,16 @@ def limpio(x) -> str:
     return s or "sin_id"
 
 
+def sin_contacto(texto) -> str:
+    """Quita emails y teléfonos del texto de la oferta: son datos de terceros y no se guardan."""
+    t = EMAIL.sub("[contacto omitido]", str(texto or ""))
+    def quitar(m):
+        # 7 o más cifras y no es una fecha (2026-11-06, 06.11.2026)
+        es_tel = sum(c.isdigit() for c in m.group()) >= 7 and not FECHA_SUELTA.fullmatch(m.group())
+        return "[contacto omitido]" if es_tel else m.group()
+    return TELEFONO.sub(quitar, t)
+
+
 def nombre_archivo(fuente: str, id_) -> str:
     """El hash evita que dos ids distintos («a/b» y «a_b») acaben en el mismo archivo."""
     h = hashlib.sha256(str(id_).encode("utf-8")).hexdigest()[:8]
@@ -273,7 +286,8 @@ def main() -> int:
         # Cabecera con json.dumps: una línea por campo; el texto de la oferta no puede falsearla.
         cab = {"fuente": fuente["nombre"], "url": enlace, "fecha_descarga": hoy, "fecha_publicacion": fecha}
         cabecera = "".join(f"{k}: {json.dumps(v, ensure_ascii=False)}\n" for k, v in cab.items())
-        cuerpo = f"---\n{cabecera}---\n\n# {titulo or ''}\n\nEmpresa: {empresa or ''}\n\n{desc or ''}\n"
+        titulo, empresa, desc = sin_contacto(titulo), sin_contacto(empresa), sin_contacto(desc)
+        cuerpo = f"---\n{cabecera}---\n\n# {titulo}\n\nEmpresa: {empresa}\n\n{desc}\n"
         (salida / nombre_archivo(fuente["nombre"], id_)).write_text(cuerpo, encoding="utf-8")
         guardadas += 1
     print(json.dumps({"fuente": fuente["nombre"], "guardadas": guardadas, "fecha": hoy}))

@@ -23,7 +23,7 @@
         "descripcion": "description.text",
         "fecha": "publication_date"
       },
-      "activa": false
+      "activa": true
     }
   ]
 }
