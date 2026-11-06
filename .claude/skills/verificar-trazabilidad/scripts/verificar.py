@@ -10,7 +10,7 @@ Por defecto el maestro y el perfil se buscan en datos/usuarias/<usuaria>/.
 Comprueba:
   1. Fechas: todo año o mes/año de cv.md existe en el maestro.
   2. Cifras: todo número de cv.md (porcentajes, importes, cantidades) existe en el maestro.
-  3. Encabezados «### Cargo · Empresa · inicio–fin» y «### Titulación · Centro · fin»:
+  3. Encabezados «### Cargo · Empresa · inicio–fin» y «### Titulación · Centro · fin» (o «inicio–fin»):
      coinciden palabra por palabra con perfil.json (cargos, empresas, titulaciones, fechas).
   4. Traza: cada fragmento de origen existe de verdad en el maestro, y cada línea de cv.md
      (salvo títulos «#» y «##») tiene una frase en traza.json.
@@ -124,12 +124,16 @@ def verificar(carpeta: Path, maestro_ruta: Path, perfil_ruta: Path, carta: bool 
         validos.add((norm(e["cargo"]), norm(e["empresa"]), norm(f'{e["inicio"]}-{e["fin"]}')))
     for f in perfil.get("formacion", []):
         validos.add((norm(f["titulo"]), norm(f["centro"]), norm(f["fin"])))
+        if f.get("inicio"):  # también vale el rango completo, para no ocultar el inicio (regla de los huecos)
+            validos.add((norm(f["titulo"]), norm(f["centro"]), norm(f'{f["inicio"]}-{f["fin"]}')))
     for linea in ([] if carta else cv.splitlines()):  # la carta no tiene encabezados de experiencia
         if not linea.startswith("### "):
             continue
         p = partir_encabezado(linea)
         if len(p) != 3 or (norm(p[0]), norm(p[1]), norm(p[2])) not in validos:
             errores.append({"tipo": "encabezado_no_coincide_con_perfil", "detalle": linea.strip()})
+        elif norm(linea.lstrip("#")) not in maestro_n:  # el perfil también pudo copiarse mal: se contrasta con el maestro
+            errores.append({"tipo": "encabezado_no_esta_en_maestro", "detalle": linea.strip()})
 
     # 4. Traza
     entradas = traza if isinstance(traza, list) else traza.get("traza", [])

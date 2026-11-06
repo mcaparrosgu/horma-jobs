@@ -56,6 +56,15 @@ def pasa_filtro(o: dict, p: dict) -> tuple:
     return True, False
 
 
+def nivel_del_perfil(pt: dict, familia) -> str | None:
+    """Nivel de la candidata para la familia de la oferta; si no tiene el suyo, el general."""
+    if isinstance(familia, str) and familia:
+        for x in pt.get("niveles_por_familia") or []:
+            if isinstance(x, dict) and isinstance(x.get("familia"), str) and norm(x["familia"]) == norm(familia):
+                return x.get("nivel") or pt.get("nivel")
+    return pt.get("nivel")
+
+
 def puntos(o: dict, perfil: dict) -> int:
     t, pt = o.get("taxonomia", {}), perfil.get("taxonomia", {})
     total = 0
@@ -63,7 +72,8 @@ def puntos(o: dict, perfil: dict) -> int:
         total += 3
     if t.get("familia") and en_lista(t["familia"], pt.get("familias", [])):
         total += 3
-    if o.get("nivel") and pt.get("nivel") and norm(o["nivel"]) == norm(pt["nivel"]):
+    nivel = nivel_del_perfil(pt, t.get("familia"))
+    if o.get("nivel") and nivel and norm(o["nivel"]) == norm(nivel):
         total += 2
     comunes = {norm(s) for s in t.get("stack", [])} & {norm(s) for s in pt.get("stack", [])}
     return total + len(comunes)

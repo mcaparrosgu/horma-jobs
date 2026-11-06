@@ -2,6 +2,10 @@
 
 Un cambio de esquema es un cambio de contrato entre agentes y web. Se anota aquí antes de tocarlo.
 
+## 0.6 · 2026-11-06
+
+- `perfil.taxonomia.niveles_por_familia` (opcional): lista de `{familia, nivel, origen}`. Decisión de Mar (6-nov): el nivel depende de la experiencia en cada área (senior en atención al cliente, junior en IA). `taxonomia.nivel` se mantiene como nivel general y como valor de reserva. Compatible hacia atrás: los perfiles sin el campo siguen validando y se comportan como antes (`taxonomia` es `jsonb` en la base: no hace falta migración). Lo usan `buscar.py` (los 2 puntos de nivel se miran con el nivel de la familia de la oferta), `clasificador-candidato` (lo rellena solo con origen) y la ficha de la web. El matcher no lo ve ni lo usa para la nota. Es de uso interno de Horma (ordena ofertas para ella): nunca se muestra a empresas.
+
 ## 0.5 · 2026-11-06
 
 - `perfil.usuaria_id` y `match.usuaria_id`: el patrón pasa a **solo minúsculas** (`^[a-z0-9_-][a-z0-9_.-]{0,79}$`). Motivo: en Windows `Ana` y `ana` son la misma carpeta, pero en la base eran dos usuarias distintas (hallazgo del `revisor-seguridad` sobre exportar y borrar); la migración `010` ya lo impide en la base y la web ya solo acepta minúsculas. **Estrecha** lo que valida: un archivo con `usuaria_id` en mayúsculas deja de ser válido (no había ninguno). Los comandos que reciben una usuaria piden también minúsculas; el patrón de ofertas y fuentes no cambia (los ids de oferta llevan mayúsculas, p. ej. del BOE).

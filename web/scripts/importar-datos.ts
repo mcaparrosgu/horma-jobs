@@ -64,7 +64,7 @@ function motivoRechazo(ruta: string, tipo: "archivo" | "carpeta"): string | null
 }
 
 /** Ruta relativa para la consola: el nombre de la carpeta de una usuaria (su id) se oculta. */
-const rutaCorta = (ruta: string) => relative(RAIZ, ruta).replace(/^perfiles[\\/][^\\/]+/, "perfiles/(usuaria)");
+const rutaCorta = (ruta: string) => relative(RAIZ, ruta).replace(/^(perfiles|usuarias)[\\/][^\\/]+/, "$1/(usuaria)");
 
 /** Texto de cv.md (el que citan los «origen» del perfil), o null si falta o no se debe leer. */
 function leerCv(carpeta: string): string | null {
@@ -209,7 +209,8 @@ try {
   }
 
   // Perfiles: …/perfiles/<usuaria>/perfil.json y preferencias.json
-  const dirPerfiles = join(RAIZ, "perfiles");
+  // `perfiles/` es la carpeta de los fixtures; `usuarias/` la de /perfilar con usuarias reales.
+  const dirPerfiles = ["perfiles", "usuarias"].map((n) => join(RAIZ, n)).find((r) => existsSync(r)) ?? join(RAIZ, "perfiles");
   const mp = SOLO_OFERTAS ? null : existsSync(dirPerfiles) ? motivoRechazo(dirPerfiles, "carpeta") : null;
   if (mp) {
     cuenta.omitidas++;

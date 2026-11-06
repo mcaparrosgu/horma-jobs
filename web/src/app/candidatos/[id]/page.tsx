@@ -11,7 +11,10 @@ type Perfil = {
   formacion: { titulo: string; centro: string; inicio?: string | null; fin: string; origen: Origen }[];
   skills: { nombre: string; origen: Origen }[];
   idiomas: { idioma: string; nivel?: string | null; origen: Origen }[];
-  taxonomia: { sectores?: string[]; familias?: string[]; nivel?: string | null; stack?: string[] };
+  taxonomia: {
+    sectores?: string[]; familias?: string[]; nivel?: string | null; stack?: string[];
+    niveles_por_familia?: { familia: string; nivel: string; origen: Origen }[];
+  };
   preguntas_pendientes: string[];
   cv_texto: string | null;
 };
@@ -52,6 +55,7 @@ async function Candidata({ params }: { params: PageProps<"/candidatos/[id]">["pa
   };
   const t = perfil.taxonomia;
   const clasificacion = [...(t.sectores ?? []), ...(t.familias ?? []), t.nivel, ...(t.stack ?? [])].filter(Boolean).join(" · ");
+  const niveles = (t.niveles_por_familia ?? []).map((x) => `${x.familia}: ${x.nivel}`).join(" · ");
 
   return (
     <div className="space-y-6">
@@ -61,6 +65,7 @@ async function Candidata({ params }: { params: PageProps<"/candidatos/[id]">["pa
         <p className="text-sm text-zinc-600">
           Cada dato de las listas de abajo dice de qué parte del CV salió.
           {clasificacion ? ` Clasificación sugerida por Horma (no sale del CV): ${clasificacion}.` : ""}
+          {niveles ? ` Nivel por área (sugerido a partir de su CV o de lo que ella dice; ella puede corregirlo): ${niveles}.` : ""}
         </p>
       </div>
 

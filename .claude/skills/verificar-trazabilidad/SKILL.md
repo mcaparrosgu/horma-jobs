@@ -13,7 +13,7 @@ Comprueba:
 
 1. **Fechas:** todo año o mes/año de `cv.md` existe en `cv-maestro.md`.
 2. **Cifras:** todo número (porcentajes, importes, cantidades) existe en el maestro.
-3. **Encabezados:** `### Cargo · Empresa · inicio–fin` y `### Titulación · Centro · año` coinciden con `perfil.json`.
+3. **Encabezados:** `### Cargo · Empresa · inicio–fin` y `### Titulación · Centro · inicio–fin` coinciden con `perfil.json` y con el maestro (el año suelto ya no vale: oculta el inicio).
 4. **Traza:** cada `origen.fragmento` existe de verdad en el maestro y cada línea de `cv.md` tiene frase en `traza.json`.
 
 Salida JSON `{ok, errores[]}`; código 1 si hay errores. No juzga inflación de cargos ni promesas de más, ni si el fragmento citado sostiene de verdad la frase: eso lo hace `juez-cv`. Con `--carta` verifica `carta.md` y `traza-carta.json` (sin encabezados).

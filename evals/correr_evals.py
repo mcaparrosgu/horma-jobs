@@ -2,7 +2,7 @@
 """Corre las partes deterministas de los evals de la fase 1 (código, sin LLM).
 
 Uso:
-    python -I evals/correr_evals.py [cv|ats|filtro|esquemas|fixtures|carta|ingesta|todo]
+    python -I evals/correr_evals.py [cv|ats|filtro|esquemas|fixtures|carta|ingesta|convertir|verificar_formacion|nivel_familia|origenes_perfil|nivel_empresas|todo]
 
 - cv:       sobre evals/cv/base/ aplica las mutaciones de evals/cv/mutaciones.json y exige que
             verificar.py rechace el 100 % de los casos sembrados y acepte el caso «ok».
@@ -162,7 +162,48 @@ def eval_ingesta():
              "obtenido": None if r.returncode == 0 else r.stderr[-1500:]}]
 
 
-SETS = {"cv": eval_cv, "ats": eval_ats, "filtro": eval_filtro, "esquemas": eval_esquemas, "fixtures": eval_fixtures, "carta": eval_carta, "ingesta": eval_ingesta}
+def eval_convertir():
+    """Conversor de CV a texto (HTML): solo texto visible, tope de tamaño. Sin red."""
+    r = subprocess.run(PY + [str(RAIZ / "evals" / "convertir" / "test_convertir_cv.py")], capture_output=True, text=True, encoding="utf-8")
+    resumen = [l for l in r.stderr.splitlines() if l.startswith(("Ran ", "OK", "FAILED"))]
+    return [{"caso": "tests del conversor de CV (" + " · ".join(resumen) + ")", "ok": r.returncode == 0,
+             "obtenido": None if r.returncode == 0 else r.stderr[-1500:]}]
+
+
+def eval_verificar_formacion():
+    """Verificador: encabezados de formación con año de fin o con rango; un rango inventado se rechaza."""
+    r = subprocess.run(PY + [str(RAIZ / "evals" / "verificar" / "test_formacion.py")], capture_output=True, text=True, encoding="utf-8")
+    resumen = [l for l in r.stderr.splitlines() if l.startswith(("Ran ", "OK", "FAILED"))]
+    return [{"caso": "tests del verificador, formación (" + " · ".join(resumen) + ")", "ok": r.returncode == 0,
+             "obtenido": None if r.returncode == 0 else r.stderr[-1500:]}]
+
+
+def eval_nivel_familia():
+    """Esquema 0.6: el filtro usa el nivel de la familia de la oferta (y el general si no hay). Sin red."""
+    r = subprocess.run(PY + [str(RAIZ / "evals" / "recomendacion" / "test_nivel_por_familia.py")], capture_output=True, text=True, encoding="utf-8")
+    resumen = [l for l in (r.stderr or "").splitlines() if l.startswith(("Ran ", "OK", "FAILED"))]
+    return [{"caso": "tests del nivel por familia (" + " · ".join(resumen) + ")", "ok": r.returncode == 0,
+             "obtenido": None if r.returncode == 0 else (r.stderr or "")[-1500:]}]
+
+
+def _unittest(caso, ruta):
+    r = subprocess.run(PY + [str(RAIZ / ruta)], capture_output=True, text=True, encoding="utf-8")
+    resumen = [l for l in (r.stderr or "").splitlines() if l.startswith(("Ran ", "OK", "FAILED"))]
+    return [{"caso": f"{caso} (" + " · ".join(resumen) + ")", "ok": r.returncode == 0,
+             "obtenido": None if r.returncode == 0 else (r.stderr or "")[-1500:]}]
+
+
+def eval_origenes_perfil():
+    """Cada `origen` de un perfil.json es real (archivo, fragmento y línea); no sale de fuentes/."""
+    return _unittest("tests de los origenes del perfil", "evals/verificar/test_origenes_perfil.py")
+
+
+def eval_nivel_empresas():
+    """Línea roja: niveles_por_familia no aparece en la web fuera de la ficha de candidatas ni en rutas de empresas."""
+    return _unittest("el nivel por familia no llega a empresas", "evals/verificar/test_nivel_no_a_empresas.py")
+
+
+SETS = {"cv": eval_cv, "ats": eval_ats, "filtro": eval_filtro, "esquemas": eval_esquemas, "fixtures": eval_fixtures, "carta": eval_carta, "ingesta": eval_ingesta, "convertir": eval_convertir, "verificar_formacion": eval_verificar_formacion, "nivel_familia": eval_nivel_familia, "origenes_perfil": eval_origenes_perfil, "nivel_empresas": eval_nivel_empresas}
 
 
 def main() -> int:
@@ -170,6 +211,9 @@ def main() -> int:
     sys.stdout.reconfigure(encoding="utf-8")
     sys.stderr.reconfigure(encoding="utf-8")
     pedido = sys.argv[1] if len(sys.argv) > 1 else "todo"
+    if pedido != "todo" and pedido not in SETS:
+        print(f"Set desconocido: {pedido}. Disponibles: {', '.join(SETS)} o todo.")
+        return 2
     nombres = list(SETS) if pedido == "todo" else [pedido]
     todo, fallos = {}, 0
     for n in nombres:
