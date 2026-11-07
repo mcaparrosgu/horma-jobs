@@ -1,6 +1,6 @@
 # Estado de la construcción autónoma
 Inicio: 2026-11-06T22:54:49+01:00 · Límite: 2026-11-07T08:54:49+01:00 (+10 h) · Rama de integración: autonomo/2026-11-06
-Línea base: web 127 tests · evals 41 · build ok (ninguna ruta estática) · copia de la base: datos/copias/pre-autonomo-2026-11-06.sql (restaurar: `docker exec -i horma-db psql -U horma horma < datos/copias/pre-autonomo-2026-11-06.sql`, tras recrear la base vacía)
+Línea base: web 127 tests · evals 41 · build ok (ninguna ruta estática) · copia de la base: borrada el 7-nov por orden de Mar (todo estaba ya en `main`)
 
 | Bloque | Estado | Rama | Hora | Tests (web/evals) | Revisores |
 |---|---|---|---|---|---|

@@ -4,7 +4,7 @@
 
 ## Hecho (B0 a B4, en orden)
 
-1. **B0 — preparación:** línea base verificada (127 tests, 41 evals), copia de seguridad de `horma-db` en `datos/copias/pre-autonomo-2026-11-06.sql`, rama `autonomo/2026-11-06` desde `main`.
+1. **B0 — preparación:** línea base verificada (127 tests, 41 evals), copia de seguridad de `horma-db` (ya borrada), rama `autonomo/2026-11-06` desde `main`.
 2. **B1 — cuenta y RGPD:** página `/cuenta`: descargar tus datos (JSON al momento, sin tu contraseña), cambiar contraseña (cierra las demás sesiones) y borrar tu cuenta (nunca una cuenta de administración — bloqueado en la página **y** en la base de datos, por dos sitios distintos).
 3. **B2 — seguimiento:** página `/seguimiento`: registras tú misma la respuesta de una empresa (entrevista, rechazada, sin respuesta, descartada), con un aviso de «21 días sin respuesta» que tú confirmas (nada automático).
 4. **B3 — portal de empresas I:** una empresa entra en `/empresa/entrar` (alta solo por terminal, de momento) y publica una oferta con un formulario de listas cerradas, sin ningún LLM. La oferta queda «en revisión» y no la ve ninguna candidata hasta que la apruebas en `/admin/ofertas-empresas`.
@@ -36,9 +36,7 @@ git diff --stat main..autonomo/2026-11-06        # qué archivos cambiaron
 
 También puedes verlo en GitHub: las cinco ramas ya están en `origin` (repositorio `mcaparrosgu/horma-jobs`), así que puedes abrir `autonomo/2026-11-06` en la web de GitHub y comparar con `main` desde ahí, sin terminal.
 
-- **Aceptar todo:** `git merge --no-ff autonomo/2026-11-06` en `main`, con tu orden.
-- **Aceptar por bloques:** cada bloque tiene su rama (`auto/b1-cuenta-rgpd`, `auto/b2-seguimiento`, `auto/b3-empresas-i`, `auto/b4-enviar-bandeja`), ya fundida en `autonomo/2026-11-06`; se puede fundir una a una en `main` si lo prefieres.
-- **Descartar:** `git branch -D autonomo/2026-11-06 auto/b1-cuenta-rgpd auto/b2-seguimiento auto/b3-empresas-i auto/b4-enviar-bandeja`. **Ojo:** esto no deshace las migraciones 016 a 019 ya aplicadas a tu base de datos local; si quieres volver atrás también en la base, restaura la copia: `docker exec -i horma-db psql -U horma horma < datos/copias/pre-autonomo-2026-11-06.sql` (primero hay que vaciar la base).
+- **Estado final (7-nov):** todo fundido en `main` y subido; ramas `autonomo/*` y `auto/*` y copias de la base borradas por orden de Mar. Las migraciones 016 a 019 siguen aplicadas en la base local.
 
 ## Pruebas a mano
 
