@@ -15,7 +15,7 @@ Prompt y estructura para que Sonnet 5.5 construya lo que falta mientras Mar est�
 
 Total ≈ 8 h. **Si falta tiempo o crédito se recorta B4** (B3 queda hecho). Nunca el cierre ni los revisores. B4 no se empieza sin B2 ni B3. **Si acaba antes, para:** nada de trabajo extra.
 
-**Descartado definitivamente (Mar, 6-nov):** ofertas que trae la usuaria (pegar texto o enlace). **Para mañana, con Mar:** supervisor del envío automático, calidad de ofertas (duplicados y caducadas) y fuentes nuevas.
+**Descartado definitivamente al 100 % (Mar, 6-nov, confirmado el 7-nov):** ofertas que trae la usuaria (pegar texto o enlace, extensión, alertas reenviadas). **Para mañana, con Mar:** supervisor del envío automático, calidad de ofertas (duplicados y caducadas) y fuentes nuevas.
 
 **No se toca (necesitan decisión de Mar, dinero o dependencias):** Google OAuth real, correo (verificación, recuperar contraseña, reenvío de respuestas), despliegue, PWA, Stripe, entrevista/voz/minijuegos, servidor MCP, ejecutor de formularios (Playwright), ampliar fuentes, embeddings, LangGraph, límites por IP (no hay despliegue aún), `"type": "module"`.
 

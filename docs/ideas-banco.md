@@ -34,8 +34,8 @@ Origen: «Agente 1» y «Agente 2» son dos asistentes de IA externos consultado
 |---|---|---|---|---|
 | B1 | **Botón «buscar también en…»**: enlace profundo con la consulta de la usuaria a InfoJobs, Tecnoempleo, Indeed, etc. | Agente 2 | Encaja | Sin tocar sus datos; cubre portales que no podemos indexar. Sin LLM |
 | B2 | Añadir oferta por enlace o pegando el texto | Profesor | **Descartada (Mar, 6-nov, definitivo)** | Pedido por el profesor el 6-nov; Mar no la quiere. Avisar al profesor |
-| B3 | Marcador del navegador o extensión «guardar esta oferta» | Ambos | Con condiciones | La extensión es otro producto que mantener; el marcador es más barato |
-| B4 | Reenviar alertas de LinkedIn, Indeed o InfoJobs a un buzón de Horma y parsearlas | Agente 2 | Con condiciones | Son correos de la propia usuaria; cuesta un buzón y traen datos de terceros (RGPD) |
+| B3 | Marcador del navegador o extensión «guardar esta oferta» | Ambos | **Descartada al 100 % (Mar, 7-nov)** | La extensión es otro producto que mantener; el marcador es más barato |
+| B4 | Reenviar alertas de LinkedIn, Indeed o InfoJobs a un buzón de Horma y parsearlas | Agente 2 | **Descartada al 100 % (Mar, 7-nov)** | Son correos de la propia usuaria; cuesta un buzón y traen datos de terceros (RGPD) |
 | B5 | Crowdsourcing: compartir ofertas encontradas fuera | Agente 1 | Con condiciones | Variante de B2 y B3; ojo con ofertas copiadas de portales con condiciones |
 | B6 | Ofertas publicadas por empresas en el portal de empresas | Copiloto | Encaja | Ya es un tronco |
 
@@ -140,8 +140,8 @@ Un agente con búsqueda web contestó al prompt de `docs/prompt-agente-fuentes-e
 | H5 | Feina Activa: última actualización del catálogo 16-9-2026 (casi dos meses sin actualizar) | Con condiciones | Medir si el feed está vivo antes de integrarlo |
 | H6 | Euskadi OPE, Aragón, Junta de Andalucía (entidades instrumentales) | Con condiciones | Ramas; verificar licencias |
 | H7 | **Solicitudes formales de reutilización (Ley 37/2007)** a SEPE/Empléate, SAE, Comunidad de Madrid, LABORA | Encaja | Coste: unos correos; plazo: meses. Abre fuentes con base legal limpia |
-| H8 | **Reposicionar Horma como copiloto de candidaturas**: la candidata trae la oferta de donde sea y Horma la convierte en candidatura excelente; el índice legal es complemento | Decisión de Mar | Choca con el objetivo «metabuscador». Ver discusión en la conversación del 6-nov |
-| H9 | **Dos espacios en la base de datos**: índice común (fuentes con licencia o permiso) y espacio privado de cada candidata (lo que ella trae) | Encaja | El esquema `oferta.json` ya tiene `licencia: usuaria`; falta comprobar que la web nunca muestre esas ofertas a otras |
+| H8 | **Reposicionar Horma como copiloto de candidaturas**: la candidata trae la oferta de donde sea y Horma la convierte en candidatura excelente; el índice legal es complemento | Decisión de Mar | La parte «la candidata trae la oferta» está **descartada al 100 % (Mar, 7-nov)**; el reposicionamiento en sí sigue siendo decisión de Mar y del profesor. Choca con el objetivo «metabuscador» |
+| H9 | **Dos espacios en la base de datos**: índice común (fuentes con licencia o permiso) y espacio privado de cada candidata (lo que ella trae) | **Descartada al 100 % (Mar, 7-nov)** | El esquema `oferta.json` ya tiene `licencia: usuaria`; falta comprobar que la web nunca muestre esas ofertas a otras |
 | H10 | Ser **destino de feeds de ATS** (Factorial, Teamtailor, Recruitee), como Talent.com y Welcome to the Jungle: feed XML entrante y marketplace de integraciones | Con condiciones | Fase 2; hay que ofrecer algo a la empresa (candidaturas mejor preparadas) |
 | H11 | Programa de publishers de **Careerjet** y **Talent.com** (tráfico a cambio de ofertas) | Con condiciones | Mar abre cuenta de Careerjet y lee términos |
 | H12 | Permiso por correo a 20–30 empresas tech catalanas con ATS de endpoint público; guardar el permiso como licencia de origen | Con condiciones | Borrador de correo en la conversación; no enviar hasta tener web, remitente y compromisos que podamos cumplir |
@@ -157,12 +157,28 @@ Un agente con búsqueda web contestó al prompt de `docs/prompt-agente-fuentes-e
 | H22 | **Empleo público como nicho fuerte** (CIDO + BOE + boletines) con alertas por plazo de solicitud | Encaja | Rama temprana en Cataluña |
 | H23 | No guardar nombres, correos ni teléfonos personales de reclutadores al ingerir (minimización RGPD) | Encaja | Ya filtramos contactos; revisar campo a campo en cada feed |
 | H24 | Descripción completa solo a petición de la candidata, sin guardarla en el índice público | Con condiciones | Reduce riesgo de derecho de autor; revisar con abogada |
-| H25 | Extensión de navegador y alertas reenviadas como «uso personal de la candidata» | Con condiciones | Revisión legal antes de publicar |
+| H25 | Extensión de navegador y alertas reenviadas como «uso personal de la candidata» | **Descartada al 100 % (Mar, 7-nov)** | Revisión legal antes de publicar |
 | H26 | Matices del Reglamento de IA: vender a empresas «visibilidad dirigida a candidatas que encajan» las metería en alto riesgo | Descartada | Coincide con nuestra línea roja |
 | H27 | Compartir ofertas entre usuarias («comunidad»); licenciar Adzuna desde el día 1; vender a empresas candidatas que encajan | Descartada por ahora | Sin licencia, coste desconocido y alto riesgo respectivamente |
 | H28 | Jurisprudencia útil: TJUE C-762/19 *CV-Online Latvia* (2021), C-202/12 *Innoweb*, C-30/14 *Ryanair*; consultar en tiempo real el buscador de otro portal también es dudoso | Por verificar | Las tres sentencias las conozco y concuerdan; la aplicación a Horma, a una abogada |
 | H29 | Preguntas para una abogada (6): licencias abiertas con descripciones completas, ATS sin permiso, permiso por correo o contrato, extensión y alertas, RGPD, documentar por qué no es alto riesgo | Encaja | Lista lista para llevar |
 | H30 | Pasar de Vercel Hobby y Supabase Free antes de cobrar | Encaja | Hobby verificado (solo no comercial); hoy usamos localhost y PostgreSQL propio |
+
+## H2. Medición real y palancas (7-nov)
+
+Cifras y fuentes: `docs/privado/medicion-fuentes-espana-2026-11-07.md`.
+
+| # | Idea o hallazgo | Estado | Nota |
+|---|---|---|---|
+| J1 | Feina Activa, CIDO, CyL, Murcia, Andalucía: feeds vivos medidos (≈ 7.600 ofertas vigentes) | Por calificar | Licencia sin leer: «verde provisional» |
+| J2 | Lanbide: 628 ofertas, sin empresa, `robots.txt` con `Disallow: /` | Amarillo | Escribir a Lanbide (borrador listo) |
+| J3 | Radar del catálogo `datos.gob.es` (su API `apidata` descubre conjuntos de ofertas) | Propuesta | Job semanal; encontró 8 conjuntos que el informe no tenía |
+| J4 | Entes públicos con perfil tecnológico (universidades y centros vía CIDO, entidades instrumentales de Andalucía) | Propuesta | Es el segmento más cercano al perfil de Mar |
+| J5 | EURES y Euraxess (investigación e IA) | Amarillo | Para verde: acuerdo con EURES España como socia/usuaria; leer condiciones de Euraxess |
+| J6 | Detección de ATS por empresa (`detectar_ats.py`) | Preparada, sin ejecutar | Solo detecta; contar ofertas es zona dudosa |
+| J7 | Jooble/Careerjet como publisher | Por leer términos | Jooble pregunta si mostramos ofertas agregadas; paga por clic o acción |
+| J8 | Ofertas que trae la usuaria, espacio privado `licencia: usuaria` | **Descartada al 100 % (Mar, 7-nov)** | Ver B3, B4, H8, H9 y H25 |
+| J9 | Filtrar «Internet / Prensa» del feed de CyL (contenido de terceros) | Regla de ingesta | Dejar solo `ECYL` y «Organismo oficial» |
 
 ## I. De ideas a plan (siguiente paso)
 
