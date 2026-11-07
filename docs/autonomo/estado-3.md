@@ -1,6 +1,6 @@
 # Estado de la construcción autónoma III
 Inicio: 2026-11-07T13:52:22+01:00 · Límite: 2026-11-07T17:52 · A4 empieza a las 17:22 pase lo que pase · Rama de integración: autonomo/2026-11-07 (sale de autonomo/2026-11-06)
-Línea base: web 164 tests · evals 42 · build ok · lint ok · tsc ok · copia de la base: datos/copias/pre-autonomo3-2026-11-07.sql (ignorada por git; restaurar: `docker exec -i horma-db psql -U horma horma < datos/copias/pre-autonomo3-2026-11-07.sql`, tras recrear la base vacía)
+Línea base: web 164 tests · evals 42 · build ok · lint ok · tsc ok · copia de la base: borrada el 7-nov por orden de Mar (todo estaba ya en `main`)
 
 | Bloque | Estado | Rama | Hora | Tests (web/evals) | Revisores |
 |---|---|---|---|---|---|

@@ -26,5 +26,4 @@ Nada de lo vetado (fuentes nuevas, Lanbide, supervisor, voz, MCP, deploy…) ni 
 - `git checkout .claude/settings.json` (restaura tus permisos).
 - Revisar: `git log --oneline autonomo/2026-11-07` y `git diff main..autonomo/2026-11-07 --stat`; probar a mano las secciones 17-19 de la guía.
 - Aceptar: fundir tú en `main` (no lo he hecho ni he empujado nada).
-- Restaurar la copia previa si hiciera falta (tras recrear la base vacía): `docker exec -i horma-db psql -U horma horma < datos/copias/pre-autonomo3-2026-11-07.sql`.
 - Procesos: no dejé ninguno mío en marcha (el servidor del puerto 3000 no es mío).
