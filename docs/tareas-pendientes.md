@@ -10,7 +10,7 @@ Dos pases de `revisor-seguridad` repetidos; seis medios y dos bajos corregidos (
 
 ## Construcción autónoma III (4 h): HECHA (7-nov), por revisar con Mar
 A1 calidad de ofertas, A2 CSP estricta y A3 RLS hechas y fundidas en `autonomo/2026-11-07` (sin empujar; migraciones 021-025). Revisores pasados; detalle, decisiones y preguntas con opción recomendada en `docs/autonomo/resumen-para-mar-3.md`. **Mar, al volver:** (1) `git checkout .claude/settings.json`; (2) leer el resumen y responder las preguntas; (3) probar a mano las secciones 17-19 de la guía; (4) decidir si se funde en `main`. Pendiente menor: guarda estática del test RLS más estricta (invertir la lógica).
-**Subido a GitHub (7-nov):** ramas `autonomo/2026-11-07`, `autonomo/2026-11-06` y `auto/a1`, `a2`, `a3`; `main` sin tocar. Cuaderno (apartados 25 y 26) y página del profesor al día; esa página está privada hasta que Mar la comparta. El repo del Cuaderno tiene commits locales sin subir.
+**Subido a GitHub (7-nov):** ramas `autonomo/2026-11-07`, `autonomo/2026-11-06` y `auto/a1`, `a2`, `a3`; `main` sin tocar. Cuaderno (apartados 25 y 26) y página del profesor al día; esa página está privada hasta que Mar la comparta. El repo del Cuaderno también está subido.
 
 ## Bloqueos (`deny`) quitados a propósito (7-nov, Mar)
 **Actualización 7-nov (noche):** `deny` vuelto al estado reducido que fijó Mar (`.env` y `docs/privado`) para trabajar con ella; el completo queda guardado en `docs/autonomo/settings-autonomo.json` y se aplica solo para sesiones autónomas.

@@ -817,5 +817,5 @@ También queda preparada la construcción autónoma de 4 h (`docs/construccion-a
 ## 7-nov-2026 · Cuaderno al día y push de la construcción autónoma III
 
 **Hecho.** El apartado 25 (bitácora) y el 26 (informe de pruebas) del documento «Horma jobs» del Cuaderno, y la página aparte del profesor (`horma-apuntes`), quedan al día a 7-nov: pista B cerrada, construcción optimizada, las dos noches autónomas, fuentes de España y pendientes (189 tests web, 43 evals). La página del profesor sigue privada: compartirla es cosa de Mar desde el menú *Share*. Por orden de Mar se suben a `origin` las ramas `autonomo/2026-11-07` (migraciones 021 a 025), `autonomo/2026-11-06` (dos commits pendientes) y `auto/a1-calidad-ofertas`, `auto/a2-csp`, `auto/a3-rls`, por nombre y sin forzar. `main` no se toca y la fusión sigue pendiente de su decisión.
-**No hecho.** El repo del Cuaderno (`C:\AI Engineering\Workbook`) tiene commits locales sin subir: su guía dice que Mar decide cuándo.
+**Después.** Por orden de Mar se subió también el repo del Cuaderno (`main`, `a291ab1..3dc5f6a`).
 **En llano.** Lo de esta noche ya está también en GitHub y los documentos del Cuaderno cuentan lo mismo que el repositorio. Para que entre en `main` hace falta tu orden. **Tema del bootcamp:** documentación viva y copias de seguridad en remoto (control de versiones).
