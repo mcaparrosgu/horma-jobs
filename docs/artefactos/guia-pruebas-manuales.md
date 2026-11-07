@@ -257,3 +257,35 @@ Sigue desde la sección 15, con una candidatura aprobada (sección 12, paso 9) p
 7. Pulsa «Retirar envío». **Debe pasar:** desaparece esa línea y el botón; tu candidatura sigue «enviada» (se envió y se retiró, las dos cosas son ciertas).
 8. Con la sesión de la empresa, recarga «Candidaturas recibidas». **Debe pasar:** ya no aparece esa candidatura.
 9. Con una SEGUNDA empresa de prueba, intenta abrir la bandeja de la primera escribiendo su dirección a mano. **Debe pasar:** 404.
+
+## 17. Calidad de las ofertas: duplicados, cierre y etiqueta (construcción autónoma III, A1)
+
+Necesitas la web en marcha (`npm run build` y `npm start` en `web/`) y alguna oferta en la base.
+
+1. Abre `/ofertas`. **Debe pasar:** cada oferta aparece una sola vez, aunque venga de dos fuentes; si una empresa figura con la misma oferta en una fuente abierta y en Horma, sale la de Horma.
+2. En cada oferta busca la línea pequeña de transparencia. **Debe pasar:** solo dice hechos (fuente, fecha en que se vio, licencia); no dice «buena», «segura» ni nada que sea opinión.
+3. Ofertas con aviso «puede no estar vigente»: son las que llevan más de 45 días sin verse. **Debe pasar:** siguen visibles, con el aviso; nada se ha borrado.
+4. Una oferta con fecha de cierre pasada **no** debe salir en `/ofertas` ni en tus recomendaciones.
+5. En una terminal, dentro de `web/`: `npm run dedup`. **Debe pasar:** te dice qué agruparía, **sin tocar nada** (es en seco). Solo `npm run dedup -- --aplicar` escribe, y aun así no borra filas.
+6. Si dos ofertas reales de la misma empresa se agrupan y te parece mal, anótalo: la agrupación es por empresa + título + municipio + semana (heurística), y puede equivocarse.
+
+## 18. Seguridad de la web: CSP (construcción autónoma III, A2)
+
+La CSP es una lista que le dice al navegador qué scripts puede ejecutar; así un texto malicioso colado en una oferta no puede ejecutar código.
+
+1. Con la web en marcha, abre `/ofertas` y pulsa F12 → pestaña «Consola». **Debe pasar:** ninguna línea roja que diga «Content Security Policy» ni «Refused to execute».
+2. En la pestaña «Red», pulsa la primera petición (el documento) → «Encabezados». **Debe pasar:** hay un `Content-Security-Policy` con `nonce-…`, sin `unsafe-eval`.
+3. Recarga y compara el `nonce`. **Debe pasar:** es distinto en cada carga.
+4. Navega por candidaturas, seguimiento, cuenta y portal de empresas. **Debe pasar:** todo funciona igual que antes (botones, formularios, desplegables).
+
+## 19. Seguridad por filas, RLS (construcción autónoma III, A3)
+
+RLS es una regla dentro de la base de datos: aunque la web se equivocara al preguntar, la base no entrega filas de otra persona.
+
+1. En `web/`: `npm test`. **Debe pasar:** todo en verde; el archivo `rls.db.test.ts` incluye la «prueba de la prueba» (rompe una política a propósito y comprueba que el test lo detecta).
+2. Crea dos candidatas de prueba (A y B) con candidatura cada una. Con A, abre `/candidaturas` y `/seguimiento`. **Debe pasar:** solo ves lo tuyo.
+3. Con B, escribe a mano la dirección de una candidatura de A. **Debe pasar:** 404.
+4. Con A, abre `/cuenta/descargar`. **Debe pasar:** el JSON trae solo tus datos.
+5. Con A, aprueba y envía una candidatura a una empresa; con la empresa, abre la bandeja y cambia el estado. **Debe pasar:** funciona igual que en la sección 16.
+6. En `web/`: `npm run exportar -- --usuaria <id>` y `npm run borrar -- --usuaria <id>` (en seco). **Debe pasar:** siguen funcionando.
+7. Al terminar, borra las cuentas de prueba (solo las tuyas de prueba, nunca las reales).
