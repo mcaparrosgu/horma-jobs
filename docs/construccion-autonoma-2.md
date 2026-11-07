@@ -1,5 +1,7 @@
 # Construcción autónoma II (≈ 10 h, sin Mar) · 7-nov-2026
 
+> **APLAZADA (7-nov, Mar).** Sustituida por `docs/construccion-autonoma-3.md` (4 h, solo estructuras con ok del profesor). Lo que sigue queda como referencia para cuando haya licencias verificadas y respuesta del profesor a las preguntas 10 y 17.
+
 Segunda noche autónoma. **Hereda todas las reglas de `docs/construccion-autonoma.md`** (secciones 3 «Cómo trabajas / Dudas / Prohibido», 4 «Ramas», 5 «Puerta de calidad» y 7 «Plantillas»); aquí solo se dice lo que cambia. Estado de la ejecución: `docs/autonomo/estado-2.md` (lo crea C0). Resumen para Mar por la mañana: `docs/autonomo/resumen-para-mar-2.md`.
 
 Decidido por Mar (7-nov): entran los **cuatro** bloques nuevos (calidad de ofertas, adaptadores de fuentes, enlaces «buscar también en…», supervisor del envío automático) más el cierre pendiente de la noche anterior.

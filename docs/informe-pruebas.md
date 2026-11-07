@@ -105,6 +105,25 @@ Se probaron con tres CV y dos ofertas ficticios, con trampas sembradas:
 - **Base de datos:** cinco inserciones inválidas rechazadas por la propia base.
 - **Manuales en el navegador:** filtros de ofertas; alta de fuentes con rechazo de direcciones internas, claves pegadas y nombres de variable no permitidos; preferencias con rango inválido (se conserva lo escrito); identificadores raros devuelven «no encontrado»; los guardados dejan un apunte de observabilidad con solo números.
 
+## 3 ter. Revisión de seguridad de la noche 1 repetida (7-nov-2026)
+
+Se repitieron los dos pases de `revisor-seguridad` que habían quedado sin informe: B1+B2 (cuenta propia, RGPD, seguimiento) y B3+B4 (empresas, moderación, envío). **Sin hallazgos críticos ni altos.** Los revisores solo leen: cada hallazgo se comprobó en el código antes de tocarlo.
+
+| # | Gravedad | Hallazgo | Qué se hizo |
+|---|---|---|---|
+| B2-1 | Media | `borrar_cuenta_propia` (SECURITY DEFINER) sin `pg_temp` al final del `search_path` | Migración `020` (aplicada; reversible con `ALTER FUNCTION … SET search_path = public`) |
+| B2-2 | Media | Cambiar contraseña y borrar cuenta comprobaban la contraseña sin contar fallos (sesión robada = fuerza bruta) | Mismo contador y bloqueo que el login (`cuenta.ts`); 2 tests |
+| B2-3 | Media | Si fallaba la purga de archivos tras borrar en la base, se restauraban archivos de una cuenta ya inexistente | La purga sale del `try`; si falla, queda anotado y la carpeta `.borrando-<id>` se limpia a mano |
+| B2-4 | Baja | La descarga de datos podía quedar en caché | `cache-control: no-store` |
+| B4-1 | Media | Se podía enviar el CV a una oferta ya cerrada, rechazada o devuelta a revisión | `SQL_CANDIDATURA_PARA_ENVIAR` exige `estado_publicacion = 'aprobada'`; test |
+| B4-2 | Media | La administración no podía retirar una oferta ya aprobada | Acción «Retirar» (solo aprobada de empresa → cerrada) y lista en la pantalla de moderación; test |
+| B4-3 | Media | Carrera: la empresa edita entre que la administración ve y aprueba | La aprobación exige una «versión» (md5 del texto visto); si cambió, no se aplica; test |
+| B4-8 | Baja | La exportación RGPD no incluía el nombre y correo compartidos | Añadidos a `envios_empresa` del export |
+
+**Pendiente de decisión (no tocado):** B4-4 (los textos de empresa no pasan por el detector de instrucciones embebidas; hay que confirmar que los prompts de agentes tratan siempre la oferta como dato), B4-5 y B4-6 (defensa extra en la base: disparador con `empresa_id` obligatorio y clave foránea compuesta), B4-7 (límite de intentos por IP en el login de empresa), B4-10 y B4-11 (tope de ofertas, motivo de rechazo, exportar/borrar datos de contacto de empresas antes de tener empresas reales). Ninguno es explotable hoy.
+
+**Verificación:** 164 tests web (161 antes de B3+B4; 159 al empezar), `tsc`, `lint`, `build` y 42 evals de la pista A en verde. Límite: la revisión es de lectura; los hallazgos de carrera (B4-3, B4-7) se cierran con una comprobación en SQL, no con una prueba concurrente real.
+
 ## 4. Fallos encontrados y corregidos
 
 1. Los agentes no cargaban los esquemas: faltaba la ruta en sus instrucciones.

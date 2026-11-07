@@ -773,3 +773,14 @@ Mar redujo el `deny` de `.claude/settings.json` a los bloqueos de `.env` y `docs
 **No hecho.** Nada de esto se ha ejecutado todavía. Quedan fuera, por decisión escrita en el plan: registrar fuentes en `endpoints.json`, Lanbide, `pg_trgm` (extensión nueva), el LLM del supervisor y cualquier envío real. **Riesgo que dejo dicho:** las URL de los botones «buscar también en…» salen de memoria (la sesión no hace búsquedas web) y Mar debe comprobarlas a mano; con el `deny` repuesto, `git push` queda bloqueado hasta que ella lo autorice.
 
 **En llano.** Dejo preparada la noche: qué construir, en qué orden y qué recortar si falta tiempo o crédito. Lo nuevo que entra es lo que más acerca Horma a tener muchas ofertas fiables (limpiar duplicados y caducadas, y tener listos los lectores de las fuentes), sin activar nada hasta que tú des el visto bueno. **Tema del bootcamp:** ingesta de datos con calidad (deduplicación, caducidad por reglas), guardarraíles en agentes autónomos (denegar por defecto) y trabajo autónomo con puertas de calidad.
+
+## Cierre de seguridad de la noche 1 y construcción autónoma III preparada (7-nov, Mar)
+
+**Qué.** Se repitieron los dos pases de `revisor-seguridad` que la noche 1 dejó sin informe. No hay críticos ni altos; se comprobaron en el código y se corrigieron los seis medios y dos bajos baratos: `search_path` de la función de borrado (migración 020), bloqueo por fallos al cambiar contraseña o borrar cuenta, purga de archivos que ya no restaura datos de una cuenta borrada, `no-store` en la descarga, envío solo a ofertas aprobadas, botón «Retirar» para la administración, aprobación atada a la versión del texto visto y exportación con el nombre y correo compartidos. Detalle y lo que queda por decidir: `docs/informe-pruebas.md`, sección 3 ter. Verificado: 164 tests web, `tsc`, `lint`, `build` y 42 evals.
+
+También queda preparada la construcción autónoma de 4 h (`docs/construccion-autonoma-3.md`, con su `settings` en `docs/autonomo/settings-autonomo.json`) y el `deny` de `.claude/settings.json` reducido a lo que fijó Mar. Las migraciones del plan pasan a 021 y 022 porque la 020 ya está usada.
+
+**No hecho.** Los hallazgos B4-4 a B4-11 (defensa extra y límites) esperan decisión; CI en GitHub Actions espera el OK de Mar; nada está empujado.
+
+**En llano.** Un revisor independiente leyó el código sensible y encontró fallos pequeños, ninguno grave: cosas como que alguien con tu sesión robada pudiera probar contraseñas sin límite, o que se pudiera enviar un CV a una oferta ya retirada. Están arregladas con su prueba. **Tema del bootcamp:** revisión de seguridad con un agente de solo lectura, defensa en profundidad (el código y la base se protegen entre sí) y pruebas que fallan a propósito para comprobar que detectan el fallo.
+

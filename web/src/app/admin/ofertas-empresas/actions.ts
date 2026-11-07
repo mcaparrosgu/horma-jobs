@@ -5,7 +5,7 @@
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { requerirAdmin } from "@/lib/sesion";
-import { SQL_MODERAR_OFERTA, moderacionValida } from "@/lib/empresa-oferta";
+import { SQL_MODERAR_OFERTA, SQL_RETIRAR_OFERTA_ADMIN, moderacionValida } from "@/lib/empresa-oferta";
 import { registrarEvento } from "@/lib/importar";
 
 export async function moderarOferta(formData: FormData): Promise<void> {
@@ -14,7 +14,22 @@ export async function moderarOferta(formData: FormData): Promise<void> {
   const destino = formData.get("estado");
   const t0 = Date.now();
   if (!moderacionValida(destino)) return;
-  const res = await db().query(SQL_MODERAR_OFERTA, [id, destino]).catch(() => null);
+  const version = typeof formData.get("version") === "string" ? (formData.get("version") as string).slice(0, 64) : "";
+  const res = await db().query(SQL_MODERAR_OFERTA, [id, destino, version]).catch(() => null);
+  await registrarEvento(db(), {
+    componente: "web-empresa", accion: "moderar-oferta", resultado: !!res && (res.rowCount ?? 0) === 1 ? "ok" : "error",
+    duracion_ms: Date.now() - t0,
+  }).catch(() => {});
+  revalidatePath("/admin/ofertas-empresas");
+  revalidatePath("/ofertas");
+}
+
+/** Retira (cierra) una oferta de empresa ya aprobada. Solo administración. */
+export async function retirarOferta(formData: FormData): Promise<void> {
+  await requerirAdmin();
+  const id = typeof formData.get("oferta_id") === "string" ? (formData.get("oferta_id") as string).slice(0, 80) : "";
+  const t0 = Date.now();
+  const res = await db().query(SQL_RETIRAR_OFERTA_ADMIN, [id]).catch(() => null);
   await registrarEvento(db(), {
     componente: "web-empresa", accion: "moderar-oferta", resultado: !!res && (res.rowCount ?? 0) === 1 ? "ok" : "error",
     duracion_ms: Date.now() - t0,

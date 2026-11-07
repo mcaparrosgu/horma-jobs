@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   validarOfertaEmpresa, listaDeLineas, ID_EMPRESA, SQL_PUBLICAR_OFERTA, SQL_EDITAR_OFERTA, SQL_CERRAR_OFERTA,
-  SQL_MODERAR_OFERTA, SQL_OFERTAS_PENDIENTES, moderacionValida, type DatosOfertaEmpresa,
+  SQL_MODERAR_OFERTA, SQL_OFERTAS_PENDIENTES, SQL_RETIRAR_OFERTA_ADMIN, moderacionValida, type DatosOfertaEmpresa,
 } from "./empresa-oferta.ts";
 
 const base: DatosOfertaEmpresa = {
@@ -94,4 +94,14 @@ test("moderar: solo mueve pendiente_de_revision -> aprobada o rechazada, nunca o
   assert.equal(moderacionValida("cerrada"), false);
   assert.equal(moderacionValida("pendiente_de_revision"), false);
   assert.equal(moderacionValida("algo"), false);
+});
+
+test("moderar: la aprobación exige la versión del texto que vio la administración (si la empresa edita, no aprueba)", () => {
+  assert.match(SQL_MODERAR_OFERTA, /md5\([\s\S]*\) = \$3/);
+  assert.match(SQL_OFERTAS_PENDIENTES, /md5\([\s\S]*\) AS version/);
+});
+
+test("retirar: solo cierra ofertas de empresa aprobadas", () => {
+  assert.match(SQL_RETIRAR_OFERTA_ADMIN, /empresa_id IS NOT NULL AND estado_publicacion = 'aprobada'/);
+  assert.match(SQL_RETIRAR_OFERTA_ADMIN, /SET estado_publicacion = 'cerrada'/);
 });

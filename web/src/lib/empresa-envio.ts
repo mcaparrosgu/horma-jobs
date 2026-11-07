@@ -13,7 +13,7 @@ export const estadoBandejaValido = (v: unknown): v is (typeof ESTADOS_BANDEJA)[n
 export const SQL_CANDIDATURA_PARA_ENVIAR = `
   SELECT c.cv_md, c.carta_md, c.estado, o.empresa_id, o.titulo, o.empresa AS empresa_nombre
   FROM candidaturas c JOIN ofertas o ON o.id = c.oferta_id
-  WHERE c.usuaria_id = $1 AND c.oferta_id = $2`;
+  WHERE c.usuaria_id = $1 AND c.oferta_id = $2 AND o.estado_publicacion = 'aprobada'`;
 
 // Copia CONGELADA: cv_md/carta_md se copian aquí tal cual estaban aprobados, y no se vuelven a leer de
 // `candidaturas` después (si la candidatura cambiara más adelante, lo que la empresa ya vio no cambia).

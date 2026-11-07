@@ -45,12 +45,14 @@ export async function borrarCuenta(_previo: EstadoCuenta, f: FormData): Promise<
     const res = await db().query(SQL_BORRAR_CUENTA_PROPIA, [s.usuaria_id]);
     const filas = Number((res.rows[0] as { filas?: number } | undefined)?.filas ?? 0);
     if (filas === 0) throw new Error("la base no borró ninguna fila");
-    purgarCuarentena(DATOS, s.usuaria_id);
   } catch {
     if (enCuarentena) restaurar(DATOS, s.usuaria_id);
     await apunte("borrar-cuenta", "error", t0);
     return { ok: false, error: "No se pudo borrar tu cuenta. Inténtalo otra vez." };
   }
+  // La base ya borró: aquí NO se restaura (dejaría archivos de una cuenta que ya no existe). Si la purga falla,
+  // la carpeta .borrando-<id> queda y se avisa en el registro para borrarla a mano (`npm run borrar`).
+  try { purgarCuarentena(DATOS, s.usuaria_id); } catch { await apunte("borrar-cuenta", "error", t0); }
   await apunte("borrar-cuenta", "ok", t0);
   await cerrarSesion();
   redirect("/entrar?borrada=1");

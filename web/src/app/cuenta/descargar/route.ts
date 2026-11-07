@@ -35,6 +35,7 @@ export async function GET() {
     headers: {
       "content-type": "application/json; charset=utf-8",
       "content-disposition": 'attachment; filename="horma-datos.json"',
+      "cache-control": "no-store",
     },
   });
 }

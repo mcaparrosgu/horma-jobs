@@ -97,7 +97,7 @@ export const SQL_EXPORTAR = {
   matches: "SELECT jsonb_agg(to_jsonb(m)) AS dato FROM matches m WHERE usuaria_id = $1",
   candidaturas: "SELECT jsonb_agg(to_jsonb(c)) AS dato FROM candidaturas c WHERE usuaria_id = $1",
   // Envíos a empresas (bloque 4): sin id interno de la empresa ni nada de la candidatura que no sea lo enviado.
-  envios_empresa: "SELECT jsonb_agg(jsonb_build_object('oferta_id', oferta_id, 'cv_md', cv_md, 'carta_md', carta_md, 'contacto_compartido', contacto_nombre IS NOT NULL, 'estado_bandeja', estado_bandeja, 'enviado_en', enviado_en)) AS dato FROM envios_empresa WHERE usuaria_id = $1",
+  envios_empresa: "SELECT jsonb_agg(jsonb_build_object('oferta_id', oferta_id, 'cv_md', cv_md, 'carta_md', carta_md, 'contacto_compartido', contacto_nombre IS NOT NULL, 'contacto_nombre', contacto_nombre, 'contacto_email', contacto_email, 'estado_bandeja', estado_bandeja, 'enviado_en', enviado_en)) AS dato FROM envios_empresa WHERE usuaria_id = $1",
 } as const;
 
 // Las tablas hijas (cuentas, sesiones, perfiles, preferencias, matches, candidaturas) se borran solas por ON DELETE CASCADE.

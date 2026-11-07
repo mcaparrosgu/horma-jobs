@@ -81,3 +81,21 @@ test("puedeBorrarCuenta: cuenta solo-Google, hace falta escribir el correo exact
 test("puedeBorrarCuenta: sin cuenta, da error", async () => {
   assert.deepEqual(await puedeBorrarCuenta(falsa(undefined), "u1", "lo que sea"), { ok: false, error: "No se encuentra tu cuenta." });
 });
+
+test("cambiarContrasenaPropia: una contraseña actual mala suma un fallo (mismo contador que el login)", async () => {
+  const hash = await hashContrasena("la contraseña actual, bien larga");
+  const bd = falsa({ hash, rol: "usuaria", email: "ana@x.es" });
+  await cambiarContrasenaPropia(bd, "u1", "incorrecta", "una frase larga y rara 2026");
+  assert.ok(bd.llamadas.some((l) => /SET fallos = fallos \+ 1/.test(l.sql)));
+});
+
+test("cuenta bloqueada: ni cambiar contraseña ni borrar prueban la contraseña, aunque sea la buena", async () => {
+  const hash = await hashContrasena("la contraseña actual, bien larga");
+  const fila = { hash, rol: "usuaria", email: "ana@x.es", fallos: 5, bloqueada_hasta: new Date(Date.now() + 600_000) };
+  const bd = falsa(fila);
+  const a = await cambiarContrasenaPropia(bd, "u1", "la contraseña actual, bien larga", "una frase larga y rara 2026 nueva");
+  const b = await puedeBorrarCuenta(bd, "u1", "la contraseña actual, bien larga");
+  assert.deepEqual(a, { ok: false, error: "Demasiados intentos: espera unos minutos." });
+  assert.deepEqual(b, { ok: false, error: "Demasiados intentos: espera unos minutos." });
+  assert.ok(!huboUpdate(bd));
+});

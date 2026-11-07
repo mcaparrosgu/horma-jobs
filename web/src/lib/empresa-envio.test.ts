@@ -39,3 +39,7 @@ test("estadoBandejaValido: solo los cuatro valores cerrados, nunca texto libre",
 test("el nombre de contacto tiene un tope razonable", () => {
   assert.equal(NOMBRE_CONTACTO_MAX, 200);
 });
+
+test("enviar: solo a ofertas aprobadas (una cerrada, rechazada o en revisión no admite envíos)", () => {
+  assert.match(SQL_CANDIDATURA_PARA_ENVIAR, /o\.estado_publicacion = 'aprobada'/);
+});

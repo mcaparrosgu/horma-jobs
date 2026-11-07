@@ -107,8 +107,12 @@ export const SQL_CERRAR_OFERTA = `
   UPDATE ofertas SET estado_publicacion = 'cerrada' WHERE id = $1 AND empresa_id = $2 AND estado_publicacion = 'aprobada'`;
 
 // --- Moderación (solo administración) ----------------------------------------------------------------------
+// «Versión» del texto que ve la administración: si la empresa edita la oferta entre que se muestra y se pulsa
+// Aprobar, la versión cambia y la aprobación no se aplica (nadie aprueba un texto que no ha visto).
+const VERSION_OFERTA = `md5(concat_ws('|', titulo, descripcion, ubicacion, remoto, contrato, nivel, requisitos::text, avisos::text))`;
+
 export const SQL_OFERTAS_PENDIENTES = `
-  SELECT o.id, o.titulo, o.descripcion, o.ubicacion, o.remoto, o.contrato, o.nivel, o.requisitos, o.avisos,
+  SELECT ${VERSION_OFERTA} AS version, o.id, o.titulo, o.descripcion, o.ubicacion, o.remoto, o.contrato, o.nivel, o.requisitos, o.avisos,
          o.creada_en, e.nombre AS empresa_nombre
   FROM ofertas o JOIN empresas e ON e.id = o.empresa_id
   WHERE o.estado_publicacion = 'pendiente_de_revision'
@@ -116,5 +120,14 @@ export const SQL_OFERTAS_PENDIENTES = `
 
 export const SQL_MODERAR_OFERTA = `
   UPDATE ofertas SET estado_publicacion = $2
-  WHERE id = $1 AND estado_publicacion = 'pendiente_de_revision'`;
+  WHERE id = $1 AND estado_publicacion = 'pendiente_de_revision' AND ${VERSION_OFERTA} = $3`;
+
+// Ofertas de empresa ya aprobadas, para que la administración pueda retirar una estafa que se coló.
+export const SQL_OFERTAS_APROBADAS_EMPRESA = `
+  SELECT o.id, o.titulo, e.nombre AS empresa_nombre
+  FROM ofertas o JOIN empresas e ON e.id = o.empresa_id
+  WHERE o.estado_publicacion = 'aprobada'
+  ORDER BY o.creada_en DESC LIMIT 200`;
+export const SQL_RETIRAR_OFERTA_ADMIN = `
+  UPDATE ofertas SET estado_publicacion = 'cerrada' WHERE id = $1 AND empresa_id IS NOT NULL AND estado_publicacion = 'aprobada'`;
 export const moderacionValida = (v: unknown): v is "aprobada" | "rechazada" => v === "aprobada" || v === "rechazada";

@@ -1,11 +1,11 @@
 import { Suspense } from "react";
 import { db } from "@/lib/db";
 import { requerirAdmin } from "@/lib/sesion";
-import { SQL_OFERTAS_PENDIENTES } from "@/lib/empresa-oferta";
-import { moderarOferta } from "./actions";
+import { SQL_OFERTAS_PENDIENTES, SQL_OFERTAS_APROBADAS_EMPRESA } from "@/lib/empresa-oferta";
+import { moderarOferta, retirarOferta } from "./actions";
 
 type Fila = {
-  id: string; titulo: string; descripcion: string | null; ubicacion: string; remoto: string; contrato: string;
+  version: string; id: string; titulo: string; descripcion: string | null; ubicacion: string; remoto: string; contrato: string;
   nivel: string; requisitos: string[]; avisos: { tipo: string; texto: string }[]; creada_en: Date; empresa_nombre: string;
 };
 
@@ -16,6 +16,7 @@ export default function Pagina() {
 async function Moderacion() {
   await requerirAdmin();
   const filas = (await db().query<Fila>(SQL_OFERTAS_PENDIENTES)).rows;
+  const aprobadas = (await db().query<{ id: string; titulo: string; empresa_nombre: string }>(SQL_OFERTAS_APROBADAS_EMPRESA)).rows;
 
   return (
     <div className="space-y-4">
@@ -45,11 +46,13 @@ async function Moderacion() {
               <div className="flex gap-3">
                 <form action={moderarOferta}>
                   <input type="hidden" name="oferta_id" value={o.id} />
+                  <input type="hidden" name="version" value={o.version} />
                   <input type="hidden" name="estado" value="aprobada" />
                   <button className="rounded bg-green-700 px-3 py-1.5 text-xs font-medium text-white">Aprobar</button>
                 </form>
                 <form action={moderarOferta}>
                   <input type="hidden" name="oferta_id" value={o.id} />
+                  <input type="hidden" name="version" value={o.version} />
                   <input type="hidden" name="estado" value="rechazada" />
                   <button className="rounded bg-red-700 px-3 py-1.5 text-xs font-medium text-white">Rechazar</button>
                 </form>
@@ -58,6 +61,26 @@ async function Moderacion() {
           ))}
         </ul>
       )}
+
+      <div className="space-y-2">
+        <h2 className="text-lg font-semibold">Ofertas de empresas ya publicadas</h2>
+        <p className="text-sm text-zinc-600">Si una se cuela y resulta sospechosa, «Retirar» la cierra y deja de aparecer en «Ofertas» (y no admite más envíos).</p>
+        {aprobadas.length === 0 ? (
+          <p className="text-sm text-zinc-500">No hay ninguna publicada.</p>
+        ) : (
+          <ul className="space-y-1">
+            {aprobadas.map((a) => (
+              <li key={a.id} className="flex items-center justify-between gap-2 rounded border border-zinc-200 bg-white px-3 py-2 text-sm">
+                <span>{a.titulo} <span className="text-zinc-600">· {a.empresa_nombre}</span></span>
+                <form action={retirarOferta}>
+                  <input type="hidden" name="oferta_id" value={a.id} />
+                  <button className="rounded bg-red-700 px-3 py-1 text-xs font-medium text-white">Retirar</button>
+                </form>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }
