@@ -9,7 +9,7 @@ Línea base: web 127 tests · evals 41 · build ok (ninguna ruta estática) · c
 | B2 | hecho | auto/b2-seguimiento | 23:16–23:27 | 139/41 | auditor-lineas-rojas pendiente de lanzar |
 | B3 | hecho | auto/b3-empresas-i | 23:27–00:00 | 154/41 | revisor-seguridad + auditor-lineas-rojas sobre B3+B4 juntos |
 | B4 | hecho | auto/b4-enviar-bandeja | 00:00–00:20 | 159/41 | revisor-seguridad + auditor-lineas-rojas sobre B3+B4 juntos, a continuación |
-| B5 | pendiente | — | — | — | — |
+| B5 | parcial | autonomo/2026-11-06 | 00:20–(corte) | 159/41 | ver abajo: 2 de 3 revisores fallaron por límite de uso, no por hallazgos |
 
 ## Decisiones técnicas (porqué en 1–2 líneas)
 - **B1, borrado con función en vez de GRANT DELETE:** `borrar_cuenta_propia(id)` (SECURITY DEFINER) en vez de dar DELETE directo a `horma_web` sobre `usuarias`. Así un fallo en el código de la web no puede borrar un id ajeno, y la base bloquea sola cualquier intento de borrar una cuenta `admin` (defensa también fuera del código de la página).
@@ -37,7 +37,14 @@ Línea base: web 127 tests · evals 41 · build ok (ninguna ruta estática) · c
 - **019_envios_empresa.sql:** tabla `envios_empresa` (copia congelada de CV/carta, contacto opcional, estado de bandeja). Incluye `GRANT USAGE ON SEQUENCE envios_empresa_id_seq` (se me olvidó al escribirla; lo encontré probando el INSERT a mano y lo corregí en el propio archivo antes de fundir, sin dejarlo para después). Rollback: `DROP TABLE envios_empresa;`.
 
 ## Siguiente paso exacto
-Lanzar `revisor-seguridad` + `auditor-lineas-rojas` sobre el diff conjunto de B3+B4 (según el plan). Si no hay hallazgos críticos o altos sin arreglar, empezar el cierre (B5).
+**Corte por límite de uso de la cuenta (no por fallo de Horma).** Mar ha vuelto antes de las 10 h, ha pedido asegurar el trabajo (documentar, commit, push) y va a abrir una sesión nueva. Al retomar:
+1. Lee este archivo y `docs/autonomo/resumen-para-mar.md`.
+2. Faltan por lanzar: `revisor-seguridad` sobre B3+B4 (falló por límite de tasa, iba bien: solo había confirmado que `empresa_id` siempre sale de la sesión) y `revisor-seguridad` sobre B1+B2 (falló por el límite de 5 h, iba bien: logging limpio, sin PII). Ninguno de los dos encontró ningún hallazgo antes de cortarse: hay que repetirlos, no reanudarlos a ciegas.
+3. Falta por hacer del plan de B5: `docs/informe-pruebas.md` (sección nueva con el resumen de esta noche); confirmar que no quedan procesos de prueba corriendo (ya comprobado: ninguno); decidir con Mar si se funde `autonomo/2026-11-06` en `main` o se descarta o se acepta por bloques.
+4. Nada de B0 a B4 quedó roto: 159 tests web, 41 evals, build/lint/tsc limpios, probado en el navegador de punta a punta. Lo que falta es la última capa de revisión, no arreglos.
 
 ## Revisores
-- **auditor-lineas-rojas sobre B1+B2 (tras B2, según el plan): sin hallazgos.** Cumplen todas las líneas rojas. Único punto no bloqueante: la nota libre de «Registrar respuesta» (seguimiento) confía en el aviso de la UI para que la usuaria no escriba datos de un tercero; el auditor propone, si se quiere reforzar más adelante, una confirmación suave en el cliente si el texto parece un nombre o un correo. No es línea roja incumplida (la nota es de la propia usuaria, sobre su propio proceso, protegida por el mismo borrado/exportación RGPD); lo dejo anotado para Mar, no lo construyo ahora (no estaba en el plan de esta noche).
+- **auditor-lineas-rojas sobre B1+B2 (tras B2): sin hallazgos.** Cumplen todas las líneas rojas. Único punto no bloqueante: la nota libre de «Registrar respuesta» (seguimiento) confía en el aviso de la UI para que la usuaria no escriba datos de un tercero; el auditor propone, si se quiere reforzar más adelante, una confirmación suave en el cliente si el texto parece un nombre o un correo. No es línea roja incumplida (la nota es de la propia usuaria, sobre su propio proceso, protegida por el mismo borrado/exportación RGPD); lo dejo anotado para Mar, no lo construyo ahora.
+- **auditor-lineas-rojas sobre B3+B4: sin hallazgos.** Cumplen todas las líneas rojas, con buena defensa en profundidad (disparador `ofertas_moderacion`, `SQL_BANDEJA` con test-guardián propio). Dos puntos menores, ya corregidos: el comentario de `scripts/borrar.ts` no mencionaba `envios_empresa` en la cascada, y el resumen en seco no los contaba (los dos arreglados en el commit `682b172`, antes de este corte).
+- **revisor-seguridad sobre B3+B4: FALLÓ por límite de tasa (HTTP 429) a mitad de revisión.** Lo poco que alcanzó a confirmar: `empresa_id` siempre sale de la sesión, nunca del formulario. No encontró ningún hallazgo antes de cortarse. **Pendiente: repetirlo entero.**
+- **revisor-seguridad sobre B1+B2: FALLÓ por el límite de 5 horas de la cuenta a mitad de revisión.** Lo poco que alcanzó a confirmar: la lista de observabilidad (`registrarEvento`) está bien acotada, sin datos personales. No encontró ningún hallazgo antes de cortarse. **Pendiente: repetirlo entero.**

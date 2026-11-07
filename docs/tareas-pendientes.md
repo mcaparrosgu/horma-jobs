@@ -1,9 +1,11 @@
 # Estado y tareas pendientes de Horma jobs
 
-Actualizado el 2026-11-06 (bloques 1 a 8 de la pista B hechos; ver «Retomar: empieza aquí»). Única fuente de estado y próximos pasos (mapa de documentos: `docs/indice.md`). Orden = prioridad.
+Actualizado el 7-nov-2026 (construcción autónoma B0 a B4 hechos, cortada antes de tiempo; ver «Construcción autónoma: cortada antes de tiempo, retomar aquí» más abajo). Única fuente de estado y próximos pasos (mapa de documentos: `docs/indice.md`). Orden = prioridad.
 
-## Construcción autónoma en marcha (6-nov noche, sin Mar)
-Sonnet 5.5 construye en modo autónomo lo que falta (plan: `docs/construccion-autonoma.md`; estado y retoma: `docs/autonomo/estado.md`), en la rama `autonomo/2026-11-06` (no toca `main`). **B0 a B4 hechos y fundidos** (cuenta y RGPD; seguimiento; portal de empresas I: identidad, publicar, moderación; portal de empresas II: enviar y bandeja). Quedan los revisores sobre B3+B4 y el cierre (B5). Al terminar o a la hora límite, deja `docs/autonomo/resumen-para-mar.md`: léelo primero.
+## Construcción autónoma: cortada antes de tiempo, retomar aquí (7-nov)
+Mar volvió antes de las 10 h (límite de uso de la cuenta) y pidió asegurar el trabajo. **Estado real: B0 a B4 hechos, probados y fundidos** en la rama `autonomo/2026-11-06` (nunca en `main`; plan: `docs/construccion-autonoma.md`; detalle y qué falta exacto: `docs/autonomo/estado.md`; resumen de una página: `docs/autonomo/resumen-para-mar.md`). 159 tests web, 41 evals, build/lint/tsc limpios, probado de punta a punta en el navegador. `auditor-lineas-rojas` sin hallazgos en los dos pases (B1+B2 y B3+B4).
+
+**Lo único pendiente:** los dos pases de `revisor-seguridad` (B1+B2 y B3+B4) fallaron a mitad de revisión por límites de uso de la cuenta, no por ningún hallazgo — hay que **repetirlos enteros**. Después: la sección nueva de `docs/informe-pruebas.md` y decidir con Mar si funde `autonomo/2026-11-06` en `main`, por bloques o lo descarta. **Mensaje para retomar:** «Lee `docs/autonomo/resumen-para-mar.md` y `docs/autonomo/estado.md`. Relanza los dos `revisor-seguridad` pendientes (B1+B2 y B3+B4) y tráeme sus hallazgos.» Al terminar o a la hora límite, deja `docs/autonomo/resumen-para-mar.md`: léelo primero.
 
 ## Fuentes de empleo: solo España (6-nov, Mar)
 Alcance de fuentes limitado a España hasta que las bases estén sólidas. **Siguiente en fuentes:** `/calificar-fuentes` de empleo público autonómico y municipal; Mar abre la cuenta de socia de Careerjet; escribir a InfoJobs, Tecnoempleo, Infoempleo y Adzuna pidiendo permiso (la Copiloto redacta los correos). Detalle en la bitácora del 6-nov. **Banco de ideas** (de dos agentes externos y propias, con estado): `docs/ideas-banco.md`; Mar las selecciona y se diseña el plan combinado.
