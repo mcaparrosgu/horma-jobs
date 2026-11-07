@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from "react";
+import { connection } from "next/server";
 import "./globals.css";
 import { Nav } from "./nav";
 
@@ -19,7 +20,11 @@ export const metadata: Metadata = {
   description: "Panel de Horma: pipelines, ingesta y datos guardados",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  // CSP con nonce (A2): Next solo pone el nonce de cada petición en los scripts si la página se pinta EN esa petición.
+  // Una página prerrenderizada en la compilación no tiene nonce y el navegador bloquearía sus scripts. Horma es una web
+  // con sesión en casi todo, así que pintar siempre en cada petición no cuesta nada que importe.
+  await connection();
   return (
     <html
       lang="es"
