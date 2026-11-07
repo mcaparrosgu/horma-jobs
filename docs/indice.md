@@ -44,4 +44,5 @@ PRD v1 (`prd-horma-v1.html`), investigación de fuentes y costes, ideas de hones
 - Comparativa con ai-job-search: `docs/comparativa-ai-job-search/` (solo en este PC, ignorada por git).
 - Datos de terceros: `docs/privado/` (ignorada por git; los agentes no la leen). Ahí están `investigacion-fuentes-espana-2026-11-06.md`, `medicion-fuentes-espana-2026-11-07.md` y `borradores-fuentes-2026-11-07.md` (correos y solicitudes sin enviar).
 - Prompt para otros LLM sobre ofertas de terceros: `docs/prompt-agente-fuentes-terceros.md`.
+- Construcción autónoma II (plan y prompt): `docs/construccion-autonoma-2.md`; formatos de los feeds medidos: `docs/fuentes-formatos-2026-11-07.md`.
 - Repositorio: https://github.com/mcaparrosgu/horma-jobs (privado, rama `main`).
