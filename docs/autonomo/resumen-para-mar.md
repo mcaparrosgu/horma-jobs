@@ -1,6 +1,6 @@
 # Resumen de la noche — para leer en 3 minutos
 
-**No se cumplieron las 10 horas: volviste antes y pediste asegurar el trabajo.** Esto no es un fallo de Horma: la cuenta se quedó sin cuota (primero un límite de tasa, luego el límite de 5 h) justo cuando lanzaba la última tanda de revisores. Nada se ha perdido: todo está en commits, en la rama `autonomo/2026-11-06`, y `main` no se ha tocado.
+**No se cumplieron las 10 horas: volviste antes y pediste asegurar el trabajo.** Esto no es un fallo de Horma: la cuenta se quedó sin cuota (primero un límite de tasa, luego el límite de 5 h) justo cuando lanzaba la última tanda de revisores. Nada se ha perdido: todo está en commits, en la rama `autonomo/2026-11-06` y sus cuatro ramas de bloque, **ya subidas a GitHub** (`origin`), y `main` no se ha tocado ni se ha empujado.
 
 ## Hecho (B0 a B4, en orden)
 
@@ -33,6 +33,8 @@
 git log --oneline main..autonomo/2026-11-06      # todos los commits de la noche
 git diff --stat main..autonomo/2026-11-06        # qué archivos cambiaron
 ```
+
+También puedes verlo en GitHub: las cinco ramas ya están en `origin` (repositorio `mcaparrosgu/horma-jobs`), así que puedes abrir `autonomo/2026-11-06` en la web de GitHub y comparar con `main` desde ahí, sin terminal.
 
 - **Aceptar todo:** `git merge --no-ff autonomo/2026-11-06` en `main`, con tu orden.
 - **Aceptar por bloques:** cada bloque tiene su rama (`auto/b1-cuenta-rgpd`, `auto/b2-seguimiento`, `auto/b3-empresas-i`, `auto/b4-enviar-bandeja`), ya fundida en `autonomo/2026-11-06`; se puede fundir una a una en `main` si lo prefieres.

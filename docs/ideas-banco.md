@@ -33,7 +33,7 @@ Origen: «Agente 1» y «Agente 2» son dos asistentes de IA externos consultado
 | # | Idea | Origen | Estado | Nota |
 |---|---|---|---|---|
 | B1 | **Botón «buscar también en…»**: enlace profundo con la consulta de la usuaria a InfoJobs, Tecnoempleo, Indeed, etc. | Agente 2 | Encaja | Sin tocar sus datos; cubre portales que no podemos indexar. Sin LLM |
-| B2 | Añadir oferta por enlace o pegando el texto | Profesor | Encaja | Pedido por el profesor el 6-nov |
+| B2 | Añadir oferta por enlace o pegando el texto | Profesor | **Descartada (Mar, 6-nov, definitivo)** | Pedido por el profesor el 6-nov; Mar no la quiere. Avisar al profesor |
 | B3 | Marcador del navegador o extensión «guardar esta oferta» | Ambos | Con condiciones | La extensión es otro producto que mantener; el marcador es más barato |
 | B4 | Reenviar alertas de LinkedIn, Indeed o InfoJobs a un buzón de Horma y parsearlas | Agente 2 | Con condiciones | Son correos de la propia usuaria; cuesta un buzón y traen datos de terceros (RGPD) |
 | B5 | Crowdsourcing: compartir ofertas encontradas fuera | Agente 1 | Con condiciones | Variante de B2 y B3; ojo con ofertas copiadas de portales con condiciones |
