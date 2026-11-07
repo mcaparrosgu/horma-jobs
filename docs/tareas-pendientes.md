@@ -8,8 +8,8 @@ Hecho: regla de specs y sección «Economía de tokens» en `CLAUDE.md`; plugin,
 ## Cierre de seguridad de la noche 1 (7-nov): hecho
 Dos pases de `revisor-seguridad` repetidos; seis medios y dos bajos corregidos (migración 020 aplicada). Pendiente de decidir con Mar: hallazgos B4-4 a B4-11 en `docs/informe-pruebas.md`, sección 3 ter (el más importante, B4-4: que los textos de empresa pasen por el detector de instrucciones embebidas).
 
-## Construcción autónoma III (4 h): preparada, se lanza en una conversación nueva (7-nov, Mar)
-Plan y prompt: `docs/construccion-autonoma-3.md` (sustituye a la II, aplazada). Bloques: **A1 calidad de ofertas** (dedup capas 1-2, caducadas por reglas, etiqueta de transparencia), **A2 CSP estricta y escapado**, **A3 RLS con su test de «datos ajenos fallan»**, A4 cierre. Solo estructuras con ok del profesor. **Antes de lanzar, Mar aplica** `Copy-Item docsutonomo\settings-autonomo.json .claude\settings.json -Force` (26 reglas `deny`) y al volver lo deshace con `git checkout .claude/settings.json`. Hoy `.claude/settings.json` lleva el `deny` reducido (`.env` y `docs/privado`).
+## Construcción autónoma III (4 h): HECHA (7-nov), por revisar con Mar
+A1 calidad de ofertas, A2 CSP estricta y A3 RLS hechas y fundidas en `autonomo/2026-11-07` (sin empujar; migraciones 021-025). Revisores pasados; detalle, decisiones y preguntas con opción recomendada en `docs/autonomo/resumen-para-mar-3.md`. **Mar, al volver:** (1) `git checkout .claude/settings.json`; (2) leer el resumen y responder las preguntas; (3) probar a mano las secciones 17-19 de la guía; (4) decidir si se funde en `main`. Pendiente menor: guarda estática del test RLS más estricta (invertir la lógica).
 
 ## Bloqueos (`deny`) quitados a propósito (7-nov, Mar)
 **Actualización 7-nov (noche):** `deny` vuelto al estado reducido que fijó Mar (`.env` y `docs/privado`) para trabajar con ella; el completo queda guardado en `docs/autonomo/settings-autonomo.json` y se aplica solo para sesiones autónomas.

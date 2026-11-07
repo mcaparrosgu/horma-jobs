@@ -114,6 +114,18 @@ async function fugas(c: pg.Client): Promise<string[]> {
   for (const t of ["perfiles", "preferencias", "matches", "candidaturas"]) {
     if ((await n(c, `SELECT count(*) AS n FROM ${t} WHERE usuaria_id LIKE 'auto-%'`)) !== 0) f.push(`${t}: la empresa VE datos de candidatas`);
   }
+  // 4 bis) Endurecimiento 025: la empresa no borra ni inserta envíos; la candidata no toca el estado de la bandeja.
+  if ((await c.query("DELETE FROM envios_empresa WHERE empresa_id = 'auto-rls-e1'")).rowCount !== 0) f.push("envios_empresa: la empresa BORRA envíos");
+  await c.query("SAVEPOINT emp_ins");
+  try {
+    await c.query("INSERT INTO envios_empresa (usuaria_id, oferta_id, empresa_id, cv_md) VALUES ('auto-b','auto-rls-o1','auto-rls-e1','x')");
+    f.push("envios_empresa: la empresa INSERTA envíos");
+  } catch (e) {
+    if ((e as { code?: string }).code !== "42501") f.push(`envios_empresa: el insert de empresa falló por otro motivo (${(e as { code?: string }).code})`);
+  }
+  await c.query("ROLLBACK TO SAVEPOINT emp_ins");
+  await fijar(c, "auto-a");
+  if ((await c.query("UPDATE envios_empresa SET estado_bandeja = 'no_seleccionada' WHERE usuaria_id = 'auto-a'")).rowCount !== 0) f.push("envios_empresa: la candidata CAMBIA el estado de la bandeja");
   // 5) Y una usuaria no ve envíos de otras empresas por tener la variable de empresa vacía: ya cubierto arriba.
   return f;
 }
@@ -137,7 +149,8 @@ test("RLS: la prueba de la prueba — si se rompe una política a propósito, el
   ]) {
     await dueno.query("BEGIN");
     try {
-      await dueno.query(`ALTER POLICY propia_usuaria ON ${tabla} USING (true) WITH CHECK (true)`); // política rota a propósito (se deshace)
+      // política rota a propósito (se deshace); envios_empresa tiene una política por comando (025) y la de lectura no admite WITH CHECK
+      await dueno.query(tabla === "envios_empresa" ? "ALTER POLICY envio_select ON envios_empresa USING (true)" : `ALTER POLICY propia_usuaria ON ${tabla} USING (true) WITH CHECK (true)`);
       await dueno.query("SET LOCAL ROLE horma_web");
       const f = await fugas(dueno);
       assert.ok(f.includes(esperado), `con la política de ${tabla} rota debía detectarse la fuga; salió: ${JSON.stringify(f)}`);

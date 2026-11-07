@@ -31,3 +31,5 @@ Línea base: web 164 tests · evals 42 · build ok · lint ok · tsc ok · copia
 - `oferta.fecha_cierre` (esquema 0.9, opcional, solo aditivo): afecta a la pista A; `buscar.py` la lee (`--hoy` para pruebas) y hay eval `fecha_cierre`.
 ## Siguiente paso exacto
 A1: leer `web/src/lib/importar.ts`, `consultas.ts` y la página `/ofertas`; escribir primero los tests de canonicalización y huella.
+
+- A4 (cierre): revisores pasados; migración 025 (políticas de envios_empresa por comando, rollback en cabecera); CSP duplicada de next.config.ts eliminada; aviso de recomendaciones ocultas. Guía secciones 17-19.

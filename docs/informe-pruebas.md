@@ -124,6 +124,11 @@ Se repitieron los dos pases de `revisor-seguridad` que habían quedado sin infor
 
 **Verificación:** 164 tests web (161 antes de B3+B4; 159 al empezar), `tsc`, `lint`, `build` y 42 evals de la pista A en verde. Límite: la revisión es de lectura; los hallazgos de carrera (B4-3, B4-7) se cierran con una comprobación en SQL, no con una prueba concurrente real.
 
+## 3 quater. Construcción autónoma III (7-nov-2026): calidad, CSP y RLS
+
+Estado final de la rama `autonomo/2026-11-07`: **189 tests web** (0 fallos), **43 evals**, `tsc`, `lint`, `build` y `verificar` limpios. Pruebas nuevas: dedup, vigencia y etiqueta (`calidad-ofertas.test.ts`, `.db.test.ts`), CSP y escaneo de código (`csp.test.ts`), y `rls.db.test.ts`: con el rol `horma_web` contra la base real, una usuaria no lee, actualiza ni inserta filas de otra; sin variable no ve nada; la empresa solo ve lo que le enviaron, no borra ni inserta, y la candidata no cambia el estado de la bandeja; el pool no arrastra la identidad; y la «prueba de la prueba» rompe cada política a propósito y comprueba que se detecta. Navegador (producción, 127.0.0.1): usuarias A y B aisladas, 404 en lo ajeno, enviar a empresa y bandeja funcionan bajo RLS, cabecera CSP única con nonce.
+Revisiones: `revisor-seguridad` (A2+A3), sin graves; corregidos el hallazgo 1 (políticas de `envios_empresa` por comando, migración 025) y el 2 (CSP duplicada en `next.config.ts`, comprobado con `curl`). Sin tocar: 3 (guarda estática, mejora de test), 4 (`usuarias_con_perfil()` accesible a `horma_web`, solo ids; documentado) y 5 (tablas de acceso sin RLS, a propósito). `auditor-lineas-rojas` (A1+A3): sin incumplimientos; corregido el aviso de «N recomendaciones ocultas por cerradas o repetidas»; el reparo sobre el envío era falso (la acción exige `aprobada`). **Límites:** el test RLS depende de que `FORCE` no se active (si se activa, `exportar` y `borrar` dejarían de ver filas); `style-src 'unsafe-inline'` sigue.
+
 ## 4. Fallos encontrados y corregidos
 
 1. Los agentes no cargaban los esquemas: faltaba la ruta en sus instrucciones.

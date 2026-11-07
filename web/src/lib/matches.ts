@@ -36,6 +36,12 @@ export const SQL_MATCHES = `
   ) m
   ORDER BY m.nota DESC NULLS LAST, m.titulo, m.oferta_id`;
 
+// Cuántas recomendaciones tiene la versión de perfil vigente antes de quitar cerradas y repetidas (para avisar de las ocultas).
+export const SQL_MATCHES_TOTAL = `
+  SELECT count(*)::text AS n FROM matches m JOIN ofertas o ON o.id = m.oferta_id
+  WHERE m.usuaria_id = $1 AND o.estado_publicacion = 'aprobada'
+    AND m.version_perfil = (SELECT version_perfil FROM matches WHERE usuaria_id = $1 ORDER BY fecha DESC, char_length(version_perfil) DESC, version_perfil DESC LIMIT 1)`;
+
 export const ETIQUETA_CONDICIONES: Record<FilaMatch["nivel_condiciones"], string> = {
   encaja: "las condiciones encajan", parcial: "condiciones a revisar", no: "las condiciones no encajan",
 };
