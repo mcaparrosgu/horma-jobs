@@ -156,10 +156,14 @@ def eval_carta():
 
 def eval_ingesta():
     """Seguridad de la descarga (ingestar.py): IP públicas, redirecciones, clave FUENTE_*, límites. Sin red."""
-    r = subprocess.run(PY + [str(RAIZ / "evals" / "ingesta" / "test_ingestar.py")], capture_output=True, text=True, encoding="utf-8")
-    resumen = [l for l in r.stderr.splitlines() if l.startswith(("Ran ", "OK", "FAILED"))]
-    return [{"caso": "tests de seguridad de la descarga (" + " · ".join(resumen) + ")", "ok": r.returncode == 0,
-             "obtenido": None if r.returncode == 0 else r.stderr[-1500:]}]
+    salida = []
+    for archivo, nombre in (("test_ingestar.py", "tests de seguridad de la descarga"),
+                            ("test_detectar_ats.py", "tests del detector de ATS")):
+        r = subprocess.run(PY + [str(RAIZ / "evals" / "ingesta" / archivo)], capture_output=True, text=True, encoding="utf-8")
+        resumen = [l for l in r.stderr.splitlines() if l.startswith(("Ran ", "OK", "FAILED"))]
+        salida.append({"caso": nombre + " (" + " · ".join(resumen) + ")", "ok": r.returncode == 0,
+                       "obtenido": None if r.returncode == 0 else r.stderr[-1500:]})
+    return salida
 
 
 def eval_convertir():
