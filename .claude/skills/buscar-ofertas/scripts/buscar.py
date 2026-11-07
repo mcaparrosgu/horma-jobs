@@ -8,6 +8,7 @@ Filtro duro (lee preferencias.json): país, contrato, remoto, idioma, nivel, sec
 Reglas:
   - Un dato que la oferta no trae («no_indicado», nulo) NO descarta la oferta.
   - Una oferta sin sueldo publicado NO se descarta: sale con sin_sueldo = true.
+  - Una oferta con `fecha_cierre` anterior a hoy SÍ se descarta (ya cerró; la web también la oculta).
 Pre-orden (no descarta nada, solo decide el turno): coincidencia de taxonomía entre perfil y
 oferta (sector, familia, nivel, stack en común) y, a igualdad, la fecha más reciente.
 Salida: lista JSON ordenada con id, puntos_taxonomia, sin_sueldo y fecha.
@@ -17,6 +18,7 @@ import argparse
 import json
 import sys
 import unicodedata
+from datetime import date
 from pathlib import Path
 
 
@@ -29,8 +31,11 @@ def en_lista(valor, lista) -> bool:
     return norm(valor) in {norm(v) for v in lista}
 
 
-def pasa_filtro(o: dict, p: dict) -> tuple:
-    """Devuelve (pasa, sin_sueldo)."""
+def pasa_filtro(o: dict, p: dict, hoy: str | None = None) -> tuple:
+    """Devuelve (pasa, sin_sueldo). `hoy` (AAAA-MM-DD) activa la regla de las ofertas cerradas."""
+    # Una oferta con fecha_cierre anterior a hoy ya no se recomienda (calidad de ofertas, A1). Solo hechos.
+    if hoy and o.get("fecha_cierre") and o["fecha_cierre"] < hoy:
+        return False, False
     if p.get("paises") and o.get("pais") and not en_lista(o["pais"], p["paises"]):
         return False, False
     if p.get("contrato") and o.get("contrato") and not en_lista(o["contrato"], p["contrato"]):
@@ -88,13 +93,14 @@ def main() -> int:
     ap.add_argument("--perfil", type=Path, required=True)
     ap.add_argument("--ofertas", type=Path, required=True)
     ap.add_argument("--salida", type=Path)
+    ap.add_argument("--hoy", help="AAAA-MM-DD; por defecto, la fecha de hoy (solo para pruebas)")
     a = ap.parse_args()
     prefs = json.loads(a.preferencias.read_text(encoding="utf-8"))
     perfil = json.loads(a.perfil.read_text(encoding="utf-8"))
     resultado = []
     for f in sorted(a.ofertas.glob("*.json")):
         o = json.loads(f.read_text(encoding="utf-8"))
-        ok, sin_sueldo = pasa_filtro(o, prefs)
+        ok, sin_sueldo = pasa_filtro(o, prefs, a.hoy or date.today().isoformat())
         if ok:
             resultado.append({"id": o["id"], "puntos_taxonomia": puntos(o, perfil),
                               "sin_sueldo": sin_sueldo, "fecha": o.get("fecha")})

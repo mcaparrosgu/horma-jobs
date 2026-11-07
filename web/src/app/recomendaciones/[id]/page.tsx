@@ -3,6 +3,7 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { requerirDuena } from "@/lib/sesion";
 import { SQL_MATCHES, ETIQUETA_CONDICIONES, enlaceSeguro, type FilaMatch } from "@/lib/matches";
+import { etiquetaTransparencia } from "@/lib/calidad-ofertas";
 
 export default function Pagina({ params }: PageProps<"/recomendaciones/[id]">) {
   return <Suspense fallback={<p className="text-sm">Cargando recomendaciones…</p>}><Recomendaciones params={params} /></Suspense>;
@@ -14,6 +15,7 @@ async function Recomendaciones({ params }: { params: PageProps<"/recomendaciones
   const uid = (await requerirDuena(id)).usuaria_id;
   const r = await db().query<FilaMatch>(SQL_MATCHES, [uid]);
   const filas = r.rows;
+  const hoy = new Date().toISOString().slice(0, 10);
 
   return (
     <div className="space-y-6">
@@ -46,6 +48,10 @@ async function Recomendaciones({ params }: { params: PageProps<"/recomendaciones
                   {m.sin_sueldo ? " · sin sueldo publicado" : ""}
                 </p>
                 <p className="mt-2">{m.explicacion}</p>
+                {/* Etiqueta de transparencia (A1): solo hechos; no entra en la nota. */}
+                <p className="mt-2 text-xs text-zinc-600" data-etiqueta="transparencia">
+                  {etiquetaTransparencia({ ...m, fecha: m.fecha_oferta_texto, fecha_cierre: m.fecha_cierre_texto }, hoy).join(" · ")}
+                </p>
                 {(m.avisos ?? []).length > 0 && (
                   <p className="mt-2 rounded border border-amber-200 bg-amber-50 p-2 text-xs">
                     Avisos de la oferta (informativos; no cuentan en la nota):{" "}

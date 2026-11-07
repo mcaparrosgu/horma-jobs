@@ -3,14 +3,14 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { paramsOferta, paramsPerfil, paramsPreferencias, detalleSeguro } from "./importar.ts";
+import { SQL_OFERTA, paramsOferta, paramsPerfil, paramsPreferencias, detalleSeguro } from "./importar.ts";
 
 const FIX = join(process.cwd(), "..", "datos", "fixtures");
 const leer = (...ruta: string[]) => JSON.parse(readFileSync(join(FIX, ...ruta), "utf8"));
 
 test("la oferta saca sector, familia y stack de la taxonomía y guarda el JSON como texto", () => {
   const p = paramsOferta(leer("ofertas", "of-prueba-1.json"));
-  assert.equal(p.length, 22);
+  assert.equal(p.length, 27);
   assert.equal(p[21], null); // sin ejecución → nulo
   assert.equal(p[19], null); // sin origen → licencia nula
   assert.equal(p[20], null);
@@ -130,4 +130,23 @@ test("ats: se descartan las claves de trabajo de medir_ats", () => {
 });
 test("candidatura: reimportar solo actualiza borradores (no degrada una aprobada o enviada)", () => {
   assert.match(SQL_CANDIDATURA, /WHERE candidaturas\.estado IN \('borrador','pendiente_de_ti'\)/);
+});
+
+test("la oferta calcula su URL canónica, su huella y su grupo (A1), y guarda la fecha de cierre", () => {
+  const o = leer("ofertas", "of-prueba-1.json");
+  o.url = "HTTPS://Ejemplo.es/oferta/1/?utm_source=x";
+  o.fecha_cierre = "2026-12-01";
+  const p = paramsOferta(o);
+  assert.equal(p[22], "https://ejemplo.es/oferta/1");
+  assert.match(p[23] as string, /^[0-9a-f]{32}$/);
+  assert.match(p[24] as string, /^[0-9a-f]{32}$/);
+  assert.equal(p[25], p[24]); // grupo_dedup = huella
+  assert.equal(p[26], "2026-12-01");
+  assert.equal(paramsOferta(leer("ofertas", "of-prueba-1.json"))[26], null); // sin fecha_cierre → null
+});
+
+test("al reimportar, la oferta cuenta una vista más y conserva su primera vista", () => {
+  assert.match(SQL_OFERTA, /ultima_vista=now\(\)/);
+  assert.match(SQL_OFERTA, /veces_vista=ofertas\.veces_vista \+ 1/);
+  assert.ok(!/primera_vista\s*=/.test(SQL_OFERTA), "primera_vista no se pisa al actualizar");
 });
