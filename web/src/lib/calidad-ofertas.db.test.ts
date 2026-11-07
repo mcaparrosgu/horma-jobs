@@ -5,7 +5,7 @@
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
 import pg from "pg";
-import { db } from "./db.ts";
+import { db, conUsuaria } from "./db.ts";
 import { sqlOfertas } from "./consultas.ts";
 import { SQL_MATCHES } from "./matches.ts";
 import { SQL_OFERTA, paramsOferta, SQL_USUARIA, SQL_MATCH, paramsMatch } from "./importar.ts";
@@ -101,6 +101,6 @@ test("A1 contra la base: duplicados, cerradas, antiguas, recurrentes y reimporta
   for (const o of ["a", "b", "c", "f"]) {
     await dueno.query(SQL_MATCH, paramsMatch(m, { oferta_id: `auto-a1-${o}`, nota: 50, nivel_condiciones: "encaja", explicacion: "Prueba inventada." }));
   }
-  const recs = (await db().query(SQL_MATCHES, ["auto-a1"])).rows.map((r) => r.oferta_id).sort();
+  const recs = (await conUsuaria("auto-a1", (c) => c.query(SQL_MATCHES, ["auto-a1"]))).rows.map((r) => r.oferta_id).sort();
   assert.deepEqual(recs, ["auto-a1-b", "auto-a1-f"], "no se recomienda la cerrada y el duplicado sale una vez");
 });

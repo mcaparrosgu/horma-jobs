@@ -70,7 +70,7 @@ export function validarPreferencias(e: EntradaPreferencias): ResultadoPreferenci
 // Lista para administración ($1 = la administradora): sin ids ni correos, solo si tiene perfil y cuál es la propia.
 export const SQL_USUARIAS = `
   SELECT u.publico::text AS publico, (u.id = $1) AS soy_yo, (p.usuaria_id IS NOT NULL) AS tiene_perfil
-  FROM usuarias u LEFT JOIN perfiles p ON p.usuaria_id = u.id ORDER BY u.id`;
+  FROM usuarias u LEFT JOIN usuarias_con_perfil() p ON p.usuaria_id = u.id ORDER BY u.id`; // A3: perfiles tiene RLS; la función solo dice quién tiene perfil
 export const SQL_PERFIL = `
   SELECT experiencias, formacion, skills, idiomas, taxonomia, preguntas_pendientes, cv_texto
   FROM perfiles WHERE usuaria_id = $1`;

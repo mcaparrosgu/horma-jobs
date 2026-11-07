@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { db } from "@/lib/db";
+import { conUsuaria } from "@/lib/db";
 import { SQL_PERFIL, SQL_PREFERENCIAS } from "@/lib/preferencias";
 import { requerirDuena } from "@/lib/sesion";
 import FormularioPrefs, { type ValoresPrefs } from "./formulario";
@@ -43,7 +43,7 @@ export default function Pagina({ params }: PageProps<"/candidatos/[id]">) {
 async function Candidata({ params }: { params: PageProps<"/candidatos/[id]">["params"] }) {
   const { id } = await params;
   const uid = (await requerirDuena(id)).usuaria_id; // `id` de la URL es el opaco; solo su dueña pasa
-  const [p, pr] = await Promise.all([db().query<Perfil>(SQL_PERFIL, [uid]), db().query<Prefs>(SQL_PREFERENCIAS, [uid])]);
+  const [p, pr] = await conUsuaria(uid, async (c) => [await c.query<Perfil>(SQL_PERFIL, [uid]), await c.query<Prefs>(SQL_PREFERENCIAS, [uid])] as const);
   if (p.rows.length === 0) notFound();
   const perfil = p.rows[0];
   const pref = pr.rows[0];

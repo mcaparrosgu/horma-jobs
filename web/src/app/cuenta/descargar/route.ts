@@ -1,7 +1,7 @@
 // GET /cuenta/descargar — RGPD, derecho de acceso: la usuaria descarga sus propios datos en JSON, al momento,
 // sin dejar ningún archivo en el servidor. Reutiliza SQL_EXPORTAR (nunca incluye el hash de la contraseña).
 import { NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { db, conUsuaria } from "@/lib/db";
 import { sesionActual } from "@/lib/sesion";
 import { SQL_EXPORTAR } from "@/lib/datos-usuaria";
 import { registrarEvento } from "@/lib/importar";
@@ -11,14 +11,15 @@ export async function GET() {
   if (!s) return NextResponse.redirect(new URL("/entrar", process.env.HORMA_URL || "http://localhost:3000"));
   const t0 = Date.now();
   const id = s.usuaria_id;
-  const [usuaria, cuenta, perfil, preferencias, matches, candidaturas, enviosEmpresa] = await Promise.all([
-    db().query(SQL_EXPORTAR.usuaria, [id]),
-    db().query(SQL_EXPORTAR.cuenta, [id]),
-    db().query(SQL_EXPORTAR.perfil, [id]),
-    db().query(SQL_EXPORTAR.preferencias, [id]),
-    db().query(SQL_EXPORTAR.matches, [id]),
-    db().query(SQL_EXPORTAR.candidaturas, [id]),
-    db().query(SQL_EXPORTAR.envios_empresa, [id]),
+  // Con RLS (A3) todo va por una sola conexión con la usuaria fijada: de una en una, no en paralelo.
+  const [usuaria, cuenta, perfil, preferencias, matches, candidaturas, enviosEmpresa] = await conUsuaria(id, async (c) => [
+    await c.query(SQL_EXPORTAR.usuaria, [id]),
+    await c.query(SQL_EXPORTAR.cuenta, [id]),
+    await c.query(SQL_EXPORTAR.perfil, [id]),
+    await c.query(SQL_EXPORTAR.preferencias, [id]),
+    await c.query(SQL_EXPORTAR.matches, [id]),
+    await c.query(SQL_EXPORTAR.candidaturas, [id]),
+    await c.query(SQL_EXPORTAR.envios_empresa, [id]),
   ]);
   const cuerpo = JSON.stringify({
     exportado_en: new Date().toISOString(),

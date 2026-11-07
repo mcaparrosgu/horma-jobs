@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { db } from "@/lib/db";
+import { conUsuaria } from "@/lib/db";
 import { requerirDuena } from "@/lib/sesion";
 import { ID_OFERTA } from "@/lib/candidaturas";
 import { SQL_CANDIDATURA_PARA_ENVIAR } from "@/lib/empresa-envio";
@@ -16,7 +16,7 @@ async function Enviar({ params }: { params: PageProps<"/candidaturas/[id]/enviar
   const { id, ofertaId } = await params;
   if (!ID_OFERTA.test(ofertaId)) notFound();
   const s = await requerirDuena(id);
-  const r = await db().query<Fila>(SQL_CANDIDATURA_PARA_ENVIAR, [s.usuaria_id, ofertaId]);
+  const r = await conUsuaria(s.usuaria_id, (c) => c.query<Fila>(SQL_CANDIDATURA_PARA_ENVIAR, [s.usuaria_id, ofertaId]));
   const c = r.rows[0];
   if (!c || c.estado !== "aprobada" || !c.empresa_id) notFound();
 
