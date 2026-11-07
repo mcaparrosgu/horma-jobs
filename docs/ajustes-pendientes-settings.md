@@ -93,3 +93,16 @@ Los agentes no pueden escribir este archivo: es la configuración que los contro
 
 ## Nota del cierre (7-nov)
 Mar pidió explícitamente subir a `origin` las ramas de la noche («hagas commit y push»). Quité `Bash(git push*)`/`PowerShell(git push*)` del `deny` solo para ese push (nunca toqué el bloqueo de `main`), y los repuse en cuanto terminó. El bloque de arriba es el que queda vigente ahora; si una próxima sesión necesita volver a empujar, hace falta la misma autorización explícita de Mar.
+
+---
+
+## Economía de tokens: lo apagado en este proyecto (7-nov-2026)
+
+Decisión de Mar. Solo afecta a Horma (Jobs y el Cuaderno no cambian). Reactivar algo = quitar su línea y avisar a Mar.
+
+- **Plugin** (`.claude/settings.json` → `enabledPlugins`): `n8n-mcp-skills` (Horma va sin n8n).
+- **Skills** (`.claude/settings.json` → `skillOverrides`, en «off»): `n8n-mcp-native`, `anthropic-skills:docx` (regla de no generar .docx), `anthropic-skills:llee-hospi-project-context` (otro proyecto), `asesora-negocio`, `neg-01` a `neg-05`, `paso-01` a `paso-10` y `paso-19`. Las demás ya estaban apagadas en la configuración global.
+- **MCP de usuario** (`~/.claude.json` → proyecto → `disabledMcpServers`): `semantic-scholar`, `google-sheets`, `n8n-mcp` (n8n de Jobs: no se toca).
+- **Pendiente de Mar, a mano con `/mcp`** (el nombre exacto sale ahí, suele llevar prefijo «claude.ai»): conectores `Vercel`, `v0` y `Lovable`. No hay forma de apagar uno solo por fichero; `disableClaudeAiConnectors` apagaría todos.
+- **Se mantienen:** los 11 comandos de Horma, `playwright`, `github`, `obsidian*`, Notion, Gmail, Drive y Claude Docs.
+- **Comprobar tras reiniciar:** `/skills` (que las 20 salgan apagadas) y `/mcp`.

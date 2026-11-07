@@ -2,6 +2,9 @@
 
 Actualizado el 7-nov-2026 (construcción autónoma B0 a B4 hechos, cortada antes de tiempo; ver «Construcción autónoma: cortada antes de tiempo, retomar aquí» más abajo). Única fuente de estado y próximos pasos (mapa de documentos: `docs/indice.md`). Orden = prioridad.
 
+## Specs ancladas y economía de tokens (7-nov, profesor y Mar)
+Hecho: regla de specs y sección «Economía de tokens» en `CLAUDE.md`; plugin, 20 skills y 3 MCP apagados en este proyecto (listado en `docs/ajustes-pendientes-settings.md`). **Pendiente:** (1) Mar apaga con `/mcp` los conectores Vercel, v0 y Lovable; (2) tras reiniciar, comprobar con `/skills` y `/mcp`; (3) proponer a Mar qué detalle de feature se mueve del `CLAUDE.md` a `docs/` (separar spec de sistema y de feature) y revisar qué specs tienen modificaciones sin actualizar.
+
 ## Construcción autónoma: cortada antes de tiempo, retomar aquí (7-nov)
 Mar volvió antes de las 10 h (límite de uso de la cuenta) y pidió asegurar el trabajo. **Estado real: B0 a B4 hechos, probados y fundidos** en la rama `autonomo/2026-11-06` (nunca en `main`; plan: `docs/construccion-autonoma.md`; detalle y qué falta exacto: `docs/autonomo/estado.md`; resumen de una página: `docs/autonomo/resumen-para-mar.md`). 159 tests web, 41 evals, build/lint/tsc limpios, probado de punta a punta en el navegador. `auditor-lineas-rojas` sin hallazgos en los dos pases (B1+B2 y B3+B4). **Cierre del 7-nov: documentación al día y las cinco ramas (`autonomo/2026-11-06` + las cuatro `auto/bN-*`) ya subidas a `origin` por orden explícita de Mar; `main` sigue intacta y bloqueada.**
 

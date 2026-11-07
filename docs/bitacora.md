@@ -743,3 +743,11 @@ Mar volvió antes de las 10 horas previstas (límite de uso de la cuenta) y pidi
 Mar pidió explícitamente subir a `origin` lo construido esta noche («hagas commit y push... que no perdamos nada»). `git push` estaba en el `deny` de `.claude/settings.json` (puesto a propósito para el modo autónomo). Quité esa línea solo para este push, con la autorización directa de Mar, y subí las cinco ramas: `autonomo/2026-11-06`, `auto/b1-cuenta-rgpd`, `auto/b2-seguimiento`, `auto/b3-empresas-i`, `auto/b4-enviar-bandeja`. `main` sigue intacta (ese bloqueo es aparte y no lo toqué). En cuanto terminó el push, repuse `git push` en el `deny`: la configuración vuelve a su estado seguro por defecto para la siguiente sesión.
 
 **En llano.** Todo lo de la noche autónoma ya está también en GitHub, no solo en el ordenador: si pasa algo con este equipo, el trabajo no se pierde. Para volver a empujar algo en el futuro hace falta pedírmelo otra vez de forma explícita, porque por defecto esa puerta está cerrada. **Tema del bootcamp:** permisos por defecto cerrados («deny by default») que se abren solo con una orden explícita y puntual, nunca de forma permanente sin que alguien decida quitarla a propósito.
+
+## 7-nov-2026 · Specs ancladas y economía de tokens
+
+**Hecho.** (1) Indicación del profesor «spec-anchored» traducida y adaptada: sección «Specs» en `CLAUDE.md` (el pedido de Mar gana a la spec; delta visible y OK antes de tocar código; regenerar `docs/tareas-pendientes.md`). **Decisión mía, que puedes revertir:** añadí una excepción para las líneas rojas, porque sin ella «el pedido gana» permitiría saltarse el AI Act o el RGPD. (2) Sección «Economía de tokens» en `CLAUDE.md` y apagado, solo en este proyecto, de un plugin, 20 skills y 3 MCP; listado en `docs/ajustes-pendientes-settings.md`. Mar eligió apagar también `paso-NN`, `neg-*` y `asesora-negocio`.
+
+**No hecho.** Mover el detalle de feature del `CLAUDE.md` a `docs/` (se propone antes de moverlo) y apagar los conectores Vercel, v0 y Lovable (los apaga Mar con `/mcp`).
+
+**En llano.** Cada conversación carga menos «herramientas que no usamos», y la regla del profesor ya está escrita para que la Copiloto no vuelva a recortar tus pedidos para que quepan en una spec vieja. **Tema del bootcamp:** especificaciones como fuente de verdad viva (spec-driven development) y gestión del contexto del agente.
