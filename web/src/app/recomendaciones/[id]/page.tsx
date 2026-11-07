@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { db } from "@/lib/db";
+import { conUsuaria } from "@/lib/db";
 import { requerirDuena } from "@/lib/sesion";
 import { SQL_MATCHES, ETIQUETA_CONDICIONES, enlaceSeguro, type FilaMatch } from "@/lib/matches";
 import { etiquetaTransparencia } from "@/lib/calidad-ofertas";
@@ -13,7 +13,7 @@ export default function Pagina({ params }: PageProps<"/recomendaciones/[id]">) {
 async function Recomendaciones({ params }: { params: PageProps<"/recomendaciones/[id]">["params"] }) {
   const { id } = await params;
   const uid = (await requerirDuena(id)).usuaria_id;
-  const r = await db().query<FilaMatch>(SQL_MATCHES, [uid]);
+  const r = await conUsuaria(uid, (c) => c.query<FilaMatch>(SQL_MATCHES, [uid]));
   const filas = r.rows;
   const hoy = new Date().toISOString().slice(0, 10);
 

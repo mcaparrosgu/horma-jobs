@@ -3,7 +3,7 @@
 // El id de la usuaria sale de la SESIÓN: aunque alguien cambie el formulario, solo puede tocar lo suyo.
 // Un agente no puede llegar aquí: no tiene sesión de la usuaria.
 import { revalidatePath } from "next/cache";
-import { db } from "@/lib/db";
+import { db, conUsuaria } from "@/lib/db";
 import { requerirSesion } from "@/lib/sesion";
 import { SQL_APROBAR, SQL_MARCAR_ENVIADA, ID_OFERTA, canalValido } from "@/lib/candidaturas";
 import { registrarEvento } from "@/lib/importar";
@@ -22,7 +22,7 @@ export async function aprobar(_previo: EstadoAccion, f: FormData): Promise<Estad
   const oferta = txt(f, "oferta_id"), version = txt(f, "version");
   if (!ID_OFERTA.test(oferta) || Number.isNaN(Date.parse(version))) return { ok: false, mensaje: "Oferta no válida." };
   if (f.get("revisado") !== "on") return { ok: false, mensaje: "Marca que has revisado el CV, la carta y los avisos antes de aprobar." };
-  const r = await db().query(SQL_APROBAR, [s.usuaria_id, oferta, version]).catch(() => null);
+  const r = await conUsuaria(s.usuaria_id, (c) => c.query(SQL_APROBAR, [s.usuaria_id, oferta, version])).catch(() => null);
   const hecho = !!r && (r.rowCount ?? 0) === 1;
   await apunte("aprobar", hecho, t0);
   if (!hecho) return { ok: false, mensaje: "No se pudo aprobar: solo se aprueban borradores, y puede que haya cambiado desde que la abriste: recarga la página, léela de nuevo y vuelve a aprobar." };
@@ -36,7 +36,7 @@ export async function marcarEnviada(_previo: EstadoAccion, f: FormData): Promise
   const oferta = txt(f, "oferta_id"), canal = txt(f, "canal");
   if (!ID_OFERTA.test(oferta)) return { ok: false, mensaje: "Oferta no válida." };
   if (!canalValido(canal)) return { ok: false, mensaje: "Elige por dónde la enviaste." };
-  const r = await db().query(SQL_MARCAR_ENVIADA, [s.usuaria_id, oferta, canal]).catch(() => null);
+  const r = await conUsuaria(s.usuaria_id, (c) => c.query(SQL_MARCAR_ENVIADA, [s.usuaria_id, oferta, canal])).catch(() => null);
   const hecho = !!r && (r.rowCount ?? 0) === 1;
   await apunte("marcar-enviada", hecho, t0);
   if (!hecho) return { ok: false, mensaje: "No se pudo anotar: la candidatura tiene que estar aprobada por ti." };

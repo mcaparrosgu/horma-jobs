@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { db } from "@/lib/db";
+import { conUsuaria } from "@/lib/db";
 import { requerirSesion } from "@/lib/sesion";
 import { SQL_CANDIDATURAS, ETIQUETA_ESTADO, sinRespuestaTrasDias, type FilaCandidatura } from "@/lib/candidaturas";
 import { RegistrarRespuesta, ConfirmarSinRespuesta } from "./acciones";
@@ -13,7 +13,7 @@ export default function Pagina() {
 
 async function Seguimiento() {
   const s = await requerirSesion();
-  const filas = (await db().query<FilaCandidatura>(SQL_CANDIDATURAS, [s.usuaria_id])).rows;
+  const filas = (await conUsuaria(s.usuaria_id, (c) => c.query<FilaCandidatura>(SQL_CANDIDATURAS, [s.usuaria_id]))).rows;
 
   const porEstado = new Map<string, FilaCandidatura[]>();
   for (const c of filas) {

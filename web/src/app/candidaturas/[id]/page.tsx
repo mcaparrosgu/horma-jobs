@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { db } from "@/lib/db";
+import { conUsuaria } from "@/lib/db";
 import { requerirDuena } from "@/lib/sesion";
 import { Aprobar, MarcarEnviada, RetirarEnvio } from "./acciones";
 import { enlaceSeguro } from "@/lib/matches";
@@ -16,7 +16,7 @@ export default function Pagina({ params }: PageProps<"/candidaturas/[id]">) {
 async function Candidaturas({ params }: { params: PageProps<"/candidaturas/[id]">["params"] }) {
   const { id } = await params;
   const uid = (await requerirDuena(id)).usuaria_id;
-  const filas = (await db().query<FilaCandidatura>(SQL_CANDIDATURAS, [uid])).rows;
+  const filas = (await conUsuaria(uid, (c) => c.query<FilaCandidatura>(SQL_CANDIDATURAS, [uid]))).rows;
 
   return (
     <div className="space-y-6">

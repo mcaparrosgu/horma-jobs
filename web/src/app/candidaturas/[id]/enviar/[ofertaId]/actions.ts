@@ -4,7 +4,7 @@
 // perfil humano, preferencias ni otras candidaturas.
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { db } from "@/lib/db";
+import { db, conUsuaria, fijarUsuaria } from "@/lib/db";
 import { requerirSesion } from "@/lib/sesion";
 import { ID_OFERTA, SQL_MARCAR_ENVIADA, CANAL_PORTAL } from "@/lib/candidaturas";
 import { SQL_CANDIDATURA_PARA_ENVIAR, SQL_ENVIAR_A_EMPRESA, SQL_RETIRAR_ENVIO, NOMBRE_CONTACTO_MAX } from "@/lib/empresa-envio";
@@ -27,7 +27,7 @@ export async function enviarAEmpresa(_previo: EstadoEnvio, f: FormData): Promise
   const nombreContacto = compartir ? t(f, "nombre_contacto", NOMBRE_CONTACTO_MAX).trim() : "";
   if (compartir && !nombreContacto) return { ok: false, mensaje: "Escribe tu nombre, o desmarca la casilla de compartir contacto." };
 
-  const fila = (await db().query(SQL_CANDIDATURA_PARA_ENVIAR, [s.usuaria_id, ofertaId])).rows[0] as
+  const fila = (await conUsuaria(s.usuaria_id, (c) => c.query(SQL_CANDIDATURA_PARA_ENVIAR, [s.usuaria_id, ofertaId]))).rows[0] as
     { cv_md: string; carta_md: string | null; estado: string; empresa_id: string | null } | undefined;
   if (!fila || fila.estado !== "aprobada" || !fila.empresa_id) {
     await apunte("enviar-a-empresa", false, t0);
@@ -37,6 +37,7 @@ export async function enviarAEmpresa(_previo: EstadoEnvio, f: FormData): Promise
   const cliente = await db().connect();
   try {
     await cliente.query("BEGIN");
+    await fijarUsuaria(cliente, s.usuaria_id); // RLS: dentro de esta transacción solo se ven y escriben filas de esta usuaria
     await cliente.query(SQL_ENVIAR_A_EMPRESA, [
       s.usuaria_id, ofertaId, fila.empresa_id, fila.cv_md, fila.carta_md,
       compartir ? nombreContacto : null, compartir ? s.email : null,
@@ -62,7 +63,7 @@ export async function retirarEnvio(formData: FormData): Promise<void> {
   const s = await requerirSesion();
   const ofertaId = t(formData, "oferta_id", 80);
   if (!ID_OFERTA.test(ofertaId)) return;
-  const r = await db().query(SQL_RETIRAR_ENVIO, [s.usuaria_id, ofertaId]).catch(() => null);
+  const r = await conUsuaria(s.usuaria_id, (c) => c.query(SQL_RETIRAR_ENVIO, [s.usuaria_id, ofertaId])).catch(() => null);
   await apunte("retirar-envio", !!r && (r.rowCount ?? 0) === 1, t0);
   revalidatePath("/candidaturas/[id]", "page");
 }

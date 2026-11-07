@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { db } from "@/lib/db";
+import { db, conEmpresa } from "@/lib/db";
 import { requerirSesionEmpresa } from "@/lib/sesion-empresa";
 import { SQL_BANDEJA, SQL_OFERTA_TITULO, ESTADOS_BANDEJA } from "@/lib/empresa-envio";
 import { cambiarEstadoBandeja } from "./actions";
@@ -21,7 +21,7 @@ async function Bandeja({ params }: { params: PageProps<"/empresa/ofertas/[id]/ba
   const s = await requerirSesionEmpresa();
   const oferta = (await db().query<{ titulo: string; empresa_id: string | null }>(SQL_OFERTA_TITULO, [id])).rows[0];
   if (!oferta || oferta.empresa_id !== s.empresa_id) notFound();
-  const filas = (await db().query<FilaEnvio>(SQL_BANDEJA, [id, s.empresa_id])).rows;
+  const filas = (await conEmpresa(s.empresa_id, (c) => c.query<FilaEnvio>(SQL_BANDEJA, [id, s.empresa_id]))).rows;
 
   return (
     <div className="space-y-4">

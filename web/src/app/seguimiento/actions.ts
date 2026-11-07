@@ -3,7 +3,7 @@
 // actual que manda el formulario es solo para un mensaje más claro: la base vuelve a comprobar el estado real
 // (SQL_REGISTRAR_RESPUESTA) y el disparador `candidaturas_transicion` (migración 017) es quien de verdad decide.
 import { revalidatePath } from "next/cache";
-import { db } from "@/lib/db";
+import { db, conUsuaria } from "@/lib/db";
 import { requerirSesion } from "@/lib/sesion";
 import { SQL_REGISTRAR_RESPUESTA, ID_OFERTA, destinosDe, NOTA_MAX } from "@/lib/candidaturas";
 import { registrarEvento } from "@/lib/importar";
@@ -25,7 +25,7 @@ export async function registrarRespuesta(_previo: EstadoAccion, f: FormData): Pr
   if (!ID_OFERTA.test(oferta)) { await apunte(false); return { ok: false, mensaje: "Oferta no válida." }; }
   if (!destinosDe(actual).includes(destino)) { await apunte(false); return { ok: false, mensaje: "Ese cambio no está permitido desde donde está la candidatura ahora. Recarga la página." }; }
 
-  const r = await db().query(SQL_REGISTRAR_RESPUESTA, [s.usuaria_id, oferta, destino, nota || null]).catch(() => null);
+  const r = await conUsuaria(s.usuaria_id, (c) => c.query(SQL_REGISTRAR_RESPUESTA, [s.usuaria_id, oferta, destino, nota || null])).catch(() => null);
   const hecho = !!r && (r.rowCount ?? 0) === 1;
   await apunte(hecho);
   if (!hecho) return { ok: false, mensaje: "No se pudo registrar: puede que el estado haya cambiado mientras tanto. Recarga la página." };
