@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { db } from "@/lib/db";
 import { requerirSesion } from "@/lib/sesion";
 import { NIVELES, REMOTOS, LIMITE_OFERTAS, SQL_OPCIONES, SQL_TOTAL_OFERTAS, sqlOfertas, type FiltrosOfertas } from "@/lib/consultas";
+import { etiquetaTransparencia } from "@/lib/calidad-ofertas";
 
 type Fila = {
   id: string; fuente: string; url: string; fecha: Date | null; titulo: string; empresa: string; ubicacion: string;
@@ -9,6 +10,8 @@ type Fila = {
   salario: { publicado: boolean; min: number | null; max: number | null; moneda: string | null; periodo?: string | null };
   stack: string[];
   licencia: string | null; atribucion: string | null;
+  primera_vista: Date | null; ultima_vista: Date | null; veces_vista: number;
+  fecha_texto: string | null; fecha_cierre_texto: string | null; recurrente: boolean; fuentes_grupo: string[];
   avisos: { tipo: string; texto: string }[];
   auditoria: {
     fantasma?: { sospechosa?: boolean; motivos?: string[] };
@@ -27,6 +30,9 @@ const LICENCIAS: Record<string, string> = {
 const uno = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
 // Un enlace solo se pinta si es http(s); lo demás se muestra como texto plano (hallazgo h).
 const enlaceSeguro = (u: string) => /^https?:\/\//i.test(u);
+
+// Las demás fuentes de un grupo de duplicados (las filas siguen en la base con su licencia y atribución).
+const otrasFuentes = (o: Fila) => [...new Set(o.fuentes_grupo)].filter((f) => f !== o.fuente);
 
 function Insignia({ mala, texto, detalle }: { mala: boolean; texto: string; detalle?: string }) {
   return (
@@ -53,6 +59,7 @@ async function Ofertas({ searchParams }: { searchParams: PageProps<"/ofertas">["
     db().query<{ n: number }>(SQL_TOTAL_OFERTAS),
     db().query<{ campo: string; valor: string }>(SQL_OPCIONES),
   ]);
+  const hoy = new Date().toISOString().slice(0, 10);
   const de = (campo: string) => opciones.rows.filter((o) => o.campo === campo).map((o) => o.valor);
   const caja = "rounded border border-zinc-300 bg-white px-2 py-1 text-sm";
   const selectores: [string, string, string[]][] = [
@@ -95,7 +102,7 @@ async function Ofertas({ searchParams }: { searchParams: PageProps<"/ofertas">["
             <li key={o.id} className="rounded border border-zinc-200 bg-white p-4">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <h2 className="font-medium">{o.titulo}</h2>
-                <span className="text-xs text-zinc-500">{o.fuente} · {o.fecha ? o.fecha.toISOString().slice(0, 10) : "sin fecha"}</span>
+                <span className="text-xs text-zinc-500">{o.fuente} · {o.fecha_texto ?? "sin fecha"}</span>
               </div>
               <p className="text-sm text-zinc-700">{o.empresa} · {o.ubicacion} · {o.remoto} · {o.nivel}</p>
               <p className="text-sm text-zinc-700">
@@ -117,6 +124,13 @@ async function Ofertas({ searchParams }: { searchParams: PageProps<"/ofertas">["
                     <li key={i} className="rounded bg-amber-50 px-2 py-1 text-xs text-amber-900">Aviso: {av.texto}</li>
                   ))}
                 </ul>
+              )}
+              {/* Etiqueta de transparencia (A1): solo hechos (antigüedad, veces vista, fuente, licencia y marcas de vigencia). */}
+              <p className="mt-2 text-xs text-zinc-600" data-etiqueta="transparencia">
+                {etiquetaTransparencia({ ...o, fecha: o.fecha_texto, fecha_cierre: o.fecha_cierre_texto }, hoy).join(" · ")}
+              </p>
+              {otrasFuentes(o).length > 0 && (
+                <p className="text-xs text-zinc-600">También publicada en: {otrasFuentes(o).join(", ")} (la misma oferta; aquí se muestra una sola vez).</p>
               )}
               <p className="mt-2 text-xs text-zinc-600">
                 Origen: {o.fuente} · licencia: {o.licencia ? (LICENCIAS[o.licencia] ?? o.licencia) : "no indicada"}

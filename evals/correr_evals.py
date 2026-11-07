@@ -207,7 +207,12 @@ def eval_nivel_empresas():
     return _unittest("el nivel por familia no llega a empresas", "evals/verificar/test_nivel_no_a_empresas.py")
 
 
-SETS = {"cv": eval_cv, "ats": eval_ats, "filtro": eval_filtro, "esquemas": eval_esquemas, "fixtures": eval_fixtures, "carta": eval_carta, "ingesta": eval_ingesta, "convertir": eval_convertir, "verificar_formacion": eval_verificar_formacion, "nivel_familia": eval_nivel_familia, "origenes_perfil": eval_origenes_perfil, "nivel_empresas": eval_nivel_empresas}
+def eval_fecha_cierre():
+    """Esquema 0.9: una oferta cerrada no se recomienda y `fecha_cierre` valida (o falta) sin romper nada. Sin red."""
+    return _unittest("la oferta cerrada no se recomienda", "evals/recomendacion/test_fecha_cierre.py")
+
+
+SETS = {"fecha_cierre": eval_fecha_cierre, "cv": eval_cv, "ats": eval_ats, "filtro": eval_filtro, "esquemas": eval_esquemas, "fixtures": eval_fixtures, "carta": eval_carta, "ingesta": eval_ingesta, "convertir": eval_convertir, "verificar_formacion": eval_verificar_formacion, "nivel_familia": eval_nivel_familia, "origenes_perfil": eval_origenes_perfil, "nivel_empresas": eval_nivel_empresas}
 
 
 def main() -> int:
