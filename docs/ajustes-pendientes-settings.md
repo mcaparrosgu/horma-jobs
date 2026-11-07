@@ -96,6 +96,9 @@ Mar pidió explícitamente subir a `origin` las ramas de la noche («hagas commi
 
 ---
 
+## Aviso: bloque `deny` reducido a propósito (7-nov-2026)
+El bloque de `settings.json` de arriba (versión del 6-nov) lleva el `deny` completo. Mar lo redujo el 7-nov a `.env`, `web/.env` y `docs/privado`. **Antes de cualquier sesión autónoma, repón el `deny` de arriba**; sin ese bloqueo técnico no se lanza la noche.
+
 ## Economía de tokens: lo apagado en este proyecto (7-nov-2026)
 
 Decisión de Mar. Solo afecta a Horma (Jobs y el Cuaderno no cambian). Reactivar algo = quitar su línea y avisar a Mar.

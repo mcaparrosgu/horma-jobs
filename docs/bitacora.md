@@ -751,3 +751,9 @@ Mar pidió explícitamente subir a `origin` lo construido esta noche («hagas co
 **No hecho.** Mover el detalle de feature del `CLAUDE.md` a `docs/` (se propone antes de moverlo) y apagar los conectores Vercel, v0 y Lovable (los apaga Mar con `/mcp`).
 
 **En llano.** Cada conversación carga menos «herramientas que no usamos», y la regla del profesor ya está escrita para que la Copiloto no vuelva a recortar tus pedidos para que quepan en una spec vieja. **Tema del bootcamp:** especificaciones como fuente de verdad viva (spec-driven development) y gestión del contexto del agente.
+
+## 7-nov-2026 · Bloqueos de `deny` quitados a propósito
+
+Mar redujo el `deny` de `.claude/settings.json` a los bloqueos de `.env` y `docs/privado` y lo confirmó como decisión suya. Quedó dentro del commit `6bcadd5`. Ya no hay bloqueo técnico de `git push`, `reset --hard`, `rm -rf`, Docker destructivo ni cambios en `main`: solo cuentan las reglas escritas en `CLAUDE.md`. **Acordado:** al pedir Mar trabajo autónomo, se repone el `deny` completo antes de empezar (copia en `docs/ajustes-pendientes-settings.md`). **Riesgo que dejo dicho:** hasta entonces, un error mío o una orden mal entendida no tiene red de seguridad técnica; por eso `git push` y `main` los sigo tratando como «solo con orden explícita».
+
+**En llano.** Ahora trabajo con menos candados para que no te frenen. Cuando quieras una noche autónoma, vuelven a ponerse; y mientras tanto yo no empujo a `main` ni borro nada sin preguntarte. **Tema del bootcamp:** permisos mínimos según el contexto (más abiertos con supervisión humana, cerrados sin ella).
