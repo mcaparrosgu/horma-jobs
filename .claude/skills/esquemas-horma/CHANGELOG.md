@@ -2,6 +2,14 @@
 
 Un cambio de esquema es un cambio de contrato entre agentes y web. Se anota aquí antes de tocarlo.
 
+## 0.9 · 2026-11-07
+
+- `oferta.fecha_cierre` (opcional): `AAAA-MM-DD` o `null`. Es el plazo de cierre cuando la fuente lo da (p. ej. convocatorias). Pedido por el bloque A1 (calidad de ofertas, profesor 5-nov: «ingesta como antes»: fuentes, filtros, deduplicación): una oferta con `fecha_cierre` anterior a hoy se oculta en `/ofertas` y no se recomienda (`buscar.py` la descarta). **Solo aditivo:** los archivos sin el campo siguen validando y ningún extractor tiene que rellenarlo. **Afecta a la pista A:** `buscar.py` ya lo lee (nuevo `--hoy` solo para pruebas) y el eval `fecha_cierre` lo cubre. En la base de datos, migración `021` (columna `fecha_cierre date`, junto a `url_canonica`, `huella`, `grupo_dedup`, `primera_vista`, `ultima_vista` y `veces_vista`, que no son del esquema porque las calcula el importador).
+
+## 0.8 · 2026-11-06
+
+- `oferta.descripcion` (opcional): texto plano de hasta 8000 caracteres. Lo pide el bloque 3 de la construcción autónoma (portal de empresas): el formulario `/empresa/ofertas/nueva` de la web lo rellena; las ofertas que traen los agentes (scraping) no lo traen y siguen validando igual. Afecta solo a la pista B (web); no toca ningún extractor de la pista A. En la base de datos, migración `018` (columna `descripcion`, nullable).
+
 ## 0.7 · 2026-11-06
 
 - `match.ofertas[].nota` admite `null` («sin datos suficientes»): decisión tras el aviso de `auditor-lineas-rojas` sobre las ofertas del BOE sin requisitos, donde un 15 parecía una medición y no lo era. Es un valor nuevo: quien lea `nota` debe tratar `null` (la web la rotula «sin nota» y la ordena al final; migración `012`). **Estrecha** además lo que valida: `fecha` con formato `AAAA-MM-DD`, `version_perfil` de 1 a 80 caracteres, `explicacion` de 1 a 1500 y `correccion` de hasta 1500 (los mismos límites que la tabla `matches`).

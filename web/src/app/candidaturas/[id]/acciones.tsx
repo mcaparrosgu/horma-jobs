@@ -1,6 +1,7 @@
 "use client";
 import { useActionState } from "react";
 import { aprobar, marcarEnviada, type EstadoAccion } from "./actions";
+import { retirarEnvio } from "./enviar/[ofertaId]/actions";
 import { CANALES } from "@/lib/candidaturas";
 
 const boton = "rounded bg-zinc-900 px-3 py-1.5 text-xs font-medium text-white disabled:opacity-50";
@@ -17,6 +18,15 @@ export function Aprobar({ ofertaId, avisos, version }: { ofertaId: string; aviso
       </label>
       {estado.mensaje && <p role="status" className={`text-xs ${estado.ok ? "text-green-800" : "text-red-700"}`}>{estado.mensaje}</p>}
       <button className={boton} disabled={enCurso}>{enCurso ? "Aprobando…" : "Aprobar"}</button>
+    </form>
+  );
+}
+
+export function RetirarEnvio({ ofertaId }: { ofertaId: string }) {
+  return (
+    <form action={retirarEnvio}>
+      <input type="hidden" name="oferta_id" value={ofertaId} />
+      <button className="underline">Retirar envío</button>
     </form>
   );
 }

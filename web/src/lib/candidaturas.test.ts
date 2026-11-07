@@ -35,3 +35,36 @@ test("marcar enviada: solo desde aprobada y solo si el historial lleva la aproba
   for (const c of ["", "otro canal", "<script>", "linkedin", null, 5]) assert.equal(canalValido(c), false);
   assert.ok(ID_OFERTA.test("of-prueba-1") && !ID_OFERTA.test("../x") && !ID_OFERTA.test("a b"));
 });
+
+test("destinosDe: exactamente los mismos pares que el disparador candidaturas_transicion (migración 017)", async () => {
+  const { destinosDe } = await import("./candidaturas.ts");
+  assert.deepEqual([...destinosDe("enviada")], ["entrevista", "rechazada", "sin_respuesta"]);
+  assert.deepEqual([...destinosDe("entrevista")], ["rechazada"]);
+  assert.deepEqual([...destinosDe("borrador")], ["descartada"]);
+  assert.deepEqual([...destinosDe("aprobada")], ["descartada"]);
+  assert.deepEqual([...destinosDe("pendiente_de_ti")], ["descartada"]);
+  assert.deepEqual([...destinosDe("descartada")], []); // estado final: no hay destino
+  assert.deepEqual([...destinosDe("rechazada")], []);
+  assert.deepEqual([...destinosDe("sin_respuesta")], []);
+});
+
+test("registrar respuesta: solo mueve una fila cuando el par origen→destino es uno de los permitidos", async () => {
+  const { SQL_REGISTRAR_RESPUESTA } = await import("./candidaturas.ts");
+  assert.match(SQL_REGISTRAR_RESPUESTA, /WHERE usuaria_id = \$1 AND oferta_id = \$2/);
+  assert.match(SQL_REGISTRAR_RESPUESTA, /estado = 'enviada' AND \$3 IN \('entrevista', 'rechazada', 'sin_respuesta'\)/);
+  assert.match(SQL_REGISTRAR_RESPUESTA, /estado = 'entrevista' AND \$3 = 'rechazada'/);
+  assert.match(SQL_REGISTRAR_RESPUESTA, /estado IN \('borrador', 'aprobada', 'pendiente_de_ti'\) AND \$3 = 'descartada'/);
+  assert.match(SQL_REGISTRAR_RESPUESTA, /'por', 'usuaria'/);
+});
+
+test("sinRespuestaTrasDias: solo avisa si sigue «enviada» y pasaron 21 días o más, nunca antes ni en otro estado", async () => {
+  const { sinRespuestaTrasDias, DIAS_SIN_RESPUESTA } = await import("./candidaturas.ts");
+  const ahora = new Date("2026-11-27T00:00:00Z");
+  const hace20 = new Date("2026-11-07T00:00:01Z");
+  const hace21 = new Date("2026-11-06T00:00:00Z");
+  assert.equal(DIAS_SIN_RESPUESTA, 21);
+  assert.equal(sinRespuestaTrasDias("enviada", hace20, ahora), false);
+  assert.equal(sinRespuestaTrasDias("enviada", hace21, ahora), true);
+  assert.equal(sinRespuestaTrasDias("entrevista", hace21, ahora), false); // ya hay respuesta: no avisa
+  assert.equal(sinRespuestaTrasDias("borrador", hace21, ahora), false);
+});

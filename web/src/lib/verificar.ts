@@ -6,11 +6,12 @@ import { isDeepStrictEqual } from "node:util";
 type Json = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 
 /** Campos que se comparan entre el archivo procesado y la fila de la base. */
-export const CAMPOS_COMPARADOS = ["titulo", "empresa", "url", "fecha", "sector", "familia", "requisitos", "stack", "avisos", "licencia", "atribucion"] as const;
+export const CAMPOS_COMPARADOS = ["titulo", "empresa", "url", "fecha", "sector", "familia", "requisitos", "stack", "avisos", "licencia", "atribucion", "fecha_cierre"] as const;
 
 /** Columnas que hay que pedir a la base de datos: `fecha` en texto, para que la zona horaria no la desplace. */
 export const SQL_FILAS = `
-  SELECT id, titulo, empresa, url, fecha::text AS fecha, sector, familia, requisitos, stack, avisos, licencia, atribucion
+  SELECT id, titulo, empresa, url, fecha::text AS fecha, sector, familia, requisitos, stack, avisos, licencia, atribucion,
+         fecha_cierre::text AS fecha_cierre
   FROM ofertas ORDER BY id`;
 
 /** Lo que debería haber en la fila según el archivo (mismas reglas que `paramsOferta`: ausente = null o lista vacía). */
@@ -21,6 +22,7 @@ export function filaEsperada(o: Json): Record<(typeof CAMPOS_COMPARADOS)[number]
     sector: t.sector ?? null, familia: t.familia ?? null,
     requisitos: o.requisitos ?? [], stack: t.stack ?? [], avisos: o.avisos ?? [],
     licencia: o.origen?.licencia ?? null, atribucion: o.origen?.atribucion ?? null,
+    fecha_cierre: o.fecha_cierre ?? null,
   };
 }
 

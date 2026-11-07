@@ -225,7 +225,42 @@
   ],
   "ingesta": [
     {
-      "caso": "tests de seguridad de la descarga (Ran 36 tests in 4.516s · OK)",
+      "caso": "tests de seguridad de la descarga (Ran 69 tests in 5.384s · OK)",
+      "ok": true,
+      "obtenido": null
+    }
+  ],
+  "convertir": [
+    {
+      "caso": "tests del conversor de CV (Ran 5 tests in 0.403s · OK)",
+      "ok": true,
+      "obtenido": null
+    }
+  ],
+  "verificar_formacion": [
+    {
+      "caso": "tests del verificador, formación (Ran 4 tests in 0.395s · OK)",
+      "ok": true,
+      "obtenido": null
+    }
+  ],
+  "nivel_familia": [
+    {
+      "caso": "tests del nivel por familia (Ran 5 tests in 0.173s · OK)",
+      "ok": true,
+      "obtenido": null
+    }
+  ],
+  "origenes_perfil": [
+    {
+      "caso": "tests de los origenes del perfil (Ran 6 tests in 0.512s · OK)",
+      "ok": true,
+      "obtenido": null
+    }
+  ],
+  "nivel_empresas": [
+    {
+      "caso": "el nivel por familia no llega a empresas (Ran 3 tests in 0.023s · OK)",
       "ok": true,
       "obtenido": null
     }

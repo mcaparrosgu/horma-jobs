@@ -36,6 +36,7 @@ try {
   const preferencias = await db.query(SQL_EXPORTAR.preferencias, [id]);
   const matches = await db.query(SQL_EXPORTAR.matches, [id]);
   const candidaturas = await db.query(SQL_EXPORTAR.candidaturas, [id]);
+  const enviosEmpresa = await db.query(SQL_EXPORTAR.envios_empresa, [id]);
   const enBase = usuaria.rowCount ?? 0;
   const choque = await db.query("SELECT count(*)::int AS n FROM usuarias WHERE lower(id) = lower($1)", [id]);
   if (choque.rows[0].n > 1) throw new Error("hay ids que solo se distinguen por mayúsculas: resuélvelo a mano");
@@ -55,6 +56,7 @@ try {
       preferencias: preferencias.rows[0]?.dato ?? null,
       matches: matches.rows[0]?.dato ?? [],
       candidaturas: candidaturas.rows[0]?.dato ?? [],
+      envios_empresa: enviosEmpresa.rows[0]?.dato ?? [],
     }, null, 2), "utf8");
   } catch (e) {
     rmSync(destino, { recursive: true, force: true }); // nunca queda una exportación a medias con datos personales

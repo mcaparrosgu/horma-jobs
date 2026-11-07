@@ -55,7 +55,7 @@ test("los filtros usan parámetros y descartan valores fuera de lista", () => {
   assert.equal(params.length, 3); // q, nivel, sector (remoto inválido y país en minúscula se ignoran)
   assert.ok(!where.includes("junior") && !where.includes("salud"));
   assert.equal(params[0], "%100\\%\\_ok%");
-  assert.equal(sqlOfertas({}).params.length, 0);
+  assert.deepEqual(sqlOfertas({}).params, [45]); // sin filtros solo queda el umbral de «puede no estar vigente» (A1)
 });
 
 test("clave_env solo admite variables FUENTE_*: nunca la contraseña de la base", () => {

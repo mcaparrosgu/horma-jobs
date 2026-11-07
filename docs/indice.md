@@ -17,6 +17,7 @@ Una sola fuente de verdad para cada cosa. Si algo cambia, se cambia donde dice �
 | **Banco de ideas** (fuentes, calidad, producto; nada decidido) | `docs/ideas-banco.md` |
 | Términos técnicos | `docs/glosario.md` |
 | Ajuste de `settings.json` que pega Mar | `docs/ajustes-pendientes-settings.md` |
+| **Construcción autónoma** (prompt de 10 h, bloques, puertas de calidad) | `docs/construccion-autonoma.md` |
 
 ## Fuentes de los artefactos (`docs/artefactos/`)
 
@@ -41,5 +42,7 @@ PRD v1 (`prd-horma-v1.html`), investigación de fuentes y costes, ideas de hones
 ## Fuera de `docs/`
 
 - Comparativa con ai-job-search: `docs/comparativa-ai-job-search/` (solo en este PC, ignorada por git).
-- Datos de terceros: `docs/privado/` (ignorada por git; los agentes no la leen).
+- Datos de terceros: `docs/privado/` (ignorada por git; los agentes no la leen). Ahí están `investigacion-fuentes-espana-2026-11-06.md`, `medicion-fuentes-espana-2026-11-07.md` y `borradores-fuentes-2026-11-07.md` (correos y solicitudes sin enviar).
+- Prompt para otros LLM sobre ofertas de terceros: `docs/prompt-agente-fuentes-terceros.md`.
+- Construcción autónoma III (plan y prompt, 4 h): `docs/construccion-autonoma-3.md` (la II, `construccion-autonoma-2.md`, está aplazada); `settings.json` de la noche: `docs/autonomo/settings-autonomo.json`; resultado de la noche: `docs/autonomo/resumen-para-mar-3.md`; formatos de los feeds medidos: `docs/fuentes-formatos-2026-11-07.md`.
 - Repositorio: https://github.com/mcaparrosgu/horma-jobs (privado, rama `main`).

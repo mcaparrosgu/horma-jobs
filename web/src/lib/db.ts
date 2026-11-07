@@ -15,3 +15,38 @@ export function db(): pg.Pool {
   }
   return g.__hormaPool;
 }
+
+// --- Seguridad por filas (RLS, A3) -----------------------------------------------------------------------------------
+// Las tablas con datos personales (perfiles, preferencias, matches, candidaturas, envios_empresa) tienen políticas que
+// solo dejan ver las filas de la usuaria cuyo id está en `app.usuaria_id` (o, para envios_empresa, de la empresa cuyo id
+// está en `app.empresa_id`). Sin esa variable no hay filas: falla cerrado. Es defensa en profundidad: aunque una consulta
+// se equivoque de `usuaria_id`, la base no entrega filas ajenas. No sustituye a las comprobaciones de cada página.
+// `set_config(..., true)` vale solo dentro de la transacción: al terminar, la conexión vuelve limpia al pool.
+async function conVariable<T>(variable: "app.usuaria_id" | "app.empresa_id", id: string, fn: (c: pg.PoolClient) => Promise<T>): Promise<T> {
+  if (typeof id !== "string" || id === "" || id.length > 200) throw new Error("falta el identificador para la consulta con RLS");
+  const c = await db().connect();
+  try {
+    await c.query("BEGIN");
+    await c.query("SELECT set_config($1, $2, true)", [variable, id]);
+    const r = await fn(c);
+    await c.query("COMMIT");
+    return r;
+  } catch (e) {
+    await c.query("ROLLBACK").catch(() => {});
+    throw e;
+  } finally {
+    c.release();
+  }
+}
+
+/** Ejecuta `fn` con la sesión de base de datos fijada a una usuaria (todo en una transacción). */
+export const conUsuaria = <T>(usuariaId: string, fn: (c: pg.PoolClient) => Promise<T>) => conVariable("app.usuaria_id", usuariaId, fn);
+
+/** Igual para una empresa: solo ve lo que sus candidatas le han enviado (envios_empresa). */
+export const conEmpresa = <T>(empresaId: string, fn: (c: pg.PoolClient) => Promise<T>) => conVariable("app.empresa_id", empresaId, fn);
+
+/** Para una transacción que ya abrió el llamador (p. ej. el envío a empresa): fija la usuaria dentro de ella. */
+export async function fijarUsuaria(c: pg.PoolClient, usuariaId: string): Promise<void> {
+  if (typeof usuariaId !== "string" || usuariaId === "" || usuariaId.length > 200) throw new Error("falta el identificador para la consulta con RLS");
+  await c.query("SELECT set_config('app.usuaria_id', $1, true)", [usuariaId]);
+}

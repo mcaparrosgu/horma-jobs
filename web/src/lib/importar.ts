@@ -1,6 +1,8 @@
 // Piezas puras del importador de datos: pasan un JSON ya validado a los parámetros de cada INSERT.
 // Sin acceso a disco ni a red, para poder probarlas con `npm test`.
 
+import { huellas, urlCanonica } from "./calidad-ofertas.ts";
+
 type Json = Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 
 // Las columnas jsonb se pasan como texto: si no, `pg` convierte los arrays de JS en arrays de Postgres.
@@ -8,8 +10,10 @@ const j = (v: unknown) => JSON.stringify(v);
 
 export const SQL_OFERTA = `
   INSERT INTO ofertas (id, fuente, url, fecha, titulo, empresa, ubicacion, pais, remoto, contrato,
-                       idioma, nivel, sector, familia, requisitos, salario, stack, auditoria, avisos, licencia, atribucion, ejecucion_id)
-  VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15::jsonb,$16::jsonb,$17::jsonb,$18::jsonb,$19::jsonb,$20,$21,$22)
+                       idioma, nivel, sector, familia, requisitos, salario, stack, auditoria, avisos, licencia, atribucion, ejecucion_id,
+                       url_canonica, huella_base, huella, grupo_dedup, fecha_cierre)
+  VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15::jsonb,$16::jsonb,$17::jsonb,$18::jsonb,$19::jsonb,$20,$21,$22,
+          $23,$24,$25,$26,$27)
   ON CONFLICT (id) DO UPDATE SET
     fuente=EXCLUDED.fuente, url=EXCLUDED.url, fecha=EXCLUDED.fecha, titulo=EXCLUDED.titulo,
     empresa=EXCLUDED.empresa, ubicacion=EXCLUDED.ubicacion, pais=EXCLUDED.pais,
@@ -17,16 +21,23 @@ export const SQL_OFERTA = `
     sector=EXCLUDED.sector, familia=EXCLUDED.familia, requisitos=EXCLUDED.requisitos,
     salario=EXCLUDED.salario, stack=EXCLUDED.stack, auditoria=EXCLUDED.auditoria,
     avisos=EXCLUDED.avisos, licencia=EXCLUDED.licencia, atribucion=EXCLUDED.atribucion,
-    ejecucion_id=COALESCE(EXCLUDED.ejecucion_id, ofertas.ejecucion_id)`;
+    ejecucion_id=COALESCE(EXCLUDED.ejecucion_id, ofertas.ejecucion_id),
+    url_canonica=EXCLUDED.url_canonica, huella_base=EXCLUDED.huella_base, huella=EXCLUDED.huella,
+    grupo_dedup=EXCLUDED.grupo_dedup, fecha_cierre=EXCLUDED.fecha_cierre,
+    -- Calidad (A1): al volver a verla se cuenta y se refresca; primera_vista no se toca (la puso el INSERT).
+    ultima_vista=now(), veces_vista=ofertas.veces_vista + 1`;
 
 /** `ejecucionId`: la ejecución de ingesta que la trae (null si su fuente no está en endpoints.json, p. ej. las de prueba). */
 export function paramsOferta(o: Json, ejecucionId: number | string | null = null): unknown[] {
   const t = o.taxonomia ?? {};
+  const h = huellas({ empresa: o.empresa, titulo: o.titulo, ubicacion: o.ubicacion, fecha: o.fecha ?? null });
   return [
     o.id, o.fuente, o.url, o.fecha ?? null, o.titulo, o.empresa, o.ubicacion, o.pais ?? null,
     o.remoto, o.contrato, o.idioma, o.nivel, t.sector ?? null, t.familia ?? null,
     j(o.requisitos ?? []), j(o.salario), j(t.stack ?? []), j(o.auditoria), j(o.avisos ?? []),
     o.origen?.licencia ?? null, o.origen?.atribucion ?? null, ejecucionId,
+    // Calidad de ofertas (A1). El grupo de duplicados es la propia huella; nada se borra al agrupar.
+    urlCanonica(o.url), h.huellaBase, h.huella, h.huella, o.fecha_cierre ?? null,
   ];
 }
 
@@ -77,8 +88,8 @@ export function paramsPreferencias(usuariaId: string, p: Json): unknown[] {
 export const CLAVES_DETALLE = ["archivos", "importadas", "omitidas", "rechazadas", "coinciden", "fallos", "avisos"] as const;
 
 // Componentes y acciones permitidos: cada uno nuevo se añade aquí, a propósito (hallazgo C).
-export const COMPONENTES = ["importador", "verificador", "web-ingesta", "web-candidatos", "web-acceso"] as const;
-export const ACCIONES = ["importar-datos", "verificar", "guardar-fuente", "guardar-preferencias", "entrar", "registrar", "entrar-google", "aprobar", "marcar-enviada"] as const;
+export const COMPONENTES = ["importador", "verificador", "web-ingesta", "web-candidatos", "web-acceso", "web-cuenta", "web-empresa"] as const;
+export const ACCIONES = ["importar-datos", "verificar", "guardar-fuente", "guardar-preferencias", "entrar", "registrar", "entrar-google", "aprobar", "marcar-enviada", "cambiar-contrasena", "borrar-cuenta", "descargar-datos", "registrar-respuesta", "entrar-empresa", "publicar-oferta", "editar-oferta", "cerrar-oferta", "moderar-oferta", "enviar-a-empresa", "retirar-envio", "cambiar-estado-bandeja"] as const;
 
 export type EventoEntrada = {
   componente: (typeof COMPONENTES)[number];

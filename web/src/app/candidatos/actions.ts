@@ -2,7 +2,7 @@
 // Guardar las preferencias de una usuaria. Pasa por validarPreferencias (esquema preferencias.json) y el apunte
 // de observabilidad solo lleva números. El id sale de la SESIÓN, nunca del formulario: nadie puede editar las de otra.
 import { revalidatePath } from "next/cache";
-import { db } from "@/lib/db";
+import { db, conUsuaria } from "@/lib/db";
 import { validarPreferencias } from "@/lib/preferencias";
 import { requerirSesion } from "@/lib/sesion";
 import { registrarEvento, errorSeguro, sqlPreferencias, paramsPreferencias } from "@/lib/importar";
@@ -28,7 +28,7 @@ export async function guardarPreferencias(_previo: EstadoPrefs, f: FormData): Pr
     registrarEvento(db(), { componente: "web-candidatos", accion: "guardar-preferencias", resultado, duracion_ms: Date.now() - t0 }).catch(() => {});
   try {
     // Solo se actualiza a una usuaria que ya existe: el UPSERT falla por clave foránea si no existe.
-    await db().query(sqlPreferencias(true), paramsPreferencias(id, r.prefs));
+    await conUsuaria(id, (c) => c.query(sqlPreferencias(true), paramsPreferencias(id, r.prefs)));
   } catch (e) {
     await apunte("error");
     return { ok: false, errores: [`No se pudo guardar (${errorSeguro(e)})`], enviado };

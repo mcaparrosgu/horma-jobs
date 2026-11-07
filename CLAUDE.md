@@ -93,6 +93,24 @@ profesor, se corrige lo vigente y se anota en la bitácora; si no está claro c�
 se pregunta a Mar. Lo vigente está en `docs/flujo-agentico-claude-code.md` y en
 `docs/tareas-pendientes.md`.
 
+## Specs: spec anclada (indicación del profesor, 7-nov)
+
+- **Constitución mínima:** este `CLAUDE.md` y `lineas-rojas` llevan solo restricciones
+  globales de verdad. Lo que es de una feature va en su spec (`docs/`), no aquí.
+- **Cuando un pedido de Mar contradiga una spec existente, el pedido gana.** Antes de tocar
+  código: (1) identifica qué specs quedan afectadas; (2) propón el delta (añadido /
+  modificado / eliminado) y muéstraselo; (3) con su OK, actualiza la spec y regenera
+  `docs/tareas-pendientes.md`. Nunca «adaptes» su pedido para que encaje en la spec antigua.
+- **Excepción:** si el pedido choca con una línea roja (abajo), avisa y espera confirmación
+  explícita de Mar.
+- Las specs con modificaciones pendientes se actualizan en el mismo bloque de trabajo.
+
+## Economía de tokens (prevalece en cada conversación)
+
+- No cargues ni invoques skills, comandos, agentes ni MCP que no sean de Horma. Lo apagado
+  está en `.claude/settings.json` y se lista en `docs/ajustes-pendientes-settings.md`.
+- No lo reactives por tu cuenta: si algo apagado hace falta, pregunta a Mar.
+
 ## El proyecto
 
 - **Qué es:** proyecto final del bootcamp de AI Engineering de Neoland y portfolio de Mar.

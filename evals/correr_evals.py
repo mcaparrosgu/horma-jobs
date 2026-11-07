@@ -156,10 +156,14 @@ def eval_carta():
 
 def eval_ingesta():
     """Seguridad de la descarga (ingestar.py): IP públicas, redirecciones, clave FUENTE_*, límites. Sin red."""
-    r = subprocess.run(PY + [str(RAIZ / "evals" / "ingesta" / "test_ingestar.py")], capture_output=True, text=True, encoding="utf-8")
-    resumen = [l for l in r.stderr.splitlines() if l.startswith(("Ran ", "OK", "FAILED"))]
-    return [{"caso": "tests de seguridad de la descarga (" + " · ".join(resumen) + ")", "ok": r.returncode == 0,
-             "obtenido": None if r.returncode == 0 else r.stderr[-1500:]}]
+    salida = []
+    for archivo, nombre in (("test_ingestar.py", "tests de seguridad de la descarga"),
+                            ("test_detectar_ats.py", "tests del detector de ATS")):
+        r = subprocess.run(PY + [str(RAIZ / "evals" / "ingesta" / archivo)], capture_output=True, text=True, encoding="utf-8")
+        resumen = [l for l in r.stderr.splitlines() if l.startswith(("Ran ", "OK", "FAILED"))]
+        salida.append({"caso": nombre + " (" + " · ".join(resumen) + ")", "ok": r.returncode == 0,
+                       "obtenido": None if r.returncode == 0 else r.stderr[-1500:]})
+    return salida
 
 
 def eval_convertir():
@@ -203,7 +207,12 @@ def eval_nivel_empresas():
     return _unittest("el nivel por familia no llega a empresas", "evals/verificar/test_nivel_no_a_empresas.py")
 
 
-SETS = {"cv": eval_cv, "ats": eval_ats, "filtro": eval_filtro, "esquemas": eval_esquemas, "fixtures": eval_fixtures, "carta": eval_carta, "ingesta": eval_ingesta, "convertir": eval_convertir, "verificar_formacion": eval_verificar_formacion, "nivel_familia": eval_nivel_familia, "origenes_perfil": eval_origenes_perfil, "nivel_empresas": eval_nivel_empresas}
+def eval_fecha_cierre():
+    """Esquema 0.9: una oferta cerrada no se recomienda y `fecha_cierre` valida (o falta) sin romper nada. Sin red."""
+    return _unittest("la oferta cerrada no se recomienda", "evals/recomendacion/test_fecha_cierre.py")
+
+
+SETS = {"fecha_cierre": eval_fecha_cierre, "cv": eval_cv, "ats": eval_ats, "filtro": eval_filtro, "esquemas": eval_esquemas, "fixtures": eval_fixtures, "carta": eval_carta, "ingesta": eval_ingesta, "convertir": eval_convertir, "verificar_formacion": eval_verificar_formacion, "nivel_familia": eval_nivel_familia, "origenes_perfil": eval_origenes_perfil, "nivel_empresas": eval_nivel_empresas}
 
 
 def main() -> int:

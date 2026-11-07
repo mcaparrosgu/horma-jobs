@@ -1,11 +1,11 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { db } from "@/lib/db";
+import { conUsuaria } from "@/lib/db";
 import { requerirDuena } from "@/lib/sesion";
-import { Aprobar, MarcarEnviada } from "./acciones";
+import { Aprobar, MarcarEnviada, RetirarEnvio } from "./acciones";
 import { enlaceSeguro } from "@/lib/matches";
 import {
-  SQL_CANDIDATURAS, ETIQUETA_ESTADO, huecosConAviso, huecosSinCubrir, porcentaje, type FilaCandidatura,
+  SQL_CANDIDATURAS, ETIQUETA_ESTADO, ETIQUETA_BANDEJA, huecosConAviso, huecosSinCubrir, porcentaje, type FilaCandidatura,
 } from "@/lib/candidaturas";
 
 export default function Pagina({ params }: PageProps<"/candidaturas/[id]">) {
@@ -16,7 +16,7 @@ export default function Pagina({ params }: PageProps<"/candidaturas/[id]">) {
 async function Candidaturas({ params }: { params: PageProps<"/candidaturas/[id]">["params"] }) {
   const { id } = await params;
   const uid = (await requerirDuena(id)).usuaria_id;
-  const filas = (await db().query<FilaCandidatura>(SQL_CANDIDATURAS, [uid])).rows;
+  const filas = (await conUsuaria(uid, (c) => c.query<FilaCandidatura>(SQL_CANDIDATURAS, [uid]))).rows;
 
   return (
     <div className="space-y-6">
@@ -78,9 +78,20 @@ async function Candidaturas({ params }: { params: PageProps<"/candidaturas/[id]"
               ) : <p className="text-xs text-zinc-600">Sin carta todavía.</p>}
 
               {c.estado === "borrador" && <Aprobar ofertaId={c.oferta_id} avisos={huecosConAviso(c.huecos).length} version={new Date(c.actualizado_en).toISOString()} />}
-              {c.estado === "aprobada" && <MarcarEnviada ofertaId={c.oferta_id} />}
+              {c.estado === "aprobada" && c.empresa_id && (
+                <Link href={`/candidaturas/${id}/enviar/${c.oferta_id}`} className="inline-block rounded bg-zinc-900 px-3 py-1.5 text-xs font-medium text-white">
+                  Enviar a la empresa
+                </Link>
+              )}
+              {c.estado === "aprobada" && !c.empresa_id && <MarcarEnviada ofertaId={c.oferta_id} />}
               {c.estado === "pendiente_de_ti" && (
                 <p className="rounded border border-amber-200 bg-amber-50 p-2 text-xs">No pasó el control: pide los cambios en Claude Code (<code>/candidatura</code>) antes de poder aprobarla.</p>
+              )}
+              {c.empresa_id && c.estado_bandeja && (
+                <div className="flex flex-wrap items-center gap-2 rounded border border-zinc-200 bg-zinc-50 p-2 text-xs">
+                  <span>La empresa la marcó como: <strong>{ETIQUETA_BANDEJA[c.estado_bandeja] ?? c.estado_bandeja}</strong>. Esto es solo información: no cambia tu candidatura por sí solo.</span>
+                  <RetirarEnvio ofertaId={c.oferta_id} />
+                </div>
               )}
 
               <p className="text-xs text-zinc-500">

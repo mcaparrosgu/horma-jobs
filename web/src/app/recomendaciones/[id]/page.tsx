@@ -1,8 +1,9 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { db } from "@/lib/db";
+import { conUsuaria } from "@/lib/db";
 import { requerirDuena } from "@/lib/sesion";
-import { SQL_MATCHES, ETIQUETA_CONDICIONES, enlaceSeguro, type FilaMatch } from "@/lib/matches";
+import { SQL_MATCHES, SQL_MATCHES_TOTAL, ETIQUETA_CONDICIONES, enlaceSeguro, type FilaMatch } from "@/lib/matches";
+import { etiquetaTransparencia } from "@/lib/calidad-ofertas";
 
 export default function Pagina({ params }: PageProps<"/recomendaciones/[id]">) {
   return <Suspense fallback={<p className="text-sm">Cargando recomendaciones…</p>}><Recomendaciones params={params} /></Suspense>;
@@ -12,8 +13,14 @@ export default function Pagina({ params }: PageProps<"/recomendaciones/[id]">) {
 async function Recomendaciones({ params }: { params: PageProps<"/recomendaciones/[id]">["params"] }) {
   const { id } = await params;
   const uid = (await requerirDuena(id)).usuaria_id;
-  const r = await db().query<FilaMatch>(SQL_MATCHES, [uid]);
+  const [r, total] = await conUsuaria(uid, async (c) => [
+    await c.query<FilaMatch>(SQL_MATCHES, [uid]),
+    await c.query<{ n: string }>(SQL_MATCHES_TOTAL, [uid]),
+  ] as const);
   const filas = r.rows;
+  // Las cerradas o repetidas no se muestran, pero se avisa de cuántas son (nada desaparece sin explicación).
+  const ocultas = Math.max(0, Number(total.rows[0]?.n ?? 0) - filas.length);
+  const hoy = new Date().toISOString().slice(0, 10);
 
   return (
     <div className="space-y-6">
@@ -32,6 +39,7 @@ async function Recomendaciones({ params }: { params: PageProps<"/recomendaciones
       ) : (
         <>
           <p className="text-xs text-zinc-500">Versión de perfil {filas[0].version_perfil} · {filas.length} ofertas</p>
+          {ocultas > 0 && <p className="text-xs text-zinc-500">Hay {ocultas} más que no se muestran porque ya cerraron o son la misma oferta publicada en otra fuente.</p>}
           <ul className="space-y-3">
             {filas.map((m) => (
               <li key={m.oferta_id} className="rounded border border-zinc-200 bg-white p-3 text-sm">
@@ -46,6 +54,10 @@ async function Recomendaciones({ params }: { params: PageProps<"/recomendaciones
                   {m.sin_sueldo ? " · sin sueldo publicado" : ""}
                 </p>
                 <p className="mt-2">{m.explicacion}</p>
+                {/* Etiqueta de transparencia (A1): solo hechos; no entra en la nota. */}
+                <p className="mt-2 text-xs text-zinc-600" data-etiqueta="transparencia">
+                  {etiquetaTransparencia({ ...m, fecha: m.fecha_oferta_texto, fecha_cierre: m.fecha_cierre_texto }, hoy).join(" · ")}
+                </p>
                 {(m.avisos ?? []).length > 0 && (
                   <p className="mt-2 rounded border border-amber-200 bg-amber-50 p-2 text-xs">
                     Avisos de la oferta (informativos; no cuentan en la nota):{" "}
